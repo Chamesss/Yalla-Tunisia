@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { ThemeSwitcher } from "./utils/ToggleDarkMode";
+
 export default function NavBar() {
   const authenticatedNavigationItems = [
     { name: "Home", href: "/" },
@@ -12,8 +17,30 @@ export default function NavBar() {
 
   const navigationItems = notAuthenticatedNavigationItems;
 
+  const [isHeaderFixed, setIsHeaderFixed] = useState(false);
+  //const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    console.log(isHeaderFixed);
+  }, [isHeaderFixed]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsHeaderFixed(scrollPosition > 0);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="flex flex-row p-4 justify-around bg-slate-500">
+    <header
+      className={`flex flex-row p-4 transition-all ease-in-out justify-around bg-slate-500 w-full fixed top-0 z-50 ${
+        isHeaderFixed ? "p-4 bg-white dark:bg-black " : "p-8 bg-transparent"
+      }`}
+    >
       <div>
         <p>App logo</p>
       </div>
@@ -24,6 +51,9 @@ export default function NavBar() {
         <p>Join?</p>
         <p>Profile</p>
       </div>
-    </div>
+      <div>
+        <ThemeSwitcher />
+      </div>
+    </header>
   );
 }

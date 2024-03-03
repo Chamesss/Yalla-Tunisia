@@ -1,5 +1,4 @@
 import React from "react";
-import { ThemeSwitcher } from "@/components/utils/ToggleDarkMode";
 import NavBar from "@/components/NavBar";
 import Hero from "@/components/Hero";
 import SearchBar from "@/components/SearchBar";

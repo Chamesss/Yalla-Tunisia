@@ -16,7 +16,7 @@ export default function SimpleSlider({ data }: { data: { image: string }[] }) {
     waitForAnimate: false,
     pauseOnHover: false,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 5000,
     nextArrow: <ArrowNull />,
     prevArrow: <ArrowNull />,
   };
