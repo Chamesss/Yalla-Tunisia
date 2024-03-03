@@ -1,7 +1,6 @@
 import React from "react";
 import NavBar from "@/components/NavBar";
 import Hero from "@/components/Hero";
-import SearchBar from "@/components/SearchBar";
 import HistoricalSection from "@/components/HistoricalSection";
 import NatureSection from "@/components/NatureSection";
 import HandMade from "@/components/HandMade";
@@ -16,7 +15,6 @@ export default function page() {
     <div className="text-center">
       <NavBar />
       <Hero />
-      <SearchBar />
       <HistoricalSection />
       <NatureSection />
       <HandMade />

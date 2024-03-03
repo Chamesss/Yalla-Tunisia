@@ -37,22 +37,24 @@ export default function NavBar() {
 
   return (
     <header
-      className={`flex flex-row p-4 transition-all ease-in-out justify-around bg-slate-500 w-full fixed top-0 z-50 ${
-        isHeaderFixed ? "p-4 bg-white dark:bg-black " : "p-8 bg-transparent"
+      className={`flex flex-row p-4 transition-all duration-500 delay-100 ease-in-out justify-around bg-slate-500 w-full fixed top-0 z-50 ${
+        isHeaderFixed
+          ? "p-4 bg-slate-50 dark:bg-black shadow-lg "
+          : "p-8 bg-transparent "
       }`}
     >
       <div>
-        <p>App logo</p>
+        <p className="text-lg">App logo</p>
       </div>
-      <div className="flex flex-row gap-5">
-        <p>Home</p>
-        <p>Info</p>
-        <p>Services</p>
-        <p>Join?</p>
-        <p>Profile</p>
-      </div>
-      <div>
-        <ThemeSwitcher />
+      <div className="flex flex-row gap-5 items-center justify-center">
+        <p className="text-lg">Home</p>
+        <p className="text-lg">Info</p>
+        <p className="text-lg">Services</p>
+        <p className="text-lg">Join</p>
+        <p className="text-lg">Profile</p>
+        <div>
+          <ThemeSwitcher />
+        </div>
       </div>
     </header>
   );
