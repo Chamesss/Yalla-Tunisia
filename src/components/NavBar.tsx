@@ -38,8 +38,8 @@ export default function NavBar() {
 
   return (
     <header
-      className={`flex min-h-20 flex-row shadow-lg transition-all items-center duration-500 delay-100 ease-in-out bg-slate-50 dark:bg-slate-900 w-full fixed top-0 ${
-        isHeaderFixed ? " bg-slate-50 dark:bg-black " : " bg-red-500 "
+      className={`flex z-10 min-h-20 px-4 flex-row shadow-lg transition-all items-center duration-500 delay-100 ease-in-out bg-white dark:bg-slate-900 w-full fixed top-0 ${
+        isHeaderFixed ? " bg-slate-200 dark:bg-black " : " bg-red-500 "
       }`}
       id="navbar"
     >
