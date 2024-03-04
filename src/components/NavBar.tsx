@@ -38,16 +38,16 @@ export default function NavBar() {
 
   return (
     <header
-      className={`flex flex-row transition-all items-center duration-500 delay-100 ease-in-out bg-slate-500 w-full fixed top-0 ${
-        isHeaderFixed ? " bg-slate-50 dark:bg-black shadow-lg" : " bg-red-500 "
+      className={`flex min-h-20 flex-row shadow-lg transition-all items-center duration-500 delay-100 ease-in-out bg-slate-50 dark:bg-slate-900 w-full fixed top-0 ${
+        isHeaderFixed ? " bg-slate-50 dark:bg-black " : " bg-red-500 "
       }`}
       id="navbar"
     >
-      <div className="w-20 h-20 relative">
+      <div className="w-20 h-20 md:w-0 md:h-0 transition-all opacity-100 md:opacity-0 duration-500 delay-100 ease-in-out relative">
         <SideBarButton />
       </div>
-      <div className="flex flex-row justify-between w-full">
-        <div>
+      <div className="flex flex-row md:justify-between justify-around w-full items-center transition-all duration-500 ease-in-out">
+        <div className="">
           <p className="text-lg">App logo</p>
         </div>
         <div className="flex flex-row gap-5 items-center justify-center opacity-0 md:opacity-100 transition-all duration-500 ease-in-out md:w-auto w-0">
@@ -56,9 +56,7 @@ export default function NavBar() {
           <p className="text-lg">Services</p>
           <p className="text-lg">Join</p>
           <p className="text-lg">Profile</p>
-          {/* <div>
           <ThemeSwitcher />
-        </div> */}
         </div>
       </div>
     </header>
