@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { ThemeSwitcher } from "./utils/ToggleDarkMode";
 import SideBarButton from "./utils/NavBar/SideBarButton";
+import IconThreeBars16 from "./icons/ThreeBars";
 
 export default function NavBar() {
   const authenticatedNavigationItems = [
@@ -21,44 +22,85 @@ export default function NavBar() {
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   //const [scrollPosition, setScrollPosition] = useState(0);
 
-  useEffect(() => {
-    console.log(isHeaderFixed);
-  }, [isHeaderFixed]);
+  // useEffect(() => {
+  //   console.log(isHeaderFixed);
+  // }, [isHeaderFixed]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsHeaderFixed(scrollPosition > 0);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollPosition = window.scrollY;
+  //     setIsHeaderFixed(scrollPosition > 0);
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
+  const [open, setOpen] = useState(false);
+  const toggleMenu = () => {
+    setOpen((prevState) => !prevState);
+  };
 
   return (
-    <header
-      className={`flex z-10 min-h-20 px-4 flex-row shadow-lg transition-all items-center duration-500 delay-100 ease-in-out bg-white dark:bg-slate-900 w-full fixed top-0 ${
-        isHeaderFixed ? " bg-slate-200 dark:bg-black " : " bg-red-500 "
-      }`}
-      id="navbar"
-    >
-      <div className="w-20 h-20 md:w-0 md:h-0 transition-all opacity-100 md:opacity-0 duration-500 delay-100 ease-in-out relative">
-        <SideBarButton />
-      </div>
-      <div className="flex flex-row md:justify-between justify-around w-full items-center transition-all duration-500 ease-in-out">
-        <div className="">
-          <p className="text-lg">App logo</p>
+    <header id="navbar" className="bg-white shadow-sm fixed w-full z-10 top-0">
+      <nav className="flex flex-row justify-between items-center w-[92%]  mx-auto">
+        <div>
+          <img
+            className="w-16 cursor-pointer"
+            src="https://cdn-icons-png.flaticon.com/512/5968/5968204.png"
+            alt="..."
+          />
         </div>
-        <div className="flex flex-row gap-5 items-center justify-center opacity-0 md:opacity-100 transition-all duration-500 ease-in-out md:w-auto w-0">
-          <p className="text-lg">Home</p>
-          <p className="text-lg">Info</p>
-          <p className="text-lg">Services</p>
-          <p className="text-lg">Join</p>
-          <p className="text-lg">Profile</p>
-          <ThemeSwitcher />
+        <div
+          className={`nav-links transition-all absolute duration-500 md:static bg-white md:min-h-fit min-h-[60vh] left-0 md:w-auto  w-full flex items-center px-5 ${
+            open ? "-bottom-80" : "bottom-20"
+          }`}
+        >
+          <ul className="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
+            <div
+              className={`${open && "flex"} md:hidden absolute right-0`}
+              onClick={() => setOpen(false)}
+            >
+              close
+            </div>
+            <li>
+              <a className="hover:text-gray-500" href="#">
+                Products
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-gray-500" href="#">
+                Solution
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-gray-500" href="#">
+                Resource
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-gray-500" href="#">
+                Developers
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-gray-500" href="#">
+                Pricing
+              </a>
+            </li>
+          </ul>
         </div>
-      </div>
+        <div className="flex items-center gap-6">
+          <button className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]">
+            Sign in
+          </button>
+          <IconThreeBars16
+            onClick={toggleMenu}
+            name={open ? "close" : "menu"}
+            className="text-3xl cursor-pointer md:hidden"
+          />
+        </div>
+      </nav>
     </header>
   );
 }
