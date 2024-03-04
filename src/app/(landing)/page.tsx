@@ -12,7 +12,7 @@ import Footer from "@/components/Footer";
 
 export default function page() {
   return (
-    <div className="text-center">
+    <div className="text-center relative">
       <NavBar />
       <Hero />
       <HistoricalSection />
