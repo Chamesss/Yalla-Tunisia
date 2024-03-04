@@ -39,13 +39,11 @@ export default function NavBar() {
   return (
     <header
       className={`flex flex-row transition-all items-center duration-500 delay-100 ease-in-out bg-slate-500 w-full fixed top-0 ${
-        isHeaderFixed
-          ? "py-4 bg-slate-50 dark:bg-black shadow-lg"
-          : "py-8 bg-red-500 "
+        isHeaderFixed ? " bg-slate-50 dark:bg-black shadow-lg" : " bg-red-500 "
       }`}
       id="navbar"
     >
-      <div className="flex items-center justify-center bg-red-900 mr-14">
+      <div className="w-20 h-20 relative">
         <SideBarButton />
       </div>
       <div className="flex flex-row justify-between w-full">

@@ -35,12 +35,9 @@ export default function SideBarButton() {
       animate={isOpen ? "open" : "closed"}
       custom={height}
       ref={containerRef}
-      className="relative width-80"
+      className="absolute top-0 left-0 bottom-0 w-80"
     >
-      <motion.div
-        className="absolute w-80 h-screen bg-white top-0"
-        variants={sidebar}
-      />
+      <motion.div className="z-50 h-screen bg-white" variants={sidebar} />
       <Navigation />
       <MenuToggle toggle={() => toggleOpen()} />
     </motion.nav>
