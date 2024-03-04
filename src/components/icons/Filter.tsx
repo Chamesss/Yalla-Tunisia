@@ -1,4 +1,4 @@
-export default function IconFiltering(props: IconFilteringProps) {
+export default function IconFiltering(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 21 21" fill="currentColor" {...props}>
       <g

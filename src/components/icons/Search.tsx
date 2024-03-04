@@ -1,4 +1,4 @@
-export default function IconSearch(props: IconFilteringProps) {
+export default function IconSearch(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 1024 1024"
