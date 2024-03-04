@@ -1,8 +1,6 @@
 "use client";
 
-import { MouseEvent, useEffect, useState } from "react";
-import { ThemeSwitcher } from "./utils/ToggleDarkMode";
-import SideBarButton from "./utils/NavBar/SideBarButton";
+import { useEffect, useState } from "react";
 import IconThreeBars16 from "./icons/ThreeBars";
 
 export default function NavBar() {
@@ -20,30 +18,29 @@ export default function NavBar() {
   const navigationItems = notAuthenticatedNavigationItems;
 
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
-  //const [scrollPosition, setScrollPosition] = useState(0);
-
-  // useEffect(() => {
-  //   console.log(isHeaderFixed);
-  // }, [isHeaderFixed]);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollPosition = window.scrollY;
-  //     setIsHeaderFixed(scrollPosition > 0);
-  //   };
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsHeaderFixed(scrollPosition > 0);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const toggleMenu = () => {
     setOpen((prevState) => !prevState);
   };
 
   return (
     <header id="navbar" className="bg-white shadow-sm fixed w-full z-10 top-0">
-      <nav className="flex flex-row justify-between items-center w-[92%]  mx-auto">
+      <nav
+        className={`flex flex-row transition-all duration-500 ease-in-out justify-between items-center w-[92%]  mx-auto ${
+          isHeaderFixed ? "py-0" : "py-2"
+        }`}
+      >
         <div>
           <img
             className="w-16 cursor-pointer"
@@ -52,7 +49,7 @@ export default function NavBar() {
           />
         </div>
         <div
-          className={`nav-links transition-all absolute duration-500 md:static bg-white md:min-h-fit min-h-[60vh] left-0 md:w-auto  w-full flex items-center px-5 ${
+          className={`nav-links transition-all absolute duration-500 ease-in-out md:static bg-white md:min-h-fit min-h-[60vh] left-0 md:w-auto  w-full flex items-center px-5 ${
             open ? "-bottom-80" : "bottom-20"
           }`}
         >
