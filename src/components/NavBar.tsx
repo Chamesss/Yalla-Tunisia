@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import IconThreeBars16 from "./icons/ThreeBars";
+import { ThemeSwitcher } from "./utils/ToggleDarkMode";
 
 export default function NavBar() {
   const authenticatedNavigationItems = [
@@ -35,7 +36,10 @@ export default function NavBar() {
   };
 
   return (
-    <header id="navbar" className="bg-white shadow-sm fixed w-full z-10 top-0">
+    <header
+      id="navbar"
+      className="bg-white dark:bg-[#293749] shadow-sm fixed w-full z-10 top-0"
+    >
       <nav
         className={`flex flex-row transition-all duration-500 ease-in-out justify-between items-center w-[92%]  mx-auto ${
           isHeaderFixed ? "py-0" : "py-2"
@@ -49,7 +53,7 @@ export default function NavBar() {
           />
         </div>
         <div
-          className={`nav-links transition-all absolute duration-500 ease-in-out md:static bg-white md:min-h-fit min-h-[60vh] left-0 md:w-auto  w-full flex items-center px-5 ${
+          className={`bg-white dark:bg-[#293749] nav-links transition-bottom absolute duration-500 ease-in-out md:static md:min-h-fit min-h-[60vh] left-0 md:w-auto  w-full flex items-center px-5 ${
             open ? "-bottom-80" : "bottom-20"
           }`}
         >
@@ -88,7 +92,8 @@ export default function NavBar() {
           </ul>
         </div>
         <div className="flex items-center gap-6">
-          <button className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]">
+          <ThemeSwitcher />
+          <button className="bg-[#a6c1ee] dark:bg-[#425b86] px-5 py-2 rounded-full hover:bg-[#6f8cbe] dark:hover:bg-[#364a6d]">
             Sign in
           </button>
           <IconThreeBars16
