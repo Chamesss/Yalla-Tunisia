@@ -22,7 +22,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <div id="hero" className="relative md:p-4 mt-12 p-2">
+    <div id="hero" className="relative p-4">
       <Carousel data={data} />
       <div className="absolute bottom-[0] left-0 right-0 mx-auto w-[50%] mb-16">
         <SearchBar />
