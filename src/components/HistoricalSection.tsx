@@ -29,17 +29,17 @@ function Card({ emoji, hueA, hueB }: Props) {
 
   return (
     <motion.div
-      className=" overflow-hidden items-center justify-center relative pt-5 -mt-28 flex"
+      className=" overflow-hidden items-center justify-center relative pt-5 -mt-28 flex transition-bottom w-[700px]"
       initial="offscreen"
       whileInView="onscreen"
       viewport={{ once: true, amount: 0.8 }}
     >
       <div
-        className="absolute bottom-0 left-[50%] right-0 top-0 -translate-x-[32%] splash"
+        className="absolute w-full bottom-0 left-[50%] right-0 top-0 -translate-x-[32%] splash"
         style={{ background }}
       />
       <motion.div
-        className=" w-[300px] h-[430px] flex items-center justify-center bg-white rounded-[20px] relative card-animated"
+        className=" w-[300px] h-[430px] flex items-center justify-center bg-white dark:bg-[#212933] rounded-[20px] relative card-animated"
         variants={cardVariants}
       >
         {emoji}
@@ -50,13 +50,14 @@ function Card({ emoji, hueA, hueB }: Props) {
 
 const data = {
   text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi ipsam maxime ex ullam culpa harum dolor. Magnam aspernatur, adipisci maxime accusantium aut quos nemo dolorem voluptate dolorum odit natus consequuntur!",
-  hueA: 205,
-  hueB: 245,
+  hueA: 180,
+  hueB: 210,
 };
 
 export default function HistoricalSection() {
   return (
-    <div className="w-full place-content-center">
+    <div className="w-full place-content-center flex flex-row justify-around mt-20">
+      <p>Text</p>
       <Card emoji={data.text} hueA={data.hueA} hueB={data.hueB} />
     </div>
   );
