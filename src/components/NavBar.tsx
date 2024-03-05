@@ -38,7 +38,7 @@ export default function NavBar() {
   return (
     <header
       id="navbar"
-      className="bg-white dark:bg-[#293749] shadow-sm fixed w-full z-10 top-0"
+      className="bg-white dark:bg-[#293749] shadow-sm fixed w-full z-50 top-0"
     >
       <nav
         className={`flex flex-row transition-all duration-500 ease-in-out justify-between items-center w-[92%]  mx-auto ${

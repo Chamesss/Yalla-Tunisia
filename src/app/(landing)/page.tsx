@@ -14,7 +14,9 @@ export default function page() {
   return (
     <div className="text-center relative">
       <NavBar />
-      <Hero />
+      <div className="w-full mt-4 justify-center flex items-center">
+        <Hero />
+      </div>
       <HistoricalSection />
       <NatureSection />
       <HandMade />
