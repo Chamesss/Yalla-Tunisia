@@ -1,5 +1,8 @@
 "use client";
 import { motion, Variants } from "framer-motion";
+import HeroButton from "./utils/Hero/HeroButton";
+import IconArrowRight from "./icons/RightArrow";
+import Link from "next/link";
 
 interface Props {
   image: string;
@@ -35,7 +38,7 @@ function Card({ image, hueA, hueB }: Props) {
       viewport={{ once: true, amount: 0.8 }}
     >
       <motion.div
-        className=" md:w-[300px] w-[150px] md:h-[430px] h-[215px] flex items-center justify-center bg-white dark:bg-[#212933] rounded-[20px] card-animated p-[2px]"
+        className=" md:w-[300px] w-[150px] md:h-[430px]  h-[215px] flex items-center justify-center bg-white dark:bg-[#212933] rounded-[20px] card-animated"
         variants={cardVariants}
       >
         <img
@@ -69,7 +72,7 @@ const data = [
 export default function HistoricalSection() {
   return (
     <>
-      <div className="relative w-full h-fit flex md:px-24 gap-4 px-12 md:flex-row flex-col-reverse justify-between md:mt-10 mt-20">
+      <div className="relative w-full h-fit flex gap-4 md:flex-row flex-col-reverse justify-between md:mt-10 mt-20">
         <h1 className="text-2xl text-left -top-16 md:top-12 absolute">
           Historical Section.
         </h1>
@@ -80,7 +83,13 @@ export default function HistoricalSection() {
             expedita voluptates blanditiis architecto laudantium rerum nisi
             minima ut placeat assumenda! Placeat.
           </p>
-          <button className="mt-12 w-fit">Click here</button>
+          <Link
+            href={"#"}
+            className="flex w-fit mt-10 items-center gap-4 rounded-lg bottom-[40%] bg-black/50 text-sm text-white md:text-lg p-2 md:p-4 left-[10%] transition-all duration-500 ease-in-out cursor-pointer hover:scale-110"
+          >
+            {"Click here"}
+            <IconArrowRight height={20} width={20} />
+          </Link>
         </div>
         <div className="relative self-center flex flex-row md:w-[700px] w-fit translate-y-14">
           <div className="transition-all duration-200 md:z-20 z-[39] hover:z-40 hover:scale-110">

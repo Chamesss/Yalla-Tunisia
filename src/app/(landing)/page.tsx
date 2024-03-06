@@ -17,14 +17,16 @@ export default function page() {
       <div className="w-full mt-4 justify-center flex items-center">
         <Hero />
       </div>
-      <HistoricalSection />
-      <NatureSection />
-      <HandMade />
-      <SportsEntertainment />
-      <Guide />
-      <Reviews />
-      <Join />
-      <Footer />
+      <div className="md:px-24 flex flex-col gap-8 px-12">
+        <HistoricalSection />
+        <NatureSection />
+        <HandMade />
+        <SportsEntertainment />
+        <Guide />
+        <Reviews />
+        <Join />
+        <Footer />
+      </div>
     </div>
   );
 }
