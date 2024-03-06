@@ -17,7 +17,7 @@ export default function page() {
       <div className="w-full mt-4 justify-center flex items-center">
         <Hero />
       </div>
-      <div className="md:px-24 flex flex-col gap-8 px-12">
+      <div className="md:px-24 flex flex-col gap-8 px-8">
         <HistoricalSection />
         <NatureSection />
         <HandMade />

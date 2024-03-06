@@ -3,24 +3,27 @@ import IconArrowRight from "./icons/RightArrow";
 
 export default function NatureSection() {
   return (
-    <div className="flex flex-row justify-between items-center mt-10 relative">
-      <div className="relative">
+    <div className="flex flex-col md:flex-row justify-between items-center md:mt-10 mt-20 relative ">
+      <h1 className="text-xl font-semibold text-center w-full absolute -top-16 md:hidden">
+        Nature Section
+      </h1>
+      <div className="relative w-full flex justify-center">
         <img
           src="./assets/sahara.jpg"
           alt="sahara"
-          className="w-[600px] h-[500px] object-contain"
+          className="md:w-[600px] w-[250px] md:h-[500px] h-[180px] object-contain -translate-x-10"
         />
         <div>
           <img
             src="./assets/mountain.jpg"
             alt="mountain"
-            className="w-[600px] h-[500px] object-contain absolute top-20 left-44 z-0"
+            className="md:w-[600px] w-[250px] md:h-[500px] h-[180px] object-contain absolute top-20 md:left-44 left-20 z-0"
           />
         </div>
       </div>
-      <div className="w-[50%] bg-[#ececec] dark:bg-[#293749] p-16 z-10 flex flex-col items-center">
-        <h1 className="text-xl">Nature Section</h1>
-        <p className="mt-10 text-lg">
+      <div className="md:w-[90%] w-full md:mt-0 mt-10 md:bg-[#f5f5f5] dark:bg-[#293749] md:p-16 z-10 flex flex-col items-center">
+        <h1 className="text-xl font-semibold md:flex hidden">Nature Section</h1>
+        <p className="mt-10 text-lg md:text-center text-left">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
           dignissimos, reprehenderit minus quibusdam totam quaerat voluptate
           possimus cumque tempore ut doloribus architecto porro ullam soluta,
