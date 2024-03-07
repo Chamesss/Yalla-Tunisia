@@ -1,3 +1,5 @@
+import CardItem from "./utils/CardItem";
+
 interface result {
   id: string;
   userId: number;
@@ -23,9 +25,9 @@ export default async function () {
             Show more
           </button>
         </div>
-        <div>
+        <div className="flex gap-4">
           {data.map((d) => {
-            return <div key={d.id}>{d.title}</div>;
+            return <CardItem data={d} />;
           })}
         </div>
       </div>
