@@ -419,7 +419,7 @@
     {
       "id": 53,
       "first_name": "Tamarah",
-      "last_name": "O'Luney",
+      "last_name": "OLuney",
       "email": "toluney1g@eventbrite.com",
       "gender": "Female",
       "picture": "https://robohash.org/iustolaboredeleniti.png?size=50x50&set=set1"
@@ -785,15 +785,15 @@
       "picture": "https://robohash.org/molestiassuscipitconsequatur.png?size=50x50&set=set1"
     }
   ],
-  "lists":[
+  "lists": [
     {
       "id": 1,
       "userId": 1,
       "title": "Technical Writer",
       "description": "Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.",
-      "color": [{'#935428'}, {'#2633BC'}, {'#26A1BC'}],
+      "color": ["#935428", "#2633BC", "#26A1BC"],
       "price": "0",
-      "size": [{'s'}, {'m'}, {'l'}, {'xl'}, {'xxl'}],
+      "size": ["s", "m", "l", "xl", "xxl"],
       "picture": "https://robohash.org/numquammollitiarerum.png?size=150x150&set=set1"
     },
     {
@@ -801,9 +801,9 @@
       "userId": 2,
       "title": "GIS Technical Architect",
       "description": "Nullam molestie nibh in lectus.",
-      "color": [{'#26BC2D'}, {'#DCB010'}],
+      "color": ["#26BC2D", "#DCB010"],
       "price": "5",
-      "size": [{'s'}, {'l'}],
+      "size": ["s", "l"],
       "picture": "https://robohash.org/sitaspernaturvoluptatem.png?size=150x150&set=set1"
     },
     {
@@ -841,9 +841,9 @@
       "userId": 6,
       "title": "Product Engineer",
       "description": "Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat. Nulla nisl.",
-      "color": [{'#DC1095'}, {'#10C6DC'}],
+      "color": ["#DC1095", "#10C6DC"],
       "price": "392",
-      "size": [{'s'}],
+      "size": ["s"],
       "picture": "https://robohash.org/quiainofficiis.png?size=150x150&set=set1"
     },
     {
@@ -851,9 +851,9 @@
       "userId": 7,
       "title": "Analyst Programmer",
       "description": "Phasellus id sapien in sapien iaculis congue.",
-      "color": [{'#DC1095'}, {'#10C6DC'}],
+      "color": ["#DC1095", "#10C6DC"],
       "price": "9155",
-      "size": [{'s'}],
+      "size": ["s"],
       "picture": "https://robohash.org/dolorutin.png?size=150x150&set=set1"
     },
     {
@@ -881,9 +881,9 @@
       "userId": 10,
       "title": "VP Sales",
       "description": "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
-      "color": [{'#03150B'}, {'#7EE8AD'}],
+      "color": ["#03150B", "#7EE8AD"],
       "price": "886",
-      "size": [{'xs'}, {'xl'}],
+      "size": ["xs", "xl"],
       "picture": "https://robohash.org/quibusdamrepudiandaetempora.png?size=150x150&set=set1"
     },
     {
@@ -901,9 +901,9 @@
       "userId": 12,
       "title": "Teacher",
       "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-      "color": [{}, {}, {}, {}, {}],
+      "color": [],
       "price": "181",
-      "size": [{}, {}],
+      "size": [],
       "picture": "https://robohash.org/repudiandaedelenitiut.png?size=150x150&set=set1"
     },
     {
@@ -911,9 +911,9 @@
       "userId": 13,
       "title": "Senior Financial Analyst",
       "description": "Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis.",
-      "color": [{}, {}, {}, {}],
+      "color": [],
       "price": "240",
-      "size": [{}, {}],
+      "size": [],
       "picture": "https://robohash.org/reprehenderitillumsint.png?size=150x150&set=set1"
     },
     {
@@ -921,9 +921,9 @@
       "userId": 14,
       "title": "Accounting Assistant II",
       "description": "Suspendisse accumsan tortor quis turpis. Sed ante.",
-      "color": [{}],
+      "color": [],
       "price": "6",
-      "size": [{}],
+      "size": [],
       "picture": "https://robohash.org/estvitaeconsequatur.png?size=150x150&set=set1"
     },
     {
@@ -931,9 +931,9 @@
       "userId": 15,
       "title": "Quality Engineer",
       "description": "Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl. Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
-      "color": [{}, {}, {}, {}],
+      "color": [],
       "price": "265",
-      "size": [{}],
+      "size": [],
       "picture": "https://robohash.org/dictaetin.png?size=150x150&set=set1"
     },
     {
@@ -941,9 +941,9 @@
       "userId": 16,
       "title": "Cost Accountant",
       "description": "Donec dapibus. Duis at velit eu est congue elementum. In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante.",
-      "color": [{}, {}, {}, {}, {}],
+      "color": [],
       "price": "2",
-      "size": [{}, {}, {}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/placeatetexercitationem.png?size=150x150&set=set1"
     },
     {
@@ -951,9 +951,9 @@
       "userId": 17,
       "title": "Marketing Assistant",
       "description": "Sed accumsan felis. Ut at dolor quis odio consequat varius. Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus.",
-      "color": [{}, {}, {}, {}],
+      "color": [],
       "price": "040",
-      "size": [{}, {}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/idullammolestiae.png?size=150x150&set=set1"
     },
     {
@@ -961,9 +961,9 @@
       "userId": 18,
       "title": "Electrical Engineer",
       "description": "Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat. Nulla nisl.",
-      "color": [{}, {}, {}, {}, {}],
+      "color": [],
       "price": "4",
-      "size": [{}, {}, {}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/involuptatuminventore.png?size=150x150&set=set1"
     },
     {
@@ -971,9 +971,9 @@
       "userId": 19,
       "title": "Office Assistant IV",
       "description": "Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.",
-      "color": [{}, {}, {}, {}],
+      "color": [],
       "price": "8554",
-      "size": [{}],
+      "size": [],
       "picture": "https://robohash.org/similiqueanostrum.png?size=150x150&set=set1"
     },
     {
@@ -981,9 +981,9 @@
       "userId": 20,
       "title": "Nuclear Power Engineer",
       "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.",
-      "color": [{}, {}, {}, {}, {}],
+      "color": [],
       "price": "4",
-      "size": [{}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/etautemquod.png?size=150x150&set=set1"
     },
     {
@@ -991,9 +991,9 @@
       "userId": 21,
       "title": "VP Sales",
       "description": "Vivamus tortor. Duis mattis egestas metus.",
-      "color": [{}, {}, {}],
+      "color": [],
       "price": "52",
-      "size": [{}, {}, {}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/adipiscietconsequatur.png?size=150x150&set=set1"
     },
     {
@@ -1001,9 +1001,9 @@
       "userId": 22,
       "title": "Analyst Programmer",
       "description": "Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.",
-      "color": [{}, {}, {}],
+      "color": [],
       "price": "44744",
-      "size": [{}, {}, {}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/rerumvoluptatummagni.png?size=150x150&set=set1"
     },
     {
@@ -1011,7 +1011,7 @@
       "userId": 23,
       "title": "Senior Financial Analyst",
       "description": "Integer ac neque. Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti.",
-      "color": [{}, {}, {}, {}],
+      "color": [],
       "price": "26078",
       "size": [],
       "picture": "https://robohash.org/laborumsitrepellendus.png?size=150x150&set=set1"
@@ -1021,9 +1021,9 @@
       "userId": 24,
       "title": "Clinical Specialist",
       "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.",
-      "color": [{}, {}],
+      "color": [],
       "price": "7",
-      "size": [{}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/quoperspiciatisquis.png?size=150x150&set=set1"
     },
     {
@@ -1031,7 +1031,7 @@
       "userId": 25,
       "title": "Legal Assistant",
       "description": "Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti.",
-      "color": [{}, {}, {}, {}],
+      "color": [],
       "price": "3",
       "size": [],
       "picture": "https://robohash.org/omniscorporisquo.png?size=150x150&set=set1"
@@ -1041,7 +1041,7 @@
       "userId": 26,
       "title": "Executive Secretary",
       "description": "Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.",
-      "color": [{}, {}, {}, {}, {}],
+      "color": [],
       "price": "3549",
       "size": [],
       "picture": "https://robohash.org/saepevoluptatemsed.png?size=150x150&set=set1"
@@ -1053,7 +1053,7 @@
       "description": "Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor. Duis mattis egestas metus. Aenean fermentum. Donec ut mauris eget massa tempor convallis.",
       "color": [],
       "price": "593",
-      "size": [{}, {}],
+      "size": [],
       "picture": "https://robohash.org/estisteconsequuntur.png?size=150x150&set=set1"
     },
     {
@@ -1061,9 +1061,9 @@
       "userId": 28,
       "title": "Research Associate",
       "description": "Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat.",
-      "color": [{}, {}, {}, {}],
+      "color": [],
       "price": "4081",
-      "size": [{}, {}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/nonprovidentamet.png?size=150x150&set=set1"
     },
     {
@@ -1073,7 +1073,7 @@
       "description": "Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
       "color": [],
       "price": "0",
-      "size": [{}, {}],
+      "size": [],
       "picture": "https://robohash.org/laborumeaquequi.png?size=150x150&set=set1"
     },
     {
@@ -1081,9 +1081,9 @@
       "userId": 30,
       "title": "Payment Adjustment Coordinator",
       "description": "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-      "color": [{}, {}, {}, {}, {}],
+      "color": [],
       "price": "9",
-      "size": [{}, {}],
+      "size": [],
       "picture": "https://robohash.org/maioresexplicabomolestias.png?size=150x150&set=set1"
     },
     {
@@ -1091,7 +1091,7 @@
       "userId": 31,
       "title": "Teacher",
       "description": "Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.",
-      "color": [{}, {}, {}, {}],
+      "color": [],
       "price": "23552",
       "size": [],
       "picture": "https://robohash.org/sitporrovoluptatem.png?size=150x150&set=set1"
@@ -1103,7 +1103,7 @@
       "description": "Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.",
       "color": [],
       "price": "934",
-      "size": [{}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/ametearumqui.png?size=150x150&set=set1"
     },
     {
@@ -1111,9 +1111,9 @@
       "userId": 33,
       "title": "Chief Design Engineer",
       "description": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti.",
-      "color": [{}, {}],
+      "color": [],
       "price": "11218",
-      "size": [{}, {}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/rerumdebitisdolorum.png?size=150x150&set=set1"
     },
     {
@@ -1121,7 +1121,7 @@
       "userId": 34,
       "title": "Programmer Analyst II",
       "description": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros.",
-      "color": [{}, {}, {}, {}, {}],
+      "color": [],
       "price": "7179",
       "size": [],
       "picture": "https://robohash.org/estnamquisquam.png?size=150x150&set=set1"
@@ -1131,9 +1131,9 @@
       "userId": 35,
       "title": "Librarian",
       "description": "Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus.",
-      "color": [{}, {}, {}],
+      "color": [],
       "price": "814",
-      "size": [{}, {}],
+      "size": [],
       "picture": "https://robohash.org/impeditutdolores.png?size=150x150&set=set1"
     },
     {
@@ -1141,9 +1141,9 @@
       "userId": 36,
       "title": "Financial Analyst",
       "description": "In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.",
-      "color": [{}, {}, {}],
+      "color": [],
       "price": "09",
-      "size": [{}],
+      "size": [],
       "picture": "https://robohash.org/utquiet.png?size=150x150&set=set1"
     },
     {
@@ -1151,9 +1151,9 @@
       "userId": 37,
       "title": "Physical Therapy Assistant",
       "description": "Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
-      "color": [{}, {}, {}],
+      "color": [],
       "price": "557",
-      "size": [{}, {}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/quinihilcommodi.png?size=150x150&set=set1"
     },
     {
@@ -1161,7 +1161,7 @@
       "userId": 38,
       "title": "Data Coordinator",
       "description": "Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla.",
-      "color": [{}],
+      "color": [],
       "price": "3",
       "size": [],
       "picture": "https://robohash.org/veliteosdolore.png?size=150x150&set=set1"
@@ -1171,9 +1171,9 @@
       "userId": 39,
       "title": "Marketing Assistant",
       "description": "Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
-      "color": [{}, {}],
+      "color": [],
       "price": "5",
-      "size": [{}, {}],
+      "size": [],
       "picture": "https://robohash.org/auttotamautem.png?size=150x150&set=set1"
     },
     {
@@ -1181,9 +1181,9 @@
       "userId": 40,
       "title": "Editor",
       "description": "Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis.",
-      "color": [{}, {}, {}, {}, {}],
+      "color": [],
       "price": "5112",
-      "size": [{}, {}, {}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/eosvoluptateautem.png?size=150x150&set=set1"
     },
     {
@@ -1191,9 +1191,9 @@
       "userId": 41,
       "title": "GIS Technical Architect",
       "description": "Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.",
-      "color": [{}, {}],
+      "color": [],
       "price": "980",
-      "size": [{}, {}, {}],
+      "size": [],
       "picture": "https://robohash.org/quiautemplaceat.png?size=150x150&set=set1"
     }
   ]

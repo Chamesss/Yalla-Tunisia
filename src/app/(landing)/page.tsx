@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import NavBar from "@/components/NavBar";
 import Hero from "@/components/Hero";
 import HistoricalSection from "@/components/HistoricalSection";
@@ -9,6 +9,7 @@ import Guide from "@/components/Guide";
 import Reviews from "@/components/Reviews";
 import Join from "@/components/Join";
 import Footer from "@/components/Footer";
+import { ErrorBoundary } from "react-error-boundary";
 
 export default function page() {
   return (
@@ -17,10 +18,14 @@ export default function page() {
       <div className="w-full mt-4 justify-center flex items-center">
         <Hero />
       </div>
-      <div className="md:px-24 flex flex-col gap-8 px-8">
+      <div className="lg:px-24 md:px-12 flex flex-col gap-8 px-8">
         <HistoricalSection />
-        <NatureSection />
-        <HandMade />
+        {/* <NatureSection /> */}
+        <ErrorBoundary fallback={<p>An Error has Occurred.</p>}>
+          <Suspense fallback={<p>Loading....</p>}>
+            <HandMade />
+          </Suspense>
+        </ErrorBoundary>
         <SportsEntertainment />
         <Guide />
         <Reviews />

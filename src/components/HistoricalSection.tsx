@@ -62,15 +62,15 @@ import Colosseum from "./icons/Colosseum";
 export default function HistoricalSection() {
   return (
     <>
-      <div className="relative w-full h-fit flex gap-4 md:flex-row flex-col-reverse justify-between md:mt-10 mt-20">
-        <div className="absolute w-[100%] top-[50%] md:top-[-5%] md:w-[60%] opacity-[0.075]">
+      <div className="relative w-full h-fit flex gap-4 lg:flex-row flex-col-reverse justify-between lg:mt-10 mt-20">
+        <div className="absolute lg:top-[-5%] md:top-[30%] lg:w-[60%] top-10 md:right-[10%] md:w-[80%] opacity-[0.075]">
           <Colosseum />
         </div>
-        <h1 className="text-xl font-semibold text-center w-full absolute -top-16 md:hidden">
+        <h1 className="text-xl font-semibold text-center w-full absolute -top-16 lg:hidden">
           Historical Section
         </h1>
-        <div className="w-full md:max-w-[40%] justify-center flex-col mt-16">
-          <h1 className="text-xl font-semibold text-left hidden md:flex">
+        <div className="w-full lg:max-w-[40%] justify-center md:flex md:items-center flex-col mt-16">
+          <h1 className="text-xl font-semibold text-left hidden lg:flex">
             Historical Section.
           </h1>
           <p className="text-start text-lg mt-10">
@@ -87,14 +87,14 @@ export default function HistoricalSection() {
             <IconArrowRight height={20} width={20} />
           </Link>
         </div>
-        <div className="relative self-center flex flex-row md:w-[700px] w-fit translate-y-14">
+        <div className="relative self-center flex flex-row md:w-[700px] w-fit items-center lg:translate-y-14 translate-y-24 md:translate-x-10">
           <div className="transition-all duration-200 md:z-20 z-[39] hover:z-40 hover:scale-110">
             <Card image={data[0].image} />
           </div>
-          <div className="transition-all duration-200 absolute z-30 md:left-[150px] left-[100px] hover:z-40 hover:scale-110">
+          <div className="transition-all duration-200 absolute z-30 lg:left-[150px] md:left-[150px] left-[75px] hover:z-40 hover:scale-110">
             <Card image={data[1].image} />
           </div>
-          <div className="transition-all duration-200 absolute z-20 md:left-[300px] left-[-100px] hover:z-40 hover:scale-110">
+          <div className="transition-all duration-200 absolute z-20 lg:left-[300px] md:left-[300px] left-[-75px] hover:z-40 hover:scale-110">
             <Card image={data[2].image} />
           </div>
         </div>
