@@ -1,20 +1,10 @@
+"use client";
 import CardItem from "./utils/CardItem";
-
-interface result {
-  id: string;
-  userId: number;
-  title: string;
-  description: string;
-  color: string[];
-  price: string;
-  size: string[];
-  picture: string;
-}
-[];
+import CarouselItems from "./utils/CarouselItems";
 
 export default async function () {
   const res = await fetch("http://localhost:3000/api/handmades/");
-  const data: result[] = await res.json();
+  const data: Result[] = await res.json();
   if (data)
     return (
       <div className="w-full text-start">
@@ -25,10 +15,8 @@ export default async function () {
             Show more
           </button>
         </div>
-        <div className="flex gap-4">
-          {data.map((d) => {
-            return <CardItem data={d} />;
-          })}
+        <div className="flex">
+          <CarouselItems data={data} />
         </div>
       </div>
     );
