@@ -1,3 +1,5 @@
+"use client";
+
 import Slider from "react-slick";
 import CardItem from "./CardItem";
 import { Key } from "react";

@@ -22,21 +22,9 @@ export default function page() {
         <HistoricalSection />
         {/* <NatureSection /> */}
 
-        <ErrorBoundary fallback={<p>An Error has Occurred.</p>}>
-          <Suspense fallback={<p>Loading....</p>}>
-            <HandMade />
-          </Suspense>
-        </ErrorBoundary>
-        <ErrorBoundary fallback={<p>An Error has Occurred.</p>}>
-          <Suspense fallback={<p>Loading....</p>}>
-            <SportsEntertainment />
-          </Suspense>
-        </ErrorBoundary>
-        <ErrorBoundary fallback={<p>An Error has Occurred.</p>}>
-          <Suspense fallback={<p>Loading....</p>}>
-            <Guide />
-          </Suspense>
-        </ErrorBoundary>
+        <HandMade />
+        <SportsEntertainment />
+        <Guide />
 
         <Reviews />
         <Join />
