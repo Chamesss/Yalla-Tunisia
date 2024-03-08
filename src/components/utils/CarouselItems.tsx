@@ -3,6 +3,8 @@
 import Slider from "react-slick";
 import CardItem from "./CardItem";
 import { Key } from "react";
+import CarouselLeftArrow from "../icons/CarouselLeftArrow";
+import CarouselRightArrow from "../icons/CarouselRightArrow";
 
 export default function SimpleSlider({ data }: any) {
   let settings = {
@@ -11,6 +13,12 @@ export default function SimpleSlider({ data }: any) {
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 5,
+    nextArrow: (
+      <CarouselRightArrow width={50} height={50} color="red" fill="#707070" />
+    ),
+    prevArrow: (
+      <CarouselLeftArrow width={50} height={50} color="red" fill="#707070" />
+    ),
     responsive: [
       {
         breakpoint: 1024,
