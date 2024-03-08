@@ -21,13 +21,23 @@ export default function page() {
       <div className="lg:px-24 md:px-12 flex flex-col gap-8 px-8">
         <HistoricalSection />
         {/* <NatureSection /> */}
+
         <ErrorBoundary fallback={<p>An Error has Occurred.</p>}>
           <Suspense fallback={<p>Loading....</p>}>
             <HandMade />
           </Suspense>
         </ErrorBoundary>
-        <SportsEntertainment />
-        <Guide />
+        <ErrorBoundary fallback={<p>An Error has Occurred.</p>}>
+          <Suspense fallback={<p>Loading....</p>}>
+            <SportsEntertainment />
+          </Suspense>
+        </ErrorBoundary>
+        <ErrorBoundary fallback={<p>An Error has Occurred.</p>}>
+          <Suspense fallback={<p>Loading....</p>}>
+            <Guide />
+          </Suspense>
+        </ErrorBoundary>
+
         <Reviews />
         <Join />
         <Footer />
