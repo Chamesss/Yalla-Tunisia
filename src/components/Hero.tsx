@@ -16,7 +16,6 @@ export default function Hero() {
     const hero = document.getElementById("hero");
     if (navbar && hero) {
       const navbarHeight = navbar.offsetHeight;
-      //document.body.style.paddingTop = `${navbarHeight}px`;
       hero.style.marginTop = `${navbarHeight - 20}px`;
     }
   }, []);

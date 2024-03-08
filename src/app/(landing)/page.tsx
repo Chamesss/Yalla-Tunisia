@@ -18,14 +18,20 @@ export default function page() {
       <div className="w-full mt-4 justify-center flex items-center">
         <Hero />
       </div>
-      <div className="lg:px-24 md:px-12 flex flex-col gap-8 px-8">
-        <HistoricalSection />
+      <div className="lg:px-16 md:px-6 flex flex-col gap-8 px-4">
+        <div className="bg-gray-50 dark:bg-[#181e25] lg:py-0 py-8 px-4 md:px-6">
+          <HistoricalSection />
+        </div>
         {/* <NatureSection /> */}
-
-        <HandMade />
-        <SportsEntertainment />
-        <Guide />
-
+        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-4 md:px-6">
+          <HandMade />
+        </div>
+        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-4 md:px-6">
+          <SportsEntertainment />
+        </div>
+        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-4 md:px-6">
+          <Guide />
+        </div>
         <Reviews />
         <Join />
         <Footer />
