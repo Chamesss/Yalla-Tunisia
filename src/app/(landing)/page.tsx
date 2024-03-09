@@ -23,13 +23,13 @@ export default function page() {
           <HistoricalSection />
         </div>
         {/* <NatureSection /> */}
-        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-4 md:px-6">
+        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
           <HandMade />
         </div>
-        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-4 md:px-6">
+        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
           <SportsEntertainment />
         </div>
-        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-4 md:px-6">
+        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
           <Guide />
         </div>
         <Reviews />
