@@ -1,29 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import IconThreeBars16 from "./icons/ThreeBars";
 import { ThemeSwitcher } from "./utils/ToggleDarkMode";
 import HeaderDrawer from "./utils/Drawer";
+import DropDownItem from "./utils/DropDownItem";
+import { getCategories } from "@/lib/getLandingData";
 
 export default function NavBar() {
-  const authenticatedNavigationItems = [
-    { name: "Home", href: "/" },
-    { name: "Profile", href: "/Profile" },
-  ];
-  const notAuthenticatedNavigationItems = [
-    { name: "View all stores", href: "/stores" },
-  ];
-  // const navigationItems = session
-  //   ? authenticatedNavigationItems
-  //   : notAuthenticatedNavigationItems;
+  // const authenticatedNavigationItems = [
+  //   { name: "Home", href: "/" },
+  //   { name: "Profile", href: "/Profile" },
+  // ];
+  // const notAuthenticatedNavigationItems = [
+  //   { name: "View all stores", href: "/stores" },
+  // ];
+  // // const navigationItems = session
+  // //   ? authenticatedNavigationItems
+  // //   : notAuthenticatedNavigationItems;
 
-  const navigationItems = notAuthenticatedNavigationItems;
+  // const navigationItems = notAuthenticatedNavigationItems;
 
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    (async () => {
+      const res = await getCategories();
+      setCategories(res);
+    })();
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsHeaderFixed(scrollPosition > 0);
@@ -33,9 +38,6 @@ export default function NavBar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const toggleMenu = () => {
-    setOpen((prevState) => !prevState);
-  };
 
   return (
     <header
@@ -56,17 +58,9 @@ export default function NavBar() {
           />
         </div>
         <div
-          className={`bg-white dark:bg-[#293749] nav-links transition-bottom absolute duration-500 ease-in-out md:static md:min-h-fit min-h-[60vh] left-0 md:w-auto  w-full flex items-center px-5 ${
-            open ? "-bottom-80" : "bottom-20"
-          }`}
+          className={`bg-white dark:bg-[#293749] nav-links transition-bottom absolute duration-500 ease-in-out md:static md:min-h-fit min-h-[60vh] left-0 md:w-auto  w-full flex items-center px-5 bottom-20`}
         >
-          {/* <ul className="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
-            <div
-              className={`${open && "flex"} md:hidden absolute right-0`}
-              onClick={() => setOpen(false)}
-            >
-              close
-            </div>
+          <ul className="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
             <li>
               <a className="hover:text-gray-500" href="#">
                 Products
@@ -92,7 +86,7 @@ export default function NavBar() {
                 Pricing
               </a>
             </li>
-          </ul> */}
+          </ul>
         </div>
         <div className="flex items-center gap-6">
           <ThemeSwitcher />
@@ -101,6 +95,10 @@ export default function NavBar() {
           </button>
         </div>
       </nav>
+      <div className="flex justify-center items-center">
+        {categories &&
+          categories.map((category) => <DropDownItem category={category} />)}
+      </div>
     </header>
   );
 }
