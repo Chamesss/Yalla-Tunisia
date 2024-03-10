@@ -2,7 +2,10 @@ const baseURL = "http://localhost:3000"
 
 export async function getHomeMades() {
     const res = await fetch(`${baseURL}/api/handmades/`)
-    if (!res.ok) throw new Error
+    if (!res.ok) {
+        console.log('aaaaa')
+        throw new Error
+    }
     return res.json()
 }
 export async function getSports() {

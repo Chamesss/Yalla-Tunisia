@@ -3,6 +3,7 @@ import Category from "./../icons/Category";
 import Location from "./../icons/Location";
 
 export default function CardItem({ data }: any) {
+  console.log(data);
   const truncatedTitle =
     data.title.length > 20 ? data.title.slice(0, 20) + "..." : data.title;
 
@@ -28,7 +29,8 @@ export default function CardItem({ data }: any) {
             </small>
             <small className="text-default-500 flex items-center gap-1">
               <Category />
-              Category, Static
+              {data.category[0].name}
+              {data.subcategory ? `, ${data.subcategory[0].name}` : ""}
             </small>
             <div className="flex justify-end items-center p-0 mt-2">
               <p className="font-semibold text-[#309980] text-lg">
