@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server"
+import { fetchData } from "../utils/Endpoint"
 
 export async function GET() {
-    const res = await fetch('http://localhost:3001/lists?_limit=20')
+    const res = await fetchData("/lists")
     const data = await res.json()
-    return NextResponse.json(data)
+    const filteredData = data.filter((item: { category: { id: number } }) => item.category.id === 3)
+    return NextResponse.json(filteredData)
 }
