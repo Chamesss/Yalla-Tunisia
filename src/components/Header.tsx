@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { ThemeSwitcher } from "./utils/ToggleDarkMode";
 import HeaderDrawer from "./utils/Drawer";
 import DropDownItem from "./utils/DropDownItem";
 import { getCategories } from "@/lib/getLandingData";
+import { CategoryType } from "@/Types";
+import { Tours } from "./utils/Constants";
 
-export default function NavBar() {
+export default function Header() {
   // const authenticatedNavigationItems = [
   //   { name: "Home", href: "/" },
   //   { name: "Profile", href: "/Profile" },
@@ -22,12 +24,18 @@ export default function NavBar() {
 
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<CategoryType[] | []>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
-      const res = await getCategories();
-      setCategories(res);
+      getCategories()
+        .then((res) => {
+          setCategories(res), setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching categories:", error);
+        });
     })();
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -95,9 +103,17 @@ export default function NavBar() {
           </button>
         </div>
       </nav>
-      <div className="flex justify-center items-center">
-        {categories &&
-          categories.map((category) => <DropDownItem category={category} />)}
+      <div className="md:flex justify-center min-h-5 gap-4 items-center hidden bg-blue-300 dark:bg-blue-950">
+        {!loading && (
+          <>
+            {categories.map((category) => (
+              <div key={category.id}>
+                <DropDownItem category={category} />
+              </div>
+            ))}
+            <DropDownItem category={Tours} />
+          </>
+        )}
       </div>
     </header>
   );

@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import NavBar from "@/components/NavBar";
+import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import HistoricalSection from "@/components/HistoricalSection";
 import NatureSection from "@/components/NatureSection";
@@ -14,7 +14,7 @@ import { ErrorBoundary } from "react-error-boundary";
 export default function page() {
   return (
     <div className="text-center relative">
-      <NavBar />
+      <Header />
       <div className="w-full mt-4 justify-center flex items-center">
         <Hero />
       </div>
