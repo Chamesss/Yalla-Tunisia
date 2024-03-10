@@ -7,6 +7,7 @@ import DropDownItem from "./utils/DropDownItem";
 import { getCategories } from "@/lib/getLandingData";
 import { CategoryType } from "@/Types";
 import { Tours } from "./utils/Constants";
+import { Button, Divider } from "@nextui-org/react";
 
 export default function Header() {
   // const authenticatedNavigationItems = [
@@ -50,7 +51,7 @@ export default function Header() {
   return (
     <header
       id="navbar"
-      className="bg-white dark:bg-[#293749] shadow-sm fixed w-full z-50 top-0"
+      className="bg-white dark:bg-[#293749] fixed w-full z-50 top-0"
     >
       <nav
         className={`flex flex-row transition-all duration-500 ease-in-out justify-between items-center w-[92%]  mx-auto ${
@@ -103,17 +104,33 @@ export default function Header() {
           </button>
         </div>
       </nav>
-      <div className="md:flex justify-center min-h-5 gap-4 items-center hidden bg-blue-300 dark:bg-blue-950">
-        {!loading && (
-          <>
-            {categories.map((category) => (
-              <div key={category.id}>
-                <DropDownItem category={category} />
+      <div>
+        <Divider />
+        <div className="md:flex w-full justify-between min-h-5 gap-4 items-center hidden">
+          {!loading && (
+            <div className="flex justify-between w-full items-center px-4">
+              <div className="flex flex-row">
+                {categories.map((category) => (
+                  <div key={category.id}>
+                    <DropDownItem category={category} />
+                  </div>
+                ))}
+                <DropDownItem category={Tours} />
               </div>
-            ))}
-            <DropDownItem category={Tours} />
-          </>
-        )}
+              <div className="flex justify-self-end">
+                <Button
+                  className="mr-10"
+                  size="sm"
+                  variant="bordered"
+                  radius="full"
+                >
+                  Sell Item
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+        <Divider />
       </div>
     </header>
   );
