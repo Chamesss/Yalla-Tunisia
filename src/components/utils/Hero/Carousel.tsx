@@ -36,7 +36,7 @@ export default function SimpleSlider({ data }: Props) {
             <img
               src={img.image}
               alt={`${img.image}`}
-              className="w-full max-h-[550px] object-cover rounded-sm"
+              className="w-full max-h-[550px] object-cover rounded-3xl"
             />
             <HeroButton name={img.button} link={img.link} />
           </div>

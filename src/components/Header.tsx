@@ -99,7 +99,7 @@ export default function Header() {
         </div>
         <div className="flex items-center gap-6">
           <ThemeSwitcher />
-          <button className="bg-[#a6c1ee] dark:bg-[#425b86] px-5 py-2 rounded-full hover:bg-[#6f8cbe] dark:hover:bg-[#364a6d]">
+          <button className="bg-[#48b9ff] text-white dark:bg-[#3d9cd7] px-5 py-2 rounded-full hover:bg-[#41a6e5] dark:hover:bg-[#3688bc]">
             Sign in
           </button>
         </div>
@@ -116,7 +116,7 @@ export default function Header() {
               </div>
               <div className="flex justify-self-end py-2">
                 <Button
-                  className="mr-10"
+                  className="mr-10 bg-white dark:bg-black ring-1 border-none ring-[#48b9ff] dark:ring-[#48b9ff]"
                   size="sm"
                   variant="bordered"
                   radius="full"

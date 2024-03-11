@@ -22,7 +22,7 @@ export default function SearchBar() {
       />
     );
   return (
-    <div className="flex-row items-center hidden md:flex bg-slate-50 dark:bg-[#212933] justify-center gap-2 rounded-lg shadow-md px-4 py-3">
+    <div className="flex-row items-center hidden md:flex bg-slate-50 gap-4 dark:bg-[#212933] justify-center gap-2 rounded-full shadow-md py-2 px-3">
       <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110">
         <Filter
           height="1.75rem"
@@ -30,18 +30,12 @@ export default function SearchBar() {
           color={resolvedTheme === "light" ? "#3b3b3b" : "white"}
         />
       </div>
-      <div className="inline-block min-h-[1em] w-0.5 self-stretch bg-neutral-200 dark:bg-white/10" />
       <input
         className="w-full outline-none border-none bg-slate-50 dark:bg-[#212933]"
         placeholder="Search..."
       />
-      <div className="inline-block min-h-[1em] w-0.5 self-stretch bg-neutral-200 dark:bg-white/10" />
-      <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110">
-        <Search
-          height="1.75rem"
-          width="1.75rem"
-          color={resolvedTheme === "light" ? "#3b3b3b" : "white"}
-        />
+      <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110 bg-[#48b9ff] p-1.5 rounded-full">
+        <Search height="1.75rem" width="1.75rem" color="white" />
       </div>
     </div>
   );
