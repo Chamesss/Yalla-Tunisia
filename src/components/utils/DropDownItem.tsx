@@ -8,7 +8,7 @@ interface DropdownItemProps {
 export default function DropdownItem({ category }: DropdownItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row h-full">
       <div
         className="relative inline-block text-left"
         onMouseEnter={() => setIsOpen(true)}
@@ -17,7 +17,7 @@ export default function DropdownItem({ category }: DropdownItemProps) {
         {/* Trigger button */}
         <button
           type="button"
-          className={`inline-flex justify-center w-full px-4 py-2 text-sm font-medium ${
+          className={`inline-flex items-center h-full justify-center w-full px-4 py-2 text-sm font-medium ${
             isOpen ? "bg-gray-50 dark:bg-slate-950" : ""
           }`}
           onClick={() => setIsOpen((prev) => !prev)}

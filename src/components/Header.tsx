@@ -1,13 +1,13 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ThemeSwitcher } from "./utils/ToggleDarkMode";
 import HeaderDrawer from "./utils/Drawer";
 import DropDownItem from "./utils/DropDownItem";
 import { getCategories } from "@/lib/getLandingData";
 import { CategoryType } from "@/Types";
 import { Tours } from "./utils/Constants";
-import { Button, Divider } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 
 export default function Header() {
   // const authenticatedNavigationItems = [
@@ -105,19 +105,16 @@ export default function Header() {
         </div>
       </nav>
       <div>
-        <Divider />
-        <div className="md:flex w-full justify-between min-h-5 gap-4 items-center hidden">
+        <div className="md:flex w-full justify-between min-h-10 gap-4 items-center hidden">
           {!loading && (
-            <div className="flex justify-between w-full items-center px-4">
-              <div className="flex flex-row">
+            <div className="flex justify-between w-full items-center px-4 bg-gray-200 dark:bg-gray-900">
+              <div className="flex flex-row place-self-stretch items-center">
                 {categories.map((category) => (
-                  <div key={category.id}>
-                    <DropDownItem category={category} />
-                  </div>
+                  <DropDownItem key={category.id} category={category} />
                 ))}
                 <DropDownItem category={Tours} />
               </div>
-              <div className="flex justify-self-end">
+              <div className="flex justify-self-end py-2">
                 <Button
                   className="mr-10"
                   size="sm"
@@ -130,7 +127,6 @@ export default function Header() {
             </div>
           )}
         </div>
-        <Divider />
       </div>
     </header>
   );
