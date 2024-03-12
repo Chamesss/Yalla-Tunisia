@@ -36,7 +36,7 @@ function SamplePrevArrow(props: any) {
 export default function SimpleSlider({ data }: any) {
   let settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 5,
@@ -48,7 +48,7 @@ export default function SimpleSlider({ data }: any) {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: true,
+          infinite: false,
           dots: false,
         },
       },
@@ -59,6 +59,7 @@ export default function SimpleSlider({ data }: any) {
           slidesToScroll: 2,
           initialSlide: 2,
           dots: false,
+          Infinity: false,
         },
       },
     ],

@@ -105,7 +105,7 @@ export default function Header() {
         </div>
       </nav>
       <div>
-        <div className="md:flex w-full justify-between min-h-10 gap-4 items-center hidden">
+        <div className="md:flex w-full justify-between min-h-0 md:min-h-10 gap-4 items-center hidden">
           {!loading && (
             <div className="flex justify-between w-full items-center px-4 bg-gray-200 dark:bg-gray-900">
               <div className="flex flex-row place-self-stretch items-center">

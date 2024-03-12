@@ -7,13 +7,13 @@ export default function CardItem({ data }: any) {
     data.title.length > 20 ? data.title.slice(0, 20) + "..." : data.title;
 
   return (
-    <div className="p-1 md:p-4">
-      <Card className="py-0 min-w-32 md:w-48 lg:w-56 shadow-[0_0px_12px_-5px_rgba(0,0,0,0.1)] hover:scale-[103%] cursor-pointer rounded-sm">
+    <div className="p-1 md:p-4 flex items-center justify-center">
+      <Card className="py-0 min-w-32 md:w-48 lg:w-56 shadow-[0_0px_12px_-5px_rgba(0,0,0,0.1)] hover:scale-[103%] cursor-pointer rounded-xl">
         <CardHeader className="p-0 overflow-hidden rounded-sm bg-white items-center justify-center">
           <Image
             alt="Card background"
-            className="object-cover rounded-none h-48 w-48 bg-white"
-            src={data.picture}
+            className="object-cover rounded-none w-full bg-blue-200"
+            src={data.pictures}
           />
         </CardHeader>
         <CardBody className="overflow-hidden py-2 px-2">

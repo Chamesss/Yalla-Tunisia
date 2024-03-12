@@ -62,7 +62,7 @@ import Colosseum from "./icons/Colosseum";
 export default function HistoricalSection() {
   return (
     <>
-      <div className="relative w-full h-fit flex gap-4 lg:flex-row flex-col-reverse justify-between lg:mt-10 mt-20">
+      <div className="relative overflow-hidden w-full h-fit flex gap-4 lg:flex-row flex-col-reverse justify-between lg:mt-10 mt-20">
         <div className="absolute lg:top-[-5%] md:top-[30%] lg:w-[60%] top-10 md:right-[10%] md:w-[80%] opacity-[0.075]">
           <Colosseum />
         </div>

@@ -1,13 +1,17 @@
-"use client";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Filter from "../icons/Filter";
 import Search from "../icons/Search";
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import { Button } from "@nextui-org/react";
 
-export default function SearchBar() {
+type Props = {
+  setMounted: Dispatch<SetStateAction<boolean>>;
+  mounted: boolean;
+};
+
+export default function SearchBar({ setMounted, mounted }: Props) {
   const { theme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   if (!mounted)
     return (
@@ -22,7 +26,7 @@ export default function SearchBar() {
       />
     );
   return (
-    <div className="flex-row items-center hidden md:flex bg-slate-50 gap-4 dark:bg-[#212933] justify-center gap-2 rounded-full shadow-md py-2 px-3">
+    <div className="flex-row items-center hidden md:flex bg-slate-50 gap-4 dark:bg-[#212933] justify-center rounded-full shadow-md py-1.5 px-3">
       <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110">
         <Filter
           height="1.75rem"
@@ -34,8 +38,8 @@ export default function SearchBar() {
         className="w-full outline-none border-none bg-slate-50 dark:bg-[#212933]"
         placeholder="Search..."
       />
-      <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110 bg-[#48b9ff] p-1.5 rounded-full">
-        <Search height="1.75rem" width="1.75rem" color="white" />
+      <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110 bg-[#48b9ff] dark:bg-[#3d9cd7] p-2 rounded-full">
+        <Search height="1.5rem" width="1.5rem" color="white" />
       </div>
     </div>
   );

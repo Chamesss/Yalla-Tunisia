@@ -32,7 +32,9 @@ export default function page() {
         <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
           <Guide />
         </div>
-        <Reviews />
+        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
+          <Reviews />
+        </div>
         <Join />
         <Footer />
       </div>

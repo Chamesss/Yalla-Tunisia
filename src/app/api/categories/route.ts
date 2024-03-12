@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server"
 import { fetchData } from "../utils/Endpoint"
 
+export const revalidate = 0
+
 export async function GET() {
     const res = await fetchData("/categories")
-    //const data = await res.json()
     return NextResponse.json(res)
 }

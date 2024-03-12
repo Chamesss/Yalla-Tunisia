@@ -9,12 +9,8 @@ interface HeroButtonProps {
 
 export default function HeroButton({ name, link }: HeroButtonProps) {
   return (
-    <Link
-      href={`${link}`}
-      className="absolute flex items-center gap-4 rounded-lg bottom-[40%] bg-black/50 text-sm text-white md:text-lg p-2 md:p-4 left-[10%] transition-all duration-500 ease-in-out cursor-pointer hover:scale-110"
-    >
-      {name}
-      <IconArrowRight height={20} width={20} />
-    </Link>
+    <p className="text-white font-bold z-20 text-lg md:text-4xl absolute top-10 md:top-20 mx-auto left-0 right-0">
+      Lorem ipsum dolor, {name}
+    </p>
   );
 }
