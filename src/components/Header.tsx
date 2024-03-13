@@ -7,8 +7,17 @@ import DropDownItem from "./utils/DropDownItem";
 import { getCategories } from "@/lib/getLandingData";
 import { CategoryType } from "@/Types";
 import { Tours } from "./utils/Constants";
-import { Button } from "@nextui-org/react";
 import { useTheme } from "next-themes";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+} from "@nextui-org/react";
+import LoginModal from "@/app/Modals/LoginModal";
 
 export default function Header() {
   // const authenticatedNavigationItems = [
@@ -25,10 +34,11 @@ export default function Header() {
   // const navigationItems = notAuthenticatedNavigationItems;
 
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [IsOpen, setIsOpen] = useState(false);
   const [categories, setCategories] = useState<CategoryType[] | []>([]);
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const { resolvedTheme } = useTheme();
   useEffect(() => {
@@ -65,7 +75,7 @@ export default function Header() {
         }`}
       >
         <div className="flex flex-row items-center gap-4">
-          <HeaderDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
+          <HeaderDrawer isOpen={IsOpen} setIsOpen={setIsOpen} />
           {mounted && (
             <img
               className="w-16 cursor-pointer"
@@ -111,9 +121,12 @@ export default function Header() {
         </div>
         <div className="flex items-center gap-6">
           <ThemeSwitcher />
-          <button className="bg-[#48b9ff] text-white dark:bg-[#3d9cd7] px-5 py-2 rounded-full hover:bg-[#41a6e5] dark:hover:bg-[#3688bc]">
+          <Button
+            onPress={onOpen}
+            className="bg-[#48b9ff] text-white dark:bg-[#3d9cd7] px-5 py-2 rounded-full hover:bg-[#41a6e5] dark:hover:bg-[#3688bc]"
+          >
             Sign in
-          </button>
+          </Button>
         </div>
       </nav>
       <div>
@@ -140,6 +153,7 @@ export default function Header() {
           )}
         </div>
       </div>
+      <LoginModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </header>
   );
 }
