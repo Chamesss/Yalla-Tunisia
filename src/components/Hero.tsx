@@ -16,10 +16,7 @@ export default function Hero() {
   const [mounted, setMounted] = useState(false);
 
   return (
-    <div
-      id="hero"
-      className={`relative items-center lg:mt-[120px] md:mt-[140px] mt-16 justify-center md:px-2 w-[100%]`}
-    >
+    <div className={`relative items-center justify-center md:px-2 w-[100%]`}>
       <Carousel data={data} />
       <div className="absolute bottom-[50%] translate-y-[50%] left-0 right-0 mx-auto w-[50%]">
         <div className="flex flex-col gap-2">

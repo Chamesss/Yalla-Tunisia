@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className=" rounded-lg shadow m-4 bg-black w-full place-self-center">
+    <footer className=" rounded-lg shadow m-4 bg-black w-[100%] place-self-center">
       <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
         <span className="text-sm sm:text-center text-gray-400">
           © 2024{" "}

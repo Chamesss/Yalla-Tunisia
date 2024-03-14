@@ -9,7 +9,7 @@ export default function page() {
   const valid = defaultSections.includes(search);
   return (
     <div>
-      <p>search validity {valid}</p>
+      <p>search validity === {valid.toString()}</p>
       <p>search param === {search}</p>
     </div>
   );

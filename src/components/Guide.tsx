@@ -1,6 +1,7 @@
 import CarouselItems from "./utils/CarouselItems";
 import { getGuides } from "@/lib/getLandingData";
 import { Button } from "@nextui-org/react";
+import Link from "next/link";
 
 //getStaticProps()
 
@@ -13,9 +14,11 @@ export default async function Guides() {
           <h1 className="text-xl font-bold tracking-wide">Browse Guides</h1>
           <p>Explore newest Guides</p>
         </div>
-        <Button className="px-4 py-0 bg-black/50 text-white transition-all rounded-lg hover:scale-105">
-          Show more
-        </Button>
+        <Link href={`/listings?section=guides`}>
+          <Button className="px-4 py-0 bg-black/50 text-white transition-all rounded-lg hover:scale-105">
+            Show more
+          </Button>
+        </Link>
       </div>
       <CarouselItems data={data} />
     </div>

@@ -13,7 +13,6 @@ import { ErrorBoundary } from "react-error-boundary";
 export default function page() {
   return (
     <div className="text-center relative">
-      <Header />
       <div className="w-full mt-4 justify-center flex items-center">
         <Hero />
       </div>
@@ -34,7 +33,6 @@ export default function page() {
         <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
           <Reviews />
         </div>
-        <Footer />
       </div>
     </div>
   );

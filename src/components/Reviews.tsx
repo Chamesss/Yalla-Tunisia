@@ -62,6 +62,7 @@ export default function Reviews() {
       <div className="flex h-auto lg:h-[300px] lg:flex-row flex-col p-2 justify-between gap-8">
         {Array.map((_, i) => (
           <div
+            key={i}
             className={`dark:bg-black transition-all duration-200 ease-soft-spring hover:scale-105 bg-white h-fit hover:-translate-y-2 shadow-[0_0px_60px_-30px_rgba(0,0,0,0.3)] p-2 rounded-lg ${
               i !== 1 ? " place-self-end" : "place-self-start"
             }`}

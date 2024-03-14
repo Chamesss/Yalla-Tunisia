@@ -54,21 +54,10 @@ export default function Header() {
           console.error("Error fetching categories:", error);
         });
     })();
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsHeaderFixed(scrollPosition > 0);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
 
   return (
-    <header
-      id="navbar"
-      className="bg-white dark:bg-[#000000] fixed w-full z-50 top-0"
-    >
+    <header className="bg-white dark:bg-[#000000] fixed w-full z-50 top-0">
       <nav
         className={`flex flex-row transition-all duration-500 ease-in-out justify-between items-center w-[92%]  mx-auto ${
           isHeaderFixed ? "py-3" : "py-5"
