@@ -11,7 +11,6 @@ import {
 } from "react";
 
 export default function CarouselImages({ data }: any) {
-  console.log(data);
   let settings = {
     dots: true,
     infinite: false,
@@ -32,39 +31,29 @@ export default function CarouselImages({ data }: any) {
         | null
         | undefined
     ) => (
-      <div
-        style={{
-          backgroundColor: "#ddd",
-          borderRadius: "10px",
-          padding: "10px",
-        }}
-      >
-        <ul style={{ margin: "0px" }}> {dots} </ul>
+      <div className="w-full bg-green-950">
+        <ul className="bg-blue-500 gap-10"> {dots} </ul>
       </div>
     ),
     customPaging: (i: number) => (
-      <div
-        style={{
-          width: "30px",
-          color: "blue",
-          border: "1px blue solid",
-        }}
-      >
-        {i + 1}
+      <div className="w-full bg-slate-500">
+        <img src={data[i]} className="!w-[50px] h-[30px]" alt="photo" />
       </div>
     ),
   };
   return (
-    <Slider {...settings} className="gap-4">
-      {data.map((d: any, i: number) => (
-        <Image
-          className="p-2 bg-yellow-200 object-contain"
-          src={d}
-          width={150}
-          height={150}
-          alt="Listing picture"
-        />
-      ))}
-    </Slider>
+    <div className="relative w-[30rem] h-[30rem]">
+      <Slider {...settings}>
+        {data.map((d: any, i: number) => (
+          <div>
+            <img
+              src={d}
+              alt="Listing picture"
+              className="object-cover w-full h-full"
+            />
+          </div>
+        ))}
+      </Slider>
+    </div>
   );
 }

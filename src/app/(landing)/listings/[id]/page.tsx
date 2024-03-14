@@ -9,7 +9,7 @@ export default async function page({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-row p-4">
       <div className="flex flex-row">
-        <div className="bg-green-200">
+        <div className="bg-green-200 ">
           <CarouselImages data={pictureArray} />
         </div>
         <div className="p-2 bg-red-200">
