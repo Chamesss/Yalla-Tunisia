@@ -7,9 +7,9 @@ export default async function page({ params }: { params: { id: string } }) {
   const data: ItemType = res[0];
   const pictureArray = Array(5).fill(data.pictures);
   return (
-    <div className="flex flex-row p-4">
+    <div className="flex flex-row p-4 mb-20">
       <div className="flex flex-row">
-        <div className="bg-green-200 ">
+        <div>
           <CarouselImages data={pictureArray} />
         </div>
         <div className="p-2 bg-red-200">

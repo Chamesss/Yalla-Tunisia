@@ -8,9 +8,12 @@ import {
   ReactNode,
   ReactPortal,
   PromiseLikeOfReactNode,
+  useState,
+  SetStateAction,
 } from "react";
 
 export default function CarouselImages({ data }: any) {
+  const [activeSlide, setActiveSlide] = useState(0);
   let settings = {
     dots: true,
     infinite: false,
@@ -19,6 +22,9 @@ export default function CarouselImages({ data }: any) {
     slidesToScroll: 1,
     nextArrow: <ArrowNull />,
     prevArrow: <ArrowNull />,
+    beforeChange: (_: any, next: SetStateAction<number>) => {
+      setActiveSlide(next);
+    },
     appendDots: (
       dots:
         | string
@@ -31,13 +37,17 @@ export default function CarouselImages({ data }: any) {
         | null
         | undefined
     ) => (
-      <div className="w-full bg-green-950">
-        <ul className="bg-blue-500 gap-10"> {dots} </ul>
+      <div className="w-full">
+        <ul className="gap-12 justify-center flex"> {dots} </ul>
       </div>
     ),
     customPaging: (i: number) => (
-      <div className="w-full bg-slate-500">
-        <img src={data[i]} className="!w-[50px] h-[30px]" alt="photo" />
+      <div
+        className={`w-[3.8rem] h-[3.8rem] shadow-lg overflow-hidden rounded-lg hover:outline-1 hover:outline focus:outline focus:outline-1 focus:scale-110 outline-black transition-all ease-in-out duration-100 -translate-x-5 hover:scale-110 bg-slate-500 ${
+          activeSlide === i && "scale-110"
+        }`}
+      >
+        <img src={data[i]} className="w-full h-full" alt="photo" />
       </div>
     ),
   };
@@ -49,7 +59,7 @@ export default function CarouselImages({ data }: any) {
             <img
               src={d}
               alt="Listing picture"
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-full transition-all"
             />
           </div>
         ))}
