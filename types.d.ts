@@ -29,6 +29,7 @@ interface ItemType {
   status: boolean;
   banned: boolean;
   views: number;
+  sizes: string[];
   category: [
     {
       id: number | string;
