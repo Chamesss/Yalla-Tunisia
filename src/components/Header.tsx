@@ -39,11 +39,12 @@ export default function Header() {
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   const { resolvedTheme } = useTheme();
+
   useEffect(() => {
     setMounted(true);
   }, []);
+
   useEffect(() => {
     (async () => {
       getCategories()
@@ -54,6 +55,17 @@ export default function Header() {
           console.error("Error fetching categories:", error);
         });
     })();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY || window.pageYOffset;
+      scrollPosition === 0 ? setIsHeaderFixed(false) : setIsHeaderFixed(true);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (

@@ -1,7 +1,6 @@
 "use client";
 import Slider from "react-slick";
 import { ArrowNull } from "@/components/utils/Hero/Carousel";
-import Image from "next/image";
 import {
   ReactElement,
   JSXElementConstructor,
