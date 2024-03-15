@@ -48,3 +48,25 @@ interface ItemType {
     }
   ];
 };
+
+interface userType {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  tel: number;
+  picture: string;
+  seller: boolean;
+  admin: boolean;
+  created_at: Date
+  lng: number;
+  lat: number;
+  status: boolean;
+  banned: boolean;
+  city: [
+    {
+      id: number | string;
+      name: string;
+    }
+  ];
+};
