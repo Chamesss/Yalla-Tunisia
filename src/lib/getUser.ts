@@ -1,7 +1,10 @@
-const baseURL = process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://project-tourism-nnszmantm-chamesss-projects.vercel.app";
+const isDevelopment = process.env.NODE_ENV === 'development';
 
+const apiUrl = isDevelopment
+    ? 'http://localhost:3000'
+    : process.env.NEXT_PUBLIC_API_URL;
 export async function getUser(id: string) {
-    const res = await fetch(`${baseURL}/api/getuser?id=${id}`)
+    const res = await fetch(`${apiUrl}/api/getuser?id=${id}`)
     if (!res.ok) throw new Error
     return res.json()
 }

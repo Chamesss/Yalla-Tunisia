@@ -1,23 +1,28 @@
-const baseURL = process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://project-tourism-nnszmantm-chamesss-projects.vercel.app";
+
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+const apiUrl = isDevelopment
+    ? 'http://localhost:3000'
+    : process.env.NEXT_PUBLIC_API_URL;
 
 export async function getHomeMades() {
-    const res = await fetch(`${baseURL}/api/handmades/`)
+    const res = await fetch(`${apiUrl}/api/handmades/`)
     if (!res.ok) throw new Error
     return res.json()
 }
 export async function getSports() {
-    const res = await fetch(`${baseURL}/api/sports/`)
+    const res = await fetch(`${apiUrl}/api/sports/`)
     if (!res.ok) throw new Error
     return res.json()
 }
 export async function getGuides() {
-    const res = await fetch(`${baseURL}/api/guide/`)
+    const res = await fetch(`${apiUrl}/api/guide/`)
     if (!res.ok) throw new Error
     return res.json()
 }
 
 export async function getCategories() {
-    const res = await fetch(`${baseURL}/api/categories/`)
+    const res = await fetch(`${apiUrl}/api/categories/`)
     if (!res.ok) throw new Error
     return res.json()
 }
