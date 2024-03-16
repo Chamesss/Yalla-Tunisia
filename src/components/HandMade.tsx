@@ -14,7 +14,12 @@ export default async function Handmades() {
           <h1 className="text-xl font-bold tracking-wide">Browse Handmades</h1>
           <p>Explore newest articles</p>
         </div>
-        <Link href={`/listings?section=handmades`}>
+        <Link
+          href={{
+            pathname: "/listings",
+            query: { flag: "handmades" },
+          }}
+        >
           <Button className="px-4 py-0 bg-black/50 text-white transition-all rounded-lg hover:scale-105">
             Show more
           </Button>

@@ -14,7 +14,12 @@ export default async function Sports() {
           <h1 className="text-xl font-bold tracking-wide">Browse Sports</h1>
           <p>Explore newest Sports</p>
         </div>
-        <Link href={`/listings?section=sports&entertainment`}>
+        <Link
+          href={{
+            pathname: "/listings",
+            query: { flag: "sports&entertainment" },
+          }}
+        >
           <Button className="px-4 py-0 bg-black/50 text-white transition-all rounded-lg hover:scale-105">
             Show more
           </Button>

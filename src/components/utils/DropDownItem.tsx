@@ -42,8 +42,11 @@ export default function DropdownItem({ category }: DropdownItemProps) {
         {isOpen && category.subcategories && (
           <div className="origin-top overflow-hidden mt-[0.5px] absolute right-0 left-0 w-56 rounded-md shadow-lg ring-1 bg-white dark:bg-slate-700 first-letter ring-black ring-opacity-5 divide-y divide-gray-100">
             {/* Dropdown items */}
-            {category.subcategories.map((d: any) => (
-              <div className="flex flex-row items-center justify-between p-1.5 dark:hover:bg-slate-950 hover:bg-gray-100 cursor-pointer">
+            {category.subcategories.map((d: any, i: number) => (
+              <div
+                key={i}
+                className="flex flex-row items-center justify-between p-1.5 dark:hover:bg-slate-950 hover:bg-gray-100 cursor-pointer"
+              >
                 <span className="block over px-4 py-2 text-sm text-gray-700 dark:text-white">
                   {d.name}
                 </span>

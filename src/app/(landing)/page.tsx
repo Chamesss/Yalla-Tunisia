@@ -7,7 +7,6 @@ import HandMade from "@/components/HandMade";
 import SportsEntertainment from "@/components/SportsEntertainment";
 import Guide from "@/components/Guide";
 import Reviews from "@/components/Reviews";
-import Footer from "@/components/Footer";
 import { ErrorBoundary } from "react-error-boundary";
 
 export default function page() {

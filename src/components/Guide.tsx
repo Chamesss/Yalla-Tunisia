@@ -14,7 +14,12 @@ export default async function Guides() {
           <h1 className="text-xl font-bold tracking-wide">Browse Guides</h1>
           <p>Explore newest Guides</p>
         </div>
-        <Link href={`/listings?section=guides`}>
+        <Link
+          href={{
+            pathname: "/listings",
+            query: { flag: "guides" },
+          }}
+        >
           <Button className="px-4 py-0 bg-black/50 text-white transition-all rounded-lg hover:scale-105">
             Show more
           </Button>

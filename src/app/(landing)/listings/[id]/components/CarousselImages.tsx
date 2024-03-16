@@ -54,7 +54,7 @@ export default function CarouselImages({ data }: any) {
     <div className="relative w-[30rem] h-[30rem]">
       <Slider {...settings}>
         {data.map((d: any, i: number) => (
-          <div>
+          <div key={i}>
             <img
               src={d}
               alt="Listing picture"

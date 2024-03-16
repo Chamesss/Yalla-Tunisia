@@ -1,16 +1,5 @@
-"use client";
-import { useSearchParams } from "next/navigation";
-
-const defaultSections = ["handmades", "guides", "sports&entertainment"];
+import MainComponent from "./components/MainComponent";
 
 export default function page() {
-  const searchParams = useSearchParams();
-  const search = searchParams.get("section") as string;
-  const valid = defaultSections.includes(search);
-  return (
-    <div>
-      <p>search validity === {valid.toString()}</p>
-      <p>search param === {search}</p>
-    </div>
-  );
+  return <MainComponent />;
 }
