@@ -4,7 +4,7 @@ import { fetchData } from "../utils/Endpoint"
 export const revalidate = 0
 
 export async function GET() {
-    const res = await fetchData("/listings")
-    const filteredData = res.filter((item: { category: { id: number }[] }) => item.category[0].id === 2)
-    return NextResponse.json(filteredData)
+    // const res = await fetchData("/listings")
+    // const filteredData = res.filter((item: { category: { id: number }[] }) => item.category[0].id === 2)
+    // return NextResponse.json(filteredData)
 }
