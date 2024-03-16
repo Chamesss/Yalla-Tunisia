@@ -10,6 +10,7 @@ import Reviews from "@/components/Reviews";
 import { ErrorBoundary } from "react-error-boundary";
 
 export default function page() {
+  if (!process.env.NEXT_PUBLIC_API_URL) return null;
   return (
     <div className="text-center relative">
       <div className="w-full mt-4 justify-center flex items-center">

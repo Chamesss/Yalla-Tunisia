@@ -4,6 +4,7 @@ import GuidePage from "./components/GuidePage";
 import SportsAndEntertainmentPage from "./components/SportsAndEntertainmentPage";
 
 export default async function page({ params }: { params: { id: string } }) {
+  if (!process.env.NEXT_PUBLIC_API_URL) return null;
   const res = await getItem(params.id);
   const data: ItemType = res[0];
   const flag = data.category[0].id;
