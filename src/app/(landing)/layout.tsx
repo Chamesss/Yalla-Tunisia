@@ -6,13 +6,17 @@ export default function layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <div>
-      <div className="lg:mb-[8.75rem] md:mb-[9.375rem] mb-[6.25rem]">
-        <Header />
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return (
+      <div>
+        <div className="lg:mb-[8.75rem] md:mb-[9.375rem] mb-[6.25rem]">
+          <Header />
+        </div>
+        {children}
+        <Footer />
       </div>
-      {children}
-      <Footer />
-    </div>
-  );
+    );
+  } else {
+    return <p>app</p>;
+  }
 }
