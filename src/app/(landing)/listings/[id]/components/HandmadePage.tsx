@@ -14,6 +14,7 @@ import {
 import Location from "@/components/icons/Location";
 import MapSection from "./components/MapSection";
 import CheckOutBox from "./components/CheckOutBox";
+import MapScrollable from "./components/MapScrollable";
 
 type Props = {
   data: ItemType;
@@ -86,24 +87,7 @@ export default async function HandmadePage({ data }: Props) {
               </span>
             </p>
           </blockquote>
-          <p className="w-full text-sm font-medium text-center mt-4 flex flex-row items-center justify-center gap-2 cursor-pointer hover:underline">
-            Check on map
-            <svg
-              className={"h-fit w-fit transform center transition-all"}
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-              width={20}
-            >
-              <path
-                className="translate-y-[3px]"
-                fillRule="evenodd"
-                d="M10 12l-6-6 1.5-1.5L10 9l4.5-4.5L16 6l-6 6z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </p>
+          <MapScrollable />
         </div>
 
         <div className="w-[75%] p-4">
@@ -111,7 +95,7 @@ export default async function HandmadePage({ data }: Props) {
         </div>
         {/* <p className="font-medium">Views: {data.views}</p> */}
       </div>
-      <div className="mt-28 w-full">
+      <div id="targetSection" className="mt-28 w-full">
         <MapSection lat={user.lat} lng={user.lng} />
       </div>
     </div>
