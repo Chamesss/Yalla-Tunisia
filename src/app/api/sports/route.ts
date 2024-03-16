@@ -7,4 +7,5 @@ export async function GET() {
     // const res = await fetchData("/listings")
     // const filteredData = res.filter((item: { category: { id: number }[] }) => item.category[0].id === 2)
     // return NextResponse.json(filteredData)
+    return Response.json({ data: "hello world" });
 }

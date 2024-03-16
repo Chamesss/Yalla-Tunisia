@@ -7,4 +7,5 @@ export async function GET(request: Request) {
     // const filteredData = res.filter((d: { id: string | null }) => d.id === id)
 
     // return Response.json(filteredData)
+    return Response.json({ data: "hello world" });
 }

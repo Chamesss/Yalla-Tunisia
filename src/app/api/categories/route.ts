@@ -6,4 +6,5 @@ export const revalidate = 0
 export async function GET() {
     // const res = await fetchData("/categories")
     // return NextResponse.json(res)
+    return Response.json({ data: "hello world" });
 }
