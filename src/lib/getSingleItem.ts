@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:3000"
+const baseURL = process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://project-tourism-nnszmantm-chamesss-projects.vercel.app";
 
 export async function getItem(id: string) {
     const res = await fetch(`${baseURL}/api/listings?id=${id}`)
