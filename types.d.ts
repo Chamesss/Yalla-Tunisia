@@ -59,11 +59,13 @@ interface userType {
   picture: string;
   seller: boolean;
   admin: boolean;
-  created_at: Date
+  created_at: Date;
   lng: number;
   lat: number;
   status: boolean;
   banned: boolean;
+  trusted: boolean;
+  description: string;
   city: [
     {
       id: number | string;

@@ -15,7 +15,7 @@ export default function SelectionMenu() {
       <DropdownTrigger>
         <Button
           variant="bordered"
-          className="px-unit-0 rounded-md min-w-unit-5 h-unit-5 items-center justify-center flex outline-none"
+          className="px-unit-0 rounded-md min-w-unit-5 h-unit-5 items-center justify-center border-none flex"
         >
           <svg
             className={`h-fit w-fit transform center transition-all ${
