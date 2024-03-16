@@ -12,6 +12,8 @@ import {
   User,
 } from "@nextui-org/react";
 import Location from "@/components/icons/Location";
+import MapSection from "./components/MapSection";
+import CheckOutBox from "./components/CheckOutBox";
 
 type Props = {
   data: ItemType;
@@ -23,12 +25,12 @@ export default async function HandmadePage({ data }: Props) {
   const user: userType = res[0];
 
   return (
-    <div className="flex flex-row p-4 mb-20 ">
-      <div className="flex flex-row w-[70%] gap-6">
+    <div className="flex flex-col py-4 mb-20 px-8 ">
+      <div className="flex flex-row gap-6 relative">
         <div className="bg-gray-500 rounded-xl">
           <CarouselImages data={pictureArray} />
         </div>
-        <div className="p-2 w-full">
+        <div className="p-2 w-full overflow-y-auto">
           <div className="flex flex-row justify-between items-center">
             <span className="text-2xl font-semibold tracking-wide flex flex-row text-[#fd384f]">
               <p className="text-3xl">{data.price}&nbsp;</p>
@@ -103,7 +105,14 @@ export default async function HandmadePage({ data }: Props) {
             </svg>
           </p>
         </div>
+
+        <div className="w-[75%] p-4">
+          <CheckOutBox />
+        </div>
         {/* <p className="font-medium">Views: {data.views}</p> */}
+      </div>
+      <div className="mt-28 w-full">
+        <MapSection lat={user.lat} lng={user.lng} />
       </div>
     </div>
   );
