@@ -1,6 +1,7 @@
 "use client";
 import ThemeProvider from "@/providers/ThemeProvider";
 import { NextUIProvider } from "@nextui-org/react";
+import { ReduxProvider } from "@/providers/ReduxProvider";
 
 export default function Providers({
   children,
@@ -8,8 +9,10 @@ export default function Providers({
   children: React.ReactNode;
 }>) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <NextUIProvider>{children}</NextUIProvider>
-    </ThemeProvider>
+    <ReduxProvider>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <NextUIProvider>{children}</NextUIProvider>
+      </ThemeProvider>
+    </ReduxProvider>
   );
 }
