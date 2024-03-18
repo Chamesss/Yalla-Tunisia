@@ -21,6 +21,8 @@ import {
   ModalBody,
   ModalHeader,
 } from "@nextui-org/react";
+import { useFormState } from "react-dom";
+import { addUser } from "./ActionRegister";
 
 interface LoginModalProps {
   setRegister: Dispatch<SetStateAction<boolean>>; // Type the prop
@@ -28,9 +30,6 @@ interface LoginModalProps {
 
 export default function RegisterModal({ setRegister }: LoginModalProps) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [city, setCity] = useState(""); // For location selection
-  const [otherCustomizations, setOtherCustomizations] = useState({}); // For other user details
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
   const [selectedOption, setSelectedOption] = useState("");
@@ -38,45 +37,19 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+  const [formState, formAction] = useFormState(addUser, null);
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    //   setIsLoading(true);
-    //   setError(null); // Clear previous errors when a new request starts
-    console.log("aaaa");
-    console.log(event);
-    try {
-      const formData = new FormData(event.currentTarget);
-      console.log(formData);
-      return;
-      const response = await fetch("/api/submit", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to submit the data. Please try again.");
-      }
-
-      // Handle response if necessary
-      const data = await response.json();
-      // ...
-    } catch (error) {
-      // Capture the error message to display to the user
-      // setError(error.message);
-      console.error(error);
-    }
-  }
-
+  //handle autocomplete
   useEffect(() => {
     const filterOptions = cities
       .filter((option) =>
         option.city.toLowerCase().startsWith(searchTerm.toLowerCase())
       )
-      .map((option) => option.city); // Extracting city names
+      .map((option) => option.city);
     setFilteredOptions(filterOptions);
   }, [searchTerm, cities]);
 
+  //handleLocationTyping
   const handleInputChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
@@ -84,12 +57,14 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
     setSearch(event.target.value);
   };
 
+  //handleLocationSelection
   const handleOptionSelect = (option: React.SetStateAction<string>) => {
     setSearchTerm(option);
     setSelectedOption(option);
     setSearch("");
   };
 
+  //handlePhotoSelection
   const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -108,7 +83,7 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
       <form
         className="flex flex-col justify-center items-center gap-4"
         autoComplete="off"
-        onSubmit={onSubmit}
+        action={formAction}
       >
         <div className="flex items-center justify-center flex-col">
           <input
@@ -117,6 +92,7 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
             onChange={handlePhotoChange}
             className="hidden"
             id="photoInput"
+            name="picture"
           />
           <label htmlFor="photoInput" className="cursor-pointer">
             <div className="h-32 w-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
@@ -172,6 +148,7 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
             required
             autoComplete="off"
             type="text"
+            name="lastname"
           />
         </div>
         <Input
@@ -180,10 +157,11 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
           label="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          id="email"
+          name="email"
           required
           autoComplete="off"
-          type="text"
-          name="email"
+          type="email"
         />
 
         <div className="relative w-full flex justify-center mb-10">
@@ -193,6 +171,7 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
             onChange={handleInputChange}
             className="w-full bg-white/10 rounded-xl"
             label="Location"
+            name="location"
           />
           {search && (
             <ul className="absolute z-10 top-full w-[90%] left-0 right-0 mx-auto bg-white border border-gray-300 rounded-md shadow-md mt-1">
@@ -212,13 +191,23 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
             </ul>
           )}
         </div>
-        <button
+        <Button
           className="mt-1 w-[95%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
           size="lg"
           type="submit"
         >
-          Register
-        </button>
+          {formState === null ? (
+            "Register"
+          ) : formState?.success ? (
+            <>
+              <span>user Created !</span>
+            </>
+          ) : (
+            <>
+              <span>user creation failed...</span>
+            </>
+          )}
+        </Button>
         <p
           className="text-[#41a6e5] cursor-pointer hover:underline"
           onClick={() => setRegister(false)}
