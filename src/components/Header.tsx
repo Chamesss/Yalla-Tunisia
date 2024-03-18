@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ThemeSwitcher } from "./utils/ToggleDarkMode";
 import HeaderDrawer from "./utils/Drawer";
 import DropDownItem from "./utils/DropDownItem";
@@ -8,16 +8,8 @@ import { getCategories } from "@/lib/getLandingData";
 import { CategoryType } from "@/Types";
 import { Tours } from "./utils/Constants";
 import { useTheme } from "next-themes";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-} from "@nextui-org/react";
-import LoginModal from "@/app/Modals/LoginModal";
+import { Button, useDisclosure } from "@nextui-org/react";
+import ModalWindow from "@/app/Modals/ModalWindow";
 
 export default function Header() {
   // const authenticatedNavigationItems = [
@@ -39,6 +31,7 @@ export default function Header() {
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
@@ -154,7 +147,7 @@ export default function Header() {
           )}
         </div>
       </div>
-      <LoginModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      <ModalWindow isOpen={isOpen} onOpenChange={onOpenChange} />
     </header>
   );
 }

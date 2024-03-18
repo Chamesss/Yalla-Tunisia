@@ -3,7 +3,6 @@ import { fetchData } from "@/app/api/utils/Endpoint"
 export async function getHomeMades() {
     // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/handmades/`)
     const res = await fetchData("/listings")
-    console.log(res)
     if (!res.ok) throw new Error
     const data = await res.json()
     const filteredData = data.filter((item: { category: { id: number }[] }) => item.category[0].id === 1)
