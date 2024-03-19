@@ -8,14 +8,6 @@ import rootReducer from './rootReducer';
 import storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer } from 'redux-persist';
 
-// ----------------------------------------------------------------------
-
-// Define the root state type using the ReturnType utility of TypeScript
-export type RootState = ReturnType<typeof rootReducer>;
-
-// Define the type for dispatching actions from the store
-export type AppDispatch = typeof store.dispatch;
-
 const persistConfig = {
     key: 'root',
     storage,
@@ -34,13 +26,26 @@ const store = configureStore({
 
 const persistor = persistStore(store)
 
+export { store, persistor };
+
+
+
+// ----------------------------------------------------------------------
+
+// // Define the root state type using the ReturnType utility of TypeScript
+// export type RootState = ReturnType<typeof rootReducer>;
+
+// // Define the type for dispatching actions from the store
+// export type AppDispatch = typeof store.dispatch;
+
 // Extract the dispatch function from the store for convenience
-const { dispatch } = store;
+//const { dispatch } = store;
 
-const useSelector: TypedUseSelectorHook<RootState> = useAppSelector;
+// const useSelector: TypedUseSelectorHook<RootState> = useAppSelector;
 
-// Create a custom useDispatch hook with typed dispatch
-const useDispatch = () => useAppDispatch<AppDispatch>();
+// // Create a custom useDispatch hook with typed dispatch
+// const useDispatch = () => useAppDispatch<AppDispatch>();
 
 // Export the Redux store, dispatch, useSelector, and useDispatch for use in components
-export { store, persistor, dispatch, useSelector, useDispatch };
+
+//export {dispatch, useSelector, useDisptach}

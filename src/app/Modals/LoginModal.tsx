@@ -1,15 +1,6 @@
 "use client";
 import React, { Dispatch, SetStateAction, useState } from "react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  Input,
-  Checkbox,
-} from "@nextui-org/react";
+import { Button, Input, Checkbox } from "@nextui-org/react";
 import IconEyeInvisible from "@/components/icons/EyeClosed";
 import IconEye from "@/components/icons/EyeOpened";
 import Link from "next/link";
@@ -40,7 +31,10 @@ export default function LoginModal({ setRegister }: LoginModalProps) {
   }
 
   return (
-    <form action={formAction}>
+    <form
+      action={formAction}
+      className="w-full flex flex-col gap-4 items-center"
+    >
       <Input
         type="email"
         value={email}

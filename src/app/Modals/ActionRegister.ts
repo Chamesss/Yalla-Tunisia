@@ -3,7 +3,6 @@ import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { db, auth } from "../../../firebase.config";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { addUserSession, userSlice } from "@/redux/slices/userSlice";
-import { useDispatch } from "react-redux";
 import { Dispatch, ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
 
 type loginProps = {

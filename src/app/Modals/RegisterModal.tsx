@@ -2,37 +2,23 @@
 import React, {
   ChangeEvent,
   Dispatch,
-  FormEvent,
   SetStateAction,
   useEffect,
   useState,
 } from "react";
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { cities } from "@/cities";
-import { db, auth } from "../../../firebase.config";
-import { collection, doc, setDoc } from "firebase/firestore";
-import {
-  Autocomplete,
-  AutocompleteItem,
-  Button,
-  Input,
-  Modal,
-  ModalBody,
-  ModalHeader,
-} from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { useFormState } from "react-dom";
 import { addUser } from "./ActionRegister";
 
 interface LoginModalProps {
-  setRegister: Dispatch<SetStateAction<boolean>>; // Type the prop
+  setRegister: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function RegisterModal({ setRegister }: LoginModalProps) {
   const [email, setEmail] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
-  const [selectedOption, setSelectedOption] = useState("");
   const [search, setSearch] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -60,7 +46,6 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
   //handleLocationSelection
   const handleOptionSelect = (option: React.SetStateAction<string>) => {
     setSearchTerm(option);
-    setSelectedOption(option);
     setSearch("");
   };
 
@@ -124,7 +109,7 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
         </div>
         <div className="flex flex-row gap-4 w-full justify-center">
           <Input
-            className="w-[100%] bg-white/10 rounded-xl"
+            className="w-[100%]"
             type="text"
             value={firstname}
             onChange={(e) => setFirstname(e.target.value)}
@@ -140,7 +125,7 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
             name="firstname"
           />
           <Input
-            className="max-w-sm bg-white/10 rounded-xl"
+            className="max-w-sm"
             variant={"bordered"}
             label="Lastname"
             value={lastname}
@@ -152,7 +137,7 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
           />
         </div>
         <Input
-          className="w-full bg-white/10 rounded-xl"
+          className="w-full"
           variant={"bordered"}
           label="Email"
           value={email}
@@ -169,7 +154,7 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
             variant={"bordered"}
             value={searchTerm}
             onChange={handleInputChange}
-            className="w-full bg-white/10 rounded-xl"
+            className="w-full"
             label="Location"
             name="location"
           />
@@ -199,13 +184,9 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
           {formState === null ? (
             "Register"
           ) : formState?.success ? (
-            <>
-              <span>user Created !</span>
-            </>
+            <span>user Created !</span>
           ) : (
-            <>
-              <span>user creation failed...</span>
-            </>
+            <span>user creation failed...</span>
           )}
         </Button>
         <p
@@ -218,29 +199,3 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
     </div>
   );
 }
-
-//   const handleSubmit = async (event: { preventDefault: () => void }) => {
-//     event.preventDefault();
-
-//     try {
-//       const userCredential = await createUserWithEmailAndPassword(
-//         auth,
-//         email,
-//         password
-//       );
-
-//       // Add custom user data to Firestore (optional)
-//       const userRef = doc(collection(db, "users"), userCredential.user.uid);
-//       await setDoc(userRef, {
-//         email,
-//         city,
-//         ...otherCustomizations, // Add other fields as needed
-//       });
-
-//       console.log("User created successfully!", userCredential.user);
-//       // Handle successful registration (e.g., redirect to login page)
-//     } catch (error) {
-//       console.error("Registration failed:", error);
-//       // Handle registration errors (e.g., display error message to user)
-//     }
-//   };
