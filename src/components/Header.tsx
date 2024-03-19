@@ -10,8 +10,10 @@ import { Tours } from "./utils/Constants";
 import { useTheme } from "next-themes";
 import { Button, useDisclosure } from "@nextui-org/react";
 import ModalWindow from "@/app/Modals/ModalWindow";
-import { userState } from "@/redux/slices/userSlice";
+import { userSlice, userState } from "@/redux/slices/userSlice";
 import { useSelector } from "react-redux";
+import Image from "next/image";
+import ProfileDropDown from "./HeaderComponents/ProfileDropDown";
 
 export default function Header() {
   // const authenticatedNavigationItems = [
@@ -34,7 +36,7 @@ export default function Header() {
   const [mounted, setMounted] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { resolvedTheme } = useTheme();
-  const user = useSelector(userState);
+  const user: userSlice = useSelector(userState);
 
   useEffect(() => {
     setMounted(true);
@@ -51,10 +53,6 @@ export default function Header() {
         });
     })();
   }, []);
-
-  useEffect(() => {
-    console.log("header user === ", user);
-  }, [user]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -121,12 +119,16 @@ export default function Header() {
         </div>
         <div className="flex items-center gap-6">
           <ThemeSwitcher />
-          <Button
-            onPress={onOpen}
-            className="bg-[#48b9ff] text-white dark:bg-[#3d9cd7] px-5 py-2 rounded-full hover:bg-[#41a6e5] dark:hover:bg-[#3688bc]"
-          >
-            Sign in
-          </Button>
+          {user.isLogged && user.user ? (
+            <ProfileDropDown user={user.user} />
+          ) : (
+            <Button
+              onPress={onOpen}
+              className="bg-[#48b9ff] text-white dark:bg-[#3d9cd7] px-5 py-2 rounded-full hover:bg-[#41a6e5] dark:hover:bg-[#3688bc]"
+            >
+              Sign in
+            </Button>
+          )}
         </div>
       </nav>
       <div>

@@ -43,7 +43,7 @@ const userSlice = createSlice({
             state.user = resources.user
             state.isLogged = resources.isLogged
         },
-        logOutSession(state, _) {
+        logOutSession(state) {
             state.user = null
             state.isLogged = false
         }
@@ -51,5 +51,5 @@ const userSlice = createSlice({
 });
 
 export const { addUserSession, logOutSession } = userSlice.actions;
-export const userState = (state: userSlice) => state.user
+export const userState = (state: { user: any; }) => state.user
 export default userSlice.reducer;

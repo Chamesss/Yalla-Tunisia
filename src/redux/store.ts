@@ -26,7 +26,9 @@ const store = configureStore({
 
 const persistor = persistStore(store)
 
-export { store, persistor };
+export type AppDispatch = typeof store.dispatch;
+const useDispatch = () => useAppDispatch<AppDispatch>();
+export { store, persistor, useDispatch };
 
 
 
@@ -44,7 +46,6 @@ export { store, persistor };
 // const useSelector: TypedUseSelectorHook<RootState> = useAppSelector;
 
 // // Create a custom useDispatch hook with typed dispatch
-// const useDispatch = () => useAppDispatch<AppDispatch>();
 
 // Export the Redux store, dispatch, useSelector, and useDispatch for use in components
 
