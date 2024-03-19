@@ -1,5 +1,5 @@
 "use client";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -13,18 +13,34 @@ import {
 import IconEyeInvisible from "@/components/icons/EyeClosed";
 import IconEye from "@/components/icons/EyeOpened";
 import Link from "next/link";
+import { useFormState } from "react-dom";
+import { Login } from "./ActionRegister";
+import { useDispatch } from "@/redux/store";
 
 interface LoginModalProps {
   setRegister: Dispatch<SetStateAction<boolean>>; // Type the prop
 }
 
 export default function LoginModal({ setRegister }: LoginModalProps) {
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const toggleVisibility = () => setIsVisible(!isVisible);
+  const [isVisible, setIsVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [formState, formAction] = useFormState(handleLogin, null);
+  const dispatch = useDispatch();
+
+  async function handleLogin(prevState: any, formData: FormData) {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    try {
+      const res = await Login({ email, password, dispatch });
+      console.log(res);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return (
-    <>
+    <form action={formAction}>
       <Input
         type="email"
         value={email}
@@ -32,6 +48,7 @@ export default function LoginModal({ setRegister }: LoginModalProps) {
         variant={"bordered"}
         label="Email"
         onChange={(e) => setEmail(e.target.value)}
+        name="email"
       />
       <Input
         label="Password"
@@ -39,11 +56,12 @@ export default function LoginModal({ setRegister }: LoginModalProps) {
         variant="bordered"
         placeholder="Enter your password"
         onChange={(e) => setPassword(e.target.value)}
+        name="password"
         endContent={
           <button
             className="focus:outline-none"
             type="button"
-            onClick={toggleVisibility}
+            onClick={() => setIsVisible(!isVisible)}
           >
             {isVisible ? (
               <IconEye className="text-2xl text-default-400 pointer-events-none" />
@@ -68,6 +86,7 @@ export default function LoginModal({ setRegister }: LoginModalProps) {
       <Button
         className="mt-1 w-[95%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
         size="lg"
+        type="submit"
       >
         Login
       </Button>
@@ -80,6 +99,6 @@ export default function LoginModal({ setRegister }: LoginModalProps) {
           Register.
         </span>
       </p>
-    </>
+    </form>
   );
 }

@@ -10,6 +10,8 @@ import { Tours } from "./utils/Constants";
 import { useTheme } from "next-themes";
 import { Button, useDisclosure } from "@nextui-org/react";
 import ModalWindow from "@/app/Modals/ModalWindow";
+import { userState } from "@/redux/slices/userSlice";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   // const authenticatedNavigationItems = [
@@ -31,8 +33,8 @@ export default function Header() {
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { resolvedTheme } = useTheme();
+  const user = useSelector(userState);
 
   useEffect(() => {
     setMounted(true);
@@ -49,6 +51,10 @@ export default function Header() {
         });
     })();
   }, []);
+
+  useEffect(() => {
+    console.log("header user === ", user);
+  }, [user]);
 
   useEffect(() => {
     const handleScroll = () => {

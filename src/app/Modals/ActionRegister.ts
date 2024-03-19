@@ -1,7 +1,18 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { getStorage, ref, uploadString, getDownloadURL, uploadBytes } from "firebase/storage";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { db, auth } from "../../../firebase.config";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { addUserSession, userSlice } from "@/redux/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { Dispatch, ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
+
+type loginProps = {
+    email: string,
+    password: string,
+    dispatch: ThunkDispatch<{
+        user: userSlice;
+    }, undefined, UnknownAction> & Dispatch<UnknownAction>
+}
 
 export async function addUser(prevState: any, formData: FormData) {
     const email = formData.get("email") as string
@@ -42,4 +53,17 @@ export async function addUser(prevState: any, formData: FormData) {
         return { success: false }
     }
 
+}
+
+export async function Login({ email, password, dispatch }: loginProps) {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password)
+        const docRef = doc(db, "users", userCredential.user.uid);
+        const docSnap = await getDoc(docRef);
+        const userData = docSnap.data()
+        dispatch(addUserSession({ user: userData, isLogged: true }))
+        return { success: true }
+    } catch (e) {
+        console.log(e)
+    }
 }
