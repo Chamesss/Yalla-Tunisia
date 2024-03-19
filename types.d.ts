@@ -1,3 +1,6 @@
+/// <reference types="redux-persist" />
+
+
 interface IconFilteringProps {
   className?: string;
   title?: string;
