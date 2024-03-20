@@ -17,7 +17,10 @@ export default function ProfileDropDown({ user }: Props) {
     <div>
       <Dropdown>
         <DropdownTrigger>
-          <img className="w-10 h-10 rounded-full" src={user?.picture} />
+          <img
+            className="w-10 h-10 rounded-full cursor-pointer hover:opacity-80"
+            src={user?.picture}
+          />
         </DropdownTrigger>
         <DropdownMenu aria-label="Dynamic Actions">
           <DropdownItem onClick={logout} className="text-danger" color="danger">

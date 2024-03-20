@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ThemeSwitcher } from "./utils/ToggleDarkMode";
-import HeaderDrawer from "./utils/Drawer";
+import HeaderDrawer from "./utils/Header/Drawer";
 import DropDownItem from "./utils/DropDownItem";
 import { getCategories } from "@/lib/getLandingData";
 import { Tours } from "./utils/Constants";
@@ -11,8 +11,7 @@ import { Button, useDisclosure } from "@nextui-org/react";
 import ModalWindow from "@/app/Modals/ModalWindow";
 import { userSlice, userState } from "@/redux/slices/userSlice";
 import { useSelector } from "react-redux";
-import Image from "next/image";
-import ProfileDropDown from "./HeaderComponents/ProfileDropDown";
+import ProfileDropDown from "./utils/Header/ProfileDropDown";
 
 export default function Header() {
   // const authenticatedNavigationItems = [

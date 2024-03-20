@@ -1,7 +1,8 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import useAuthStatus from "@/middlewares/AuthStatus";
 
-export default function layout({
+export default async function layout({
   children,
 }: Readonly<{
   children: React.ReactNode;

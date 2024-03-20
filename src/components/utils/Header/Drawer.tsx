@@ -1,11 +1,12 @@
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
-import IconThreeBars16 from "../icons/ThreeBars";
+import IconThreeBars16 from "../../icons/ThreeBars";
 import { Accordion, AccordionItem, Button, Divider } from "@nextui-org/react";
 import Link from "next/link";
 import { User } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import useLogout from "@/hooks/useLogout";
+import { useEffect } from "react";
 
 interface HeaderDrawerProps {
   isOpen: boolean;
@@ -43,6 +44,10 @@ export default function HeaderDrawer({
       name: "Favorites",
       link: "/favorites",
     },
+    {
+      name: "My Listings",
+      link: "/mylistings",
+    },
   ];
 
   const values2 = [
@@ -56,10 +61,18 @@ export default function HeaderDrawer({
     },
   ];
 
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
-  console.log(user);
+
+  const handleLogout = () => {
+    logout();
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -76,12 +89,14 @@ export default function HeaderDrawer({
         <div className="px-4 py-8 flex items-start flex-col w-full bg-white dark:bg-[#000000] h-full">
           {isLogged ? (
             <div>
-              <User
-                className="cursor-pointer hover:underline"
-                name={user?.firstname + " " + user?.lastname}
-                avatarProps={{ src: user?.picture }}
-                description="State"
-              />
+              <Link href="/profile">
+                <User
+                  className="cursor-pointer hover:underline"
+                  name={user?.firstname + " " + user?.lastname}
+                  avatarProps={{ src: user?.picture }}
+                  description="State"
+                />
+              </Link>
             </div>
           ) : (
             <div>
@@ -166,7 +181,7 @@ export default function HeaderDrawer({
             {isLogged && (
               <span
                 className="text-md px-1 py-1 pl-4 font-medium text-danger hover:underline cursor-pointer"
-                onClick={logout}
+                onClick={handleLogout}
               >
                 Logout
               </span>

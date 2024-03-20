@@ -8,8 +8,8 @@ export interface userSlice {
 const initialState: userSlice = {
     user: {
         id: "",
-        first_name: "",
-        last_name: "",
+        firstname: "",
+        lastname: "",
         email: "",
         tel: 0,
         picture: "",

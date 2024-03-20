@@ -2,6 +2,7 @@
 import ThemeProvider from "@/providers/ThemeProvider";
 import { NextUIProvider } from "@nextui-org/react";
 import { ReduxProvider } from "@/providers/ReduxProvider";
+import FirebaseAuth from "@/middlewares/AuthStatus";
 
 export default function Providers({
   children,
@@ -11,7 +12,9 @@ export default function Providers({
   return (
     <ReduxProvider>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <NextUIProvider>{children}</NextUIProvider>
+        <NextUIProvider>
+          <FirebaseAuth>{children}</FirebaseAuth>
+        </NextUIProvider>
       </ThemeProvider>
     </ReduxProvider>
   );
