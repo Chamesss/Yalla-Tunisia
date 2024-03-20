@@ -72,13 +72,15 @@ export default function Header() {
         }`}
       >
         <div className="flex flex-row items-center gap-4">
-          <HeaderDrawer
-            isOpen={IsOpen}
-            setIsOpen={setIsOpen}
-            user={user.user}
-            isLogged={user.isLogged}
-            categories={categories}
-          />
+          {!loading && (
+            <HeaderDrawer
+              isOpen={IsOpen}
+              setIsOpen={setIsOpen}
+              user={user.user}
+              isLogged={user.isLogged}
+              categories={categories}
+            />
+          )}
           {mounted && (
             <img
               className="w-16 cursor-pointer"

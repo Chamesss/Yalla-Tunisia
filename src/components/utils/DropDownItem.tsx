@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { CategoryType } from "@/Types";
 
 interface DropdownItemProps {
   category: CategoryType;

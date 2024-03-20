@@ -5,6 +5,7 @@ import { Accordion, AccordionItem, Button, Divider } from "@nextui-org/react";
 import Link from "next/link";
 import { User } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
+import useLogout from "@/hooks/useLogout";
 
 interface HeaderDrawerProps {
   isOpen: boolean;
@@ -21,7 +22,7 @@ export default function HeaderDrawer({
   isLogged,
   categories,
 }: HeaderDrawerProps) {
-  console.log(categories);
+  const logout = useLogout();
   const pathname = usePathname();
   const values0 = [
     {
@@ -165,12 +166,14 @@ export default function HeaderDrawer({
                 {item.name}
               </Link>
             ))}
-            <Link
-              className="text-md px-1 py-1 pl-4 font-medium text-danger hover:underline"
-              href="#"
-            >
-              Logout
-            </Link>
+            {isLogged && (
+              <span
+                className="text-md px-1 py-1 pl-4 font-medium text-danger hover:underline cursor-pointer"
+                onClick={logout}
+              >
+                Logout
+              </span>
+            )}
           </div>
         </div>
       </Drawer>
