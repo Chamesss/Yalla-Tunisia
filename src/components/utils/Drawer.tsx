@@ -5,13 +5,13 @@ import { Accordion, AccordionItem, Button, Divider } from "@nextui-org/react";
 import Link from "next/link";
 import { User } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 interface HeaderDrawerProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: userType | null;
   isLogged: boolean;
+  categories: CategoryType[];
 }
 
 export default function HeaderDrawer({
@@ -19,7 +19,9 @@ export default function HeaderDrawer({
   setIsOpen,
   user,
   isLogged,
+  categories,
 }: HeaderDrawerProps) {
+  console.log(categories);
   const pathname = usePathname();
   const values0 = [
     {
@@ -114,25 +116,6 @@ export default function HeaderDrawer({
                   ))}
                 </>
               )}
-
-              {/* <Link className="text-md font-medium hover:underline" href="/">
-                Home
-              </Link>
-              {isLogged && (
-                <Link className="text-md font-medium hover:underline" href="#">
-                  Add Listing
-                </Link>
-              )}
-              {isLogged && (
-                <Link className="text-md font-medium hover:underline" href="#">
-                  Cart
-                </Link>
-              )}
-              {isLogged && (
-                <Link className="text-md font-medium hover:underline" href="#">
-                  Favorites
-                </Link>
-              )} */}
             </div>
             <Divider />
             <Accordion
@@ -144,17 +127,29 @@ export default function HeaderDrawer({
               }}
             >
               <AccordionItem key="1" aria-label="Handmades" title="Handmades">
-                <p className="ml-2 text-sm italic">Value</p>
+                {categories[0].subcategories.map((d) => (
+                  <p className="ml-2 text-sm py-1 italic cursor-pointer hover:underline">
+                    {d.name}
+                  </p>
+                ))}
               </AccordionItem>
               <AccordionItem
                 key="2"
                 aria-label="Sports & Entertainments"
                 title="Sports & Entertainments"
               >
-                <p className="ml-2 text-sm italic">Value</p>
+                {categories[1].subcategories.map((d) => (
+                  <p className="ml-2 text-sm py-1 italic cursor-pointer hover:underline">
+                    {d.name}
+                  </p>
+                ))}
               </AccordionItem>
               <AccordionItem key="3" aria-label="Guides" title="Guides">
-                <p className="ml-2 text-sm italic">Value</p>
+                {categories[2].subcategories.map((d) => (
+                  <p className="ml-2 text-sm py-1 italic cursor-pointer hover:underline">
+                    {d.name}
+                  </p>
+                ))}
               </AccordionItem>
             </Accordion>
             <Divider />

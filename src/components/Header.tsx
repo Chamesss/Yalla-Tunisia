@@ -77,6 +77,7 @@ export default function Header() {
             setIsOpen={setIsOpen}
             user={user.user}
             isLogged={user.isLogged}
+            categories={categories}
           />
           {mounted && (
             <img
