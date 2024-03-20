@@ -5,7 +5,6 @@ import { ThemeSwitcher } from "./utils/ToggleDarkMode";
 import HeaderDrawer from "./utils/Drawer";
 import DropDownItem from "./utils/DropDownItem";
 import { getCategories } from "@/lib/getLandingData";
-import { CategoryType } from "@/Types";
 import { Tours } from "./utils/Constants";
 import { useTheme } from "next-themes";
 import { Button, useDisclosure } from "@nextui-org/react";
@@ -73,7 +72,12 @@ export default function Header() {
         }`}
       >
         <div className="flex flex-row items-center gap-4">
-          <HeaderDrawer isOpen={IsOpen} setIsOpen={setIsOpen} />
+          <HeaderDrawer
+            isOpen={IsOpen}
+            setIsOpen={setIsOpen}
+            user={user.user}
+            isLogged={user.isLogged}
+          />
           {mounted && (
             <img
               className="w-16 cursor-pointer"

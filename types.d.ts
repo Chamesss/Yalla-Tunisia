@@ -55,8 +55,8 @@ interface ItemType {
 
 interface userType {
   id: string;
-  first_name: string;
-  last_name: string;
+  firstname: string;
+  lastname: string;
   email: string;
   tel: number;
   picture: string;
@@ -76,3 +76,15 @@ interface userType {
     }
   ];
 };
+
+interface SubCategoryType {
+  id: string;
+  name: string;
+  picture: string;
+}
+interface CategoryType {
+  id: string;
+  name: string;
+  picture: string;
+  subcategories: SubCategoryType[];
+}
