@@ -93,10 +93,9 @@ export default function HeaderDrawer({
             <div className="px-0 flex flex-col gap-2 w-full">
               <Link
                 href="/"
-                className={`text-md text-white px-1 py-1 rounded-lg pl-4 font-medium hover:underline w-full ${
-                  pathname === values0[0].link
-                    ? "bg-[#3091CC] dark:bg-gray-800 bg"
-                    : ""
+                className={`text-md px-1 py-1 rounded-lg pl-4 font-medium hover:underline w-full ${
+                  pathname === values0[0].link &&
+                  "bg-[#3091CC] text-white dark:bg-gray-800 bg"
                 }`}
               >
                 Home
@@ -107,9 +106,8 @@ export default function HeaderDrawer({
                     <Link
                       href={item.link}
                       className={`text-md px-1 py-1 rounded-lg pl-4 font-medium hover:underline w-full ${
-                        pathname === item.link
-                          ? "bg-[#3091CC] dark:bg-gray-800 bg text-white"
-                          : "text-black dark:text-white"
+                        pathname === item.link &&
+                        "bg-[#3091CC] dark:bg-gray-800 bg text-white"
                       }`}
                     >
                       {item.name}
@@ -158,9 +156,8 @@ export default function HeaderDrawer({
               <Link
                 href={item.link}
                 className={`text-md px-1 py-1 rounded-lg pl-4 font-medium hover:underline w-full ${
-                  pathname === item.link
-                    ? "bg-[#3091CC] dark:bg-gray-800 bg text-white"
-                    : "text-black dark:text-white"
+                  pathname === item.link &&
+                  "bg-[#3091CC] dark:bg-gray-800 bg text-white"
                 }`}
               >
                 {item.name}
