@@ -6,7 +6,6 @@ import {
   JSXElementConstructor,
   ReactNode,
   ReactPortal,
-  PromiseLikeOfReactNode,
   useState,
   SetStateAction,
 } from "react";
@@ -32,7 +31,6 @@ export default function CarouselImages({ data }: any) {
         | ReactElement<any, string | JSXElementConstructor<any>>
         | Iterable<ReactNode>
         | ReactPortal
-        | PromiseLikeOfReactNode
         | null
         | undefined
     ) => (
