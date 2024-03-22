@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
-import { db, auth } from "../../../firebase.config";
+import { db, auth } from "../../../firebase";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { addUserSession, userSlice } from "@/redux/slices/userSlice";
 import { Dispatch, ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
