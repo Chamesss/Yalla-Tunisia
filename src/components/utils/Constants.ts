@@ -1,5 +1,3 @@
-import { CategoryType } from "@/Types"
-
 export const Tours: CategoryType = {
     id: "Tours",
     name: "Tours",
