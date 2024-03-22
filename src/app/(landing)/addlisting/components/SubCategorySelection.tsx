@@ -1,17 +1,20 @@
 import { Select, SelectItem } from "@nextui-org/react";
 
 interface data {
-  categories: CategoryType[];
+  // categories: CategoryType[];
   loading: boolean;
 }
 
-export default function SubCategorySelection({ categories, loading }: data) {
+export default function SubCategorySelection({
+  // categories,
+  loading,
+}: data) {
   if (loading) {
     return <p>Loading...</p>;
   }
   return (
     <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-      <Select
+      {/* <Select
         size="sm"
         isRequired
         label="Select Categories"
@@ -23,7 +26,7 @@ export default function SubCategorySelection({ categories, loading }: data) {
             {d.name}
           </SelectItem>
         ))}
-      </Select>
+      </Select> */}
     </div>
   );
 }

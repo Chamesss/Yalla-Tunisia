@@ -2,24 +2,24 @@ import { Select, SelectItem } from "@nextui-org/react";
 import { Dispatch, SetStateAction } from "react";
 
 interface data {
-  categories: CategoryType[];
+  // categories: CategoryType[];
   loading: boolean;
-  setCategorySelected: Dispatch<SetStateAction<Set<never>>>;
-  categorySelected: Set<never>;
+  // setCategorySelected: Dispatch<SetStateAction<Set<never>>>;
+  // categorySelected: Set<never>;
 }
 
 export default function CategorySelection({
-  categories,
+  // categories,
   loading,
-  setCategorySelected,
-}: data) {
+}: // setCategorySelected,
+data) {
   if (loading) {
     return <p>Loading...</p>;
   }
 
   return (
     <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-      <Select
+      {/* <Select
         size="sm"
         isRequired
         label="Select Categories"
@@ -31,7 +31,7 @@ export default function CategorySelection({
             {d.name}
           </SelectItem>
         ))}
-      </Select>
+      </Select> */}
     </div>
   );
 }
