@@ -156,15 +156,21 @@ export default function HeaderDrawer({
                 aria-label="Sports & Entertainments"
                 title="Sports & Entertainments"
               >
-                {categories[1].subcategories.map((d) => (
-                  <p className="ml-2 text-sm py-1 italic cursor-pointer hover:underline">
+                {categories[1].subcategories.map((d, i) => (
+                  <p
+                    key={i}
+                    className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
+                  >
                     {d.name}
                   </p>
                 ))}
               </AccordionItem>
               <AccordionItem key="3" aria-label="Guides" title="Guides">
-                {categories[2].subcategories.map((d) => (
-                  <p className="ml-2 text-sm py-1 italic cursor-pointer hover:underline">
+                {categories[2].subcategories.map((d, i) => (
+                  <p
+                    key={i}
+                    className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
+                  >
                     {d.name}
                   </p>
                 ))}
