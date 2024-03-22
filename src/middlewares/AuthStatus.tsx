@@ -9,7 +9,6 @@ export default function FirebaseAuth({
   children: React.ReactNode;
 }) {
   const dispatch = useDispatch();
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
@@ -21,13 +20,14 @@ export default function FirebaseAuth({
       } else {
         // Dispatch action to logout user session
         dispatch(logOutSession());
-        setUser(null);
+        //setUser(null);
       }
     });
+    console.log("something affected");
 
     // Cleanup function
     return () => unsubscribe();
-  }, []);
+  }, [auth]);
 
   return <div>{children} </div>;
 }

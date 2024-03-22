@@ -117,8 +117,9 @@ export default function HeaderDrawer({
               </Link>
               {isLogged && (
                 <>
-                  {values1.map((item, index) => (
+                  {values1.map((item, i) => (
                     <Link
+                      key={i}
                       href={item.link}
                       className={`text-md px-1 py-1 rounded-lg pl-4 font-medium hover:underline w-full ${
                         pathname === item.link &&
@@ -141,8 +142,11 @@ export default function HeaderDrawer({
               }}
             >
               <AccordionItem key="1" aria-label="Handmades" title="Handmades">
-                {categories[0].subcategories.map((d) => (
-                  <p className="ml-2 text-sm py-1 italic cursor-pointer hover:underline">
+                {categories[0].subcategories.map((d, i) => (
+                  <p
+                    key={i}
+                    className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
+                  >
                     {d.name}
                   </p>
                 ))}
@@ -167,8 +171,9 @@ export default function HeaderDrawer({
               </AccordionItem>
             </Accordion>
             <Divider />
-            {values2.map((item, index) => (
+            {values2.map((item, i) => (
               <Link
+                key={i}
                 href={item.link}
                 className={`text-md px-1 py-1 rounded-lg pl-4 font-medium hover:underline w-full ${
                   pathname === item.link &&
