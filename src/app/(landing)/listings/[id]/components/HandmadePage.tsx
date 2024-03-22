@@ -67,7 +67,7 @@ export default async function HandmadePage({ data }: Props) {
               {/* )} */}
             </div>
             <div>
-              <span>{user.first_name + " " + user.last_name}</span>
+              <span>{user.firstname + " " + user.lastname}</span>
               <p className="flex flex-row gap-1 text-sm items-center opacity-50">
                 <Location /> {user.city[0].name}
               </p>
