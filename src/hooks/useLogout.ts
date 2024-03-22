@@ -6,7 +6,7 @@ const useLogout = () => {
 
     const logout = () => {
         dispatch(logOutSession());
-        window.location.reload();
+        //window.location.reload();
     };
 
     return logout;
