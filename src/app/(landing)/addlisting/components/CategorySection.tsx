@@ -1,10 +1,9 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 interface data {
   categories: CategoryType[];
   loading: boolean;
-  setCategoryNameSelected: Dispatch<SetStateAction<string>>;
   setCategoryIdSelected: Dispatch<SetStateAction<number | null>>;
   categoryIdSelected: number | null;
 }
@@ -12,18 +11,24 @@ interface data {
 export default function CategorySection({
   categories,
   loading,
-  setCategoryNameSelected,
   setCategoryIdSelected,
   categoryIdSelected,
 }: data) {
-  const ChooseCategory = (name: string, i: number) => {
-    setCategoryIdSelected(i);
-    setCategoryNameSelected(name);
+  useEffect(() => {
+    console.log("category id selected === ", categoryIdSelected);
+  }, [categoryIdSelected]);
+
+  const ChooseCategory = (i: number) => {
+    setCategoryIdSelected((prev) => {
+      if (prev === i) return null;
+      return i;
+    });
+    console.log("function triggered");
   };
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className=" text-xl font-semibold">Choose a category:</h1>
+      <h1 className="text-xl font-semibold">Choose a category:</h1>
       <div>
         <Select
           size="sm"
@@ -34,7 +39,7 @@ export default function CategorySection({
           {categories.map((d, i) => (
             <SelectItem
               key={d.name}
-              onClick={() => ChooseCategory(d.name, i)}
+              onClick={() => ChooseCategory(i)}
               value={d.name}
             >
               {d.name}
@@ -43,25 +48,27 @@ export default function CategorySection({
         </Select>
       </div>
       <div>
-        <Select
-          size="sm"
-          isRequired
-          label="Select Subcategory"
-          className="max-w-xs"
-          isDisabled={categoryIdSelected === null}
-        >
-          {categoryIdSelected !== null ? (
-            categories[categoryIdSelected].subcategories.map((d) => (
-              <SelectItem key={d.id} value={d.name}>
-                {d.name}
+        {categoryIdSelected !== 2 && (
+          <Select
+            size="sm"
+            isRequired
+            label="Select Subcategory"
+            className="max-w-xs"
+            isDisabled={categoryIdSelected === null || categoryIdSelected === 2}
+          >
+            {categoryIdSelected !== null ? (
+              categories[categoryIdSelected].subcategories.map((d) => (
+                <SelectItem key={d.id} value={d.name}>
+                  {d.name}
+                </SelectItem>
+              ))
+            ) : (
+              <SelectItem key={0} value={0}>
+                {0}
               </SelectItem>
-            ))
-          ) : (
-            <SelectItem key={0} value={0}>
-              {0}
-            </SelectItem>
-          )}
-        </Select>
+            )}
+          </Select>
+        )}
       </div>
     </div>
   );
