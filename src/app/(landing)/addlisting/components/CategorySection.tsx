@@ -30,12 +30,7 @@ export default function CategorySection({
     <div className="flex flex-col gap-4">
       <h1 className="text-xl font-semibold">Choose a category:</h1>
       <div>
-        <Select
-          size="sm"
-          isRequired
-          label="Select Categories"
-          className="max-w-xs"
-        >
+        <Select size="sm" isRequired label="Select Categories">
           {categories.map((d, i) => (
             <SelectItem
               key={d.name}
@@ -53,7 +48,6 @@ export default function CategorySection({
             size="sm"
             isRequired
             label="Select Subcategory"
-            className="max-w-xs"
             isDisabled={categoryIdSelected === null || categoryIdSelected === 2}
           >
             {categoryIdSelected !== null ? (
