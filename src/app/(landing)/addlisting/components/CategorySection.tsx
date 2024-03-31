@@ -28,7 +28,7 @@ export default function CategorySection({
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-xl font-semibold">Choose a category:</h1>
+      <h1 className="text-xl font-semibold">Choose a category</h1>
       <div>
         <Select size="sm" isRequired label="Select Categories">
           {categories.map((d, i) => (

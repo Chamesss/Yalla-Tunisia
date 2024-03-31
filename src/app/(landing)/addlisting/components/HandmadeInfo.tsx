@@ -1,4 +1,5 @@
 import { Input, Textarea } from "@nextui-org/react";
+import AddImages from "./AddImages";
 
 export default function HandmadeInfo() {
   const sizes = ["xs", "sm", "md", "lg", "xl", "2xl"];
@@ -19,9 +20,10 @@ export default function HandmadeInfo() {
           placeholder="Enter your description"
           description="Enter a concise description of your project."
         />
-        <p>Size selection:</p>
+        <h1 className="text-xl font-semibold">Size selection</h1>
         <div className="flex flex-row gap-8 px-4">
           {Object.keys(size).map((key) => {
+            // @ts-ignore
             const value = size[key];
             console.log("value === ", value);
             return (
@@ -34,6 +36,7 @@ export default function HandmadeInfo() {
             );
           })}
         </div>
+        <AddImages />
       </div>
     </div>
   );
