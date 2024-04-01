@@ -31,19 +31,24 @@ export default function MainCreateListing() {
             <LocationSection />
           </div>
         </div>
-        <div className="flex-1 flex flex-col gap-4">
-          <div className="border border-opacity-50 rounded-xl px-4 py-6  gap-4">
-            <div className="justify-center items-center flex w-full h-full">
-              {categoryIdSelected === null && <p>Select a category</p>}
-              {categoryIdSelected === 0 && <HandmadeInfo />}
-              {categoryIdSelected === 1 && <SportsInfo />}
-              {categoryIdSelected === 2 && <GuideInfo />}
-            </div>
-          </div>
-          <div className="px-8 py-2 gap-4 flex justify-between">
-            <Button color="danger">Cancel</Button>
-            <Button color="primary">Submit</Button>
-          </div>
+        <div className="flex-1 items-center justify-center flex flex-col gap-4">
+          {categoryIdSelected === null ? (
+            <p>Select a category</p>
+          ) : (
+            <>
+              <div className="border border-opacity-50 rounded-xl px-4 py-6 w-full h-full gap-4">
+                <div className="justify-center items-center flex w-full h-full">
+                  {categoryIdSelected === 0 && <HandmadeInfo />}
+                  {categoryIdSelected === 1 && <SportsInfo />}
+                  {categoryIdSelected === 2 && <GuideInfo />}
+                </div>
+              </div>
+              <div className="px-8 py-2 gap-4 flex w-full justify-between">
+                <Button color="danger">Cancel</Button>
+                <Button color="primary">Submit</Button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
