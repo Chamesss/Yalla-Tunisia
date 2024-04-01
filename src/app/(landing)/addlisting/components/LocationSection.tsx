@@ -1,5 +1,5 @@
 import { cities } from "@/cities";
-import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import { Autocomplete, AutocompleteItem, Checkbox } from "@nextui-org/react";
 
 export default function LocationSection() {
   return (
@@ -17,6 +17,8 @@ export default function LocationSection() {
           </AutocompleteItem>
         ))}
       </Autocomplete>
+      <p className="my-4 ml-4">Or</p>
+      <Checkbox>Pick current store location.</Checkbox>
     </div>
   );
 }

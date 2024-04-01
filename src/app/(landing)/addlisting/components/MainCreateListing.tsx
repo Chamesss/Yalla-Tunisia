@@ -6,6 +6,7 @@ import HandmadeInfo from "./HandmadeInfo";
 import SportsInfo from "./SportsInfo";
 import GuideInfo from "./GuideInfo";
 import LocationSection from "./LocationSection";
+import { Button } from "@nextui-org/react";
 
 export default function MainCreateListing() {
   const [isSectionSelected, setIsSectionSelected] = useState(false);
@@ -30,13 +31,18 @@ export default function MainCreateListing() {
             <LocationSection />
           </div>
         </div>
-        <div className="border border-opacity-50 rounded-xl px-4 py-6 flex-1 flex flex-col gap-4">
-          <h1 className="text-xl font-semibold">Listing Details</h1>
-          <div className="justify-center items-center flex w-full h-full">
-            {categoryIdSelected === null && <p>Select a category</p>}
-            {categoryIdSelected === 0 && <HandmadeInfo />}
-            {categoryIdSelected === 1 && <SportsInfo />}
-            {categoryIdSelected === 2 && <GuideInfo />}
+        <div className="flex-1 flex flex-col gap-4">
+          <div className="border border-opacity-50 rounded-xl px-4 py-6  gap-4">
+            <div className="justify-center items-center flex w-full h-full">
+              {categoryIdSelected === null && <p>Select a category</p>}
+              {categoryIdSelected === 0 && <HandmadeInfo />}
+              {categoryIdSelected === 1 && <SportsInfo />}
+              {categoryIdSelected === 2 && <GuideInfo />}
+            </div>
+          </div>
+          <div className="px-8 py-2 gap-4 flex justify-between">
+            <Button color="danger">Cancel</Button>
+            <Button color="primary">Submit</Button>
           </div>
         </div>
       </div>
