@@ -53,7 +53,6 @@ export default function RegisterModal({ setRegister }: LoginModalProps) {
   const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      console.log(file);
       const reader = new FileReader();
       reader.onload = () => {
         const result = reader.result as string;

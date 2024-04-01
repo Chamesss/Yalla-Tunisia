@@ -12,3 +12,21 @@
     0 0 16px hsl(0deg 0% 0% / 0.075);
   transform-origin: -70% 60%;
 }
+
+.scrollbar-container::-webkit-scrollbar {
+  width: 4px;
+  height: 8px;
+}
+
+.scrollbar-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.scrollbar-container::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.scrollbar-container::-webkit-scrollbar-button {
+  display: none;
+}

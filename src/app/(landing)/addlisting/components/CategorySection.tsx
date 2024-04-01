@@ -14,16 +14,11 @@ export default function CategorySection({
   setCategoryIdSelected,
   categoryIdSelected,
 }: data) {
-  useEffect(() => {
-    console.log("category id selected === ", categoryIdSelected);
-  }, [categoryIdSelected]);
-
   const ChooseCategory = (i: number) => {
     setCategoryIdSelected((prev) => {
       if (prev === i) return null;
       return i;
     });
-    console.log("function triggered");
   };
 
   return (

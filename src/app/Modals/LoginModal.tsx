@@ -24,7 +24,6 @@ export default function LoginModal({ setRegister }: LoginModalProps) {
     const password = formData.get("password") as string;
     try {
       const res = await Login({ email, password, dispatch });
-      console.log(res);
     } catch (e) {
       console.log(e);
     }

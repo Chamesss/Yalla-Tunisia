@@ -21,7 +21,6 @@ export async function addUser(prevState: any, formData: FormData) {
     const location = formData.get("location")
     const password = '123456'
     if (!email || !firstname || !lastname || !picture) {
-        console.log('fill the form')
         return { success: false }
     }
     const storage = getStorage();
@@ -43,7 +42,6 @@ export async function addUser(prevState: any, formData: FormData) {
             location
         });
 
-        console.log("User created successfully!");
         return {
             success: true,
         };

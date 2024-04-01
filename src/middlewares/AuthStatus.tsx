@@ -16,14 +16,12 @@ export default function FirebaseAuth({
         // Dispatch action to add user session
         //dispatch(addUserSession(firebaseUser));
         //setUser(firebaseUser);
-        console.log("firebase user === ", firebaseUser);
       } else {
         // Dispatch action to logout user session
         dispatch(logOutSession());
         //setUser(null);
       }
     });
-    console.log("something affected");
 
     // Cleanup function
     return () => unsubscribe();

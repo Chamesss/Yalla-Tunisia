@@ -32,15 +32,22 @@ export default function AddImages() {
     }
   };
 
+  const removeImage = (index: number) => {
+    setPreviewImages((prev) => {
+      const filteredImages = prev.filter((_, i) => i !== index);
+      return filteredImages;
+    });
+  };
+
   return (
     <div>
       <h1 className="text-xl font-semibold">Pictures</h1>
-      <div className="flex flex-row justify-center items-center overflow-auto gap-4 relative">
+      <div className="flex flex-row justify-center transition-all items-center overflow-auto gap-4 relative scrollbar-container">
         <input
           type="file"
           id="productImages"
           name="productImages"
-          accept="image/*"
+          accept="image/png, image/jpeg, image/jpg"
           onChange={handleImageChange}
           multiple
           required
@@ -54,23 +61,27 @@ export default function AddImages() {
             <UploadImageIcon className="w-10 h-10" />
           </label>
         </div>
-        <div className="flex gap-4 h-full">
+        <div className="flex gap-4 h-full transition-all">
           {previewImages.map((imageUrl, index) => (
-            <>
-              <div className="flex relative">
-                <img
-                  key={index}
-                  src={imageUrl}
-                  alt={`Product Preview ${index + 1}`}
-                  className="h-44 rounded-sm"
-                />
-                <div className="absolute z-20 w-[30%] h-full right-0 bg-black/50">
-                  <div className="flex z-30 h-full w-full items-center justify-center">
-                    <TrashBin className="text-red-500 cursor-pointer transition-all hover:-translate-y-1" />
-                  </div>
+            <div
+              className="flex h-44 items-center transition-all justify-center flex-shrink-0 relative"
+              key={index}
+            >
+              <img
+                key={index}
+                src={imageUrl}
+                alt={`Product Preview ${index + 1}`}
+                className="h-[95%]  rounded-sm"
+              />
+              <div className="absolute z-20 w-[30%] h-[95%] right-0 bg-black/50">
+                <div className="flex z-30 h-full w-full items-center justify-center">
+                  <TrashBin
+                    onClick={() => removeImage(index)}
+                    className="text-red-500 cursor-pointer transition-all hover:-translate-y-1"
+                  />
                 </div>
               </div>
-            </>
+            </div>
           ))}
         </div>
       </div>
