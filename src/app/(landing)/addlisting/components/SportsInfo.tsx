@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Textarea, Input, Divider, RadioGroup, Radio } from "@nextui-org/react";
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
@@ -13,13 +13,17 @@ export default function SportsInfo() {
   const [selected, setSelected] = useState<Date>();
   const initialDays: Date[] = [];
   const [days, setDays] = useState<Date[] | undefined>();
+  const contentRef = useRef(null);
+  const radioRef = useRef(null);
+  const clockRef = useRef(null);
 
-  const footer =
-    days && days.length > 0 ? (
-      <p>You selected {days.length} day(s).</p>
-    ) : (
-      <p>Please pick one or more days.</p>
-    );
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.style.height = scheduled
+        ? `${clockRef.current.scrollHeight}px`
+        : `${radioRef.current.scrollHeight}px`;
+    }
+  }, [scheduled]);
 
   return (
     <div className="w-full flex items-center justify-center">
@@ -84,9 +88,15 @@ export default function SportsInfo() {
             </RadioGroup>
           </div>
           <Divider className="my-4" />
-          <div className="flex flex-row items-center justify-between w-full">
-            {scheduled && (
-              <div className="flex justify-evenly items-center w-full">
+          <div
+            ref={contentRef}
+            className="flex flex-row h-fit transition-all items-center justify-between w-full overflow-hidden"
+          >
+            {scheduled ? (
+              <div
+                ref={clockRef}
+                className="flex flex-col items-center w-full "
+              >
                 <DayPicker
                   numberOfMonths={2}
                   mode="multiple"
@@ -94,19 +104,17 @@ export default function SportsInfo() {
                   selected={days}
                   onSelect={setDays}
                 />
+                {days && days.length > 0 && <p>{days.length} days selected</p>}
               </div>
+            ) : (
+              <RadioGroup ref={radioRef} label="Program Timing">
+                <Radio value="buenos-aires">Available all time</Radio>
+                <Radio value="sydney">Available all weekends (sat, sun)</Radio>
+                <Radio value="san-francisco">
+                  Available all time except weekend (sat, sun)
+                </Radio>
+              </RadioGroup>
             )}
-            <div className="flex-1">
-              {ongoing && (
-                <RadioGroup label="Select your favorite city">
-                  <Radio value="buenos-aires">Buenos Aires</Radio>
-                  <Radio value="sydney">Sydney</Radio>
-                  <Radio value="san-francisco">San Francisco</Radio>
-                  <Radio value="london">London</Radio>
-                  <Radio value="tokyo">Tokyo</Radio>
-                </RadioGroup>
-              )}
-            </div>
           </div>
         </div>
       </div>
