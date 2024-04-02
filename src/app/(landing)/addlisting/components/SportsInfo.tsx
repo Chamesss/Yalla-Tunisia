@@ -52,6 +52,7 @@ export default function SportsInfo() {
     if (resRef.current) {
       resRef.current.style.height = `${
         parseInt(resRef.current.style.height) +
+        // @ts-ignore
         inputRef.current?.scrollHeight +
         55
       }px`;
@@ -71,6 +72,7 @@ export default function SportsInfo() {
     if (resRef.current) {
       resRef.current.style.height = `${
         parseInt(resRef.current.style.height) -
+        // @ts-ignore
         (inputRef.current?.scrollHeight + 55)
       }px`;
     }

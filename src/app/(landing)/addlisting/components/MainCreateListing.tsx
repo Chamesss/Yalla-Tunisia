@@ -9,8 +9,6 @@ import LocationSection from "./LocationSection";
 import { Button, Spinner } from "@nextui-org/react";
 
 export default function MainCreateListing() {
-  const [isSectionSelected, setIsSectionSelected] = useState(false);
-  const [isInfoSelected, setIsInfoSelected] = useState(false);
   const { categories, loading } = useFetchCategories();
   const [categoryIdSelected, setCategoryIdSelected] = useState<number | null>(
     null
@@ -56,7 +54,6 @@ export default function MainCreateListing() {
                 </div>
               ) : (
                 <>
-                  {" "}
                   <div className="border border-opacity-50 rounded-xl px-4 py-6 w-full h-full gap-4">
                     <div className="justify-center items-center flex w-full h-full">
                       {categoryIdSelected === 0 && <HandmadeInfo />}
