@@ -1,29 +1,80 @@
 import { useState, useRef, useEffect } from "react";
-import { Textarea, Input, Divider, RadioGroup, Radio } from "@nextui-org/react";
+import {
+  Textarea,
+  Input,
+  Divider,
+  RadioGroup,
+  Radio,
+  Button,
+} from "@nextui-org/react";
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import AddImages from "./AddImages";
 
 export default function SportsInfo() {
   const [allTime, setAllTime] = useState(false);
   const [allTimeNoWknd, setAllTimeNoWknd] = useState(false);
   const [allTimeWWknd, setAllTimeWWknd] = useState(false);
   const [scheduled, setScheduled] = useState(true);
-  const [ongoing, setOngoing] = useState(false);
   const [selected, setSelected] = useState<Date>();
   const initialDays: Date[] = [];
   const [days, setDays] = useState<Date[] | undefined>();
-  const contentRef = useRef(null);
-  const radioRef = useRef(null);
-  const clockRef = useRef(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const radioRef = useRef<HTMLDivElement>(null);
+  const clockRef = useRef<HTMLDivElement>(null);
+  const resRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [inputs, setInputs] = useState([""]);
 
   useEffect(() => {
     if (contentRef.current) {
       contentRef.current.style.height = scheduled
-        ? `${clockRef.current.scrollHeight}px`
-        : `${radioRef.current.scrollHeight}px`;
+        ? `${clockRef.current?.scrollHeight}px`
+        : `${radioRef.current?.scrollHeight}px`;
     }
+  }, [scheduled, days]);
+
+  useEffect(() => {
+    setAllTime(false);
+    setAllTimeNoWknd(false);
+    setAllTimeWWknd(false);
   }, [scheduled]);
+
+  useEffect(() => {
+    if (resRef.current) {
+      resRef.current.style.height = `${resRef.current?.scrollHeight}px`;
+    }
+  }, []);
+
+  const handleAddInput = () => {
+    setInputs([...inputs, ""]);
+    if (resRef.current) {
+      resRef.current.style.height = `${
+        parseInt(resRef.current.style.height) +
+        inputRef.current?.scrollHeight +
+        55
+      }px`;
+    }
+  };
+
+  const handleInputChange = (index: number, value: string) => {
+    const newInputs = [...inputs];
+    newInputs[index] = value;
+    setInputs(newInputs);
+  };
+
+  const handleRemoveInput = (index: number) => {
+    const newInputs = [...inputs];
+    newInputs.splice(index, 1);
+    setInputs(newInputs);
+    if (resRef.current) {
+      resRef.current.style.height = `${
+        parseInt(resRef.current.style.height) -
+        (inputRef.current?.scrollHeight + 55)
+      }px`;
+    }
+  };
 
   return (
     <div className="w-full flex items-center justify-center">
@@ -67,7 +118,6 @@ export default function SportsInfo() {
             >
               <Radio
                 onChange={() => {
-                  setOngoing(true);
                   setScheduled(false);
                 }}
                 value="OngoingEvent"
@@ -76,7 +126,6 @@ export default function SportsInfo() {
               </Radio>
               <Radio
                 onChange={() => {
-                  setOngoing(false);
                   setScheduled(true);
                 }}
                 defaultChecked
@@ -95,8 +144,9 @@ export default function SportsInfo() {
             {scheduled ? (
               <div
                 ref={clockRef}
-                className="flex flex-col items-center w-full "
+                className="flex flex-col items-center h-fit w-full "
               >
+                <p>Select your event days</p>
                 <DayPicker
                   numberOfMonths={2}
                   mode="multiple"
@@ -104,17 +154,58 @@ export default function SportsInfo() {
                   selected={days}
                   onSelect={setDays}
                 />
-                {days && days.length > 0 && <p>{days.length} days selected</p>}
+                {days && days.length > 0 && (
+                  <p className="h-auto">
+                    {days.length} {days.length === 1 ? "day" : "days"} selected
+                  </p>
+                )}
               </div>
             ) : (
               <RadioGroup ref={radioRef} label="Program Timing">
-                <Radio value="buenos-aires">Available all time</Radio>
-                <Radio value="sydney">Available all weekends (sat, sun)</Radio>
-                <Radio value="san-francisco">
+                <Radio value="Available-all-time">Available all time</Radio>
+                <Radio value="Available all weekends (sat, sun)">
+                  Available all weekends (sat, sun)
+                </Radio>
+                <Radio value="Available all time except weekend (sat, sun)">
                   Available all time except weekend (sat, sun)
                 </Radio>
               </RadioGroup>
             )}
+          </div>
+          <Divider className="my-4" />
+          <AddImages />
+          <Divider className="my-4" />
+          <div
+            ref={resRef}
+            className="flex flex-col gap-4 h-fit transition-all"
+          >
+            <h1 className="text-xl font-semibold">Restrictions</h1>
+            {inputs.map((input, index) => (
+              <div key={index} className="flex gap-4">
+                <Input
+                  ref={inputRef}
+                  label={`Restriction ${index + 1}`}
+                  value={input}
+                  onChange={(e) => handleInputChange(index, e.target.value)}
+                  size="sm"
+                />
+                {index > 0 && ( // Render remove button for additional inputs
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveInput(index)}
+                    className="bg-red-500 text-white px-2 py-1 rounded-full hover:opacity-80 transition-all"
+                  >
+                    -
+                  </button>
+                )}
+              </div>
+            ))}
+            <Button
+              onClick={handleAddInput}
+              className=" bg-primary-500 text-white w-fit m-auto"
+            >
+              + Add Restriction
+            </Button>
           </div>
         </div>
       </div>
