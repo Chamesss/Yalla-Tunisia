@@ -19,6 +19,7 @@ import { spokenLanguages as SPOKENLANGUAGES } from "./Languages";
 import RadioGrpTime from "./utils/RadioGrpTime";
 import DaysPicker from "./utils/DaysPicker";
 import Restrictions from "./utils/Restrictions";
+import EventType from "./utils/EventType";
 
 export default function GuideInfo() {
   const [allTime, setAllTime] = useState(false);
@@ -67,37 +68,6 @@ export default function GuideInfo() {
     );
     setSpokenLanguages(remainingLanguages);
   }, [languages]);
-
-  const handleAddInput = () => {
-    setInputs([...inputs, ""]);
-    if (resRef.current) {
-      resRef.current.style.height = `${
-        parseInt(resRef.current.style.height) +
-        // @ts-ignore
-        inputRef.current?.scrollHeight +
-        55
-      }px`;
-    }
-  };
-
-  const handleInputChange = (index: number, value: string) => {
-    const newInputs = [...inputs];
-    newInputs[index] = value;
-    setInputs(newInputs);
-  };
-
-  const handleRemoveInput = (index: number) => {
-    const newInputs = [...inputs];
-    newInputs.splice(index, 1);
-    setInputs(newInputs);
-    if (resRef.current) {
-      resRef.current.style.height = `${
-        parseInt(resRef.current.style.height) -
-        // @ts-ignore
-        (inputRef.current?.scrollHeight + 55)
-      }px`;
-    }
-  };
 
   const deleteSelectedLanguages = (language: string) => {
     setLanguages((prev) => {
@@ -231,33 +201,7 @@ export default function GuideInfo() {
             </RadioGroup>
           </div>
           <Divider className="my-4" />
-          <div className="flex flex-row">
-            <h1 className="font-semibold">Event type:</h1>
-            <RadioGroup
-              className="ml-4"
-              orientation="horizontal"
-              defaultValue="ScheduledEvent"
-            >
-              <Radio
-                onChange={() => {
-                  setScheduled(false);
-                }}
-                value="OngoingEvent"
-              >
-                Ongoing Event.
-              </Radio>
-              <Radio
-                onChange={() => {
-                  setScheduled(true);
-                }}
-                defaultChecked
-                checked={scheduled}
-                value="ScheduledEvent"
-              >
-                Scheduled Event.
-              </Radio>
-            </RadioGroup>
-          </div>
+          <EventType setScheduled={setScheduled} scheduled={scheduled} />
           <Divider className="my-4" />
           <div
             ref={contentRef}

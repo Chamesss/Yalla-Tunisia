@@ -14,6 +14,7 @@ import AddImages from "./AddImages";
 import RadioGrpTime from "./utils/RadioGrpTime";
 import DaysPicker from "./utils/DaysPicker";
 import Restrictions from "./utils/Restrictions";
+import EventType from "./utils/EventType";
 
 export default function SportsInfo() {
   const [allTime, setAllTime] = useState(false);
@@ -83,33 +84,7 @@ export default function SportsInfo() {
           />
           <Input isRequired size="sm" label="Duration" />
           <Divider className="my-4" />
-          <div className="flex flex-row">
-            <h1 className="font-semibold">Event type:</h1>
-            <RadioGroup
-              className="ml-4"
-              orientation="horizontal"
-              defaultValue="ScheduledEvent"
-            >
-              <Radio
-                onChange={() => {
-                  setScheduled(false);
-                }}
-                value="OngoingEvent"
-              >
-                Ongoing Event.
-              </Radio>
-              <Radio
-                onChange={() => {
-                  setScheduled(true);
-                }}
-                defaultChecked
-                checked={scheduled}
-                value="ScheduledEvent"
-              >
-                Scheduled Event.
-              </Radio>
-            </RadioGroup>
-          </div>
+          <EventType setScheduled={setScheduled} scheduled={scheduled} />
           <Divider className="my-4" />
           <div
             ref={contentRef}
