@@ -13,6 +13,7 @@ export default function MainCreateListing() {
   const [categoryIdSelected, setCategoryIdSelected] = useState<number | null>(
     null
   );
+
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {

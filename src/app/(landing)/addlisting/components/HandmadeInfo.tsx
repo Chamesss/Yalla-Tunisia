@@ -1,6 +1,8 @@
-import { Input, Textarea } from "@nextui-org/react";
+import { Divider, Input, Textarea, Button } from "@nextui-org/react";
 import AddImages from "./AddImages";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { HexColorPicker } from "react-colorful";
+import IconCancel from "@/components/icons/IconCancel";
 
 export default function HandmadeInfo() {
   const [sizesSelected, setSizesSelected] = useState<string[]>([]);
@@ -12,6 +14,8 @@ export default function HandmadeInfo() {
     xl: "xl",
     xxl: "xxl",
   };
+  const [color, setColor] = useState("#aabbcc");
+  const [colors, setColors] = useState<string[]>([]);
 
   const handleSelectSize = (key: string) => {
     setSizesSelected((prevSizes) => {
@@ -21,6 +25,17 @@ export default function HandmadeInfo() {
       } else {
         return [...prevSizes, key];
       }
+    });
+  };
+
+  useEffect(() => {
+    console.log(colors);
+  }, [colors]);
+
+  const deleteColor = (color: string) => {
+    setColors((prev) => {
+      const tmp = prev.filter((c) => c !== color);
+      return tmp;
     });
   };
 
@@ -85,6 +100,33 @@ export default function HandmadeInfo() {
             <span className="text-xs">(cm)</span>
           </div>
         </div>
+        <Divider className="my-4" />
+        <h2>Select Available Colors:</h2>
+        <div className="flex flex-row gap-4">
+          <div>
+            <HexColorPicker color={color} onChange={setColor} />
+            <Button onClick={() => setColors((prev) => [...prev, color])}>
+              Add Color
+            </Button>
+          </div>
+          <div className="flex flex-row gap-4">
+            {colors.map((c) => (
+              <div
+                key={c}
+                style={{ backgroundColor: c }}
+                className="w-10 h-10 rounded-full inline-block relative"
+              >
+                <div className="absolute right-0">
+                  <IconCancel
+                    className="text-white bg-black/50 rounded-full cursor-pointer hover:opacity-50"
+                    onClick={() => deleteColor(c)}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <Divider className="my-4" />
         <h1 className="text-xl font-semibold">Pictures</h1>
         <div className="px-2">
           <AddImages />

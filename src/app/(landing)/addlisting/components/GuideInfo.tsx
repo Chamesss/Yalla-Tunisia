@@ -141,7 +141,7 @@ export default function GuideInfo() {
                   </>
                 ) : (
                   <div>
-                    <p>No languages selected</p>
+                    <small className="italic">No languages selected</small>
                   </div>
                 )}
               </>

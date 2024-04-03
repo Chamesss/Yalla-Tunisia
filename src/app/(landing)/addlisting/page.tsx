@@ -7,10 +7,3 @@ export default function page() {
     </div>
   );
 }
-
-// useEffect(() => {
-//   setIsInfoSelected((prev) => {
-//     return isSectionSelected ? !prev : false;
-//   });
-//   console.log("info deactivated");
-// }, [isSectionSelected, isInfoSelected]);

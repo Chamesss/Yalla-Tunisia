@@ -25,7 +25,7 @@ export default function LocationSection() {
         checked={locationChecked}
         onChange={() => setLocationChecked((prev) => !prev)}
       >
-        Pick current store location.
+        Pick your current location.
       </Checkbox>
     </div>
   );
