@@ -1,5 +1,6 @@
 import { Dispatch, LegacyRef, SetStateAction } from "react";
 import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
 
 type Props = {
   clockRef: LegacyRef<HTMLDivElement> | undefined;

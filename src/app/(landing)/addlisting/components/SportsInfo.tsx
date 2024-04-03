@@ -1,15 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import {
-  Textarea,
-  Input,
-  Divider,
-  RadioGroup,
-  Radio,
-  Button,
-} from "@nextui-org/react";
-import { format } from "date-fns";
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
+import { Textarea, Input, Divider } from "@nextui-org/react";
 import AddImages from "./AddImages";
 import RadioGrpTime from "./utils/RadioGrpTime";
 import DaysPicker from "./utils/DaysPicker";
@@ -21,8 +11,6 @@ export default function SportsInfo() {
   const [allTimeNoWknd, setAllTimeNoWknd] = useState(false);
   const [allTimeWWknd, setAllTimeWWknd] = useState(false);
   const [scheduled, setScheduled] = useState(true);
-  const [selected, setSelected] = useState<Date>();
-  const initialDays: Date[] = [];
   const [days, setDays] = useState<Date[] | undefined>();
   const contentRef = useRef<HTMLDivElement>(null);
   const radioRef = useRef<HTMLDivElement>(null);
