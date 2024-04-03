@@ -16,6 +16,9 @@ import "react-day-picker/dist/style.css";
 import AddImages from "./AddImages";
 import { CustomCheckbox } from "./CustomCheckBox";
 import { spokenLanguages as SPOKENLANGUAGES } from "./Languages";
+import RadioGrpTime from "./utils/RadioGrpTime";
+import DaysPicker from "./utils/DaysPicker";
+import Restrictions from "./utils/Restrictions";
 
 export default function GuideInfo() {
   const [allTime, setAllTime] = useState(false);
@@ -96,8 +99,11 @@ export default function GuideInfo() {
     }
   };
 
-  const handlePaymentTypeChange = (value: string) => {
-    setSelectedPayementMethod(value);
+  const deleteSelectedLanguages = (language: string) => {
+    setLanguages((prev) => {
+      const tmp = prev.filter((lan) => lan !== language);
+      return tmp;
+    });
   };
 
   return (
@@ -127,12 +133,7 @@ export default function GuideInfo() {
                   <>
                     {languages.map((l) => (
                       <CustomCheckbox
-                        onClick={() =>
-                          setLanguages((prev) => {
-                            const tmp = prev.filter((lan) => lan !== l);
-                            return tmp;
-                          })
-                        }
+                        onClick={() => deleteSelectedLanguages(l)}
                         key={l}
                       >
                         {l}
@@ -167,7 +168,7 @@ export default function GuideInfo() {
             <h1 className="font-semibold">Payment:</h1>
             <RadioGroup
               className="ml-4"
-              onValueChange={(value) => handlePaymentTypeChange(value)}
+              onValueChange={(value) => setSelectedPayementMethod(value)}
               orientation="horizontal"
               defaultValue="tour"
             >
@@ -263,71 +264,20 @@ export default function GuideInfo() {
             className="flex flex-row h-fit transition-all items-center justify-between w-full overflow-hidden"
           >
             {scheduled ? (
-              <div
-                ref={clockRef}
-                className="flex flex-col items-center h-fit w-full "
-              >
-                <p>Select your event days</p>
-                <DayPicker
-                  numberOfMonths={2}
-                  mode="multiple"
-                  min={1}
-                  selected={days}
-                  onSelect={setDays}
-                />
-                {days && days.length > 0 && (
-                  <p className="h-auto">
-                    {days.length} {days.length === 1 ? "day" : "days"} selected
-                  </p>
-                )}
-              </div>
+              <DaysPicker clockRef={clockRef} days={days} setDays={setDays} />
             ) : (
-              <RadioGroup ref={radioRef} label="Program Timing">
-                <Radio value="Available-all-time">Available all time</Radio>
-                <Radio value="Available all weekends (sat, sun)">
-                  Available all weekends (sat, sun)
-                </Radio>
-                <Radio value="Available all time except weekend (sat, sun)">
-                  Available all time except weekend (sat, sun)
-                </Radio>
-              </RadioGroup>
+              <RadioGrpTime radioRef={radioRef} />
             )}
           </div>
           <Divider className="my-4" />
           <AddImages />
           <Divider className="my-4" />
-          <div
-            ref={resRef}
-            className="flex flex-col gap-4 h-fit transition-all"
-          >
-            <h1 className="text-xl font-semibold">Restrictions</h1>
-            {inputs.map((input, index) => (
-              <div key={index} className="flex gap-4">
-                <Input
-                  ref={inputRef}
-                  label={`Restriction ${index + 1}`}
-                  value={input}
-                  onChange={(e) => handleInputChange(index, e.target.value)}
-                  size="sm"
-                />
-                {index > 0 && ( // Render remove button for additional inputs
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveInput(index)}
-                    className="bg-red-500 text-white px-2 py-1 rounded-full hover:opacity-80 transition-all"
-                  >
-                    -
-                  </button>
-                )}
-              </div>
-            ))}
-            <Button
-              onClick={handleAddInput}
-              className=" bg-primary-500 text-white w-fit m-auto"
-            >
-              + Add Restriction
-            </Button>
-          </div>
+          <Restrictions
+            inputRef={inputRef}
+            setInputs={setInputs}
+            inputs={inputs}
+            resRef={resRef}
+          />
         </div>
       </div>
     </div>

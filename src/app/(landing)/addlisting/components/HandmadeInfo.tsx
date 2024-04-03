@@ -93,7 +93,9 @@ export default function HandmadeInfo() {
               );
             })}
           </div>
-          <span className="text-xs">Sizes are practical for clothes.</span>
+          <small className="text-xs italic">
+            Sizes are practical for clothes.
+          </small>
           <div className="flex flex-row gap-2 items-center mt-4">
             <Input type="number" className="w-[10%]" label="height" size="sm" />
             <Input type="number" className="w-[10%]" label="Width" size="sm" />
@@ -101,9 +103,9 @@ export default function HandmadeInfo() {
           </div>
         </div>
         <Divider className="my-4" />
-        <h2>Select Available Colors:</h2>
+        <h1 className="text-xl font-semibold">Colors selection</h1>
         <div className="flex flex-row gap-4">
-          <div>
+          <div className="flex flex-col items-center gap-4">
             <HexColorPicker color={color} onChange={setColor} />
             <Button onClick={() => setColors((prev) => [...prev, color])}>
               Add Color
