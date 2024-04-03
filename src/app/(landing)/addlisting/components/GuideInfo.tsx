@@ -6,18 +6,26 @@ import {
   RadioGroup,
   Radio,
   Button,
+  CheckboxGroup,
+  Autocomplete,
+  AutocompleteItem,
 } from "@nextui-org/react";
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import AddImages from "./AddImages";
+import { CustomCheckbox } from "./CustomCheckBox";
+import { spokenLanguages as SPOKENLANGUAGES } from "./Languages";
 
 export default function GuideInfo() {
   const [allTime, setAllTime] = useState(false);
   const [allTimeNoWknd, setAllTimeNoWknd] = useState(false);
   const [allTimeWWknd, setAllTimeWWknd] = useState(false);
 
-  const [selectedPaymentMethod, setSelectedPayementMethod] = useState("");
+  const [spokenLanguages, setSpokenLanguages] = useState(SPOKENLANGUAGES);
+
+  const [selectedPaymentMethod, setSelectedPayementMethod] = useState("tour");
+  const [languages, setLanguages] = useState<string[]>([]);
 
   const [scheduled, setScheduled] = useState(true);
   const [selected, setSelected] = useState<Date>();
@@ -49,6 +57,13 @@ export default function GuideInfo() {
       resRef.current.style.height = `${resRef.current?.scrollHeight}px`;
     }
   }, []);
+
+  useEffect(() => {
+    const remainingLanguages = SPOKENLANGUAGES.filter(
+      (lang) => !languages.includes(lang)
+    );
+    setSpokenLanguages(remainingLanguages);
+  }, [languages]);
 
   const handleAddInput = () => {
     setInputs([...inputs, ""]);
@@ -97,18 +112,94 @@ export default function GuideInfo() {
             description="Enter a concise description of your project."
           />
           <Input isRequired size="sm" label="Duration" />
-          <RadioGroup
-            label="Payment"
-            onValueChange={(value) => handlePaymentTypeChange(value)}
-          >
-            <Radio value="hourly">Payment per hour</Radio>
-            <Radio value="tour">Payment per entire tour</Radio>
-          </RadioGroup>
+
+          <Divider className="my-4" />
+          {/* Language Selector */}
+
+          <div className="flex flex-col gap-4">
+            <CheckboxGroup
+              className="gap-1"
+              label="Languages Selected"
+              orientation="horizontal"
+            >
+              <>
+                {languages.length > 0 ? (
+                  <>
+                    {languages.map((l) => (
+                      <CustomCheckbox
+                        onClick={() =>
+                          setLanguages((prev) => {
+                            const tmp = prev.filter((lan) => lan !== l);
+                            return tmp;
+                          })
+                        }
+                        key={l}
+                      >
+                        {l}
+                      </CustomCheckbox>
+                    ))}
+                  </>
+                ) : (
+                  <div>
+                    <p>No languages selected</p>
+                  </div>
+                )}
+              </>
+            </CheckboxGroup>
+            <Autocomplete
+              label="Select your spoken languages"
+              className="max-w-xs"
+            >
+              {spokenLanguages.map((l) => (
+                <AutocompleteItem
+                  onClick={() => setLanguages((prev) => [...prev, l])}
+                  key={l}
+                  value={l}
+                >
+                  {l}
+                </AutocompleteItem>
+              ))}
+            </Autocomplete>
+          </div>
+
+          <Divider className="my-4" />
+          <div className="flex flex-row">
+            <h1 className="font-semibold">Payment:</h1>
+            <RadioGroup
+              className="ml-4"
+              onValueChange={(value) => handlePaymentTypeChange(value)}
+              orientation="horizontal"
+              defaultValue="tour"
+            >
+              <Radio value="hourly">Payment per hour</Radio>
+              <Radio value="tour">Payment per entire tour</Radio>
+            </RadioGroup>
+          </div>
           {selectedPaymentMethod === "hourly" && (
-            <Input label="price per hour" />
+            <Input
+              isRequired
+              type="number"
+              label="Price per hour"
+              size="sm"
+              startContent={
+                <div className="pointer-events-none flex items-center">
+                  <span className="text-default-400 text-small">DT</span>
+                </div>
+              }
+            />
           )}
           {selectedPaymentMethod === "tour" && (
-            <Input label="price per entire tour" />
+            <Input
+              isRequired
+              type="number"
+              label="Price per entire tour"
+              size="sm"
+              startContent={
+                <div className="pointer-events-none flex items-center">
+                  <span className="text-default-400 text-small">DT</span>
+                </div>
+              }
+            />
           )}
           <Divider className="my-4" />
           <div className="flex flex-row">
@@ -116,23 +207,23 @@ export default function GuideInfo() {
             <RadioGroup
               className="ml-4"
               orientation="horizontal"
-              defaultValue="ScheduledEvent"
+              defaultValue="NoTransportation"
             >
               <Radio
-                onChange={() => {
-                  setScheduled(false);
-                }}
-                value="OngoingEvent"
+                // onChange={() => {
+                //   setScheduled(false);
+                // }}
+                value="Transportation"
               >
                 Included.
               </Radio>
               <Radio
-                onChange={() => {
-                  setScheduled(true);
-                }}
-                defaultChecked
-                checked={scheduled}
-                value="ScheduledEvent"
+                // onChange={() => {
+                //   setScheduled(true);
+                // }}
+                // defaultChecked
+                // checked={scheduled}
+                value="NoTransportation"
               >
                 Not included.
               </Radio>
