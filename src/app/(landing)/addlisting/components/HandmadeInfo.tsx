@@ -1,8 +1,17 @@
-import { Divider, Input, Textarea, Button } from "@nextui-org/react";
+import {
+  Divider,
+  Input,
+  Textarea,
+  Button,
+  CheckboxGroup,
+} from "@nextui-org/react";
 import AddImages from "./AddImages";
 import { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import IconCancel from "@/components/icons/IconCancel";
+import { createHandmadeListing } from "@/lib/createHandmadeListing";
+import { useFormState } from "react-dom";
+import { CustomCheckbox } from "./utils/CustomCheckBoxUnselected";
 
 export default function HandmadeInfo() {
   const [sizesSelected, setSizesSelected] = useState<string[]>([]);
@@ -16,6 +25,8 @@ export default function HandmadeInfo() {
   };
   const [color, setColor] = useState("#aabbcc");
   const [colors, setColors] = useState<string[]>([]);
+  const [formState, formAction] = useFormState(createHandmadeListing, null);
+  const [groupSelected, setGroupSelected] = useState([]);
 
   const handleSelectSize = (key: string) => {
     setSizesSelected((prevSizes) => {
@@ -36,16 +47,21 @@ export default function HandmadeInfo() {
   };
 
   return (
-    <div className="w-full flex items-center justify-center">
+    <form
+      action={formAction}
+      className="w-full flex flex-col items-center justify-center"
+    >
       <div className="flex flex-col w-full items-stretch gap-4">
         <h1 className="text-xl font-semibold">General info</h1>
         <div className="px-2 gap-4 flex flex-col">
-          <Input isRequired size="sm" label="Title" />
+          <Input id="title" name="title" isRequired size="sm" label="Title" />
           <div className="flex flex-row gap-4">
             <Input
               isRequired
               type="number"
               label="Price"
+              id="price"
+              name="price"
               size="sm"
               startContent={
                 <div className="pointer-events-none flex items-center">
@@ -55,6 +71,8 @@ export default function HandmadeInfo() {
             />
             <Input
               isRequired
+              name="qte"
+              id="qte"
               type="number"
               label="Qte"
               size="sm"
@@ -62,6 +80,8 @@ export default function HandmadeInfo() {
             />
           </div>
           <Textarea
+            id="description"
+            name="description"
             label="Description"
             placeholder="Enter your description"
             description="Enter a concise description of your project."
@@ -71,23 +91,30 @@ export default function HandmadeInfo() {
         <h1 className="text-xl font-semibold">Size selection</h1>
         <div className="px-2">
           <div className="flex flex-row gap-8">
-            {Object.keys(size).map((key) => {
-              // @ts-ignore
-              const value = size[key];
-              return (
-                <div
-                  key={key}
-                  onClick={() => handleSelectSize(key)}
-                  className={`border border-solid w-10 h-10 rounded-sm flex items-center justify-center cursor-pointer transition-all duration-75 hover:text-gray-200 ${
-                    sizesSelected.includes(key)
-                      ? "bg-[#48b9ff] dark:bg-white text-white dark:text-black"
-                      : ""
-                  }`}
-                >
-                  {value}
-                </div>
-              );
-            })}
+            <CheckboxGroup
+              className="gap-1"
+              label="Select sizes"
+              orientation="horizontal"
+            >
+              <CustomCheckbox name="size-xs" value="xs">
+                xs
+              </CustomCheckbox>
+              <CustomCheckbox name="size-sm" value="sm">
+                sm
+              </CustomCheckbox>
+              <CustomCheckbox name="size-md" value="md">
+                md
+              </CustomCheckbox>
+              <CustomCheckbox name="size-lg" value="lg">
+                lg
+              </CustomCheckbox>
+              <CustomCheckbox name="size-xl" value="xl">
+                xl
+              </CustomCheckbox>
+              <CustomCheckbox name="size-xxl" value="xxl">
+                xxl
+              </CustomCheckbox>
+            </CheckboxGroup>
           </div>
           <small className="text-xs italic">
             Sizes are practical for clothes.
@@ -137,6 +164,13 @@ export default function HandmadeInfo() {
           <AddImages />
         </div>
       </div>
-    </div>
+      <Divider className="my-4" />
+      <div className="px-10 mt-4 py-2 gap-4 flex w-full justify-between">
+        <Button color="danger">Cancel</Button>
+        <Button type="submit" color="primary">
+          Submit
+        </Button>
+      </div>
+    </form>
   );
 }

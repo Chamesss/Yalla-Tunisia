@@ -60,10 +60,6 @@ export default function MainCreateListing() {
                       {categoryIdSelected === 2 && <GuideInfo />}
                     </div>
                   </div>
-                  <div className="px-8 py-2 gap-4 flex w-full justify-between">
-                    <Button color="danger">Cancel</Button>
-                    <Button color="primary">Submit</Button>
-                  </div>
                 </>
               )}
             </>
