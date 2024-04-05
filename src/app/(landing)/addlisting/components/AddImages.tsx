@@ -49,7 +49,6 @@ export default function AddImages() {
           accept="image/png, image/jpeg, image/jpg"
           onChange={handleImageChange}
           multiple
-          required
           className="w-40 h-40 absolute opacity-0"
         />
         <label

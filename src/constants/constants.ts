@@ -1,0 +1,1 @@
+export const size = ["xs", "sm", "md", "lg", "xl", "xxl"];

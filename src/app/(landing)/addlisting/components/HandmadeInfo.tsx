@@ -9,42 +9,50 @@ import AddImages from "./AddImages";
 import { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import IconCancel from "@/components/icons/IconCancel";
-import { createHandmadeListing } from "@/lib/createHandmadeListing";
+import { createHandmadeListing } from "@/lib/actions/createHandmadeListing";
 import { useFormState } from "react-dom";
 import { CustomCheckbox } from "./utils/CustomCheckBoxUnselected";
 
+const initialState = {
+  response: {
+    error: 0,
+    message: "",
+  },
+};
+
 export default function HandmadeInfo() {
-  const [sizesSelected, setSizesSelected] = useState<string[]>([]);
-  const size = {
-    xs: "xs",
-    sm: "s",
-    md: "m",
-    lg: "l",
-    xl: "xl",
-    xxl: "xxl",
-  };
   const [color, setColor] = useState("#aabbcc");
   const [colors, setColors] = useState<string[]>([]);
-  const [formState, formAction] = useFormState(createHandmadeListing, null);
-  const [groupSelected, setGroupSelected] = useState([]);
+  const [formState, formAction] = useFormState(
+    createHandmadeListing,
+    initialState
+  );
+  const [title, setTitle] = useState<string>("");
+  const [price, setPrice] = useState<number>();
+  const [qte, setQte] = useState<number>();
+  const [description, setDescription] = useState<string>("");
+  const [materialsUsed, setMaterialsUser] = useState<string>("");
 
-  const handleSelectSize = (key: string) => {
-    setSizesSelected((prevSizes) => {
-      const index = prevSizes.indexOf(key);
-      if (index !== -1) {
-        return prevSizes.filter((size) => size !== key);
-      } else {
-        return [...prevSizes, key];
-      }
-    });
-  };
+  const [formError, setFormError] = useState<number>(0);
 
-  const deleteColor = (color: string) => {
-    setColors((prev) => {
-      const tmp = prev.filter((c) => c !== color);
-      return tmp;
-    });
-  };
+  useEffect(() => {
+    if (formError !== 0) {
+      const element = document.getElementById("GeneralSection");
+      element?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
+    }
+  }, [formError]);
+
+  useEffect(() => {
+    formState.response?.error && setFormError(formState.response.error);
+  }, [formState]);
+
+  useEffect(() => {
+    setFormError(0);
+  }, [title, price, qte, description, materialsUsed]);
 
   return (
     <form
@@ -52,43 +60,134 @@ export default function HandmadeInfo() {
       className="w-full flex flex-col items-center justify-center"
     >
       <div className="flex flex-col w-full items-stretch gap-4">
-        <h1 className="text-xl font-semibold">General info</h1>
-        <div className="px-2 gap-4 flex flex-col">
-          <Input id="title" name="title" isRequired size="sm" label="Title" />
+        <h1 className="text-xl font-semibold">
+          General info<small className="text-danger-500">*</small>
+        </h1>
+        <div id="GeneralSection" className="px-2 gap-4 flex flex-col">
+          <Input
+            id="title"
+            name="title"
+            onChange={(e) => setTitle(e.target.value)}
+            size="sm"
+            label={
+              <span className="text-sm">
+                Title<small className="text-danger-500">*</small>
+              </span>
+            }
+            description={
+              title.length < 3 &&
+              formError === 1 && (
+                <small className=" text-danger-500">
+                  {formState?.response?.message}
+                </small>
+              )
+            }
+          />
           <div className="flex flex-row gap-4">
             <Input
-              isRequired
               type="number"
-              label="Price"
+              label={
+                <span className="text-sm">
+                  Price<small className="text-danger-500">*</small>
+                </span>
+              }
               id="price"
               name="price"
+              onChange={(e) => setPrice(parseInt(e.target.value))}
               size="sm"
               startContent={
                 <div className="pointer-events-none flex items-center">
                   <span className="text-default-400 text-small">DT</span>
                 </div>
               }
+              description={
+                !price ||
+                price < 3 ||
+                (formError === 2 && (
+                  <small className=" text-danger-500">
+                    {formState?.response?.message}
+                  </small>
+                ))
+              }
             />
             <Input
-              isRequired
               name="qte"
               id="qte"
               type="number"
-              label="Qte"
+              label={
+                <span className="text-sm">
+                  Qte<small className="text-danger-500">*</small>
+                </span>
+              }
               size="sm"
               className="w-[50%]"
+              onChange={(e) => setQte(parseInt(e.target.value))}
+              description={
+                qte &&
+                qte > 0 &&
+                qte < 100 &&
+                formError === 3 && (
+                  <small className=" text-danger-500">
+                    {formState?.response?.message}
+                  </small>
+                )
+              }
             />
           </div>
           <Textarea
             id="description"
             name="description"
-            label="Description"
+            label={
+              <span className="text-sm">
+                Description<small className="text-danger-500">*</small>
+              </span>
+            }
             placeholder="Enter your description"
-            description="Enter a concise description of your project."
+            onChange={(e) => setDescription(e.target.value)}
+            description={
+              description.length < 3 &&
+              formError === 4 && (
+                <small className=" text-danger-500">
+                  {formState?.response?.message}
+                </small>
+              )
+            }
           />
-          <Input isRequired size="sm" label="Materials used" />
+          <Input
+            id="materialsUser"
+            name="materialsUsed"
+            size="sm"
+            label={
+              <span className="text-sm">
+                Materials used<small className="text-danger-500">*</small>
+              </span>
+            }
+            onChange={(e) => setMaterialsUser(e.target.value)}
+            description={
+              materialsUsed.length < 3 &&
+              formError === 5 && (
+                <small className=" text-danger-500">
+                  {formState?.response?.message}
+                </small>
+              )
+            }
+          />
         </div>
-        <h1 className="text-xl font-semibold">Size selection</h1>
+        <Divider className="my-4" />
+        <h1 className="text-xl font-semibold">
+          Pictures<small className="text-danger-500">*</small>
+        </h1>
+        <div className="px-2">
+          <AddImages />
+        </div>
+        <Divider className="my-4" />
+        <h1 className="text-xl font-semibold">
+          Size selection
+          <small className="italic text-sm font-medium opacity-50">
+            {" "}
+            (optional)
+          </small>
+        </h1>
         <div className="px-2">
           <div className="flex flex-row gap-8">
             <CheckboxGroup
@@ -120,13 +219,33 @@ export default function HandmadeInfo() {
             Sizes are practical for clothes.
           </small>
           <div className="flex flex-row gap-2 items-center mt-4">
-            <Input type="number" className="w-[10%]" label="height" size="sm" />
-            <Input type="number" className="w-[10%]" label="Width" size="sm" />
+            <Input
+              type="number"
+              id="height"
+              name="height"
+              className="w-[10%]"
+              label="height"
+              size="sm"
+            />
+            <Input
+              type="number"
+              id="Width"
+              name="Width"
+              className="w-[10%]"
+              label="Width"
+              size="sm"
+            />
             <span className="text-xs">(cm)</span>
           </div>
         </div>
         <Divider className="my-4" />
-        <h1 className="text-xl font-semibold">Colors selection</h1>
+        <h1 className="text-xl font-semibold">
+          Colors selection
+          <small className="italic text-sm font-medium opacity-50">
+            {" "}
+            (optional)
+          </small>
+        </h1>
         <div className="flex flex-row gap-4 w-fit m-auto">
           <div className="flex flex-col items-center gap-4">
             <HexColorPicker color={color} onChange={setColor} />
@@ -151,17 +270,17 @@ export default function HandmadeInfo() {
                 <div className="absolute right-0">
                   <IconCancel
                     className="text-white bg-black/50 rounded-full cursor-pointer hover:opacity-50"
-                    onClick={() => deleteColor(c)}
+                    onClick={() =>
+                      setColors((prev) => {
+                        const tmp = prev.filter((c) => c !== color);
+                        return tmp;
+                      })
+                    }
                   />
                 </div>
               </div>
             ))}
           </div>
-        </div>
-        <Divider className="my-4" />
-        <h1 className="text-xl font-semibold">Pictures</h1>
-        <div className="px-2">
-          <AddImages />
         </div>
       </div>
       <Divider className="my-4" />
