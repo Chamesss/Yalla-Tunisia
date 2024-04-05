@@ -10,22 +10,69 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
     const qte = formData.get('qte')
     const description = formData.get('description')
     const materialsUsed = formData.get('materialsUsed')
-
     const xs = formData.get('size-xs')
     const sm = formData.get('size-sm')
     const md = formData.get('size-md')
     const lg = formData.get('size-lg')
     const xl = formData.get('size-xl')
     const xxl = formData.get('size-xxl')
-
     const width = formData.get('width')
     const height = formData.get('height')
 
-    if (!title) return { response: { error: 1, message: "title must be greater then 3" } }
-    if (!price) return { response: { error: 2, message: "insert a valid price" } }
-    if (!qte) return { response: { error: 3, message: "specify a qte" } }
-    if (!description) return { response: { error: 4, message: "enter a valid description" } }
-    if (!materialsUsed) return { response: { error: 5, message: "enter the used materials" } }
+    if (title) {
+        if (title.toString().length < 3) {
+            return { response: { error: 1, message: "title must be greater then 3 characters" } }
+        }
+        if (title.toString().length > 35) {
+            return { response: { error: 1, message: "title must be less then 35 characters" } }
+        }
+    } else {
+        return { response: { error: 1, message: "insert a valid title" } }
+    }
+
+    if (price) {
+        if (Number(price) < 1) {
+            return { response: { error: 2, message: "price must be greater then 1DT" } }
+        }
+        if (Number(price) > 99999) {
+            return { response: { error: 2, message: "what are you trying to sell?" } }
+        }
+    } else {
+        return { response: { error: 2, message: "insert a valid price" } }
+    }
+
+    if (qte) {
+        if (Number(qte) < 1) {
+            return { response: { error: 3, message: "enter a valid qte." } }
+        }
+        if (Number(qte) > 999) {
+            return { response: { error: 3, message: "max qte 999 exceeded" } }
+        }
+    } else {
+        return { response: { error: 3, message: "enter a valid qte." } }
+    }
+
+    if (description) {
+        if (description.toString().length < 3) {
+            return { response: { error: 4, message: "description must be greater then 3 characters." } }
+        }
+        if (description.toString().length > 255) {
+            return { response: { error: 4, message: "description must be less then 25 characters" } }
+        }
+    } else {
+        return { response: { error: 4, message: "enter valid description" } }
+    }
+
+    if (materialsUsed) {
+        if (materialsUsed.toString().length < 3) {
+            return { response: { error: 5, message: "enter valid materials" } }
+        }
+        if (materialsUsed.toString().length > 35) {
+            return { response: { error: 5, message: "materials used must be less then 35 characters" } }
+        }
+    } else {
+        return { response: { error: 5, message: "enter valid materials" } }
+    }
 
 
     console.log('form xs === ', xs)
@@ -34,19 +81,10 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
     console.log('form lg === ', lg)
     console.log('form xl === ', xl)
     console.log('form xxl === ', xxl)
-    console.log('form text === ')
 
-    //console.log('form text === ', text)
-
-
-
-    if (xs === null) {
-        return {
-            message: "xs is null"
-        }
-    }
 
     return {
+        error: 0,
         message: "Form data processed"
     }
 };

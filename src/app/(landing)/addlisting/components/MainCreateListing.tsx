@@ -27,7 +27,7 @@ export default function MainCreateListing() {
   }, [isLoading]);
 
   return (
-    <div>
+    <div className="relative">
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex flex-col flex-1 md:flex-none md:w-[30%] gap-4">
           <div className="border border-opacity-50 rounded-xl px-4 py-6">
@@ -48,19 +48,15 @@ export default function MainCreateListing() {
           ) : (
             <>
               {isLoading ? (
-                <div>
-                  <Spinner size="lg" />
-                </div>
+                <Spinner size="lg" />
               ) : (
-                <>
-                  <div className="border border-opacity-50 rounded-xl px-4 py-6 w-full h-full gap-4">
-                    <div className="justify-center items-center flex w-full h-full">
-                      {categoryIdSelected === 0 && <HandmadeInfo />}
-                      {categoryIdSelected === 1 && <SportsInfo />}
-                      {categoryIdSelected === 2 && <GuideInfo />}
-                    </div>
+                <div className="border border-opacity-50 rounded-xl px-4 py-6 w-full h-full gap-4">
+                  <div className="justify-center items-center flex w-full h-full">
+                    {categoryIdSelected === 0 && <HandmadeInfo />}
+                    {categoryIdSelected === 1 && <SportsInfo />}
+                    {categoryIdSelected === 2 && <GuideInfo />}
                   </div>
-                </>
+                </div>
               )}
             </>
           )}
