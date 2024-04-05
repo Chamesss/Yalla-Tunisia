@@ -19,9 +19,10 @@ export default function SuccessLoading({ formState }: Props) {
     setTimeout(() => {
       setSuccess(false);
     }, 3000);
-    setTimeout(() => {
-      console.log("linking...");
-    }, 3800);
+    formState.response.success &&
+      setTimeout(() => {
+        console.log("linking...");
+      }, 3800);
   }, [formState]);
 
   return (

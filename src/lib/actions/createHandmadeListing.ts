@@ -1,4 +1,4 @@
-
+"use server"
 //Error codes 1=title 2=price 3=qte 4=description 5=materialsUsed
 const errorCode = [1, 2, 3, 4, 5, 6, 7]
 
