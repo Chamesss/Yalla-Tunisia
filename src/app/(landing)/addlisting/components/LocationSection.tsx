@@ -1,9 +1,22 @@
 import { cities } from "@/cities";
 import { Autocomplete, AutocompleteItem, Checkbox } from "@nextui-org/react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-export default function LocationSection() {
-  const [locationChecked, setLocationChecked] = useState(false);
+type Props = {
+  location: string;
+  setLocation: Dispatch<SetStateAction<string>>;
+  locationChecked: boolean;
+  setLocationChecked: Dispatch<SetStateAction<boolean>>;
+  locationError: boolean;
+};
+
+export default function LocationSection({
+  location,
+  setLocation,
+  locationChecked,
+  setLocationChecked,
+  locationError,
+}: Props) {
   return (
     <div>
       <h1 className="text-xl font-semibold">Location</h1>
@@ -13,10 +26,18 @@ export default function LocationSection() {
         label="Pick a location"
         className="mt-4"
         isDisabled={locationChecked}
+        onInputChange={(e) => {
+          setLocation(e);
+        }}
+        description={
+          locationError && (
+            <small className="text-danger-500">enter valid location</small>
+          )
+        }
       >
-        {cities.map((animal) => (
-          <AutocompleteItem key={animal.city} value={animal.city}>
-            {animal.city}
+        {cities.map((c) => (
+          <AutocompleteItem key={c.city} value={c.city}>
+            {c.city}
           </AutocompleteItem>
         ))}
       </Autocomplete>

@@ -6,21 +6,13 @@ import {
   CheckboxGroup,
 } from "@nextui-org/react";
 import AddImages from "./AddImages";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import IconCancel from "@/components/icons/IconCancel";
 import { createHandmadeListing } from "@/lib/actions/createHandmadeListing";
 import { useFormState, useFormStatus } from "react-dom";
 import { CustomCheckbox } from "./utils/CustomCheckBoxUnselected";
 import SuccessLoading from "./utils/SuccessLoading";
-
-const initialState = {
-  response: {
-    success: false,
-    message: "",
-    error: 0,
-  },
-};
 
 type Props = {
   formState: {
@@ -30,28 +22,52 @@ type Props = {
       message: string;
     };
   };
+  userId: string;
+  categoryId: string | null;
+  subCategoryId: string | null;
+  location: string;
+  setSubCategoryError: Dispatch<SetStateAction<boolean>>;
+  setLocationError: Dispatch<SetStateAction<boolean>>;
+  setCategoryError: Dispatch<SetStateAction<boolean>>;
 };
 
-function HandmadeForm({ formState }: Props) {
+function HandmadeForm({
+  formState,
+  userId,
+  categoryId,
+  subCategoryId,
+  location,
+  setSubCategoryError,
+  setLocationError,
+  setCategoryError,
+}: Props) {
   const [color, setColor] = useState("#aabbcc");
   const [colors, setColors] = useState<string[]>([]);
-
   const [title, setTitle] = useState<string>("");
   const [price, setPrice] = useState<number>();
   const [qte, setQte] = useState<number>();
   const [description, setDescription] = useState<string>("");
   const [materialsUsed, setMaterialsUser] = useState<string>("");
-
   const [formError, setFormError] = useState<number>(0);
-
   const data = useFormStatus();
 
   useEffect(() => {
-    console.log("form status ===", data);
+    // console.log("form status ===", data);
   }, [data]);
 
   useEffect(() => {
+    formState.response?.error && setFormError(formState.response.error);
+    console.log("formState.response?.error === ", formState.response?.error);
     if (formState.response?.error !== 0) {
+      if (formState.response?.error === 11) {
+        setCategoryError(true);
+      }
+      if (formState.response?.error === 12) {
+        setSubCategoryError(true);
+      }
+      if (formState.response?.error === 13) {
+        setLocationError(true);
+      }
       const element = document.getElementById("GeneralSection");
       element?.scrollIntoView({
         behavior: "smooth",
@@ -60,14 +76,6 @@ function HandmadeForm({ formState }: Props) {
       });
     }
   }, [formState]);
-
-  useEffect(() => {
-    formState.response?.error && setFormError(formState.response.error);
-  }, [formState]);
-
-  useEffect(() => {
-    console.log("formError == ", formError);
-  }, [formError]);
 
   useEffect(() => {
     setFormError(0);
@@ -80,6 +88,24 @@ function HandmadeForm({ formState }: Props) {
           General info<small className="text-danger-500">*</small>
         </h1>
         <div id="GeneralSection" className="px-2 gap-4 flex flex-col">
+          {/* outer values begin */}
+          <input name="userId" value={userId} className="absolute hidden" />
+          {categoryId && (
+            <input
+              name="categoryId"
+              value={categoryId}
+              className="absolute hidden"
+            />
+          )}
+          {subCategoryId && (
+            <input
+              name="subCategoryId"
+              value={subCategoryId}
+              className="absolute hidden"
+            />
+          )}
+          <input name="location" value={location} className="absolute hidden" />
+          {/* outer values end */}
           <Input
             id="title"
             name="title"
@@ -256,6 +282,12 @@ function HandmadeForm({ formState }: Props) {
         </h1>
         <div className="flex flex-row gap-4 w-fit m-auto">
           <div className="flex flex-col items-center gap-4">
+            <input
+              className="absolute hidden"
+              value={colors}
+              name="colors"
+              multiple
+            />
             <HexColorPicker color={color} onChange={setColor} />
             <Button
               onClick={() =>
@@ -303,22 +335,53 @@ function HandmadeForm({ formState }: Props) {
   );
 }
 
-export default function HandmadeInfo() {
+type MainProps = {
+  userId: string;
+  categoryId: string | null;
+  subCategoryId: string | null;
+  location: string;
+  setLocationError: Dispatch<SetStateAction<boolean>>;
+  setCategoryError: Dispatch<SetStateAction<boolean>>;
+  setSubCategoryError: Dispatch<SetStateAction<boolean>>;
+};
+
+export default function HandmadeInfo({
+  userId,
+  categoryId,
+  subCategoryId,
+  location,
+  setLocationError,
+  setCategoryError,
+  setSubCategoryError,
+}: MainProps) {
+  const initialState = {
+    response: {
+      success: false,
+      message: "",
+      error: 0,
+    },
+  };
+
   const [formState, formAction] = useFormState(
     createHandmadeListing,
     initialState
   );
-
-  useEffect(() => {
-    console.log("formState === ", formState);
-  }, [formState]);
 
   return (
     <form
       action={formAction}
       className="w-full flex flex-col items-center justify-center"
     >
-      <HandmadeForm formState={formState} />
+      <HandmadeForm
+        formState={formState}
+        userId={userId}
+        categoryId={categoryId}
+        subCategoryId={subCategoryId}
+        location={location}
+        setLocationError={setLocationError}
+        setCategoryError={setCategoryError}
+        setSubCategoryError={setSubCategoryError}
+      />
     </form>
   );
 }

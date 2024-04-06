@@ -6,17 +6,31 @@ import HandmadeInfo from "./HandmadeInfo";
 import SportsInfo from "./SportsInfo";
 import GuideInfo from "./GuideInfo";
 import LocationSection from "./LocationSection";
-import { Button, Spinner } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/react";
+import { userSlice, userState } from "@/redux/slices/userSlice";
+import { useSelector } from "react-redux";
 
 export default function MainCreateListing() {
   const { categories, loading } = useFetchCategories();
-  const [categoryIdSelected, setCategoryIdSelected] = useState<number | null>(
+  const [categoryIdSelected, setCategoryIdSelected] = useState<string | null>(
     null
   );
+  const [subCategoryId, setSubCategoryId] = useState<string | null>(null);
+  const [location, setLocation] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
+  const [locationChecked, setLocationChecked] = useState<boolean>(false);
+  const [locationError, setLocationError] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
+  const [subCategoryError, setSubCategoryError] = useState(false);
+
+  const user: userSlice = useSelector(userState);
 
   useEffect(() => {
     if (categoryIdSelected !== null) setLoading(true);
+  }, [categoryIdSelected]);
+
+  useEffect(() => {
+    console.log("categoryIdSelected === ", categoryIdSelected);
   }, [categoryIdSelected]);
 
   useEffect(() => {
@@ -26,6 +40,18 @@ export default function MainCreateListing() {
       }, 800);
   }, [isLoading]);
 
+  useEffect(() => {
+    setLocationError(false);
+  }, [location]);
+
+  useEffect(() => {
+    setCategoryError(false);
+  }, [categoryIdSelected]);
+
+  useEffect(() => {
+    setSubCategoryError(false);
+  }, [subCategoryId]);
+
   return (
     <div className="relative">
       <div className="flex flex-col md:flex-row gap-4">
@@ -33,13 +59,21 @@ export default function MainCreateListing() {
           <div className="border border-opacity-50 rounded-xl px-4 py-6">
             <CategorySection
               categories={categories}
-              loading={loading}
               setCategoryIdSelected={setCategoryIdSelected}
               categoryIdSelected={categoryIdSelected}
+              setSubCategoryId={setSubCategoryId}
+              categoryError={categoryError}
+              subCategoryError={subCategoryError}
             />
           </div>
           <div className="border border-opacity-50 rounded-xl px-4 py-6">
-            <LocationSection />
+            <LocationSection
+              location={location}
+              setLocation={setLocation}
+              locationChecked={locationChecked}
+              setLocationChecked={setLocationChecked}
+              locationError={locationError}
+            />
           </div>
         </div>
         <div className="flex-1 items-center justify-center flex flex-col gap-4">
@@ -52,9 +86,19 @@ export default function MainCreateListing() {
               ) : (
                 <div className="border border-opacity-50 rounded-xl px-4 py-6 w-full h-full gap-4">
                   <div className="justify-center items-center flex w-full h-full">
-                    {categoryIdSelected === 0 && <HandmadeInfo />}
-                    {categoryIdSelected === 1 && <SportsInfo />}
-                    {categoryIdSelected === 2 && <GuideInfo />}
+                    {Number(categoryIdSelected) === 1 && (
+                      <HandmadeInfo
+                        userId={user.userId}
+                        categoryId={categoryIdSelected}
+                        subCategoryId={subCategoryId}
+                        location={location}
+                        setLocationError={setLocationError}
+                        setCategoryError={setCategoryError}
+                        setSubCategoryError={setSubCategoryError}
+                      />
+                    )}
+                    {Number(categoryIdSelected) === 2 && <SportsInfo />}
+                    {Number(categoryIdSelected) === 3 && <GuideInfo />}
                   </div>
                 </div>
               )}

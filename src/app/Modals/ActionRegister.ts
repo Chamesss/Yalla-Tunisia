@@ -55,10 +55,11 @@ export async function addUser(prevState: any, formData: FormData) {
 export async function Login({ email, password, dispatch }: loginProps) {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
+        const userId = userCredential.user.uid
         const docRef = doc(db, "users", userCredential.user.uid);
         const docSnap = await getDoc(docRef);
         const userData = docSnap.data()
-        dispatch(addUserSession({ user: userData, isLogged: true }))
+        dispatch(addUserSession({ user: userData, isLogged: true, userId: userId }))
         return { success: true }
     } catch (e) {
         console.log(e)

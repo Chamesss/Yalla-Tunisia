@@ -2,12 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface userSlice {
     user: userType | null,
-    isLogged: boolean
+    isLogged: boolean,
+    userId: string
 }
 
 const initialState: userSlice = {
     user: {
-        id: "",
         firstname: "",
         lastname: "",
         email: "",
@@ -29,7 +29,8 @@ const initialState: userSlice = {
             }
         ]
     },
-    isLogged: false
+    isLogged: false,
+    userId: ""
 }
 
 
@@ -42,10 +43,12 @@ const userSlice = createSlice({
             const resources = action.payload;
             state.user = resources.user
             state.isLogged = resources.isLogged
+            state.userId = resources.userId
         },
         logOutSession(state) {
             state.user = null
             state.isLogged = false
+            state.userId = ""
         }
     },
 });

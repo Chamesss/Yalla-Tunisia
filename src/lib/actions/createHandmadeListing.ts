@@ -2,6 +2,8 @@
 //Error codes 1=title 2=price 3=qte 4=description 5=materialsUsed
 const errorCode = [1, 2, 3, 4, 5, 6, 7]
 
+import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
+
 export async function createHandmadeListing(prevState: any, formData: FormData) {
     await new Promise((resolve) => setTimeout(resolve, 250));
 
@@ -18,6 +20,18 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
     const xxl = formData.get('size-xxl')
     const width = formData.get('width')
     const height = formData.get('height')
+    const colors = formData.getAll('colors')
+    const productImages = formData.getAll('productImages')
+    const userId = formData.get('userId') as string
+    const categoryId = formData.get('categoryId') as string
+    const subCategoryId = formData.get('subCategoryId') as string
+    const location = formData.get('location') as string
+
+    // category 11 / subcategory 12 / location 13
+
+    if (!categoryId) return { response: { success: false, error: 11, message: "invalid category" } }
+    if (!subCategoryId) return { response: { success: false, error: 12, message: "invalid subCategoryId" } }
+    if (!location) return { response: { success: false, error: 13, message: "invalid location" } }
 
     if (title) {
         if (title.toString().length < 3) {
@@ -74,13 +88,39 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
         return { response: { success: false, error: 5, message: "enter valid materials" } }
     }
 
+    if (!userId) {
+        return { response: { success: false, error: 10, message: "userId is missing?" } }
+    }
 
-    console.log('form xs === ', xs)
-    console.log('form sm === ', sm)
-    console.log('form md === ', md)
-    console.log('form lg === ', lg)
-    console.log('form xl === ', xl)
-    console.log('form xxl === ', xxl)
+    const sizes = [xs, sm, md, lg, xl, xxl]
+    const dimensions = [width, height]
+    const imageUrls = await uploadImages(productImages, userId)
+
+    const data = {
+        userId,
+        title,
+        price,
+        qte,
+        description,
+        materialsUsed,
+        sizes,
+        dimensions,
+        colors,
+        imageUrls,
+        categoryId,
+        subCategoryId,
+        location
+    }
+
+    console.log('final data === ', data)
+
+
+    // console.log('form xs === ', xs)
+    // console.log('form sm === ', sm)
+    // console.log('form md === ', md)
+    // console.log('form lg === ', lg)
+    // console.log('form xl === ', xl)
+    // console.log('form xxl === ', xxl)
 
     return {
         response: {
@@ -92,3 +132,21 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
 
 };
 
+async function uploadImages(productImages: FormDataEntryValue[], userId: string) {
+    let imageUrls = ['']
+    const storage = getStorage();
+    for (const image of productImages) {
+        const file = image as File;
+        const filename = `${Date.now()}_${file.name}`;
+        const storageRef = ref(storage, `images/${userId}/${filename}`);
+        try {
+            await uploadBytes(storageRef, file);
+            const imageUrl = await getDownloadURL(storageRef);
+            imageUrls.push(imageUrl);
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            return { response: { success: false, error: -1, message: 'Error uploading image' } };
+        }
+    }
+    return imageUrls;
+}
