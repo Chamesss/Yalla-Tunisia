@@ -16,7 +16,7 @@ export default function MainCreateListing() {
     null
   );
   const [subCategoryId, setSubCategoryId] = useState<string | null>(null);
-  const [location, setLocation] = useState<string>("");
+  const [location, setLocation] = useState<string | null>("");
   const [isLoading, setLoading] = useState(false);
   const [locationChecked, setLocationChecked] = useState<boolean>(false);
   const [locationError, setLocationError] = useState(false);

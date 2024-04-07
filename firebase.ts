@@ -11,6 +11,7 @@ import { getAuth } from "firebase/auth";
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
+    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DB_URL,
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
     storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGEBUCKET,
     messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSENDINGID,

@@ -1,11 +1,11 @@
 "use server"
-//Error codes 1=title 2=price 3=qte 4=description 5=materialsUsed
-const errorCode = [1, 2, 3, 4, 5, 6, 7]
+//Error codes:{ title=1 / price=2 / qte=3 / description=4 / materialsUsed=5 / category=11 / subcategory=12 / location=13}
 
-import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "firebase/storage";
+import { app, db } from "../../../firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 export async function createHandmadeListing(prevState: any, formData: FormData) {
-    await new Promise((resolve) => setTimeout(resolve, 250));
 
     const title = formData.get('title')
     const price = formData.get('price');
@@ -26,8 +26,6 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
     const categoryId = formData.get('categoryId') as string
     const subCategoryId = formData.get('subCategoryId') as string
     const location = formData.get('location') as string
-
-    // category 11 / subcategory 12 / location 13
 
     if (!categoryId) return { response: { success: false, error: 11, message: "invalid category" } }
     if (!subCategoryId) return { response: { success: false, error: 12, message: "invalid subCategoryId" } }
@@ -112,39 +110,30 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
         location
     }
 
-    console.log('final data === ', data)
-
-
-    // console.log('form xs === ', xs)
-    // console.log('form sm === ', sm)
-    // console.log('form md === ', md)
-    // console.log('form lg === ', lg)
-    // console.log('form xl === ', xl)
-    // console.log('form xxl === ', xxl)
+    const handmadeRef = doc(collection(db, "Listing"));
+    await setDoc(handmadeRef, data);
 
     return {
         response: {
             success: true,
             error: 0,
-            message: "Form data processed"
+            message: ""
         }
     };
-
 };
 
 async function uploadImages(productImages: FormDataEntryValue[], userId: string) {
     let imageUrls = ['']
-    const storage = getStorage();
+    const storage = getStorage(app);
     for (const image of productImages) {
         const file = image as File;
         const filename = `${Date.now()}_${file.name}`;
-        const storageRef = ref(storage, `images/${userId}/${filename}`);
+        const ref = storageRef(storage, `images/${userId}/${filename}`);
         try {
-            await uploadBytes(storageRef, file);
-            const imageUrl = await getDownloadURL(storageRef);
+            await uploadBytes(ref, file);
+            const imageUrl = await getDownloadURL(ref);
             imageUrls.push(imageUrl);
         } catch (error) {
-            console.error('Error uploading image:', error);
             return { response: { success: false, error: -1, message: 'Error uploading image' } };
         }
     }

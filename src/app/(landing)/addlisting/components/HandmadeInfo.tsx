@@ -25,7 +25,7 @@ type Props = {
   userId: string;
   categoryId: string | null;
   subCategoryId: string | null;
-  location: string;
+  location: string | null;
   setSubCategoryError: Dispatch<SetStateAction<boolean>>;
   setLocationError: Dispatch<SetStateAction<boolean>>;
   setCategoryError: Dispatch<SetStateAction<boolean>>;
@@ -53,7 +53,7 @@ function HandmadeForm({
 
   useEffect(() => {
     // console.log("form status ===", data);
-  }, [data]);
+  }, []);
 
   useEffect(() => {
     formState.response?.error && setFormError(formState.response.error);
@@ -104,7 +104,13 @@ function HandmadeForm({
               className="absolute hidden"
             />
           )}
-          <input name="location" value={location} className="absolute hidden" />
+          {location && (
+            <input
+              name="location"
+              value={location}
+              className="absolute hidden"
+            />
+          )}
           {/* outer values end */}
           <Input
             id="title"
@@ -330,7 +336,7 @@ function HandmadeForm({
           Submit
         </Button>
       </div>
-      <SuccessLoading formState={formState} />
+      <SuccessLoading data={data} formState={formState} />
     </>
   );
 }
@@ -339,7 +345,7 @@ type MainProps = {
   userId: string;
   categoryId: string | null;
   subCategoryId: string | null;
-  location: string;
+  location: string | null;
   setLocationError: Dispatch<SetStateAction<boolean>>;
   setCategoryError: Dispatch<SetStateAction<boolean>>;
   setSubCategoryError: Dispatch<SetStateAction<boolean>>;

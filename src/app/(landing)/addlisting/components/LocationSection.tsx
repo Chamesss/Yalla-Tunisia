@@ -3,8 +3,8 @@ import { Autocomplete, AutocompleteItem, Checkbox } from "@nextui-org/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type Props = {
-  location: string;
-  setLocation: Dispatch<SetStateAction<string>>;
+  location: string | null;
+  setLocation: Dispatch<SetStateAction<string | null>>;
   locationChecked: boolean;
   setLocationChecked: Dispatch<SetStateAction<boolean>>;
   locationError: boolean;
@@ -17,6 +17,13 @@ export default function LocationSection({
   setLocationChecked,
   locationError,
 }: Props) {
+  //user data location is required
+
+  useEffect(() => {
+    locationChecked === true && setLocation("Tunis");
+    locationChecked === false && setLocation(null);
+  }, [locationChecked]);
+
   return (
     <div>
       <h1 className="text-xl font-semibold">Location</h1>

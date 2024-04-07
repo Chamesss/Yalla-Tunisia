@@ -1,5 +1,6 @@
 import { Spinner } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+import { FormStatus } from "react-dom";
 
 type Props = {
   formState: {
@@ -9,9 +10,10 @@ type Props = {
       message: string;
     };
   };
+  data: FormStatus;
 };
 
-export default function SuccessLoading({ formState }: Props) {
+export default function SuccessLoading({ formState, data }: Props) {
   const [success, setSuccess] = useState<boolean>(formState.response.success);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export default function SuccessLoading({ formState }: Props) {
   return (
     <div
       className={`fixed w-screen top-0 left-0 z-[9999] h-screen bg-black/60 ${
-        success ? "opacity-100" : "opacity-0"
+        success || data.pending ? "opacity-100" : "opacity-0"
       } transition-opacity duration-300 ${
         success ? "pointer-events-auto" : "pointer-events-none"
       }`}
