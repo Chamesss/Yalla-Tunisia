@@ -20,8 +20,20 @@ import RadioGrpTime from "./utils/RadioGrpTime";
 import DaysPicker from "./utils/DaysPicker";
 import Restrictions from "./utils/Restrictions";
 import EventType from "./utils/EventType";
+import { MainPropsForm, PropsForm } from "@/types";
+import { useFormState } from "react-dom";
+import { createGuideListing } from "@/lib/actions/createGuideListing";
 
-export default function GuideInfo() {
+function GuideInfoFrom({
+  formState,
+  userId,
+  categoryId,
+  subCategoryId,
+  location,
+  setSubCategoryError,
+  setLocationError,
+  setCategoryError,
+}: PropsForm) {
   const [allTime, setAllTime] = useState(false);
   const [allTimeNoWknd, setAllTimeNoWknd] = useState(false);
   const [allTimeWWknd, setAllTimeWWknd] = useState(false);
@@ -225,5 +237,46 @@ export default function GuideInfo() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function GuideInfo({
+  userId,
+  categoryId,
+  subCategoryId,
+  location,
+  setLocationError,
+  setCategoryError,
+  setSubCategoryError,
+}: MainPropsForm) {
+  const initialState = {
+    response: {
+      success: false,
+      message: "",
+      error: 0,
+    },
+  };
+
+  const [formState, formAction] = useFormState(
+    createGuideListing,
+    initialState
+  );
+
+  return (
+    <form
+      action={formAction}
+      className="w-full flex flex-col items-center justify-center"
+    >
+      <GuideInfoFrom
+        formState={formState}
+        userId={userId}
+        categoryId={categoryId}
+        subCategoryId={subCategoryId}
+        location={location}
+        setLocationError={setLocationError}
+        setCategoryError={setCategoryError}
+        setSubCategoryError={setSubCategoryError}
+      />
+    </form>
   );
 }
