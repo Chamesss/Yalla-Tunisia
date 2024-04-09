@@ -75,6 +75,7 @@ export default function CategorySection({
         className="flex h-fit transition-all overflow-hidden"
       >
         <Select
+          selectionMode="single"
           id="subCategoryTag"
           size="sm"
           isRequired
@@ -88,7 +89,7 @@ export default function CategorySection({
         >
           {categoryIdSelected !== null ? (
             categories[Number(categoryIdSelected) - 1].subcategories.map(
-              (d) => (
+              (d, i) => (
                 <SelectItem
                   key={d.id}
                   value={d.name}
