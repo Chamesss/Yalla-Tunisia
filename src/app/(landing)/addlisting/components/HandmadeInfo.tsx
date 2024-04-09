@@ -14,23 +14,7 @@ import { createHandmadeListing } from "@/lib/actions/createHandmadeListing";
 import { useFormState, useFormStatus } from "react-dom";
 import { CustomCheckbox } from "./utils/CustomCheckBoxUnselected";
 import SuccessLoading from "./utils/SuccessLoading";
-
-type Props = {
-  formState: {
-    response: {
-      success: boolean;
-      error: number;
-      message: string;
-    };
-  };
-  userId: string;
-  categoryId: string | null;
-  subCategoryId: string | null;
-  location: string | null;
-  setSubCategoryError: Dispatch<SetStateAction<boolean>>;
-  setLocationError: Dispatch<SetStateAction<boolean>>;
-  setCategoryError: Dispatch<SetStateAction<boolean>>;
-};
+import { MainPropsForm, PropsForm } from "@/types";
 
 function HandmadeForm({
   formState,
@@ -41,7 +25,7 @@ function HandmadeForm({
   setSubCategoryError,
   setLocationError,
   setCategoryError,
-}: Props) {
+}: PropsForm) {
   const [color, setColor] = useState("#aabbcc");
   const [colors, setColors] = useState<string[]>([]);
   const [title, setTitle] = useState<string>("");
@@ -51,10 +35,6 @@ function HandmadeForm({
   const [materialsUsed, setMaterialsUser] = useState<string>("");
   const [formError, setFormError] = useState<number>(0);
   const data = useFormStatus();
-
-  useEffect(() => {
-    // console.log("form status ===", data);
-  }, []);
 
   useEffect(() => {
     formState.response?.error && setFormError(formState.response.error);
@@ -342,16 +322,6 @@ function HandmadeForm({
   );
 }
 
-type MainProps = {
-  userId: string;
-  categoryId: string | null;
-  subCategoryId: string | null;
-  location: string | null;
-  setLocationError: Dispatch<SetStateAction<boolean>>;
-  setCategoryError: Dispatch<SetStateAction<boolean>>;
-  setSubCategoryError: Dispatch<SetStateAction<boolean>>;
-};
-
 export default function HandmadeInfo({
   userId,
   categoryId,
@@ -360,7 +330,7 @@ export default function HandmadeInfo({
   setLocationError,
   setCategoryError,
   setSubCategoryError,
-}: MainProps) {
+}: MainPropsForm) {
   const initialState = {
     response: {
       success: false,

@@ -17,7 +17,6 @@ interface Result {
   size: string[];
   picture: string;
 }
-[];
 
 interface ItemType {
   id: string;
@@ -51,7 +50,7 @@ interface ItemType {
       name: string;
     }
   ];
-};
+}
 
 interface userType {
   firstname: string;
@@ -74,7 +73,7 @@ interface userType {
       name: string;
     }
   ];
-};
+}
 
 interface SubCategoryType {
   id: string;

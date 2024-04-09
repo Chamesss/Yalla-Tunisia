@@ -4,6 +4,7 @@
 import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "firebase/storage";
 import { app, db } from "../../../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
+import { uploadImages } from "./uploadPictures";
 
 export async function createHandmadeListing(prevState: any, formData: FormData) {
 
@@ -92,7 +93,7 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
 
     const sizes = [xs, sm, md, lg, xl, xxl]
     const dimensions = [width, height]
-    const imageUrls = await uploadImages(productImages, userId)
+    const imageUrls = await uploadImages(productImages, userId, getStorage, uploadBytes, getDownloadURL, app, storageRef)
 
     const data = {
         userId,
@@ -122,20 +123,3 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
     };
 };
 
-async function uploadImages(productImages: FormDataEntryValue[], userId: string) {
-    let imageUrls = ['']
-    const storage = getStorage(app);
-    for (const image of productImages) {
-        const file = image as File;
-        const filename = `${Date.now()}_${file.name}`;
-        const ref = storageRef(storage, `images/${userId}/${filename}`);
-        try {
-            await uploadBytes(ref, file);
-            const imageUrl = await getDownloadURL(ref);
-            imageUrls.push(imageUrl);
-        } catch (error) {
-            return { response: { success: false, error: -1, message: 'Error uploading image' } };
-        }
-    }
-    return imageUrls;
-}

@@ -1,12 +1,25 @@
 import { useState, useRef, useEffect } from "react";
-import { Textarea, Input, Divider } from "@nextui-org/react";
+import { Textarea, Input, Divider, Button, Spinner } from "@nextui-org/react";
 import AddImages from "./AddImages";
 import RadioGrpTime from "./utils/RadioGrpTime";
 import DaysPicker from "./utils/DaysPicker";
 import Restrictions from "./utils/Restrictions";
 import EventType from "./utils/EventType";
+import { MainPropsForm, PropsForm } from "@/types";
+import { useFormState, useFormStatus } from "react-dom";
+import { createSportListing } from "@/lib/actions/createSportListing";
+import SuccessLoading from "./utils/SuccessLoading";
 
-export default function SportsInfo() {
+function SportsInfoFrom({
+  formState,
+  userId,
+  categoryId,
+  subCategoryId,
+  location,
+  setSubCategoryError,
+  setLocationError,
+  setCategoryError,
+}: PropsForm) {
   const [allTime, setAllTime] = useState(false);
   const [allTimeNoWknd, setAllTimeNoWknd] = useState(false);
   const [allTimeWWknd, setAllTimeWWknd] = useState(false);
@@ -17,7 +30,38 @@ export default function SportsInfo() {
   const clockRef = useRef<HTMLDivElement>(null);
   const resRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [formError, setFormError] = useState<number>(0);
   const [inputs, setInputs] = useState([""]);
+  const [title, setTitle] = useState<string>("");
+  const [price, setPrice] = useState<number>();
+  const [description, setDescription] = useState<string>("");
+  const data = useFormStatus();
+
+  useEffect(() => {
+    setFormError(0);
+  }, [title, price, description]);
+
+  useEffect(() => {
+    formState.response?.error && setFormError(formState.response.error);
+    console.log("formState.response?.error === ", formState.response?.error);
+    if (formState.response?.error !== 0) {
+      if (formState.response?.error === 11) {
+        setCategoryError(true);
+      }
+      if (formState.response?.error === 12) {
+        setSubCategoryError(true);
+      }
+      if (formState.response?.error === 13) {
+        setLocationError(true);
+      }
+      const element = document.getElementById("GeneralSection");
+      element?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
+    }
+  }, [formState]);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -40,61 +84,187 @@ export default function SportsInfo() {
   }, []);
 
   return (
-    <div className="w-full flex items-center justify-center">
-      <div className="flex flex-col w-full items-stretch gap-4">
-        <h1 className="text-xl font-semibold">General info</h1>
-        <div className="px-2 gap-4 flex flex-col">
-          <Input isRequired size="sm" label="Title" />
-          <div className="flex flex-row gap-4">
+    <>
+      <div className="w-full flex items-center justify-center">
+        <div className="flex flex-col w-full items-stretch gap-4">
+          {/* outer values begin */}
+          <input name="userId" value={userId} className="absolute hidden" />
+          {categoryId && (
+            <input
+              name="categoryId"
+              value={categoryId}
+              className="absolute hidden"
+            />
+          )}
+          {subCategoryId && (
+            <input
+              name="subCategoryId"
+              value={subCategoryId}
+              className="absolute hidden"
+            />
+          )}
+          {location && (
+            <input
+              name="location"
+              value={location}
+              className="absolute hidden"
+            />
+          )}
+          {/* outer values end */}
+          <h1 className="text-xl font-semibold">General info</h1>
+          <div className="px-2 gap-4 flex flex-col">
             <Input
-              isRequired
-              type="number"
-              label="Price"
+              id="title"
+              name="title"
+              onChange={(e) => setTitle(e.target.value)}
               size="sm"
-              startContent={
-                <div className="pointer-events-none flex items-center">
-                  <span className="text-default-400 text-small">DT</span>
-                </div>
+              label={
+                <span className="text-sm">
+                  Title<small className="text-danger-500">*</small>
+                </span>
+              }
+              description={
+                (formError === 1 || title.length > 35) && (
+                  <small className=" text-danger-500">
+                    {formState?.response?.message}
+                  </small>
+                )
+              }
+            />
+            <div className="flex flex-row gap-4">
+              <Input
+                type="number"
+                label={
+                  <span className="text-sm">
+                    Price (per person)
+                    <small className="text-danger-500">*</small>
+                  </span>
+                }
+                id="price"
+                name="price"
+                onChange={(e) => setPrice(parseInt(e.target.value))}
+                size="sm"
+                startContent={
+                  <div className="pointer-events-none flex items-center">
+                    <span className="text-default-400 text-small">DT</span>
+                  </div>
+                }
+                description={
+                  formError === 2 && (
+                    <small className="text-danger-500">
+                      {formState?.response?.message}
+                    </small>
+                  )
+                }
+              />
+              <Input
+                type="number"
+                label="Max group size"
+                size="sm"
+                className="w-[50%]"
+                defaultValue="1"
+                name="grpSize"
+              />
+            </div>
+            <Textarea
+              id="description"
+              name="description"
+              label={
+                <span className="text-sm">
+                  Description<small className="text-danger-500">*</small>
+                </span>
+              }
+              placeholder="Enter your description"
+              onChange={(e) => setDescription(e.target.value)}
+              description={
+                (description.length > 255 || formError === 4) && (
+                  <small className=" text-danger-500">
+                    {formState?.response?.message}
+                  </small>
+                )
               }
             />
             <Input
-              isRequired
-              type="number"
-              label="Max group size"
+              name="duration"
               size="sm"
-              className="w-[50%]"
+              type="number"
+              label="Duration (hours)"
+              defaultValue="1"
+            />
+            <Divider className="my-4" />
+            <EventType setScheduled={setScheduled} scheduled={scheduled} />
+            <Divider className="my-4" />
+            <div
+              ref={contentRef}
+              className="flex flex-row h-fit transition-all items-center justify-between w-full overflow-hidden"
+            >
+              {scheduled ? (
+                <DaysPicker clockRef={clockRef} days={days} setDays={setDays} />
+              ) : (
+                <RadioGrpTime radioRef={radioRef} />
+              )}
+            </div>
+            <Divider className="my-4" />
+            <AddImages />
+            <Divider className="my-4" />
+            <Restrictions
+              inputRef={inputRef}
+              setInputs={setInputs}
+              inputs={inputs}
+              resRef={resRef}
             />
           </div>
-          <Textarea
-            label="Description"
-            placeholder="Enter your description"
-            description="Enter a concise description of your project."
-          />
-          <Input isRequired size="sm" label="Duration" />
-          <Divider className="my-4" />
-          <EventType setScheduled={setScheduled} scheduled={scheduled} />
-          <Divider className="my-4" />
-          <div
-            ref={contentRef}
-            className="flex flex-row h-fit transition-all items-center justify-between w-full overflow-hidden"
-          >
-            {scheduled ? (
-              <DaysPicker clockRef={clockRef} days={days} setDays={setDays} />
-            ) : (
-              <RadioGrpTime radioRef={radioRef} />
-            )}
-          </div>
-          <Divider className="my-4" />
-          <AddImages />
-          <Divider className="my-4" />
-          <Restrictions
-            inputRef={inputRef}
-            setInputs={setInputs}
-            inputs={inputs}
-            resRef={resRef}
-          />
         </div>
       </div>
-    </div>
+      <Divider className="my-4" />
+      <div className="px-10 mt-4 py-2 gap-4 flex w-full justify-between">
+        <Button color="danger">Cancel</Button>
+        <Button disabled={data.pending} type="submit" color="primary">
+          {data.pending ? <Spinner /> : "Submit"}
+        </Button>
+      </div>
+      <SuccessLoading formState={formState} />
+    </>
+  );
+}
+
+export default function SportsInfo({
+  userId,
+  categoryId,
+  subCategoryId,
+  location,
+  setLocationError,
+  setCategoryError,
+  setSubCategoryError,
+}: MainPropsForm) {
+  const initialState = {
+    response: {
+      success: false,
+      message: "",
+      error: 0,
+    },
+  };
+
+  const [formState, formAction] = useFormState(
+    createSportListing,
+    initialState
+  );
+
+  return (
+    <form
+      action={formAction}
+      className="w-full flex flex-col items-center justify-center"
+    >
+      <SportsInfoFrom
+        formState={formState}
+        userId={userId}
+        categoryId={categoryId}
+        subCategoryId={subCategoryId}
+        location={location}
+        setLocationError={setLocationError}
+        setCategoryError={setCategoryError}
+        setSubCategoryError={setSubCategoryError}
+      />
+    </form>
   );
 }

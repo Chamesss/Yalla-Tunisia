@@ -97,7 +97,17 @@ export default function MainCreateListing() {
                         setSubCategoryError={setSubCategoryError}
                       />
                     )}
-                    {Number(categoryIdSelected) === 2 && <SportsInfo />}
+                    {Number(categoryIdSelected) === 2 && (
+                      <SportsInfo
+                        userId={user.userId}
+                        categoryId={categoryIdSelected}
+                        subCategoryId={subCategoryId}
+                        location={location}
+                        setLocationError={setLocationError}
+                        setCategoryError={setCategoryError}
+                        setSubCategoryError={setSubCategoryError}
+                      />
+                    )}
                     {Number(categoryIdSelected) === 3 && <GuideInfo />}
                   </div>
                 </div>
