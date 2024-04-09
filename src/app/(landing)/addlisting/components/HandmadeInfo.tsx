@@ -4,6 +4,7 @@ import {
   Textarea,
   Button,
   CheckboxGroup,
+  Spinner,
 } from "@nextui-org/react";
 import AddImages from "./AddImages";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -332,11 +333,11 @@ function HandmadeForm({
       <Divider className="my-4" />
       <div className="px-10 mt-4 py-2 gap-4 flex w-full justify-between">
         <Button color="danger">Cancel</Button>
-        <Button type="submit" color="primary">
-          Submit
+        <Button disabled={data.pending} type="submit" color="primary">
+          {data.pending ? <Spinner /> : "Submit"}
         </Button>
       </div>
-      <SuccessLoading data={data} formState={formState} />
+      <SuccessLoading formState={formState} />
     </>
   );
 }

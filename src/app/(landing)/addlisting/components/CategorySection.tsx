@@ -1,5 +1,5 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 interface data {
   categories: CategoryType[];
@@ -18,6 +18,10 @@ export default function CategorySection({
   categoryError,
   subCategoryError,
 }: data) {
+  const subCategoryRef = useRef<HTMLDivElement>(null);
+  const selectRef = useRef<HTMLDivElement>(null);
+  const [oldHeight, setOldHeight] = useState<null | number>(null);
+
   const ChooseCategory = (i: string) => {
     setCategoryIdSelected((prev) => {
       if (prev === i) return null;
@@ -33,11 +37,16 @@ export default function CategorySection({
   };
 
   useEffect(() => {
-    console.log("subCategoryError === ", subCategoryError);
-  }, [subCategoryError]);
+    Number(categoryIdSelected) === 3 || categoryIdSelected === null
+      ? selectRef.current &&
+        (oldHeight === null && setOldHeight(selectRef.current.offsetHeight),
+        (selectRef.current.style.height = `${0}px`))
+      : selectRef.current &&
+        (selectRef.current.style.height = `${selectRef.current.scrollHeight}px`);
+  }, [categoryIdSelected]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div ref={subCategoryRef} className="flex flex-col gap-4  transition-all">
       <h1 className="text-xl font-semibold">Choose a category</h1>
       <div>
         <Select
@@ -61,23 +70,25 @@ export default function CategorySection({
           ))}
         </Select>
       </div>
-      <div>
-        {Number(categoryIdSelected) !== 2 && (
-          <Select
-            size="sm"
-            isRequired
-            label="Select Subcategory"
-            isDisabled={
-              categoryIdSelected === null || Number(categoryIdSelected) === 2
-            }
-            description={
-              subCategoryError && (
-                <p className="text-danger-500">Enter valid subcategory</p>
-              )
-            }
-          >
-            {categoryIdSelected !== null ? (
-              categories[Number(categoryIdSelected)].subcategories.map((d) => (
+      <div
+        ref={selectRef}
+        className="flex h-fit transition-all overflow-hidden"
+      >
+        <Select
+          id="subCategoryTag"
+          size="sm"
+          isRequired
+          label="Select Subcategory"
+          isDisabled={Number(categoryIdSelected) === 3}
+          description={
+            subCategoryError && (
+              <p className="text-danger-500">Enter valid subcategory</p>
+            )
+          }
+        >
+          {categoryIdSelected !== null ? (
+            categories[Number(categoryIdSelected) - 1].subcategories.map(
+              (d) => (
                 <SelectItem
                   key={d.id}
                   value={d.name}
@@ -85,14 +96,14 @@ export default function CategorySection({
                 >
                   {d.name}
                 </SelectItem>
-              ))
-            ) : (
-              <SelectItem key={0} value={0}>
-                {0}
-              </SelectItem>
-            )}
-          </Select>
-        )}
+              )
+            )
+          ) : (
+            <SelectItem key={0} value={0}>
+              {0}
+            </SelectItem>
+          )}
+        </Select>
       </div>
     </div>
   );

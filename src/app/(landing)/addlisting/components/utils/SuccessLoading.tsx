@@ -10,10 +10,9 @@ type Props = {
       message: string;
     };
   };
-  data: FormStatus;
 };
 
-export default function SuccessLoading({ formState, data }: Props) {
+export default function SuccessLoading({ formState }: Props) {
   const [success, setSuccess] = useState<boolean>(formState.response.success);
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export default function SuccessLoading({ formState, data }: Props) {
   return (
     <div
       className={`fixed w-screen top-0 left-0 z-[9999] h-screen bg-black/60 ${
-        success || data.pending ? "opacity-100" : "opacity-0"
+        success ? "opacity-100" : "opacity-0"
       } transition-opacity duration-300 ${
         success ? "pointer-events-auto" : "pointer-events-none"
       }`}
