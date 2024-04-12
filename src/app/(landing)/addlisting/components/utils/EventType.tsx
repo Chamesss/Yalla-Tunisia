@@ -11,6 +11,8 @@ export default function EventType({ setScheduled, scheduled }: Props) {
     <div className="flex flex-row">
       <h1 className="font-semibold">Event type:</h1>
       <RadioGroup
+        name="eventType"
+        value={scheduled ? "ScheduledEvent" : "OngoingEvent"}
         className="ml-4"
         orientation="horizontal"
         defaultValue="ScheduledEvent"

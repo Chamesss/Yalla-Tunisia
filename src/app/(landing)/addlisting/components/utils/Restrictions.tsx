@@ -48,9 +48,15 @@ export default function Restrictions({
   return (
     <div ref={resRef} className="flex flex-col gap-4 h-fit transition-all">
       <h1 className="text-xl font-semibold">Restrictions</h1>
+      <input
+        className="absolute hidden"
+        value={inputs.length}
+        name="restrictionLength"
+      />
       {inputs.map((input, index) => (
         <div key={index} className="flex gap-4">
           <Input
+            name={`restriction-${index}`}
             ref={inputRef}
             label={`Restriction ${index + 1}`}
             value={input}

@@ -9,6 +9,7 @@ import {
   CheckboxGroup,
   Autocomplete,
   AutocompleteItem,
+  Spinner,
 } from "@nextui-org/react";
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
@@ -21,8 +22,11 @@ import DaysPicker from "./utils/DaysPicker";
 import Restrictions from "./utils/Restrictions";
 import EventType from "./utils/EventType";
 import { MainPropsForm, PropsForm } from "@/types";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { createGuideListing } from "@/lib/actions/createGuideListing";
+import SuccessLoading from "./utils/SuccessLoading";
+import SubmitSection from "./utils/SubmitSection";
+import OuterValues from "./utils/OuterValues";
 
 function GuideInfoFrom({
   formState,
@@ -53,6 +57,7 @@ function GuideInfoFrom({
   const resRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputs, setInputs] = useState([""]);
+  const data = useFormStatus();
 
   useEffect(() => {
     if (contentRef.current) {
@@ -92,6 +97,12 @@ function GuideInfoFrom({
     <div className="w-full flex items-center justify-center">
       <div className="flex flex-col w-full items-stretch gap-4">
         <h1 className="text-xl font-semibold">General info</h1>
+        <OuterValues
+          userId={userId}
+          categoryId={categoryId}
+          subCategoryId={subCategoryId}
+          location={location}
+        />
         <div className="px-2 gap-4 flex flex-col">
           <Input isRequired size="sm" label="Title" />
           <Textarea
@@ -234,6 +245,7 @@ function GuideInfoFrom({
             inputs={inputs}
             resRef={resRef}
           />
+          <SubmitSection data={data} formState={formState} />
         </div>
       </div>
     </div>

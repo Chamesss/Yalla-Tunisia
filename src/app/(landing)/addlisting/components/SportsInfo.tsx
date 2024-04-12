@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Textarea, Input, Divider, Button, Spinner } from "@nextui-org/react";
+import { Textarea, Input, Divider } from "@nextui-org/react";
 import AddImages from "./AddImages";
 import RadioGrpTime from "./utils/RadioGrpTime";
 import DaysPicker from "./utils/DaysPicker";
@@ -8,7 +8,8 @@ import EventType from "./utils/EventType";
 import { MainPropsForm, PropsForm } from "@/types";
 import { useFormState, useFormStatus } from "react-dom";
 import { createSportListing } from "@/lib/actions/createSportListing";
-import SuccessLoading from "./utils/SuccessLoading";
+import SubmitSection from "./utils/SubmitSection";
+import OuterValues from "./utils/OuterValues";
 
 function SportsInfoFrom({
   formState,
@@ -87,30 +88,12 @@ function SportsInfoFrom({
     <>
       <div className="w-full flex items-center justify-center">
         <div className="flex flex-col w-full items-stretch gap-4">
-          {/* outer values begin */}
-          <input name="userId" value={userId} className="absolute hidden" />
-          {categoryId && (
-            <input
-              name="categoryId"
-              value={categoryId}
-              className="absolute hidden"
-            />
-          )}
-          {subCategoryId && (
-            <input
-              name="subCategoryId"
-              value={subCategoryId}
-              className="absolute hidden"
-            />
-          )}
-          {location && (
-            <input
-              name="location"
-              value={location}
-              className="absolute hidden"
-            />
-          )}
-          {/* outer values end */}
+          <OuterValues
+            userId={userId}
+            categoryId={categoryId}
+            subCategoryId={subCategoryId}
+            location={location}
+          />
           <h1 className="text-xl font-semibold">General info</h1>
           <div className="px-2 gap-4 flex flex-col">
             <Input
@@ -216,14 +199,7 @@ function SportsInfoFrom({
           </div>
         </div>
       </div>
-      <Divider className="my-4" />
-      <div className="px-10 mt-4 py-2 gap-4 flex w-full justify-between">
-        <Button color="danger">Cancel</Button>
-        <Button disabled={data.pending} type="submit" color="primary">
-          {data.pending ? <Spinner /> : "Submit"}
-        </Button>
-      </div>
-      <SuccessLoading formState={formState} />
+      <SubmitSection data={data} formState={formState} />
     </>
   );
 }

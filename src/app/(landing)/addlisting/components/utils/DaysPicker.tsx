@@ -1,4 +1,4 @@
-import { Dispatch, LegacyRef, SetStateAction } from "react";
+import { Dispatch, LegacyRef, SetStateAction, useEffect } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
@@ -9,9 +9,18 @@ type Props = {
 };
 
 export default function DaysPicker({ clockRef, days, setDays }: Props) {
+  useEffect(() => {}, [days]);
   return (
     <div ref={clockRef} className="flex flex-col items-center h-fit w-full ">
       <p>Select your event days</p>
+      {days && (
+        <input
+          name="days"
+          multiple
+          value={days.map((date) => date.toISOString())}
+          className="absolute hidden"
+        />
+      )}
       <DayPicker
         numberOfMonths={2}
         mode="multiple"

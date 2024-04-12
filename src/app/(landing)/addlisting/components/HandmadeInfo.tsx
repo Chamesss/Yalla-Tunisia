@@ -15,6 +15,8 @@ import { useFormState, useFormStatus } from "react-dom";
 import { CustomCheckbox } from "./utils/CustomCheckBoxUnselected";
 import SuccessLoading from "./utils/SuccessLoading";
 import { MainPropsForm, PropsForm } from "@/types";
+import SubmitSection from "./utils/SubmitSection";
+import OuterValues from "./utils/OuterValues";
 
 function HandmadeForm({
   formState,
@@ -69,30 +71,12 @@ function HandmadeForm({
           General info<small className="text-danger-500">*</small>
         </h1>
         <div id="GeneralSection" className="px-2 gap-4 flex flex-col">
-          {/* outer values begin */}
-          <input name="userId" value={userId} className="absolute hidden" />
-          {categoryId && (
-            <input
-              name="categoryId"
-              value={categoryId}
-              className="absolute hidden"
-            />
-          )}
-          {subCategoryId && (
-            <input
-              name="subCategoryId"
-              value={subCategoryId}
-              className="absolute hidden"
-            />
-          )}
-          {location && (
-            <input
-              name="location"
-              value={location}
-              className="absolute hidden"
-            />
-          )}
-          {/* outer values end */}
+          <OuterValues
+            userId={userId}
+            categoryId={categoryId}
+            subCategoryId={subCategoryId}
+            location={location}
+          />
           <Input
             id="title"
             name="title"
@@ -310,14 +294,7 @@ function HandmadeForm({
           </div>
         </div>
       </div>
-      <Divider className="my-4" />
-      <div className="px-10 mt-4 py-2 gap-4 flex w-full justify-between">
-        <Button color="danger">Cancel</Button>
-        <Button disabled={data.pending} type="submit" color="primary">
-          {data.pending ? <Spinner /> : "Submit"}
-        </Button>
-      </div>
-      <SuccessLoading formState={formState} />
+      <SubmitSection data={data} formState={formState} />
     </>
   );
 }
