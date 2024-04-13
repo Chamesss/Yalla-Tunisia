@@ -10,7 +10,7 @@ import { useFormState, useFormStatus } from "react-dom";
 import { createSportListing } from "@/lib/actions/createSportListing";
 import SubmitSection from "./utils/SubmitSection";
 import OuterValues from "./utils/OuterValues";
-import FormStateError from "./utils/formStateError";
+import FormStateError from "./utils/FormStateError";
 import { getErrorStateSports } from "@/constants/errorMapping";
 
 function SportsInfoFrom({

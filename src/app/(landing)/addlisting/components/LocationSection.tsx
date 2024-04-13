@@ -5,8 +5,7 @@ import {
   Checkbox,
   Divider,
 } from "@nextui-org/react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import FormStateError from "./utils/formStateError";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 type Props = {
   location: string | null;
@@ -29,11 +28,6 @@ export default function LocationSection({
     locationChecked === true && setLocation("Tunis");
     locationChecked === false && setLocation(null);
   }, [locationChecked]);
-
-  useEffect(() => {
-    locationError === true && console.log("location true");
-    locationError === false && console.log("location false");
-  }, [locationError]);
 
   return (
     <>

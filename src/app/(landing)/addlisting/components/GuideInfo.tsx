@@ -27,6 +27,8 @@ import SubmitSection from "./utils/SubmitSection";
 import OuterValues from "./utils/OuterValues";
 import { ErrorBoundary } from "react-error-boundary";
 import fallbackRender from "@/constants/fallbackRender";
+import FormStateError from "./utils/FormStateError";
+import { getErrorStateGuide } from "@/constants/errorMapping";
 
 function GuideInfoFrom({
   formState,
@@ -49,6 +51,11 @@ function GuideInfoFrom({
   const resRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputs, setInputs] = useState([""]);
+  const [formError, setFormError] = useState<number>(0);
+  const [title, setTitle] = useState<string>("");
+  const [priceHourly, setPriceHourly] = useState<string>();
+  const [priceTour, setPriceTour] = useState<string>();
+  const [description, setDescription] = useState<string>("");
   const data = useFormStatus();
 
   useEffect(() => {
@@ -59,11 +66,32 @@ function GuideInfoFrom({
     }
   }, [scheduled, days]);
 
-  // useEffect(() => {
-  //   setAllTime(false);
-  //   setAllTimeNoWknd(false);
-  //   setAllTimeWWknd(false);
-  // }, [scheduled]);
+  useEffect(() => {
+    setPriceTour(undefined);
+    setPriceHourly(undefined);
+  }, [selectedPaymentMethod]);
+
+  useEffect(() => {
+    setFormError(0);
+  }, [title, priceHourly, priceTour, description, selectedPaymentMethod]);
+
+  useEffect(() => {
+    formState.response?.error && setFormError(formState.response.error);
+    if (formState.response?.error !== 0) {
+      const mapping = getErrorStateGuide(
+        setCategoryError,
+        setLocationError,
+        formState.response?.error
+      );
+      if (mapping) {
+        if (mapping.errorStateSetter) {
+          mapping.errorStateSetter(true);
+        }
+        const element = document.getElementById(mapping.sectionId);
+        element?.scrollIntoView(mapping.scrollOptions);
+      }
+    }
+  }, [formState]);
 
   useLayoutEffect(() => {
     if (resRef.current) {
@@ -96,40 +124,111 @@ function GuideInfoFrom({
           location={location}
         />
         <div className="px-2 gap-4 flex flex-col">
-          <Input isRequired size="sm" label="Title" />
-          <Textarea
-            label="Description"
-            placeholder="Enter your description"
-            description="Enter a concise description of your project."
-          />
-          <Input isRequired size="sm" label="Duration" />
-
+          <div className="gap-4 flex flex-col" id="GeneralSection">
+            <Input
+              name="title"
+              onChange={(e) => setTitle(e.target.value)}
+              size="sm"
+              label={
+                <span className="text-sm">
+                  Title<small className="text-danger-500">*</small>
+                </span>
+              }
+              description={
+                formError === 1 && <FormStateError formState={formState} />
+              }
+            />
+            <Textarea
+              id="description"
+              name="description"
+              label={
+                <span className="text-sm">
+                  Description<small className="text-danger-500">*</small>
+                </span>
+              }
+              placeholder="Enter your description"
+              onChange={(e) => setDescription(e.target.value)}
+              description={
+                formError === 3 && <FormStateError formState={formState} />
+              }
+            />
+            <div className="flex flex-row">
+              <h1 className="font-semibold">Payment:</h1>
+              <RadioGroup
+                className="ml-4"
+                onValueChange={(value) => setSelectedPayementMethod(value)}
+                orientation="horizontal"
+                defaultValue="tour"
+                name="paymentMethod"
+                value={selectedPaymentMethod}
+              >
+                <Radio value="hourly">Payment per hour</Radio>
+                <Radio value="tour">Payment per entire tour</Radio>
+              </RadioGroup>
+            </div>
+            {selectedPaymentMethod === "hourly" && (
+              <Input
+                type="number"
+                label="Price per hour"
+                size="sm"
+                onChange={(e) => setPriceHourly(e.target.value)}
+                value={priceHourly}
+                name="PriceHourly"
+                startContent={
+                  <div className="pointer-events-none flex items-center">
+                    <span className="text-default-400 text-small">DT</span>
+                  </div>
+                }
+                description={
+                  formError === 2 && <FormStateError formState={formState} />
+                }
+              />
+            )}
+            {selectedPaymentMethod === "tour" && (
+              <Input
+                type="number"
+                label="Price per entire tour"
+                onChange={(e) => setPriceTour(e.target.value)}
+                value={priceTour}
+                size="sm"
+                name="PriceTour"
+                startContent={
+                  <div className="pointer-events-none flex items-center">
+                    <span className="text-default-400 text-small">DT</span>
+                  </div>
+                }
+                description={
+                  formError === 2 && <FormStateError formState={formState} />
+                }
+              />
+            )}
+          </div>
           <Divider className="my-4" />
           {/* Languages Selector */}
-
           <div className="flex flex-col gap-4">
-            <CheckboxGroup
-              className="gap-1"
-              label="Languages Selected"
-              orientation="horizontal"
-            >
-              <>
+            <h1 className="font-semibold flex flex-row gap-1 items-center">
+              Languages:
+              <CheckboxGroup className="gap-1" orientation="horizontal">
                 {languages.length > 0 ? (
                   <>
-                    {languages.map((l) => (
+                    {languages.map((l, i: number) => (
                       <CustomCheckbox
                         onClick={() => deleteSelectedLanguages(l)}
                         key={l}
+                        name={`language-${i}`}
                       >
                         {l}
                       </CustomCheckbox>
                     ))}
                   </>
                 ) : (
-                  <small className="italic">No languages selected</small>
+                  <small className="italic font-normal">
+                    No languages selected
+                  </small>
                 )}
-              </>
-            </CheckboxGroup>
+              </CheckboxGroup>
+            </h1>
+
             <ErrorBoundary fallbackRender={fallbackRender}>
               <Autocomplete
                 defaultItems={SPOKENLANGUAGES}
@@ -149,46 +248,6 @@ function GuideInfoFrom({
               </Autocomplete>
             </ErrorBoundary>
           </div>
-
-          <Divider className="my-4" />
-          <div className="flex flex-row">
-            <h1 className="font-semibold">Payment:</h1>
-            <RadioGroup
-              className="ml-4"
-              onValueChange={(value) => setSelectedPayementMethod(value)}
-              orientation="horizontal"
-              defaultValue="tour"
-            >
-              <Radio value="hourly">Payment per hour</Radio>
-              <Radio value="tour">Payment per entire tour</Radio>
-            </RadioGroup>
-          </div>
-          {selectedPaymentMethod === "hourly" && (
-            <Input
-              isRequired
-              type="number"
-              label="Price per hour"
-              size="sm"
-              startContent={
-                <div className="pointer-events-none flex items-center">
-                  <span className="text-default-400 text-small">DT</span>
-                </div>
-              }
-            />
-          )}
-          {selectedPaymentMethod === "tour" && (
-            <Input
-              isRequired
-              type="number"
-              label="Price per entire tour"
-              size="sm"
-              startContent={
-                <div className="pointer-events-none flex items-center">
-                  <span className="text-default-400 text-small">DT</span>
-                </div>
-              }
-            />
-          )}
           <Divider className="my-4" />
           <div className="flex flex-row">
             <h1 className="font-semibold">Transportation:</h1>
@@ -242,6 +301,11 @@ function GuideInfoFrom({
           <SubmitSection data={data} formState={formState} />
         </div>
       </div>
+      <input
+        name="language-length"
+        className="absolute hidden"
+        value={languages.length}
+      />
     </div>
   );
 }

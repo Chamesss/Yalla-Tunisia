@@ -49,8 +49,6 @@ export async function createSportListing(prevState: any, formData: FormData) {
         return { response: { success: false, error: 2, message: "insert a valid price" } }
     }
 
-    console.log("grpSize === ", grpSize)
-
     if (grpSize) {
         if (Number(grpSize) < 1) {
             return { response: { success: false, error: 3, message: "group size must be greater then 1" } }
