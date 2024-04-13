@@ -60,6 +60,7 @@ export default function MainCreateListing() {
               setCategoryIdSelected={setCategoryIdSelected}
               categoryIdSelected={categoryIdSelected}
               setSubCategoryId={setSubCategoryId}
+              subCategoryId={subCategoryId}
               categoryError={categoryError}
               subCategoryError={subCategoryError}
             />

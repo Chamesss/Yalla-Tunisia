@@ -45,14 +45,18 @@ export default function CategorySection({
           size="sm"
           isRequired
           label="Select Categories"
-          onChange={(e) => setCategoryIdSelected(e.target.value)}
+          onChange={(e) =>
+            setCategoryIdSelected(() =>
+              e.target.value.length === 0 ? null : e.target.value
+            )
+          }
           description={
             categoryError && (
               <p className="text-danger-500">Enter valid category</p>
             )
           }
         >
-          {categories.map((d, i) => (
+          {categories.map((d) => (
             <SelectItem key={d.id} value={d.name}>
               {d.name}
             </SelectItem>
@@ -73,7 +77,11 @@ export default function CategorySection({
           id="subCategoryTag"
           size="sm"
           isRequired
-          onChange={(e) => setSubCategoryId(e.target.value)}
+          onChange={(e) =>
+            setSubCategoryId(() =>
+              e.target.value.length === 0 ? null : e.target.value
+            )
+          }
           label="Select Subcategory"
           isDisabled={Number(categoryIdSelected) === 3}
           description={
@@ -90,7 +98,7 @@ export default function CategorySection({
         >
           {categoryIdSelected !== null ? (
             categories[Number(categoryIdSelected) - 1].subcategories.map(
-              (d, i) => (
+              (d) => (
                 <SelectItem key={d.id} value={d.name}>
                   {d.name}
                 </SelectItem>

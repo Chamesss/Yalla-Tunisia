@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useLayoutEffect } from "react";
 import {
   Textarea,
   Input,
@@ -11,8 +11,6 @@ import {
   AutocompleteItem,
   Spinner,
 } from "@nextui-org/react";
-import { format } from "date-fns";
-import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import AddImages from "./AddImages";
 import { CustomCheckbox } from "./CustomCheckBox";
@@ -27,6 +25,8 @@ import { createGuideListing } from "@/lib/actions/createGuideListing";
 import SuccessLoading from "./utils/SuccessLoading";
 import SubmitSection from "./utils/SubmitSection";
 import OuterValues from "./utils/OuterValues";
+import { ErrorBoundary } from "react-error-boundary";
+import fallbackRender from "@/constants/fallbackRender";
 
 function GuideInfoFrom({
   formState,
@@ -38,18 +38,10 @@ function GuideInfoFrom({
   setLocationError,
   setCategoryError,
 }: PropsForm) {
-  const [allTime, setAllTime] = useState(false);
-  const [allTimeNoWknd, setAllTimeNoWknd] = useState(false);
-  const [allTimeWWknd, setAllTimeWWknd] = useState(false);
-
   const [spokenLanguages, setSpokenLanguages] = useState(SPOKENLANGUAGES);
-
   const [selectedPaymentMethod, setSelectedPayementMethod] = useState("tour");
   const [languages, setLanguages] = useState<string[]>([]);
-
   const [scheduled, setScheduled] = useState(true);
-  const [selected, setSelected] = useState<Date>();
-  const initialDays: Date[] = [];
   const [days, setDays] = useState<Date[] | undefined>();
   const contentRef = useRef<HTMLDivElement>(null);
   const radioRef = useRef<HTMLDivElement>(null);
@@ -67,13 +59,13 @@ function GuideInfoFrom({
     }
   }, [scheduled, days]);
 
-  useEffect(() => {
-    setAllTime(false);
-    setAllTimeNoWknd(false);
-    setAllTimeWWknd(false);
-  }, [scheduled]);
+  // useEffect(() => {
+  //   setAllTime(false);
+  //   setAllTimeNoWknd(false);
+  //   setAllTimeWWknd(false);
+  // }, [scheduled]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (resRef.current) {
       resRef.current.style.height = `${resRef.current?.scrollHeight}px`;
     }
@@ -113,7 +105,7 @@ function GuideInfoFrom({
           <Input isRequired size="sm" label="Duration" />
 
           <Divider className="my-4" />
-          {/* Language Selector */}
+          {/* Languages Selector */}
 
           <div className="flex flex-col gap-4">
             <CheckboxGroup
@@ -134,26 +126,28 @@ function GuideInfoFrom({
                     ))}
                   </>
                 ) : (
-                  <div>
-                    <small className="italic">No languages selected</small>
-                  </div>
+                  <small className="italic">No languages selected</small>
                 )}
               </>
             </CheckboxGroup>
-            <Autocomplete
-              label="Select your spoken languages"
-              className="max-w-xs"
-            >
-              {spokenLanguages.map((l) => (
-                <AutocompleteItem
-                  onClick={() => setLanguages((prev) => [...prev, l])}
-                  key={l}
-                  value={l}
-                >
-                  {l}
-                </AutocompleteItem>
-              ))}
-            </Autocomplete>
+            <ErrorBoundary fallbackRender={fallbackRender}>
+              <Autocomplete
+                defaultItems={SPOKENLANGUAGES}
+                label="Select your spoken languages"
+                className="max-w-xs"
+                onSelectionChange={(e) =>
+                  typeof e === "string" &&
+                  setLanguages((prev) => [...prev, e as string])
+                }
+                disabledKeys={languages}
+              >
+                {SPOKENLANGUAGES.map((l) => (
+                  <AutocompleteItem key={l} value={l}>
+                    {l}
+                  </AutocompleteItem>
+                ))}
+              </Autocomplete>
+            </ErrorBoundary>
           </div>
 
           <Divider className="my-4" />
