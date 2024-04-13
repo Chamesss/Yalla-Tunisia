@@ -48,12 +48,30 @@ function SportsInfoFrom({
     if (formState.response?.error !== 0) {
       if (formState.response?.error === 11) {
         setCategoryError(true);
+        const element = document.getElementById("categorySection");
+        element?.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest",
+        });
       }
       if (formState.response?.error === 12) {
         setSubCategoryError(true);
+        const element = document.getElementById("categorySection");
+        element?.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest",
+        });
       }
       if (formState.response?.error === 13) {
         setLocationError(true);
+        const element = document.getElementById("locationSection");
+        element?.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest",
+        });
       }
       const element = document.getElementById("GeneralSection");
       element?.scrollIntoView({

@@ -26,11 +26,10 @@ export default function MainCreateListing() {
   const user: userSlice = useSelector(userState);
 
   useEffect(() => {
+    setCategoryError(false);
+    setLocationError(false);
+    setSubCategoryError(false);
     if (categoryIdSelected !== null) setLoading(true);
-  }, [categoryIdSelected]);
-
-  useEffect(() => {
-    console.log("categoryIdSelected === ", categoryIdSelected);
   }, [categoryIdSelected]);
 
   useEffect(() => {
@@ -45,10 +44,6 @@ export default function MainCreateListing() {
   }, [location]);
 
   useEffect(() => {
-    setCategoryError(false);
-  }, [categoryIdSelected]);
-
-  useEffect(() => {
     setSubCategoryError(false);
   }, [subCategoryId]);
 
@@ -56,7 +51,10 @@ export default function MainCreateListing() {
     <div className="relative">
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex flex-col flex-1 md:flex-none md:w-[30%] gap-4">
-          <div className="border border-opacity-50 rounded-xl px-4 py-6">
+          <div
+            id="categorySection"
+            className="border border-opacity-50 rounded-xl px-4 py-6"
+          >
             <CategorySection
               categories={categories}
               setCategoryIdSelected={setCategoryIdSelected}
@@ -66,7 +64,10 @@ export default function MainCreateListing() {
               subCategoryError={subCategoryError}
             />
           </div>
-          <div className="border border-opacity-50 rounded-xl px-4 py-6">
+          <div
+            id="locationSection"
+            className="border border-opacity-50 rounded-xl px-4 py-6"
+          >
             <LocationSection
               location={location}
               setLocation={setLocation}
