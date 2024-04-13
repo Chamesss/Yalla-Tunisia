@@ -6,7 +6,7 @@ export async function createSportListing(prevState: any, formData: FormData) {
 
     const title = formData.get('title')
     const price = formData.get('price');
-    const grpSize = formData.get('qte')
+    const grpSize = formData.get('grpSize')
     const description = formData.get('description')
     const duration = formData.get('duration')
     const eventType = formData.get('eventType')
@@ -49,11 +49,13 @@ export async function createSportListing(prevState: any, formData: FormData) {
         return { response: { success: false, error: 2, message: "insert a valid price" } }
     }
 
+    console.log("grpSize === ", grpSize)
+
     if (grpSize) {
-        if (Number(price) < 1) {
+        if (Number(grpSize) < 1) {
             return { response: { success: false, error: 3, message: "group size must be greater then 1" } }
         }
-        if (Number(price) > 99) {
+        if (Number(grpSize) > 99) {
             return { response: { success: false, error: 3, message: "we think that's a lot" } }
         }
     } else {

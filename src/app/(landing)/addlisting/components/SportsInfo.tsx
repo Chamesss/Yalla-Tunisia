@@ -10,6 +10,8 @@ import { useFormState, useFormStatus } from "react-dom";
 import { createSportListing } from "@/lib/actions/createSportListing";
 import SubmitSection from "./utils/SubmitSection";
 import OuterValues from "./utils/OuterValues";
+import FormStateError from "./utils/formStateError";
+import { getErrorStateSports } from "@/constants/errorMapping";
 
 function SportsInfoFrom({
   formState,
@@ -21,9 +23,6 @@ function SportsInfoFrom({
   setLocationError,
   setCategoryError,
 }: PropsForm) {
-  const [allTime, setAllTime] = useState(false);
-  const [allTimeNoWknd, setAllTimeNoWknd] = useState(false);
-  const [allTimeWWknd, setAllTimeWWknd] = useState(false);
   const [scheduled, setScheduled] = useState(true);
   const [days, setDays] = useState<Date[] | undefined>();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -37,64 +36,40 @@ function SportsInfoFrom({
   const [price, setPrice] = useState<number>();
   const [description, setDescription] = useState<string>("");
   const data = useFormStatus();
+  const [grpSize, setGrpSize] = useState("1");
+  const [duration, setDuration] = useState("1");
 
   useEffect(() => {
     setFormError(0);
-  }, [title, price, description]);
+  }, [title, price, description, grpSize]);
 
   useEffect(() => {
     formState.response?.error && setFormError(formState.response.error);
-    console.log("formState.response?.error === ", formState.response?.error);
     if (formState.response?.error !== 0) {
-      if (formState.response?.error === 11) {
-        setCategoryError(true);
-        const element = document.getElementById("categorySection");
-        element?.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-          inline: "nearest",
-        });
+      const mapping = getErrorStateSports(
+        setCategoryError,
+        setSubCategoryError,
+        setLocationError,
+        formState.response?.error
+      );
+      if (mapping) {
+        if (mapping.errorStateSetter) {
+          mapping.errorStateSetter(true);
+        }
+        const element = document.getElementById(mapping.sectionId);
+        element?.scrollIntoView(mapping.scrollOptions);
       }
-      if (formState.response?.error === 12) {
-        setSubCategoryError(true);
-        const element = document.getElementById("categorySection");
-        element?.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-          inline: "nearest",
-        });
-      }
-      if (formState.response?.error === 13) {
-        setLocationError(true);
-        const element = document.getElementById("locationSection");
-        element?.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-          inline: "nearest",
-        });
-      }
-      const element = document.getElementById("GeneralSection");
-      element?.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        inline: "nearest",
-      });
     }
   }, [formState]);
 
   useEffect(() => {
+    setFormError(0);
     if (contentRef.current) {
       contentRef.current.style.height = scheduled
         ? `${clockRef.current?.scrollHeight}px`
         : `${radioRef.current?.scrollHeight}px`;
     }
   }, [scheduled, days]);
-
-  useEffect(() => {
-    setAllTime(false);
-    setAllTimeNoWknd(false);
-    setAllTimeWWknd(false);
-  }, [scheduled]);
 
   useEffect(() => {
     if (resRef.current) {
@@ -113,7 +88,7 @@ function SportsInfoFrom({
             location={location}
           />
           <h1 className="text-xl font-semibold">General info</h1>
-          <div className="px-2 gap-4 flex flex-col">
+          <div id="GeneralSection" className="px-2 gap-4 flex flex-col">
             <Input
               id="title"
               name="title"
@@ -125,16 +100,13 @@ function SportsInfoFrom({
                 </span>
               }
               description={
-                (formError === 1 || title.length > 35) && (
-                  <small className=" text-danger-500">
-                    {formState?.response?.message}
-                  </small>
-                )
+                formError === 1 && <FormStateError formState={formState} />
               }
             />
             <div className="flex flex-row gap-4">
               <Input
                 type="number"
+                className="relative"
                 label={
                   <span className="text-sm">
                     Price (per person)
@@ -151,20 +123,21 @@ function SportsInfoFrom({
                   </div>
                 }
                 description={
-                  formError === 2 && (
-                    <small className="text-danger-500">
-                      {formState?.response?.message}
-                    </small>
-                  )
+                  formError === 2 && <FormStateError formState={formState} />
                 }
               />
               <Input
                 type="number"
                 label="Max group size"
                 size="sm"
-                className="w-[50%]"
+                className="w-[50%] relative"
                 defaultValue="1"
                 name="grpSize"
+                onChange={(e) => setGrpSize(e.target.value)}
+                value={grpSize}
+                description={
+                  formError === 3 && <FormStateError formState={formState} />
+                }
               />
             </div>
             <Textarea
@@ -178,24 +151,32 @@ function SportsInfoFrom({
               placeholder="Enter your description"
               onChange={(e) => setDescription(e.target.value)}
               description={
-                (description.length > 255 || formError === 4) && (
-                  <small className=" text-danger-500">
-                    {formState?.response?.message}
-                  </small>
-                )
+                formError === 4 && <FormStateError formState={formState} />
               }
             />
             <Input
               name="duration"
               size="sm"
               type="number"
-              label="Duration (hours)"
+              label={
+                <span className="text-sm">
+                  Duration (hours)<small className="text-danger-500">*</small>
+                </span>
+              }
               defaultValue="1"
+              onChange={(e) => setDuration(e.target.value)}
+              value={duration}
+              description={
+                formError === 5 && <FormStateError formState={formState} />
+              }
             />
+          </div>
+          <div className="px-2 gap-4 flex flex-col">
             <Divider className="my-4" />
             <EventType setScheduled={setScheduled} scheduled={scheduled} />
             <Divider className="my-4" />
             <div
+              id="timingSection"
               ref={contentRef}
               className="flex flex-row h-fit transition-all items-center justify-between w-full overflow-hidden"
             >
@@ -205,6 +186,11 @@ function SportsInfoFrom({
                 <RadioGrpTime radioRef={radioRef} />
               )}
             </div>
+            {(formError === 6 || formError === 7) && (
+              <small className="text-danger-500">
+                {formState.response.message}
+              </small>
+            )}
             <Divider className="my-4" />
             <AddImages />
             <Divider className="my-4" />

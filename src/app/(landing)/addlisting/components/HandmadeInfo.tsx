@@ -17,6 +17,7 @@ import SuccessLoading from "./utils/SuccessLoading";
 import { MainPropsForm, PropsForm } from "@/types";
 import SubmitSection from "./utils/SubmitSection";
 import OuterValues from "./utils/OuterValues";
+import { getErrorStateHandmade } from "@/constants/errorMapping";
 
 function HandmadeForm({
   formState,
@@ -40,23 +41,20 @@ function HandmadeForm({
 
   useEffect(() => {
     formState.response?.error && setFormError(formState.response.error);
-    console.log("formState.response?.error === ", formState.response?.error);
     if (formState.response?.error !== 0) {
-      if (formState.response?.error === 11) {
-        setCategoryError(true);
+      const mapping = getErrorStateHandmade(
+        setCategoryError,
+        setSubCategoryError,
+        setLocationError,
+        formState.response?.error
+      );
+      if (mapping) {
+        if (mapping.errorStateSetter) {
+          mapping.errorStateSetter(true);
+        }
+        const element = document.getElementById(mapping.sectionId);
+        element?.scrollIntoView(mapping.scrollOptions);
       }
-      if (formState.response?.error === 12) {
-        setSubCategoryError(true);
-      }
-      if (formState.response?.error === 13) {
-        setLocationError(true);
-      }
-      const element = document.getElementById("GeneralSection");
-      element?.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        inline: "nearest",
-      });
     }
   }, [formState]);
 

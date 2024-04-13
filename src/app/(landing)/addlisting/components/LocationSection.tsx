@@ -1,6 +1,12 @@
 import { cities } from "@/cities";
-import { Autocomplete, AutocompleteItem, Checkbox } from "@nextui-org/react";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Checkbox,
+  Divider,
+} from "@nextui-org/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import FormStateError from "./utils/formStateError";
 
 type Props = {
   location: string | null;
@@ -24,21 +30,28 @@ export default function LocationSection({
     locationChecked === false && setLocation(null);
   }, [locationChecked]);
 
+  useEffect(() => {
+    locationError === true && console.log("location true");
+    locationError === false && console.log("location false");
+  }, [locationError]);
+
   return (
-    <div>
+    <>
       <h1 className="text-xl font-semibold">Location</h1>
       <Autocomplete
         isRequired
         size="sm"
         label="Pick a location"
-        className="mt-4"
+        className="mt-4 relative"
         isDisabled={locationChecked}
         onInputChange={(e) => {
           setLocation(e);
         }}
         description={
           locationError && (
-            <small className="text-danger-500">enter valid location</small>
+            <small className="absolute -bottom-2 left-3 text-danger-500">
+              enter a valid location
+            </small>
           )
         }
       >
@@ -48,13 +61,13 @@ export default function LocationSection({
           </AutocompleteItem>
         ))}
       </Autocomplete>
-      <p className="my-4 ml-4">Or</p>
+      <p className="my-4 text-center">Or</p>
       <Checkbox
         checked={locationChecked}
         onChange={() => setLocationChecked((prev) => !prev)}
       >
         Pick your current location.
       </Checkbox>
-    </div>
+    </>
   );
 }

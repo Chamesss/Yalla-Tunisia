@@ -6,6 +6,7 @@ interface data {
   setCategoryIdSelected: Dispatch<SetStateAction<string | null>>;
   categoryIdSelected: string | null;
   setSubCategoryId: Dispatch<SetStateAction<string | null>>;
+  subCategoryId: string | null;
   categoryError: boolean;
   subCategoryError: boolean;
 }
@@ -15,34 +16,25 @@ export default function CategorySection({
   setCategoryIdSelected,
   categoryIdSelected,
   setSubCategoryId,
+  subCategoryId,
   categoryError,
   subCategoryError,
 }: data) {
   const subCategoryRef = useRef<HTMLDivElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
+  const errorRef = useRef<HTMLParagraphElement>(null);
   const [oldHeight, setOldHeight] = useState<null | number>(null);
 
-  const ChooseCategory = (i: string) => {
-    setCategoryIdSelected((prev) => {
-      if (prev === i) return null;
-      return i;
-    });
-  };
-
-  const ChooseSubCategory = (i: string) => {
-    setSubCategoryId((prev) => {
-      if (prev === i) return null;
-      return i;
-    });
-  };
-
   useEffect(() => {
+    setSubCategoryId(null);
     Number(categoryIdSelected) === 3 || categoryIdSelected === null
       ? selectRef.current &&
-        (oldHeight === null && setOldHeight(selectRef.current.offsetHeight),
+        (oldHeight === null && setOldHeight(selectRef.current.scrollHeight),
         (selectRef.current.style.height = `${0}px`))
       : selectRef.current &&
-        (selectRef.current.style.height = `${selectRef.current.scrollHeight}px`);
+        (selectRef.current.style.height = `${
+          oldHeight || selectRef.current.scrollHeight
+        }px`);
   }, [categoryIdSelected]);
 
   return (
@@ -53,6 +45,7 @@ export default function CategorySection({
           size="sm"
           isRequired
           label="Select Categories"
+          onChange={(e) => setCategoryIdSelected(e.target.value)}
           description={
             categoryError && (
               <p className="text-danger-500">Enter valid category</p>
@@ -60,11 +53,7 @@ export default function CategorySection({
           }
         >
           {categories.map((d, i) => (
-            <SelectItem
-              key={d.name}
-              onClick={() => ChooseCategory(d.id)}
-              value={d.name}
-            >
+            <SelectItem key={d.id} value={d.name}>
               {d.name}
             </SelectItem>
           ))}
@@ -72,29 +61,37 @@ export default function CategorySection({
       </div>
       <div
         ref={selectRef}
-        className="flex h-fit transition-all overflow-hidden"
+        className={`flex h-fit transition-all ${
+          categoryIdSelected === null || Number(categoryIdSelected) === 3
+            ? "overflow-hidden"
+            : "overflow-visible"
+        }`}
       >
         <Select
           selectionMode="single"
+          className="relative"
           id="subCategoryTag"
           size="sm"
           isRequired
+          onChange={(e) => setSubCategoryId(e.target.value)}
           label="Select Subcategory"
           isDisabled={Number(categoryIdSelected) === 3}
           description={
             subCategoryError && (
-              <p className="text-danger-500">Enter valid subcategory</p>
+              <p
+                ref={errorRef}
+                id="categoryErrorDescription"
+                className="absolute -bottom-[0.6rem] left-3 text-danger-500"
+              >
+                Enter valid subcategory
+              </p>
             )
           }
         >
           {categoryIdSelected !== null ? (
             categories[Number(categoryIdSelected) - 1].subcategories.map(
               (d, i) => (
-                <SelectItem
-                  key={d.id}
-                  value={d.name}
-                  onClick={() => ChooseSubCategory(d.id)}
-                >
+                <SelectItem key={d.id} value={d.name}>
                   {d.name}
                 </SelectItem>
               )
