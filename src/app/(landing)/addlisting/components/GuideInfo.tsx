@@ -5,16 +5,14 @@ import {
   Divider,
   RadioGroup,
   Radio,
-  Button,
   CheckboxGroup,
   Autocomplete,
   AutocompleteItem,
-  Spinner,
 } from "@nextui-org/react";
 import "react-day-picker/dist/style.css";
 import AddImages from "./AddImages";
 import { CustomCheckbox } from "./CustomCheckBox";
-import { spokenLanguages as SPOKENLANGUAGES } from "./Languages";
+import { spokenLanguages } from "./Languages";
 import RadioGrpTime from "./utils/RadioGrpTime";
 import DaysPicker from "./utils/DaysPicker";
 import Restrictions from "./utils/Restrictions";
@@ -22,7 +20,6 @@ import EventType from "./utils/EventType";
 import { MainPropsForm, PropsForm } from "@/types";
 import { useFormState, useFormStatus } from "react-dom";
 import { createGuideListing } from "@/lib/actions/createGuideListing";
-import SuccessLoading from "./utils/SuccessLoading";
 import SubmitSection from "./utils/SubmitSection";
 import OuterValues from "./utils/OuterValues";
 import { ErrorBoundary } from "react-error-boundary";
@@ -40,7 +37,6 @@ function GuideInfoFrom({
   setLocationError,
   setCategoryError,
 }: PropsForm) {
-  const [spokenLanguages, setSpokenLanguages] = useState(SPOKENLANGUAGES);
   const [selectedPaymentMethod, setSelectedPayementMethod] = useState("tour");
   const [languages, setLanguages] = useState<string[]>([]);
   const [scheduled, setScheduled] = useState(true);
@@ -53,9 +49,9 @@ function GuideInfoFrom({
   const [inputs, setInputs] = useState([""]);
   const [formError, setFormError] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
-  const [priceHourly, setPriceHourly] = useState<string>();
-  const [priceTour, setPriceTour] = useState<string>();
+  const [price, setPrice] = useState<string>();
   const [description, setDescription] = useState<string>("");
+  const [transportation, setTransportation] = useState(false);
   const data = useFormStatus();
 
   useEffect(() => {
@@ -67,13 +63,8 @@ function GuideInfoFrom({
   }, [scheduled, days]);
 
   useEffect(() => {
-    setPriceTour(undefined);
-    setPriceHourly(undefined);
-  }, [selectedPaymentMethod]);
-
-  useEffect(() => {
     setFormError(0);
-  }, [title, priceHourly, priceTour, description, selectedPaymentMethod]);
+  }, [title, price, description, selectedPaymentMethod, scheduled]);
 
   useEffect(() => {
     formState.response?.error && setFormError(formState.response.error);
@@ -98,13 +89,6 @@ function GuideInfoFrom({
       resRef.current.style.height = `${resRef.current?.scrollHeight}px`;
     }
   }, []);
-
-  useEffect(() => {
-    const remainingLanguages = SPOKENLANGUAGES.filter(
-      (lang) => !languages.includes(lang)
-    );
-    setSpokenLanguages(remainingLanguages);
-  }, [languages]);
 
   const deleteSelectedLanguages = (language: string) => {
     setLanguages((prev) => {
@@ -149,7 +133,7 @@ function GuideInfoFrom({
               placeholder="Enter your description"
               onChange={(e) => setDescription(e.target.value)}
               description={
-                formError === 3 && <FormStateError formState={formState} />
+                formError === 4 && <FormStateError formState={formState} />
               }
             />
             <div className="flex flex-row">
@@ -166,45 +150,26 @@ function GuideInfoFrom({
                 <Radio value="tour">Payment per entire tour</Radio>
               </RadioGroup>
             </div>
-            {selectedPaymentMethod === "hourly" && (
-              <Input
-                type="number"
-                label="Price per hour"
-                size="sm"
-                onChange={(e) => setPriceHourly(e.target.value)}
-                value={priceHourly}
-                name="PriceHourly"
-                startContent={
-                  <div className="pointer-events-none flex items-center">
-                    <span className="text-default-400 text-small">DT</span>
-                  </div>
-                }
-                description={
-                  formError === 2 && <FormStateError formState={formState} />
-                }
-              />
-            )}
-            {selectedPaymentMethod === "tour" && (
-              <Input
-                type="number"
-                label="Price per entire tour"
-                onChange={(e) => setPriceTour(e.target.value)}
-                value={priceTour}
-                size="sm"
-                name="PriceTour"
-                startContent={
-                  <div className="pointer-events-none flex items-center">
-                    <span className="text-default-400 text-small">DT</span>
-                  </div>
-                }
-                description={
-                  formError === 2 && <FormStateError formState={formState} />
-                }
-              />
-            )}
+            <Input
+              type="number"
+              label={`Price per ${
+                selectedPaymentMethod === "hourly" ? "hour" : "tour"
+              }`}
+              size="sm"
+              onChange={(e) => setPrice(e.target.value)}
+              value={price}
+              name="price"
+              startContent={
+                <div className="pointer-events-none flex items-center">
+                  <span className="text-default-400 text-small">DT</span>
+                </div>
+              }
+              description={
+                formError === 2 && <FormStateError formState={formState} />
+              }
+            />
           </div>
           <Divider className="my-4" />
-          {/* Languages Selector */}
           <div className="flex flex-col gap-4">
             <h1 className="font-semibold flex flex-row gap-1 items-center">
               Languages:
@@ -215,9 +180,13 @@ function GuideInfoFrom({
                       <CustomCheckbox
                         onClick={() => deleteSelectedLanguages(l)}
                         key={l}
-                        name={`language-${i}`}
                       >
                         {l}
+                        <input
+                          name={`language-${i}`}
+                          value={l}
+                          className="hidden absolute"
+                        />
                       </CustomCheckbox>
                     ))}
                   </>
@@ -228,10 +197,10 @@ function GuideInfoFrom({
                 )}
               </CheckboxGroup>
             </h1>
-
             <ErrorBoundary fallbackRender={fallbackRender}>
               <Autocomplete
-                defaultItems={SPOKENLANGUAGES}
+                id="LanguageSelector"
+                defaultItems={spokenLanguages}
                 label="Select your spoken languages"
                 className="max-w-xs"
                 onSelectionChange={(e) =>
@@ -239,8 +208,11 @@ function GuideInfoFrom({
                   setLanguages((prev) => [...prev, e as string])
                 }
                 disabledKeys={languages}
+                description={
+                  formError === 5 && <FormStateError formState={formState} />
+                }
               >
-                {SPOKENLANGUAGES.map((l) => (
+                {spokenLanguages.map((l) => (
                   <AutocompleteItem key={l} value={l}>
                     {l}
                   </AutocompleteItem>
@@ -255,21 +227,21 @@ function GuideInfoFrom({
               className="ml-4"
               orientation="horizontal"
               defaultValue="NoTransportation"
+              name="transportation"
+              value={transportation ? "Transportation" : "NoTransportation"}
             >
               <Radio
-                // onChange={() => {
-                //   setScheduled(false);
-                // }}
+                onChange={() => {
+                  setTransportation(false);
+                }}
                 value="Transportation"
               >
                 Included.
               </Radio>
               <Radio
-                // onChange={() => {
-                //   setScheduled(true);
-                // }}
-                // defaultChecked
-                // checked={scheduled}
+                onChange={() => {
+                  setTransportation(true);
+                }}
                 value="NoTransportation"
               >
                 Not included.
@@ -280,6 +252,7 @@ function GuideInfoFrom({
           <EventType setScheduled={setScheduled} scheduled={scheduled} />
           <Divider className="my-4" />
           <div
+            id="timingSection"
             ref={contentRef}
             className="flex flex-row h-fit transition-all items-center justify-between w-full overflow-hidden"
           >
@@ -289,6 +262,11 @@ function GuideInfoFrom({
               <RadioGrpTime radioRef={radioRef} />
             )}
           </div>
+          {(formError === 6 || formError === 7) && (
+            <small className="text-danger-500">
+              {formState.response.message}
+            </small>
+          )}
           <Divider className="my-4" />
           <AddImages />
           <Divider className="my-4" />

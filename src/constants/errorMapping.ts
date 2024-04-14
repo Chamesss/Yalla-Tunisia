@@ -40,6 +40,8 @@ export function getErrorStateGuide(setCategoryError: Dispatch<SetStateAction<boo
         13: { errorStateSetter: setLocationError, sectionId: "locationSection", scrollOptions: { behavior: "smooth", block: "end", inline: "nearest" } },
         1: { sectionId: "GeneralSection", scrollOptions: { behavior: "smooth", block: "end", inline: "nearest" } },
         2: { sectionId: "GeneralSection", scrollOptions: { behavior: "smooth", block: "end", inline: "nearest" } },
+        4: { sectionId: "GeneralSection", scrollOptions: { behavior: "smooth", block: "center", inline: "nearest" } },
+        5: { sectionId: "LanguageSelector", scrollOptions: { behavior: "smooth", block: "center", inline: "nearest" } },
         6: { sectionId: "timingSection", scrollOptions: { behavior: "smooth", block: "center", inline: "nearest" } },
         7: { sectionId: "timingSection", scrollOptions: { behavior: "smooth", block: "center", inline: "nearest" } }
     };
