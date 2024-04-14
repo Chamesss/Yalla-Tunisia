@@ -86,6 +86,21 @@ export async function createGuideListing(prevState: any, formData: FormData) {
         }
     }
 
+    // const data = {
+    //     userId,
+    //     title,
+    //     price,
+    //     description,
+    //     languages,
+    //     sizes,
+    //     dimensions,
+    //     colors,
+    //     imageUrls,
+    //     categoryId,
+    //     subCategoryId,
+    //     location
+    // }
+
     return {
         response: {
             success: true,

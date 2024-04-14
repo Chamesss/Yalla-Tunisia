@@ -1,5 +1,10 @@
 "use server"
 
+import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "firebase/storage";
+import { app, db } from "../../../firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { uploadImages } from "./uploadPictures";
+
 //Error codes:{ title=1 / price=2 / grpSize=3 / description=4 / duration=5 / timing=6 / days=7 / category=11 / subcategory=12 / location=13}
 
 export async function createSportListing(prevState: any, formData: FormData) {
@@ -11,12 +16,12 @@ export async function createSportListing(prevState: any, formData: FormData) {
     const duration = formData.get('duration')
     const eventType = formData.get('eventType')
     const days = formData.get('days') as string
-    const timing = formData.get('timing')
+    const timingValue = formData.get('timing')
     const productImages = formData.getAll('productImages')
     const restrictionLength = formData.get('restrictionLength')
-    let restrictions = [];
+    let restrictions: string[] = [];
     for (let i = 0; i < Number(restrictionLength); i++) {
-        restrictions.push(formData.get(`restriction-${i}`))
+        restrictions.push(formData.get(`restriction-${i}`) as string)
     }
     const userId = formData.get('userId') as string
     const categoryId = formData.get('categoryId') as string
@@ -82,11 +87,14 @@ export async function createSportListing(prevState: any, formData: FormData) {
         return { response: { success: false, error: 5, message: "insert a valid duration" } }
     }
 
-    let daysArray: Date[]
+    let daysArray: Date[] = []
+    let timing: string = ''
 
     if (eventType === 'OngoingEvent') {
-        if (timing === null) {
+        if (timingValue === null) {
             return { response: { success: false, error: 6, message: "pick program timing" } }
+        } else {
+            timing = timingValue as string
         }
     } else {
         if (days) {
@@ -96,12 +104,25 @@ export async function createSportListing(prevState: any, formData: FormData) {
         }
     }
 
+    const imageUrls = await uploadImages(productImages, userId, getStorage, uploadBytes, getDownloadURL, app, storageRef)
 
+    const data = {
+        userId,
+        categoryId,
+        subCategoryId,
+        title,
+        imageUrls,
+        grpSize,
+        description,
+        price,
+        duration,
+        eventType,
+        timing: eventType === 'OngoingEvent' ? timing : daysArray,
+        restrictions
+    };
 
-
-
-
-
+    const SportRef = doc(collection(db, "Sports"));
+    await setDoc(SportRef, data);
 
 
     return {

@@ -111,7 +111,7 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
         location
     }
 
-    const handmadeRef = doc(collection(db, "Listing"));
+    const handmadeRef = doc(collection(db, "Handmades"));
     await setDoc(handmadeRef, data);
 
     return {
