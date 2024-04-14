@@ -1,4 +1,10 @@
 "use server"
+
+import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "firebase/storage";
+import { app, db } from "../../../firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { uploadImages } from "./uploadPictures";
+
 //Error codes:{ title=1 / price=2 / description=4 / language=5 / timing=6 / days=7 / category=11 / subcategory=12 / location=13}
 export async function createGuideListing(prevState: any, formData: FormData) {
 
@@ -13,7 +19,7 @@ export async function createGuideListing(prevState: any, formData: FormData) {
     const transportationValue = formData.get('transportation')
     const eventType = formData.get('eventType')
     const days = formData.get('days') as string
-    const timing = formData.get('timing')
+    const timingValue = formData.get('timing')
     const productImages = formData.getAll('productImages')
     const restrictionLength = formData.get('restrictionLength')
 
@@ -72,11 +78,14 @@ export async function createGuideListing(prevState: any, formData: FormData) {
         return { response: { success: false, error: 5, message: "select languages" } }
     }
 
-    let daysArray: Date[]
+    let daysArray: Date[] = []
+    let timing: string = ''
 
     if (eventType === 'OngoingEvent') {
-        if (timing === null) {
+        if (timingValue === null) {
             return { response: { success: false, error: 6, message: "pick program timing" } }
+        } else {
+            timing = timingValue as string
         }
     } else {
         if (days) {
@@ -86,20 +95,26 @@ export async function createGuideListing(prevState: any, formData: FormData) {
         }
     }
 
-    // const data = {
-    //     userId,
-    //     title,
-    //     price,
-    //     description,
-    //     languages,
-    //     sizes,
-    //     dimensions,
-    //     colors,
-    //     imageUrls,
-    //     categoryId,
-    //     subCategoryId,
-    //     location
-    // }
+    const imageUrls = await uploadImages(productImages, userId, getStorage, uploadBytes, getDownloadURL, app, storageRef)
+
+    const data = {
+        userId,
+        categoryId,
+        title,
+        location,
+        imageUrls,
+        description,
+        languages,
+        price,
+        eventType,
+        paymentMethodHourly,
+        transportation,
+        timing: eventType === 'OngoingEvent' ? timing : daysArray,
+        restrictions
+    };
+
+    const GuideRef = doc(collection(db, "Guides"));
+    await setDoc(GuideRef, data);
 
     return {
         response: {
