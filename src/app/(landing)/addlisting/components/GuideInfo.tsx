@@ -52,6 +52,7 @@ function GuideInfoFrom({
   const [price, setPrice] = useState<string>();
   const [description, setDescription] = useState<string>("");
   const [transportation, setTransportation] = useState(false);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
   const data = useFormStatus();
 
   useEffect(() => {
@@ -268,7 +269,12 @@ function GuideInfoFrom({
             </small>
           )}
           <Divider className="my-4" />
-          <AddImages />
+          <AddImages
+            formState={formState}
+            formError={formError}
+            setPreviewImages={setPreviewImages}
+            previewImages={previewImages}
+          />
           <Divider className="my-4" />
           <Restrictions
             inputRef={inputRef}

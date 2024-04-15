@@ -12,6 +12,7 @@ export function getErrorStateHandmade(setCategoryError: Dispatch<SetStateAction<
         12: { errorStateSetter: setSubCategoryError, sectionId: "categorySection", scrollOptions: { behavior: "smooth", block: "end", inline: "nearest" } },
         13: { errorStateSetter: setLocationError, sectionId: "locationSection", scrollOptions: { behavior: "smooth", block: "end", inline: "nearest" } },
         1: { sectionId: "GeneralSection", scrollOptions: { behavior: "smooth", block: "end", inline: "nearest" } },
+        22: { sectionId: "imagesSection", scrollOptions: { behavior: "smooth", block: "center", inline: "nearest" } },
     };
     const mapping = errorMappings[errorCode];
     return mapping;

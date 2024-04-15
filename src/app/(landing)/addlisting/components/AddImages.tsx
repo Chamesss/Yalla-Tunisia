@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, SetStateAction, Dispatch } from "react";
 import UploadImageIcon from "@/components/icons/UploadImageIcon";
 import TrashBin from "@/components/icons/TrashBin";
+import FormStateError from "./utils/FormStateError";
 
 interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {
   target: HTMLInputElement & {
@@ -8,9 +9,19 @@ interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {
   };
 }
 
-export default function AddImages() {
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
+type Props = {
+  formState: creationFromStatus;
+  formError: number;
+  previewImages: string[];
+  setPreviewImages: Dispatch<SetStateAction<string[]>>;
+};
 
+export default function AddImages({
+  formError,
+  formState,
+  previewImages,
+  setPreviewImages,
+}: Props) {
   useEffect(() => {
     previewImages.length > 6 && setPreviewImages(previewImages.slice(0, 6));
   }, [previewImages]);
@@ -40,7 +51,7 @@ export default function AddImages() {
   };
 
   return (
-    <>
+    <div id="imagesSection" className="relative">
       <div className="flex flex-row transition-all items-center overflow-auto gap-4 relative scrollbar-container">
         <input
           type="file"
@@ -87,6 +98,11 @@ export default function AddImages() {
           {6 - previewImages.length} more)
         </span>
       )}
-    </>
+      {formError === 22 && (
+        <div className="mt-4 relative">
+          <FormStateError formState={formState} />
+        </div>
+      )}
+    </div>
   );
 }

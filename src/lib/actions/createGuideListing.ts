@@ -95,6 +95,11 @@ export async function createGuideListing(prevState: any, formData: FormData) {
         }
     }
 
+    //@ts-ignore
+    if (!productImages[0].size) {
+        return { response: { success: false, error: 22, message: "upload at least 1 picture" } }
+    }
+
     const imageUrls = await uploadImages(productImages, userId, getStorage, uploadBytes, getDownloadURL, app, storageRef)
 
     const data = {

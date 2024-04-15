@@ -11,11 +11,5 @@ export interface MainPropsForm {
 }
 
 export interface PropsForm extends MainPropsForm {
-    formState: {
-        response: {
-            success: boolean;
-            error: number;
-            message: string;
-        };
-    };
+    formState: creationFromStatus
 }

@@ -86,3 +86,11 @@ interface CategoryType {
   picture: string;
   subcategories: SubCategoryType[];
 }
+
+interface creationFromStatus {
+  response: {
+    success: boolean;
+    error: number;
+    message: string;
+  };
+}

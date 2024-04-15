@@ -1,5 +1,5 @@
 "use server"
-//Error codes:{ title=1 / price=2 / qte=3 / description=4 / materialsUsed=5 / category=11 / subcategory=12 / location=13}
+//Error codes:{ title=1 / price=2 / qte=3 / description=4 / materialsUsed=5 / category=11 / subcategory=12 / location=13 / pictures=22}
 
 import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "firebase/storage";
 import { app, db } from "../../../firebase";
@@ -89,6 +89,10 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
 
     if (!userId) {
         return { response: { success: false, error: 10, message: "userId is missing?" } }
+    }
+    //@ts-ignore
+    if (!productImages[0].size) {
+        return { response: { success: false, error: 22, message: "upload at least 1 picture" } }
     }
 
     const sizes = [xs, sm, md, lg, xl, xxl]

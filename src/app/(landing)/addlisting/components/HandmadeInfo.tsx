@@ -36,6 +36,7 @@ function HandmadeForm({
   const [qte, setQte] = useState<number>();
   const [description, setDescription] = useState<string>("");
   const [materialsUsed, setMaterialsUser] = useState<string>("");
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [formError, setFormError] = useState<number>(0);
   const data = useFormStatus();
 
@@ -181,7 +182,12 @@ function HandmadeForm({
           Pictures<small className="text-danger-500">*</small>
         </h1>
         <div className="px-2">
-          <AddImages />
+          <AddImages
+            formState={formState}
+            formError={formError}
+            setPreviewImages={setPreviewImages}
+            previewImages={previewImages}
+          />
         </div>
         <Divider className="my-4" />
         <h1 className="text-xl font-semibold">

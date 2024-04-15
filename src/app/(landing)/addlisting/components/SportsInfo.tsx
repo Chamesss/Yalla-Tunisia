@@ -35,6 +35,7 @@ function SportsInfoFrom({
   const [title, setTitle] = useState<string>("");
   const [price, setPrice] = useState<number>();
   const [description, setDescription] = useState<string>("");
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
   const data = useFormStatus();
   const [grpSize, setGrpSize] = useState("1");
   const [duration, setDuration] = useState("1");
@@ -192,7 +193,12 @@ function SportsInfoFrom({
               </small>
             )}
             <Divider className="my-4" />
-            <AddImages />
+            <AddImages
+              formState={formState}
+              formError={formError}
+              setPreviewImages={setPreviewImages}
+              previewImages={previewImages}
+            />
             <Divider className="my-4" />
             <Restrictions
               inputRef={inputRef}

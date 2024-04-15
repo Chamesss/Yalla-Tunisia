@@ -1,11 +1,5 @@
 type Props = {
-  formState: {
-    response: {
-      success: boolean;
-      error: number;
-      message: string;
-    };
-  };
+  formState: creationFromStatus;
 };
 
 export default function FormStateError({ formState }: Props) {
