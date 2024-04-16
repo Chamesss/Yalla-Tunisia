@@ -94,3 +94,15 @@ interface creationFromStatus {
     message: string;
   };
 }
+
+interface userInfoType {
+  isLogged: boolean,
+  user: {
+    email: string,
+    firstname: string,
+    lastname: string,
+    location: string,
+    picture: string
+  },
+  userId: string
+}
