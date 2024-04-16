@@ -3,13 +3,7 @@ import { useEffect, useState } from "react";
 import { FormStatus } from "react-dom";
 
 type Props = {
-  formState: {
-    response: {
-      success: boolean;
-      error: number;
-      message: string;
-    };
-  };
+  formState: creationFromStatus;
 };
 
 export default function SuccessLoading({ formState }: Props) {

@@ -1,3 +1,5 @@
+import Main from "./components/Main";
+
 export default function page() {
-  return <div>Profile</div>;
+  return <Main />;
 }

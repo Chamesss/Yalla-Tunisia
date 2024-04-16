@@ -54,5 +54,5 @@ const userSlice = createSlice({
 });
 
 export const { addUserSession, logOutSession } = userSlice.actions;
-export const userState = (state: { user: any; }) => state.user
+export const userState = (state: { user: userInfoType; }) => state.user
 export default userSlice.reducer;
