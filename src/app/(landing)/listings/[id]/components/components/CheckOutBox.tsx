@@ -7,8 +7,20 @@ import {
   Button,
 } from "@nextui-org/react";
 import { cities } from "./cities";
+import useUserState from "@/hooks/useUserStatus";
 
-export default function CheckOutBox() {
+type Props = {
+  productId: string;
+};
+
+export default function CheckOutBox({ productId }: Props) {
+  const { isLogged } = useUserState();
+  console.log(isLogged);
+
+  const addProductToCart = () => {
+    const user = useUserState();
+  };
+
   return (
     <div className="border border-solid border-black border-opacity-10 rounded-lg p-4">
       <div className="flex flex-row items-center">
@@ -28,7 +40,10 @@ export default function CheckOutBox() {
       <small className="opacity-80">Estimated time between 24h/48h</small>
       <Divider className="my-4" />
       <div className="flex justify-center">
-        <Button className="text-md bg-[#48b9ff] text-white dark:bg-[#3d9cd7] px-5 py-2 rounded-full hover:bg-[#41a6e5] dark:hover:bg-[#3688bc]">
+        <Button
+          onClick={() => addProductToCart()}
+          className="text-md bg-[#48b9ff] text-white dark:bg-[#3d9cd7] px-5 py-2 rounded-full hover:bg-[#41a6e5] dark:hover:bg-[#3688bc]"
+        >
           Add to cart
         </Button>
       </div>

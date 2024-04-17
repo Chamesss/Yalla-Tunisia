@@ -91,7 +91,7 @@ export default async function HandmadePage({ data }: Props) {
         </div>
 
         <div className="w-[75%] p-4">
-          <CheckOutBox />
+          <CheckOutBox productId={data.id} />
         </div>
         {/* <p className="font-medium">Views: {data.views}</p> */}
       </div>
