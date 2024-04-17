@@ -34,7 +34,7 @@ export default function Header() {
   const [mounted, setMounted] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { resolvedTheme } = useTheme();
-  const user: userSlice = useSelector(userState);
+  const user: userInfoType = useSelector(userState);
 
   useEffect(() => {
     setMounted(true);
@@ -75,7 +75,7 @@ export default function Header() {
             <HeaderDrawer
               isOpen={IsOpen}
               setIsOpen={setIsOpen}
-              user={user.user}
+              user={user}
               isLogged={user.isLogged}
               categories={categories}
             />
@@ -126,7 +126,7 @@ export default function Header() {
         <div className="flex items-center gap-6">
           <ThemeSwitcher />
           {user.isLogged && user.user ? (
-            <ProfileDropDown user={user.user} />
+            <ProfileDropDown user={user} />
           ) : (
             <Button
               onPress={onOpen}

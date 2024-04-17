@@ -8,7 +8,7 @@ import {
 import useLogout from "@/hooks/useLogout";
 
 type Props = {
-  user: userType;
+  user: userInfoType;
 };
 
 export default function ProfileDropDown({ user }: Props) {
@@ -19,7 +19,7 @@ export default function ProfileDropDown({ user }: Props) {
         <DropdownTrigger>
           <img
             className="w-10 h-10 rounded-full cursor-pointer hover:opacity-80"
-            src={user?.picture}
+            src={user?.user.picture}
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="Dynamic Actions">

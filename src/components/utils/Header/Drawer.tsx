@@ -11,7 +11,7 @@ import { useEffect } from "react";
 interface HeaderDrawerProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  user: userType | null;
+  user: userInfoType | null;
   isLogged: boolean;
   categories: CategoryType[];
 }
@@ -92,8 +92,8 @@ export default function HeaderDrawer({
               <Link href="/profile">
                 <User
                   className="cursor-pointer hover:underline"
-                  name={user?.firstname + " " + user?.lastname}
-                  avatarProps={{ src: user?.picture }}
+                  name={user?.user.firstname + " " + user?.user.firstname}
+                  avatarProps={{ src: user?.user.picture }}
                   description="State"
                 />
               </Link>
