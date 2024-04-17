@@ -23,7 +23,7 @@ export default function MainCreateListing() {
   const [categoryError, setCategoryError] = useState(false);
   const [subCategoryError, setSubCategoryError] = useState(false);
 
-  const user: userSlice = useSelector(userState);
+  const user: userInfoType = useSelector(userState);
 
   useEffect(() => {
     setCategoryError(false);
