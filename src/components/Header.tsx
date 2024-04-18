@@ -5,7 +5,6 @@ import { ThemeSwitcher } from "./utils/ToggleDarkMode";
 import HeaderDrawer from "./utils/Header/Drawer";
 import DropDownItem from "./utils/DropDownItem";
 import { getCategories } from "@/lib/getLandingData";
-import { Tours } from "./utils/Constants";
 import { useTheme } from "next-themes";
 import { Button, useDisclosure } from "@nextui-org/react";
 import ModalWindow from "@/app/Modals/ModalWindow";
