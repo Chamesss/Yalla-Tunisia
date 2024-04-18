@@ -10,6 +10,8 @@ interface data {
   subCategoryId: string | null;
   categoryError: boolean;
   subCategoryError: boolean;
+  selectedOption: number;
+  setSelectedOption: Dispatch<SetStateAction<number>>;
 }
 
 export default function CategorySection({
@@ -20,11 +22,12 @@ export default function CategorySection({
   subCategoryId,
   categoryError,
   subCategoryError,
+  selectedOption,
+  setSelectedOption,
 }: data) {
   const subCategoryRef = useRef<HTMLDivElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
-  const [selectedOption, setSelectedOption] = useState(0);
 
   const handleCategorySelection = (e: any) => {
     setCategoryIdSelected(() =>

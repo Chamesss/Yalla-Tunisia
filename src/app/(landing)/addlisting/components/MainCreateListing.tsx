@@ -22,6 +22,7 @@ export default function MainCreateListing() {
   const [locationError, setLocationError] = useState(false);
   const [categoryError, setCategoryError] = useState(false);
   const [subCategoryError, setSubCategoryError] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(-1);
 
   const user: userInfoType = useSelector(userState);
 
@@ -63,6 +64,8 @@ export default function MainCreateListing() {
               subCategoryId={subCategoryId}
               categoryError={categoryError}
               subCategoryError={subCategoryError}
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
             />
           </div>
           <div
@@ -88,7 +91,7 @@ export default function MainCreateListing() {
               ) : (
                 <div className="border border-opacity-50 rounded-xl px-4 py-6 w-full h-full gap-4">
                   <div className="justify-center items-center flex w-full h-full">
-                    {Number(categoryIdSelected) === 1 && (
+                    {selectedOption === 0 && (
                       <HandmadeInfo
                         userId={user.userId}
                         categoryId={categoryIdSelected}
@@ -99,7 +102,7 @@ export default function MainCreateListing() {
                         setSubCategoryError={setSubCategoryError}
                       />
                     )}
-                    {Number(categoryIdSelected) === 2 && (
+                    {selectedOption === 1 && (
                       <SportsInfo
                         userId={user.userId}
                         categoryId={categoryIdSelected}
@@ -110,7 +113,7 @@ export default function MainCreateListing() {
                         setSubCategoryError={setSubCategoryError}
                       />
                     )}
-                    {Number(categoryIdSelected) === 3 && (
+                    {selectedOption === 2 && (
                       <GuideInfo
                         userId={user.userId}
                         categoryId={categoryIdSelected}
