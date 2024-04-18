@@ -1,5 +1,6 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 interface data {
   categories: CategoryType[];
@@ -23,18 +24,20 @@ export default function CategorySection({
   const subCategoryRef = useRef<HTMLDivElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
-  const [oldHeight, setOldHeight] = useState<null | number>(null);
+  const [selectedOption, setSelectedOption] = useState(0);
+
+  const handleCategorySelection = (e: any) => {
+    setCategoryIdSelected(() =>
+      e.target.value.length === 0 ? null : e.target.value
+    );
+  };
 
   useEffect(() => {
-    setSubCategoryId(null);
-    Number(categoryIdSelected) === 3 || categoryIdSelected === null
-      ? selectRef.current &&
-        (oldHeight === null && setOldHeight(selectRef.current.scrollHeight),
-        (selectRef.current.style.height = `${0}px`))
-      : selectRef.current &&
-        (selectRef.current.style.height = `${
-          oldHeight || selectRef.current.scrollHeight
-        }px`);
+    (() => {
+      const index = categories.findIndex((c) => c.id === categoryIdSelected);
+      setSelectedOption(index);
+      index === 2 || (index === -1 && setSubCategoryId(null));
+    })();
   }, [categoryIdSelected]);
 
   return (
@@ -45,11 +48,7 @@ export default function CategorySection({
           size="sm"
           isRequired
           label="Select Categories"
-          onChange={(e) =>
-            setCategoryIdSelected(() =>
-              e.target.value.length === 0 ? null : e.target.value
-            )
-          }
+          onChange={(e) => handleCategorySelection(e)}
           description={
             categoryError && (
               <p className="text-danger-500">Enter valid category</p>
@@ -71,45 +70,45 @@ export default function CategorySection({
             : "overflow-visible"
         }`}
       >
-        <Select
-          selectionMode="single"
-          className="relative"
-          id="subCategoryTag"
-          size="sm"
-          isRequired
-          onChange={(e) =>
-            setSubCategoryId(() =>
-              e.target.value.length === 0 ? null : e.target.value
-            )
-          }
-          label="Select Subcategory"
-          isDisabled={Number(categoryIdSelected) === 3}
-          description={
-            subCategoryError && (
-              <p
-                ref={errorRef}
-                id="categoryErrorDescription"
-                className="absolute -bottom-[0.6rem] left-3 text-danger-500"
-              >
-                Enter valid subcategory
-              </p>
-            )
-          }
-        >
-          {categoryIdSelected !== null ? (
-            categories[Number(categoryIdSelected) - 1].subcategories.map(
-              (d) => (
+        <ErrorBoundary fallback={<p>something went wrong</p>}>
+          <Select
+            selectionMode="single"
+            className="relative"
+            id="subCategoryTag"
+            size="sm"
+            isRequired
+            onChange={(e) =>
+              setSubCategoryId(() =>
+                e.target.value.length === 0 ? null : e.target.value
+              )
+            }
+            label="Select Subcategory"
+            isDisabled={selectedOption === 2 || selectedOption === -1}
+            description={
+              subCategoryError && (
+                <p
+                  ref={errorRef}
+                  id="categoryErrorDescription"
+                  className="absolute -bottom-[0.6rem] left-3 text-danger-500"
+                >
+                  Enter valid subcategory
+                </p>
+              )
+            }
+          >
+            {selectedOption !== -1 ? (
+              categories[selectedOption].subcategories.map((d) => (
                 <SelectItem key={d.id} value={d.name}>
                   {d.name}
                 </SelectItem>
-              )
-            )
-          ) : (
-            <SelectItem key={0} value={0}>
-              {0}
-            </SelectItem>
-          )}
-        </Select>
+              ))
+            ) : (
+              <SelectItem key={0} value={0}>
+                {0}
+              </SelectItem>
+            )}
+          </Select>
+        </ErrorBoundary>
       </div>
     </div>
   );

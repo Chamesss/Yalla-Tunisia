@@ -9,9 +9,9 @@ import LocationSection from "./LocationSection";
 import { Spinner } from "@nextui-org/react";
 import { userSlice, userState } from "@/redux/slices/userSlice";
 import { useSelector } from "react-redux";
+import { categories } from "@/constants/categories";
 
 export default function MainCreateListing() {
-  const { categories, loading } = useFetchCategories();
   const [categoryIdSelected, setCategoryIdSelected] = useState<string | null>(
     null
   );
