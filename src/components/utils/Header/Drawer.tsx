@@ -10,6 +10,8 @@ import { useEffect } from "react";
 
 interface HeaderDrawerProps {
   isOpen: boolean;
+  onOpen: () => void;
+  IsOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: userInfoType | null;
   isLogged: boolean;
@@ -17,7 +19,8 @@ interface HeaderDrawerProps {
 }
 
 export default function HeaderDrawer({
-  isOpen,
+  IsOpen,
+  onOpen,
   setIsOpen,
   user,
   isLogged,
@@ -74,6 +77,11 @@ export default function HeaderDrawer({
     setIsOpen(false);
   };
 
+  const handleLogin = () => {
+    setIsOpen((prevState) => !prevState);
+    onOpen();
+  };
+
   return (
     <>
       <IconThreeBars16
@@ -81,7 +89,7 @@ export default function HeaderDrawer({
         className="text-3xl cursor-pointer"
       />
       <Drawer
-        open={isOpen}
+        open={IsOpen}
         onClose={toggleDrawer}
         direction="left"
         className="w-[100%] bg-white dark:bg-[#000000]"
@@ -100,7 +108,7 @@ export default function HeaderDrawer({
             </div>
           ) : (
             <div>
-              <Button>Login</Button>
+              <Button onClick={handleLogin}>Login</Button>
             </div>
           )}
           <Divider className="my-3" />

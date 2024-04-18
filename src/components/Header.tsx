@@ -12,6 +12,7 @@ import { userSlice, userState } from "@/redux/slices/userSlice";
 import { useSelector } from "react-redux";
 import ProfileDropDown from "./utils/Header/ProfileDropDown";
 import { categories as CATEGORIES } from "@/constants/categories";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   // const authenticatedNavigationItems = [
@@ -34,6 +35,7 @@ export default function Header() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { resolvedTheme } = useTheme();
   const user: userInfoType = useSelector(userState);
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
@@ -59,7 +61,9 @@ export default function Header() {
       >
         <div className="flex flex-row items-center gap-4">
           <HeaderDrawer
-            isOpen={IsOpen}
+            isOpen={isOpen}
+            onOpen={onOpen}
+            IsOpen={IsOpen}
             setIsOpen={setIsOpen}
             user={user}
             isLogged={user.isLogged}
@@ -137,6 +141,7 @@ export default function Header() {
                 size="sm"
                 variant="bordered"
                 radius="full"
+                onClick={() => router.push("/addlisting")}
               >
                 Sell Item
               </Button>
