@@ -83,9 +83,13 @@ interface SubCategoryType {
 interface CategoryType {
   id: string;
   name: string;
-  picture: string;
-  subcategories: SubCategoryType[];
-}
+  Icon: (props: SVGProps<SVGSVGElement>) => JSX.Element;
+  subcategories: {
+    id: string;
+    name: string;
+    Icon: (props: SVGProps<SVGSVGElement>) => JSX.Element;
+  }[];
+}[]
 
 interface creationFromStatus {
   response: {

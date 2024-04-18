@@ -12,6 +12,7 @@ import ModalWindow from "@/app/Modals/ModalWindow";
 import { userSlice, userState } from "@/redux/slices/userSlice";
 import { useSelector } from "react-redux";
 import ProfileDropDown from "./utils/Header/ProfileDropDown";
+import { categories as CATEGORIES } from "@/constants/categories";
 
 export default function Header() {
   // const authenticatedNavigationItems = [
@@ -29,8 +30,7 @@ export default function Header() {
 
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [IsOpen, setIsOpen] = useState(false);
-  const [categories, setCategories] = useState<CategoryType[] | []>([]);
-  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<CategoryType[] | []>(CATEGORIES);
   const [mounted, setMounted] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { resolvedTheme } = useTheme();
@@ -38,18 +38,6 @@ export default function Header() {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      getCategories()
-        .then((res) => {
-          setCategories(res), setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching categories:", error);
-        });
-    })();
   }, []);
 
   useEffect(() => {
@@ -71,15 +59,13 @@ export default function Header() {
         }`}
       >
         <div className="flex flex-row items-center gap-4">
-          {!loading && (
-            <HeaderDrawer
-              isOpen={IsOpen}
-              setIsOpen={setIsOpen}
-              user={user}
-              isLogged={user.isLogged}
-              categories={categories}
-            />
-          )}
+          <HeaderDrawer
+            isOpen={IsOpen}
+            setIsOpen={setIsOpen}
+            user={user}
+            isLogged={user.isLogged}
+            categories={categories}
+          />
           {mounted && (
             <img
               className="w-16 cursor-pointer"
@@ -139,26 +125,24 @@ export default function Header() {
       </nav>
       <div>
         <div className="md:flex w-full justify-between min-h-0 md:min-h-10 gap-4 items-center hidden">
-          {!loading && (
-            <div className="flex justify-between w-full items-center px-4 bg-gray-200 dark:bg-gray-900">
-              <div className="flex flex-row place-self-stretch items-center">
-                {categories.map((category) => (
-                  <DropDownItem key={category.id} category={category} />
-                ))}
-                <DropDownItem category={Tours} />
-              </div>
-              <div className="flex justify-self-end py-2">
-                <Button
-                  className="mr-10 bg-white dark:bg-black ring-1 border-none ring-[#48b9ff] dark:ring-[#48b9ff]"
-                  size="sm"
-                  variant="bordered"
-                  radius="full"
-                >
-                  Sell Item
-                </Button>
-              </div>
+          <div className="flex justify-between w-full items-center px-4 bg-gray-200 dark:bg-gray-900">
+            <div className="flex flex-row place-self-stretch items-center">
+              {categories.map((category) => (
+                <DropDownItem key={category.id} category={category} />
+              ))}
+              {/* <DropDownItem category={Tours} /> */}
             </div>
-          )}
+            <div className="flex justify-self-end py-2">
+              <Button
+                className="mr-10 bg-white dark:bg-black ring-1 border-none ring-[#48b9ff] dark:ring-[#48b9ff]"
+                size="sm"
+                variant="bordered"
+                radius="full"
+              >
+                Sell Item
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
       <ModalWindow isOpen={isOpen} onOpenChange={onOpenChange} />
