@@ -1,5 +1,4 @@
 "use client";
-import useFetchCategories from "@/hooks/useFetchCategories";
 import { useEffect, useState } from "react";
 import CategorySection from "./CategorySection";
 import HandmadeInfo from "./HandmadeInfo";
