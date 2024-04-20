@@ -19,9 +19,9 @@ import MapScrollable from "./components/MapScrollable";
 export default async function HandmadePage({ res }: any) {
   const data = res as ProductHandMade;
   const pictureArray = Array(5).fill(data.imageUrls);
-  const user = await getUser(data.userId.toString());
-  console.log("user === ", user);
-  // const user: userType = userId;
+  // const user = await getUser(data.userId.toString());
+  // console.log("user === ", user);
+  // // const user: userType = userId;
 
   return (
     <div className="flex flex-col py-4 mb-20 px-8 ">
@@ -54,10 +54,10 @@ export default async function HandmadePage({ res }: any) {
           <Divider className="my-4" />
           <div className="flex relative flex-row gap-2 items-center hover:underline cursor-pointer mt-2">
             <div className="relative w-14 h-14">
-              <img
+              {/* <img
                 className="relative bg-gray-200 rounded-full"
                 src={user.picture}
-              />
+              /> */}
               {/* {user.trusted && ( */}
               <Tooltip content="Trusted">
                 <div className="w-4 h-4 absolute rounded-full bg-[#48b9ff] outline outline-white dark:outline-[#212933] right-0 bottom-0 z-10" />
@@ -65,7 +65,7 @@ export default async function HandmadePage({ res }: any) {
               {/* )} */}
             </div>
             <div>
-              <span>{user.firstname + " " + user.lastname}</span>
+              {/* <span>{user.firstname + " " + user.lastname}</span> */}
               {/* <p className="flex flex-row gap-1 text-sm items-center opacity-50">
                 <Location /> {user.city[0].name}
               </p> */}
@@ -76,7 +76,7 @@ export default async function HandmadePage({ res }: any) {
               <span className="absolute top-0 left-0 text-xl text-gray-400">
                 “
               </span>
-              {user.description} Lorem ipsum dolor sit amet consectetur
+              {/* {user.description} Lorem ipsum dolor sit amet consectetur */}
               adipisicing elit. Reiciendis pariatur explicabo vitae incidunt nam
               distinctio iure, inventore, totam tempora nobis quis magnam!
               Aliquam reprehenderit.
@@ -94,7 +94,7 @@ export default async function HandmadePage({ res }: any) {
         {/* <p className="font-medium">Views: {data.views}</p> */}
       </div>
       <div id="targetSection" className="mt-28 w-full">
-        <MapSection lat={user.lat} lng={user.lng} />
+        {/* <MapSection lat={user.lat} lng={user.lng} /> */}
       </div>
     </div>
   );
