@@ -1,12 +1,12 @@
 import CarouselItems from "./utils/CarouselItems";
-import { getHomeMades } from "@/lib/getLandingData";
+import getHandmades from "@/lib/getHandmades";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
 //getStaticProps()
 
 export default async function Handmades() {
-  const data = await getHomeMades();
+  const data = (await getHandmades()) as ProductHandMade[];
   return (
     <div className="w-full text-start">
       <div className="flex justify-between mt-4">

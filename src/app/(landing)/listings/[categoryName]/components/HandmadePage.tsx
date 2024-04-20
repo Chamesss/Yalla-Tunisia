@@ -16,14 +16,12 @@ import MapSection from "./components/MapSection";
 import CheckOutBox from "./components/CheckOutBox";
 import MapScrollable from "./components/MapScrollable";
 
-type Props = {
-  data: ItemType;
-};
-
-export default async function HandmadePage({ data }: Props) {
-  const pictureArray = Array(5).fill(data.pictures);
-  const res = await getUser(data.userId.toString());
-  const user: userType = res[0];
+export default async function HandmadePage({ res }: any) {
+  const data = res as ProductHandMade;
+  const pictureArray = Array(5).fill(data.imageUrls);
+  const user = await getUser(data.userId.toString());
+  console.log("user === ", user);
+  // const user: userType = userId;
 
   return (
     <div className="flex flex-col py-4 mb-20 px-8 ">
@@ -42,10 +40,10 @@ export default async function HandmadePage({ data }: Props) {
           <p className="text-2xl font-semibold tracking-wide">{data.title}</p>
           <div className="mt-2 flex gap-2">
             <Chip className="italic text-opacity-75" size="sm">
-              {data.category[0].name}
+              {data.categoryId}
             </Chip>
             <Chip className="italic text-opacity-75" size="sm">
-              {data.subcategory[0]?.name}
+              {data.subCategoryId}
             </Chip>
           </div>
           <Divider className="my-4" />
@@ -68,9 +66,9 @@ export default async function HandmadePage({ data }: Props) {
             </div>
             <div>
               <span>{user.firstname + " " + user.lastname}</span>
-              <p className="flex flex-row gap-1 text-sm items-center opacity-50">
+              {/* <p className="flex flex-row gap-1 text-sm items-center opacity-50">
                 <Location /> {user.city[0].name}
-              </p>
+              </p> */}
             </div>
           </div>
           <blockquote className="relative p-2 rounded-lg mt-4">

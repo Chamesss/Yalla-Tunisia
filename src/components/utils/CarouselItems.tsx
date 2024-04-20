@@ -33,7 +33,11 @@ function SamplePrevArrow(props: any) {
   );
 }
 
-export default function SimpleSlider({ data }: any) {
+type Props = {
+  data: ProductHandMade[] | ProductSports[] | ProductGuides[];
+};
+
+export default function SimpleSlider({ data }: Props) {
   let settings = {
     dots: true,
     infinite: false,
@@ -67,9 +71,11 @@ export default function SimpleSlider({ data }: any) {
   return (
     <div className="relative">
       <Slider {...settings} className="gap-4">
-        {data.map((d: any, i: number) => (
-          <CardItem key={i} data={d} />
-        ))}
+        {data.map(
+          (d: ProductHandMade | ProductSports | ProductGuides, i: number) => (
+            <CardItem key={i} data={d} />
+          )
+        )}
       </Slider>
     </div>
   );

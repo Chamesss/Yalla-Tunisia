@@ -1,12 +1,13 @@
+import getHandmades from "@/lib/getHandmades";
 import CarouselItems from "./utils/CarouselItems";
-import { getSports } from "@/lib/getLandingData";
+import getSports from "@/lib/getSports";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
 //getStaticProps()
 
 export default async function Sports() {
-  const data = await getSports();
+  const data = (await getSports()) as ProductSports[];
   return (
     <div className="w-full text-start">
       <div className="flex justify-between mt-4">

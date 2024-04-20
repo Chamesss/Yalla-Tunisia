@@ -233,7 +233,7 @@ function GuideInfoFrom({
             >
               <Radio
                 onChange={() => {
-                  setTransportation(false);
+                  setTransportation(true);
                 }}
                 value="Transportation"
               >
@@ -241,8 +241,9 @@ function GuideInfoFrom({
               </Radio>
               <Radio
                 onChange={() => {
-                  setTransportation(true);
+                  setTransportation(false);
                 }}
+                checked={!transportation}
                 value="NoTransportation"
               >
                 Not included.

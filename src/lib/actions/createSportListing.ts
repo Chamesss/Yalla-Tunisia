@@ -80,7 +80,7 @@ export async function createSportListing(prevState: any, formData: FormData) {
         if (Number(price) < 1) {
             return { response: { success: false, error: 5, message: "insert a valid duration" } }
         }
-        if (Number(price) > 12) {
+        if (Number(price) > 9999) {
             return { response: { success: false, error: 5, message: "we think that's a lot" } }
         }
     } else {

@@ -110,3 +110,52 @@ interface userInfoType {
   },
   userId: string
 }
+
+interface ProductHandMade {
+  id: string,
+  userId: string,
+  categoryId: string,
+  subCategoryId: string,
+  title: string,
+  description: string,
+  colors: string[],
+  price: string,
+  location: string,
+  qte: string,
+  sizes: string[],
+  materialUsed: string,
+  imageUrls: string[],
+  dimensions: string[],
+}
+
+interface ProductSports {
+  id: string,
+  userId: string,
+  categoryId: string,
+  subCategoryId: string,
+  title: string,
+  description: string,
+  duration: string,
+  price: string,
+  eventType: string,
+  grpSize: string,
+  imageUrls: string[],
+  restrictions: string[],
+  timing: string | string[],
+}
+
+interface ProductGuides {
+  id: string,
+  userId: string,
+  categoryId: string,
+  title: string,
+  description: string,
+  price: string,
+  eventType: string,
+  imageUrls: string[],
+  restrictions: string[],
+  timing: string | string[],
+  languages: string[],
+  transportation: boolean,
+  paymentMethodHourly: boolean
+}

@@ -1,12 +1,12 @@
 import CarouselItems from "./utils/CarouselItems";
-import { getGuides } from "@/lib/getLandingData";
+import getGuides from "@/lib/getGuides";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
 //getStaticProps()
 
 export default async function Guides() {
-  const data = await getGuides();
+  const data = (await getGuides()) as ProductGuides[];
   return (
     <div className="w-full text-start">
       <div className="flex justify-between mt-4">
