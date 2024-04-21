@@ -7,6 +7,10 @@ import { addUser } from "@/app/Modals/ActionRegister";
 import LeftSection from "./components/LeftSection";
 import IconEyeInvisible from "@/components/icons/EyeClosed";
 import IconEye from "@/components/icons/EyeOpened";
+import UserIcon from "@/components/icons/UserIcon";
+import EmailIcon from "@/components/icons/EmailIcon";
+import KeyPasswordIcon from "@/components/icons/KeyPasswordIcon";
+import Location from "@/components/icons/Location";
 
 export default function page() {
   const [email, setEmail] = useState("");
@@ -122,6 +126,9 @@ export default function page() {
             autoCapitalize="off"
             name="firstname"
             size="sm"
+            startContent={
+              <UserIcon className="text-lg text-default-400 pointer-events-none mr-1" />
+            }
           />
           <Input
             className="max-w-sm"
@@ -134,6 +141,9 @@ export default function page() {
             type="text"
             name="lastname"
             size="sm"
+            startContent={
+              <UserIcon className="text-lg text-default-400 pointer-events-none mr-1" />
+            }
           />
           <Input
             className="w-full"
@@ -148,6 +158,9 @@ export default function page() {
             autoComplete="off"
             type="email"
             size="sm"
+            startContent={
+              <EmailIcon className="text-lg text-default-400 pointer-events-none mr-1" />
+            }
           />
           <Input
             label="Password"
@@ -171,6 +184,9 @@ export default function page() {
             }
             type={isVisible ? "text" : "password"}
             className="max-w-sm"
+            startContent={
+              <KeyPasswordIcon className="text-lg text-default-400 pointer-events-none mr-1" />
+            }
           />
           <Input
             label="Confirm password"
@@ -193,6 +209,9 @@ export default function page() {
             }
             type={isVisible ? "text" : "password"}
             className="max-w-sm"
+            startContent={
+              <KeyPasswordIcon className="text-lg text-default-400 pointer-events-none mr-1" />
+            }
           />
 
           <div className="relative w-full flex justify-center mb-10">
@@ -204,6 +223,9 @@ export default function page() {
               label="Location"
               name="location"
               size="sm"
+              startContent={
+                <Location className="text-lg text-default-400 pointer-events-none mr-1" />
+              }
             />
             {search && (
               <ul className="absolute z-10 top-full w-[90%] left-0 right-0 mx-auto bg-white border border-gray-300 rounded-md shadow-md mt-1">
