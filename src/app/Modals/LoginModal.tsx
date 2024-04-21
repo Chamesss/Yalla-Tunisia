@@ -8,11 +8,7 @@ import { useFormState } from "react-dom";
 import { Login } from "./ActionRegister";
 import { useDispatch } from "@/redux/store";
 
-interface LoginModalProps {
-  setRegister: Dispatch<SetStateAction<boolean>>; // Type the prop
-}
-
-export default function LoginModal({ setRegister }: LoginModalProps) {
+export default function LoginModal() {
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -85,12 +81,12 @@ export default function LoginModal({ setRegister }: LoginModalProps) {
       </Button>
       <p className="mt-2">
         Dont have an account?{" "}
-        <span
+        <Link
+          href={"/register"}
           className="text-[#41a6e5] cursor-pointer hover:underline"
-          onClick={() => setRegister(true)}
         >
           Register.
-        </span>
+        </Link>
       </p>
     </form>
   );
