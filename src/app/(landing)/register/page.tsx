@@ -1,16 +1,12 @@
 "use client";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { cities } from "@/cities";
 import { Button, Input } from "@nextui-org/react";
 import { useFormState } from "react-dom";
 import { addUser } from "@/app/Modals/ActionRegister";
 import LeftSection from "./components/LeftSection";
+import IconEyeInvisible from "@/components/icons/EyeClosed";
+import IconEye from "@/components/icons/EyeOpened";
 
 export default function page() {
   const [email, setEmail] = useState("");
@@ -19,8 +15,11 @@ export default function page() {
   const [search, setSearch] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [formState, formAction] = useFormState(addUser, null);
+  const [isVisible, setIsVisible] = useState(false);
 
   //handle autocomplete
   useEffect(() => {
@@ -60,7 +59,7 @@ export default function page() {
   };
 
   return (
-    <div className="flex p-8 justify-evenly">
+    <div className="flex p-8 justify-evenly items-center">
       <div className="w-fit">
         <LeftSection />
       </div>
@@ -139,6 +138,7 @@ export default function page() {
           <Input
             className="w-full"
             variant="underlined"
+            placeholder="Exemple@mail.com"
             label="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -148,6 +148,51 @@ export default function page() {
             autoComplete="off"
             type="email"
             size="sm"
+          />
+          <Input
+            label="Password"
+            value={password}
+            variant="underlined"
+            placeholder="Enter your password"
+            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            endContent={
+              <button
+                className="focus:outline-none"
+                type="button"
+                onClick={() => setIsVisible(!isVisible)}
+              >
+                {isVisible ? (
+                  <IconEye className="text-2xl text-default-400 pointer-events-none" />
+                ) : (
+                  <IconEyeInvisible className="text-2xl text-default-400 pointer-events-none" />
+                )}
+              </button>
+            }
+            type={isVisible ? "text" : "password"}
+            className="max-w-sm"
+          />
+          <Input
+            label="Confirm password"
+            value={confirmPassword}
+            variant="underlined"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            name="confirmPassword"
+            endContent={
+              <button
+                className="focus:outline-none"
+                type="button"
+                onClick={() => setIsVisible(!isVisible)}
+              >
+                {isVisible ? (
+                  <IconEye className="text-2xl text-default-400 pointer-events-none" />
+                ) : (
+                  <IconEyeInvisible className="text-2xl text-default-400 pointer-events-none" />
+                )}
+              </button>
+            }
+            type={isVisible ? "text" : "password"}
+            className="max-w-sm"
           />
 
           <div className="relative w-full flex justify-center mb-10">
