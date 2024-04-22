@@ -1,43 +1,31 @@
 import { usePlacesWidget } from "react-google-autocomplete";
 import { Input } from "@nextui-org/react";
-import { Ref } from "react";
+import { Ref, useEffect, useState } from "react";
 import Location from "@/components/icons/Location";
-import { GoogleMap } from "@react-google-maps/api";
+import GoogleMapContainer from "./GoogleMapContainer";
 
 type Props = {
   ref: Ref<HTMLInputElement>;
 };
 
 export default function LocationPicker() {
+  const [lng, setLng] = useState<number>(10.1815);
+  const [lat, setLat] = useState<number>(36.8065);
+
   const { ref }: Props = usePlacesWidget({
     apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-    onPlaceSelected: (place) => console.log(place),
+    onPlaceSelected: (place) => {
+      const lng = place.geometry?.location?.lng();
+      const lat = place.geometry?.location?.lat();
+      if (lng && lat) {
+        setLng(lng);
+        setLat(lat);
+      }
+    },
     options: {
       componentRestrictions: { country: "tn" },
     },
   });
-
-  const defaultMapContainerStyle = {
-    width: "250px",
-    height: "200px",
-    borderRadius: "15px 0px 0px 15px",
-  };
-
-  //K2's coordinates
-  const defaultMapCenter = {
-    lat: 36.8065,
-    lng: 10.1815,
-  };
-
-  //Default zoom level, can be adjusted
-  const defaultMapZoom = 18;
-
-  //Map options
-  const defaultMapOptions = {
-    zoomControl: true,
-    tilt: 0,
-    gestureHandling: "auto",
-  };
 
   return (
     <>
@@ -52,12 +40,8 @@ export default function LocationPicker() {
           <Location className="text-lg text-default-400 pointer-events-none mr-1" />
         }
       />
-      <GoogleMap
-        mapContainerStyle={defaultMapContainerStyle}
-        center={defaultMapCenter}
-        zoom={defaultMapZoom}
-        options={defaultMapOptions}
-      />
+
+      <GoogleMapContainer lng={lng} lat={lat} />
     </>
   );
 }

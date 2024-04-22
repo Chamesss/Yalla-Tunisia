@@ -214,7 +214,6 @@ export default function Main() {
               <KeyPasswordIcon className="text-lg text-default-400 pointer-events-none mr-1" />
             }
           />
-
           <LocationPicker />
 
           {/* <div className="relative w-full flex justify-center mb-10">
