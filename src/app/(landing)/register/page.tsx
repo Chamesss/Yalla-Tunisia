@@ -11,6 +11,7 @@ import UserIcon from "@/components/icons/UserIcon";
 import EmailIcon from "@/components/icons/EmailIcon";
 import KeyPasswordIcon from "@/components/icons/KeyPasswordIcon";
 import Location from "@/components/icons/Location";
+import LocationPicker from "./components/LocationPicker";
 
 export default function page() {
   const [email, setEmail] = useState("");
@@ -214,7 +215,9 @@ export default function page() {
             }
           />
 
-          <div className="relative w-full flex justify-center mb-10">
+          <LocationPicker />
+
+          {/* <div className="relative w-full flex justify-center mb-10">
             <Input
               variant="underlined"
               value={searchTerm}
@@ -246,7 +249,7 @@ export default function page() {
                 )}
               </ul>
             )}
-          </div>
+          </div> */}
           <Button
             className="w-[95%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
             size="lg"

@@ -30,3 +30,7 @@
 .scrollbar-container::-webkit-scrollbar-button {
   display: none;
 }
+
+.pac-container:after {
+  content: none !important;
+}
