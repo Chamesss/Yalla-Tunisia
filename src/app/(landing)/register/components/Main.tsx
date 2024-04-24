@@ -1,7 +1,13 @@
 "use client";
-import { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { cities } from "@/cities";
-import { Button, Input } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  ScrollShadow,
+  Autocomplete,
+  AutocompleteItem,
+} from "@nextui-org/react";
 import { useFormState } from "react-dom";
 import { addUser } from "@/app/Modals/ActionRegister";
 import LeftSection from "./LeftSection";
@@ -29,6 +35,7 @@ export default function Main() {
   const [cityName, setCityName] = useState<string | null>(null);
   const [cityLat, setCityLat] = useState<string | null>(null);
   const [cityLng, setCityLng] = useState<string | null>(null);
+  const [activeAreaId, setActiveAreaId] = useState<string | null>(null);
 
   //handle autocomplete
   useEffect(() => {
@@ -67,12 +74,20 @@ export default function Main() {
     }
   };
 
+  const handleCitySelection = (key: React.Key) => {
+    const [city] = cities.filter((c) => c.id === (key as string));
+    setActiveAreaId(city.id);
+    setCityName(city.city);
+    setCityLat(city.lat);
+    setCityLng(city.lng);
+  };
+
   return (
-    <div className="flex p-8 justify-evenly items-center">
+    <div className="flex p-4 justify-evenly items-center">
       <div className="w-fit">
         <LeftSection />
       </div>
-      <div className="w-[25%]">
+      <ScrollShadow className="scrollbar-container w-[25%]  max-h-[80vh]">
         <form
           className="flex flex-col justify-center items-center gap-2 w-full"
           autoComplete="off"
@@ -218,16 +233,28 @@ export default function Main() {
               <KeyPasswordIcon className="text-lg text-default-400 pointer-events-none mr-1" />
             }
           />
-          <Input
-            className="max-w-sm"
+          <Autocomplete
+            onSelectionChange={(key: React.Key) => handleCitySelection(key)}
+            label="Enter you city"
+            className="max-w-xs"
             variant="underlined"
             size="sm"
-            value={cityName ? cityName : ""}
-          />
+            startContent={
+              <Location className="text-lg text-default-400 pointer-events-none mr-1" />
+            }
+          >
+            {cities.map((c) => (
+              <AutocompleteItem key={c.id} value={c.city}>
+                {c.city}
+              </AutocompleteItem>
+            ))}
+          </Autocomplete>
           <LocationPicker
             setCityName={setCityName}
             setCityLat={setCityLat}
             setCityLng={setCityLng}
+            setActiveAreaId={setActiveAreaId}
+            activeAreaId={activeAreaId}
           />
 
           {/* <div className="relative w-full flex justify-center mb-10">
@@ -280,7 +307,7 @@ export default function Main() {
             Login instead?
           </p>
         </form>
-      </div>
+      </ScrollShadow>
     </div>
   );
 }

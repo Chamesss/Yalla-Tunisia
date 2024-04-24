@@ -12,15 +12,18 @@ type Props = {
   setCityName: Dispatch<SetStateAction<string | null>>;
   setCityLat: Dispatch<SetStateAction<string | null>>;
   setCityLng: Dispatch<SetStateAction<string | null>>;
+  setActiveAreaId: React.Dispatch<React.SetStateAction<string | null>>;
+  activeAreaId: string | null;
 };
 
 export default function LocationPicker({
   setCityName,
   setCityLat,
   setCityLng,
+  setActiveAreaId,
+  activeAreaId,
 }: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [activeAreaId, setActiveAreaId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!mapRef.current) return;
