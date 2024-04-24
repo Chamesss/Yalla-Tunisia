@@ -76,10 +76,17 @@ export default function Main() {
 
   const handleCitySelection = (key: React.Key) => {
     const [city] = cities.filter((c) => c.id === (key as string));
-    setActiveAreaId(city.id);
-    setCityName(city.city);
-    setCityLat(city.lat);
-    setCityLng(city.lng);
+    if (city) {
+      setActiveAreaId(city.id);
+      setCityName(city.city);
+      setCityLat(city.lat);
+      setCityLng(city.lng);
+    } else {
+      setActiveAreaId(null);
+      setCityName(null);
+      setCityLat(null);
+      setCityLng(null);
+    }
   };
 
   return (
@@ -239,18 +246,6 @@ export default function Main() {
             className="w-full"
             variant="underlined"
             selectedKey={activeAreaId}
-            clearIcon={
-              <p
-                onClick={() => {
-                  setActiveAreaId(null);
-                  setCityName(null);
-                  setCityLat(null);
-                  setCityLng(null);
-                }}
-              >
-                x
-              </p>
-            }
             size="sm"
             startContent={
               <Location className="text-lg text-default-400 pointer-events-none mr-1" />
