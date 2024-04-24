@@ -87,7 +87,7 @@ export default function Main() {
       <div className="w-fit">
         <LeftSection />
       </div>
-      <ScrollShadow className="scrollbar-container w-[25%]  max-h-[80vh]">
+      <ScrollShadow className="scrollbar-container w-[30%]  max-h-[80vh]">
         <form
           className="flex flex-col justify-center items-center gap-2 w-full"
           autoComplete="off"
@@ -236,8 +236,21 @@ export default function Main() {
           <Autocomplete
             onSelectionChange={(key: React.Key) => handleCitySelection(key)}
             label="Enter you city"
-            className="max-w-xs"
+            className="w-full"
             variant="underlined"
+            selectedKey={activeAreaId}
+            clearIcon={
+              <p
+                onClick={() => {
+                  setActiveAreaId(null);
+                  setCityName(null);
+                  setCityLat(null);
+                  setCityLng(null);
+                }}
+              >
+                x
+              </p>
+            }
             size="sm"
             startContent={
               <Location className="text-lg text-default-400 pointer-events-none mr-1" />
