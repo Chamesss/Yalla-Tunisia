@@ -17,14 +17,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} dark:bg-[#212933]`}>
-        <script
-          src={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initMap`}
-          async
-        ></script>
         <Providers>{children}</Providers>
       </body>
     </html>
