@@ -11,6 +11,7 @@ import UserIcon from "@/components/icons/UserIcon";
 import EmailIcon from "@/components/icons/EmailIcon";
 import KeyPasswordIcon from "@/components/icons/KeyPasswordIcon";
 import Location from "@/components/icons/Location";
+import LocationPicker from "./LocationPicker";
 // import LocationPicker from "./LocationPicker";
 
 export default function Main() {
@@ -214,7 +215,7 @@ export default function Main() {
               <KeyPasswordIcon className="text-lg text-default-400 pointer-events-none mr-1" />
             }
           />
-          {/* <LocationPicker /> */}
+          <LocationPicker />
 
           {/* <div className="relative w-full flex justify-center mb-10">
             <Input

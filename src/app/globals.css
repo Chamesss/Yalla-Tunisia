@@ -34,3 +34,25 @@
 .pac-container:after {
   content: none !important;
 }
+
+/* map styling */ 
+
+.map {
+  overflow: hidden;
+}
+
+.map--svg {
+  width: 100%;
+  float: left;
+}
+
+.map--svg path {
+  fill: #60a5fa;
+  stroke: #FFF;
+  stroke-width: 1px;
+  transition: fill 0.3s;
+}
+
+.map--svg path:hover {
+  fill: #93c5fd
+}

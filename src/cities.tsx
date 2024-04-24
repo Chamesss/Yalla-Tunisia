@@ -1,5 +1,6 @@
 export const cities = [
   {
+    id: "01",
     city: "Tunis",
     lat: "36.8064",
     lng: "10.1817",
@@ -11,6 +12,7 @@ export const cities = [
     population_proper: "1056247",
   },
   {
+    id: "14",
     city: "Sidi Bouzid",
     lat: "35.0381",
     lng: "9.4858",
@@ -22,6 +24,7 @@ export const cities = [
     population_proper: "429912",
   },
   {
+    id: "18",
     city: "Sfax",
     lat: "34.7400",
     lng: "10.7600",
@@ -33,6 +36,7 @@ export const cities = [
     population_proper: "272801",
   },
   {
+    id: "15",
     city: "Sousse",
     lat: "35.8333",
     lng: "10.6333",
@@ -44,6 +48,7 @@ export const cities = [
     population_proper: "221530",
   },
   {
+    id: "12",
     city: "Kairouan",
     lat: "35.6772",
     lng: "10.1008",
@@ -55,6 +60,7 @@ export const cities = [
     population_proper: "186653",
   },
   {
+    id: "21",
     city: "Kebili",
     lat: "33.7050",
     lng: "8.9650",
@@ -66,6 +72,7 @@ export const cities = [
     population_proper: "163257",
   },
   {
+    id: "07",
     city: "Bizerte",
     lat: "37.2778",
     lng: "9.8639",
@@ -77,6 +84,7 @@ export const cities = [
     population_proper: "46700",
   },
   {
+    id: "22",
     city: "Gabès",
     lat: "33.8833",
     lng: "10.1167",
@@ -88,6 +96,7 @@ export const cities = [
     population_proper: "116323",
   },
   {
+    id: "02",
     city: "Ariana",
     lat: "36.8625",
     lng: "10.1956",
@@ -99,6 +108,7 @@ export const cities = [
     population_proper: "114486",
   },
   {
+    id: "09",
     city: "Jendouba",
     lat: "36.5000",
     lng: "8.7833",
@@ -110,6 +120,7 @@ export const cities = [
     population_proper: "113116",
   },
   {
+    id: "19",
     city: "Gafsa",
     lat: "34.4167",
     lng: "8.7833",
@@ -121,6 +132,7 @@ export const cities = [
     population_proper: "111170",
   },
   {
+    id: "23",
     city: "Medenine",
     lat: "33.3547",
     lng: "10.5053",
@@ -132,6 +144,7 @@ export const cities = [
     population_proper: "109409",
   },
   {
+    id: "08",
     city: "Béja",
     lat: "36.7333",
     lng: "9.1833",
@@ -143,6 +156,7 @@ export const cities = [
     population_proper: "109299",
   },
   {
+    id: "13",
     city: "Kasserine",
     lat: "35.1667",
     lng: "8.8333",
@@ -154,6 +168,7 @@ export const cities = [
     population_proper: "108794",
   },
   {
+    id: "16",
     city: "Monastir",
     lat: "35.7694",
     lng: "10.8194",
@@ -165,6 +180,7 @@ export const cities = [
     population_proper: "93306",
   },
   {
+    id: "24",
     city: "Tataouine",
     lat: "32.9306",
     lng: "10.4500",
@@ -176,6 +192,7 @@ export const cities = [
     population_proper: "95775",
   },
   {
+    id: "03",
     city: "Ben Arous",
     lat: "36.7472",
     lng: "10.3333",
@@ -187,6 +204,7 @@ export const cities = [
     population_proper: "88322",
   },
   {
+    id: "17",
     city: "Mahdia",
     lat: "35.5000",
     lng: "11.0667",
@@ -198,6 +216,7 @@ export const cities = [
     population_proper: "79545",
   },
   {
+    id: "10",
     city: "El Kef",
     lat: "36.1822",
     lng: "8.7147",
@@ -209,6 +228,7 @@ export const cities = [
     population_proper: "73706",
   },
   {
+    id: "05",
     city: "Nabeul",
     lat: "36.4542",
     lng: "10.7347",
@@ -220,6 +240,7 @@ export const cities = [
     population_proper: "73128",
   },
   {
+    id: "04",
     city: "Manouba",
     lat: "36.8078",
     lng: "10.1011",
@@ -231,6 +252,7 @@ export const cities = [
     population_proper: "58792",
   },
   {
+    id: "06",
     city: "Zaghouan",
     lat: "36.4000",
     lng: "10.1500",
@@ -242,6 +264,7 @@ export const cities = [
     population_proper: "20387",
   },
   {
+    id: "20",
     city: "Tozeur",
     lat: "33.9167",
     lng: "8.1333",
@@ -253,6 +276,7 @@ export const cities = [
     population_proper: "37365",
   },
   {
+    id: "11",
     city: "Siliana",
     lat: "36.0819",
     lng: "9.3747",
