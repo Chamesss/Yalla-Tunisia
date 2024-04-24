@@ -34,7 +34,9 @@
     "react-stars": "^2.2.5",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "use-google-maps-script": "^0.1.2",
+    "use-places-autocomplete": "^4.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",

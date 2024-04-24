@@ -1,47 +1,25 @@
-import { usePlacesWidget } from "react-google-autocomplete";
 import { Input } from "@nextui-org/react";
-import { Ref, useEffect, useState } from "react";
-import Location from "@/components/icons/Location";
-import GoogleMapContainer from "./GoogleMapContainer";
-
-type Props = {
-  ref: Ref<HTMLInputElement>;
-};
-
+import { useRef, useEffect, Ref, RefObject } from "react";
 export default function LocationPicker() {
-  const [lng, setLng] = useState<number>(10.1815);
-  const [lat, setLat] = useState<number>(36.8065);
-
-  const { ref }: Props = usePlacesWidget({
-    apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-    onPlaceSelected: (place) => {
-      const lng = place.geometry?.location?.lng();
-      const lat = place.geometry?.location?.lat();
-      if (lng && lat) {
-        setLng(lng);
-        setLat(lat);
-      }
-    },
-    options: {
-      componentRestrictions: { country: "tn" },
-    },
-  });
-
+  const autoCompleteRef = useRef();
+  const inputRef = useRef<HTMLInputElement>();
+  const options = {
+    componentRestrictions: { country: "ng" },
+    fields: ["address_components", "geometry", "icon", "name"],
+    types: ["establishment"],
+  };
+  useEffect(() => {
+    if (inputRef.current) {
+      const value = new window.google.maps.places.Autocomplete(
+        inputRef.current,
+        options
+      );
+    }
+  }, []);
   return (
-    <>
-      <Input
-        ref={ref}
-        type="text"
-        variant="underlined"
-        className="flex py-3 w-full rounded-md"
-        placeholder="Enter your location..."
-        size="sm"
-        startContent={
-          <Location className="text-lg text-default-400 pointer-events-none mr-1" />
-        }
-      />
-
-      <GoogleMapContainer lng={lng} lat={lat} />
-    </>
+    <div>
+      <label>enter address :</label>
+      <Input ref={inputRef as Ref<HTMLInputElement>} />
+    </div>
   );
 }

@@ -1,5 +1,7 @@
+import { Spinner } from "@nextui-org/react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { useEffect, useState, useCallback } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 type Props = {
   lng: number;
@@ -12,38 +14,43 @@ const containerStyle = {
 };
 
 export default function GoogleMapContainer({ lng, lat }: Props) {
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
+  const [map, setMap] = useState<any>(null);
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "YOUR_API_KEY",
+    googleMapsApiKey: apiKey,
   });
 
-  const [map, setMap] = useState(null);
-
-  const onLoad = (map: any) => {
-    const bounds = new window.google.maps.LatLngBounds({ lng, lat });
-    map.fitBounds(bounds);
-
-    setMap(map);
-  };
-
-  const onUnmount = (map: any) => {
-    setMap(null);
+  const center: google.maps.LatLngLiteral = {
+    lat: lat,
+    lng: lng,
   };
 
   return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={{ lng, lat }}
-      zoom={8}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
+    <ErrorBoundary
+      fallback={
+        <div className="w-[250px] h-[200px] bg-gray-100 flex justify-center items-center">
+          <p className="text-center text-black">Something went wrong.</p>
+        </div>
+      }
     >
-      {/* Marker component with position and custom styling */}
-      <Marker position={{ lng, lat }}>
-        <span className="w-[20px] h-[20px] rounded-full bg-red-500"></span>
-      </Marker>
-    </GoogleMap>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={30}
+        onLoad={(map) => {
+          const bounds = new window.google.maps.LatLngBounds();
+          map.fitBounds(bounds);
+          setMap(map);
+        }}
+        onUnmount={() => setMap(null)}
+      >
+        <Marker position={{ lng, lat }} />
+      </GoogleMap>
+    </ErrorBoundary>
   ) : (
-    <></>
+    <div className="w-[250px] h-[200px] bg-gray-100 flex justify-center items-center">
+      <Spinner size="lg" />
+    </div>
   );
 }
