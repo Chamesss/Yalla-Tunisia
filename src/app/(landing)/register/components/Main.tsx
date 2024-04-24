@@ -264,40 +264,6 @@ export default function Main() {
             setActiveAreaId={setActiveAreaId}
             activeAreaId={activeAreaId}
           />
-
-          {/* <div className="relative w-full flex justify-center mb-10">
-            <Input
-              variant="underlined"
-              value={searchTerm}
-              onChange={handleInputChange}
-              className="w-full"
-              label="Location"
-              name="location"
-              size="sm"
-              startContent={
-                <Location className="text-lg text-default-400 pointer-events-none mr-1" />
-              }
-            />
-            {search && (
-              <ul className="absolute z-10 top-full w-[90%] left-0 right-0 mx-auto bg-white border border-gray-300 rounded-md shadow-md mt-1">
-                {filteredOptions.length > 0 ? (
-                  filteredOptions.map((option) => (
-                    <li
-                      key={option}
-                      className="hover:bg-gray-100 dark:hover:bg-gray-300 dark:text-black px-3 py-2 cursor-pointer "
-                      onClick={() => handleOptionSelect(option)}
-                    >
-                      {option}
-                    </li>
-                  ))
-                ) : (
-                  <li className="dark:text-black px-3 py-2">
-                    No results found
-                  </li>
-                )}
-              </ul>
-            )}
-          </div> */}
           <Button
             className="w-[95%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
             size="lg"
