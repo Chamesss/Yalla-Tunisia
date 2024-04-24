@@ -26,6 +26,9 @@ export default function Main() {
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [formState, formAction] = useFormState(addUser, null);
   const [isVisible, setIsVisible] = useState(false);
+  const [cityName, setCityName] = useState<string | null>(null);
+  const [cityLat, setCityLat] = useState<string | null>(null);
+  const [cityLng, setCityLng] = useState<string | null>(null);
 
   //handle autocomplete
   useEffect(() => {
@@ -215,7 +218,17 @@ export default function Main() {
               <KeyPasswordIcon className="text-lg text-default-400 pointer-events-none mr-1" />
             }
           />
-          <LocationPicker />
+          <Input
+            className="max-w-sm"
+            variant="underlined"
+            size="sm"
+            value={cityName ? cityName : ""}
+          />
+          <LocationPicker
+            setCityName={setCityName}
+            setCityLat={setCityLat}
+            setCityLng={setCityLng}
+          />
 
           {/* <div className="relative w-full flex justify-center mb-10">
             <Input
