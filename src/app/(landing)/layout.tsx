@@ -9,12 +9,16 @@ export default async function layout({
 }>) {
   if (!process.env.NEXT_PUBLIC_API_URL) return null;
   return (
-    <div>
+    <div className="flex min-h-screen flex-col dark:bg-[#212933]">
       <div className="lg:mb-[8.75rem] md:mb-[9.375rem] mb-[6.25rem]">
         <Header />
       </div>
-      {children}
-      <Footer />
+      <div className="flex-1 justify-between flex flex-col">
+        {children}
+        <div className="flex">
+          <Footer />
+        </div>
+      </div>
     </div>
   );
 }

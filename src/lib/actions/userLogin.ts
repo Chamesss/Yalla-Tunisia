@@ -1,7 +1,7 @@
 "use server"
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "../../../../../firebase";
+import { auth, db } from "@/firebase";
 
 export async function loginUser(email: string, password: string) {
     try {

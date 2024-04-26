@@ -1,11 +1,11 @@
 "use client";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Button, Input, Checkbox } from "@nextui-org/react";
 import IconEyeInvisible from "@/components/icons/EyeClosed";
 import IconEye from "@/components/icons/EyeOpened";
 import Link from "next/link";
 import { useFormState } from "react-dom";
-import { loginUser } from "../(landing)/register/components/loginUser";
+import { loginUser } from "@/lib/actions/userLogin";
 import { useDispatch } from "@/redux/store";
 import { addUserSession } from "@/redux/slices/userSlice";
 
@@ -17,7 +17,8 @@ export default function LoginModal() {
   const dispatch = useDispatch();
 
   async function handleLogin(prevState: any, formData: FormData) {
-    const email = formData.get("email") as string;
+    const address = formData.get("email") as string;
+    const email = String(address).trim().toLowerCase();
     const password = formData.get("password") as string;
     try {
       const result = await loginUser(email, password);

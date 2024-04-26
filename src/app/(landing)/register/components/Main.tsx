@@ -16,7 +16,7 @@ import Location from "@/components/icons/Location";
 import LocationPicker from "./LocationPicker";
 import PasswordHandle from "./PasswordHandle";
 import { useDispatch } from "@/redux/store";
-import { loginUser } from "./loginUser";
+import { loginUser } from "@/lib/actions/userLogin";
 import EntireScreenLoading from "@/components/utils/EntireScreenLoading";
 import { addUserSession } from "@/redux/slices/userSlice";
 

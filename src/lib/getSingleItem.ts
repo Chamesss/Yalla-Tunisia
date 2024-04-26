@@ -1,5 +1,5 @@
 import { collection, doc, getDoc } from 'firebase/firestore';
-import { db } from '../../firebase'; // Assuming 'db' is your Firestore instance
+import { db } from '../firebase'; // Assuming 'db' is your Firestore instance
 
 export default async function getSingleItem(collectionName: string, itemId: string) {
     try {

@@ -1,12 +1,20 @@
 "use client";
+import { useEffect } from "react";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import LoginModal from "./LoginModal";
+import { usePathname } from "next/navigation";
 
-export default function ModalWindow({ isOpen, onOpenChange }: any) {
+export default function ModalWindow({ isOpen, onClose, onOpen }: any) {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    onClose();
+  }, [pathname]);
+
   return (
     <Modal
       isOpen={isOpen}
-      onOpenChange={onOpenChange}
+      onClose={onClose}
       className="self-center h-auto transition-all duration-300"
     >
       <ModalContent>

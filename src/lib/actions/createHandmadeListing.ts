@@ -2,7 +2,7 @@
 //Error codes:{ title=1 / price=2 / qte=3 / description=4 / materialsUsed=5 / category=11 / subcategory=12 / location=13 / pictures=22}
 
 import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "firebase/storage";
-import { app, db } from "../../../firebase";
+import { app, db } from "../../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { uploadImages } from "./uploadPictures";
 

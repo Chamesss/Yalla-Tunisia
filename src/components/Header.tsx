@@ -32,7 +32,7 @@ export default function Header() {
   const [IsOpen, setIsOpen] = useState(false);
   const [categories, setCategories] = useState<CategoryType[] | []>(CATEGORIES);
   const [mounted, setMounted] = useState(false);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { resolvedTheme } = useTheme();
   const user: userInfoType = useSelector(userState);
   const router = useRouter();
@@ -51,6 +51,14 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const handleNavigation = () => {
+    if (user.isLogged) {
+      router.push("/addlisting");
+    } else {
+      onOpen();
+    }
+  };
 
   return (
     <header className="bg-white dark:bg-[#000000] fixed w-full z-50 top-0">
@@ -105,7 +113,7 @@ export default function Header() {
                 size="sm"
                 variant="bordered"
                 radius="full"
-                onClick={() => router.push("/addlisting")}
+                onClick={() => handleNavigation()}
               >
                 Sell Item
               </Button>
@@ -113,7 +121,7 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <ModalWindow isOpen={isOpen} onOpenChange={onOpenChange} />
+      <ModalWindow isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
     </header>
   );
 }

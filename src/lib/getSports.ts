@@ -1,5 +1,5 @@
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase"; // Assuming this line imports the initialized Firebase app
+import { db } from "../firebase"; // Assuming this line imports the initialized Firebase app
 
 export default async function getSports() {
     try {

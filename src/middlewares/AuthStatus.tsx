@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { auth } from "../../firebase";
+import { auth } from "../firebase";
 import { addUserSession, logOutSession } from "@/redux/slices/userSlice";
 
 export default function FirebaseAuth({

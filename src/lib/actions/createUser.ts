@@ -1,6 +1,6 @@
 "use server"
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { db, auth } from "../../../firebase";
+import { db, auth } from "../../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { formatString } from "@/helpers/UpperCase";

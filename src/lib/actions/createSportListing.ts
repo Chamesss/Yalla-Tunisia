@@ -1,7 +1,7 @@
 "use server"
 
 import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "firebase/storage";
-import { app, db } from "../../../firebase";
+import { app, db } from "../../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { uploadImages } from "./uploadPictures";
 
