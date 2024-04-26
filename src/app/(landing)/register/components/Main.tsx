@@ -1,65 +1,45 @@
 "use client";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { cities } from "@/cities";
 import {
   Button,
   Input,
-  ScrollShadow,
   Autocomplete,
   AutocompleteItem,
+  Spinner,
 } from "@nextui-org/react";
-import { useFormState } from "react-dom";
-import { addUser } from "@/app/Modals/ActionRegister";
+import { useFormState, useFormStatus } from "react-dom";
+import addUser from "@/lib/actions/createUser";
 import LeftSection from "./LeftSection";
-import IconEyeInvisible from "@/components/icons/EyeClosed";
-import IconEye from "@/components/icons/EyeOpened";
 import UserIcon from "@/components/icons/UserIcon";
 import EmailIcon from "@/components/icons/EmailIcon";
-import KeyPasswordIcon from "@/components/icons/KeyPasswordIcon";
 import Location from "@/components/icons/Location";
 import LocationPicker from "./LocationPicker";
-// import LocationPicker from "./LocationPicker";
+import PasswordHandle from "./PasswordHandle";
+
+const initialState = {
+  response: {
+    success: false,
+    message: "",
+    error: 0,
+  },
+};
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function Main() {
   const [email, setEmail] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
-  const [search, setSearch] = useState("");
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
-  const [formState, formAction] = useFormState(addUser, null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [cityName, setCityName] = useState<string | null>(null);
-  const [cityLat, setCityLat] = useState<string | null>(null);
-  const [cityLng, setCityLng] = useState<string | null>(null);
+  const [formState, formAction] = useFormState(addUser, initialState);
   const [activeAreaId, setActiveAreaId] = useState<string | null>(null);
-
-  //handle autocomplete
-  useEffect(() => {
-    const filterOptions = cities
-      .filter((option) =>
-        option.city.toLowerCase().startsWith(searchTerm.toLowerCase())
-      )
-      .map((option) => option.city);
-    setFilteredOptions(filterOptions);
-  }, [searchTerm, cities]);
-
-  //handleLocationTyping
-  const handleInputChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setSearchTerm(event.target.value);
-    setSearch(event.target.value);
-  };
-
-  //handleLocationSelection
-  const handleOptionSelect = (option: React.SetStateAction<string>) => {
-    setSearchTerm(option);
-    setSearch("");
-  };
+  const [passwordMatch, setPasswordMatch] = useState<boolean | null>(null);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [usernameError, setUsernameError] = useState<boolean | null>(null);
+  const [emailError, setEmailError] = useState<boolean | null>(null);
+  const [fromError, setFromError] = useState<boolean | string | null>(null);
 
   //handlePhotoSelection
   const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,31 +56,46 @@ export default function Main() {
 
   const handleCitySelection = (key: React.Key) => {
     const [city] = cities.filter((c) => c.id === (key as string));
-    if (city) {
-      setActiveAreaId(city.id);
-      setCityName(city.city);
-      setCityLat(city.lat);
-      setCityLng(city.lng);
-    } else {
-      setActiveAreaId(null);
-      setCityName(null);
-      setCityLat(null);
-      setCityLng(null);
-    }
+    city ? setActiveAreaId(city.id) : setActiveAreaId(null);
   };
 
+  const submitForm = (formData: FormData) => {
+    setFromError(null);
+    !usernameError &&
+    !emailError &&
+    !passwordError &&
+    passwordMatch &&
+    activeAreaId
+      ? formAction(formData)
+      : setFromError(true);
+  };
+
+  useEffect(() => {
+    setFromError(null);
+  }, [username, email, password, confirmPassword, activeAreaId]);
+
+  useEffect(() => {
+    formState.response.error === 5 && setFromError(true);
+  }, [formState]);
+
   return (
-    <div className="flex p-4 justify-evenly items-center">
-      <div className="w-fit">
+    <div className="flex px-8 py-4 justify-evenly items-center">
+      <div className="w-[70%] h-full hidden lg:block">
         <LeftSection />
       </div>
-      <ScrollShadow className="scrollbar-container w-[30%]  max-h-[80vh]">
+      <div className="scrollbar-container overflow-y-scroll w-fit lg:w-[30%] border border-opacity-50 rounded-xl p-6 max-h-[80vh]">
         <form
-          className="flex flex-col justify-center items-center gap-2 w-full"
+          className="flex flex-col justify-center gap-4 w-full"
+          action={(formData) => submitForm(formData)}
           autoComplete="off"
-          action={formAction}
         >
-          <div className="flex items-center justify-center flex-col w-full">
+          <h1 className="mb-2 text-xl font-bold">Sign Up</h1>
+          <input
+            className="absolute hidden"
+            name="activeAreaId"
+            value={activeAreaId || ""}
+          />
+          {/* <div className="flex items-center justify-center flex-col w-full">
             <input
               type="file"
               accept="image/*"
@@ -110,7 +105,7 @@ export default function Main() {
               name="picture"
             />
             <label htmlFor="photoInput" className="cursor-pointer">
-              <div className="h-32 w-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+              <div className="h-32 w-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden mb-2">
                 {selectedPhoto ? (
                   <img
                     src={selectedPhoto}
@@ -135,15 +130,20 @@ export default function Main() {
                 )}
               </div>
             </label>
-            <p className="mt-4 text-gray-600">Click to select a photo</p>
-          </div>
+          </div> */}
           <Input
             className="w-[100%]"
             type="text"
-            value={firstname}
-            onChange={(e) => setFirstname(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            onBlur={() =>
+              username.length > 0 &&
+              username.length < 3 &&
+              setUsernameError(true)
+            }
+            onFocus={() => setUsernameError(null)}
             variant="underlined"
-            label="Firstname"
+            label="Username"
             required
             autoComplete=""
             aria-autocomplete="both"
@@ -151,31 +151,26 @@ export default function Main() {
             autoCorrect="off"
             spellCheck="false"
             autoCapitalize="off"
-            name="firstname"
-            size="sm"
+            name="username"
+            size="md"
             startContent={
               <UserIcon className="text-lg text-default-400 pointer-events-none mr-1" />
             }
-          />
-          <Input
-            className="max-w-sm"
-            variant="underlined"
-            label="Lastname"
-            value={lastname}
-            onChange={(e) => setLastname(e.target.value)}
-            required
-            autoComplete="off"
-            type="text"
-            name="lastname"
-            size="sm"
-            startContent={
-              <UserIcon className="text-lg text-default-400 pointer-events-none mr-1" />
+            description={
+              usernameError && (
+                <small className="text-danger-500">
+                  enter a valid username
+                </small>
+              )
             }
           />
           <Input
             className="w-full"
             variant="underlined"
-            placeholder="Exemple@mail.com"
+            onBlur={() =>
+              email.length > 0 && !emailRegex.test(email) && setEmailError(true)
+            }
+            onFocus={() => setEmailError(null)}
             label="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -184,61 +179,25 @@ export default function Main() {
             required
             autoComplete="off"
             type="email"
-            size="sm"
+            size="md"
             startContent={
               <EmailIcon className="text-lg text-default-400 pointer-events-none mr-1" />
             }
-          />
-          <Input
-            label="Password"
-            value={password}
-            variant="underlined"
-            placeholder="Enter your password"
-            onChange={(e) => setPassword(e.target.value)}
-            name="password"
-            endContent={
-              <button
-                className="focus:outline-none"
-                type="button"
-                onClick={() => setIsVisible(!isVisible)}
-              >
-                {isVisible ? (
-                  <IconEye className="text-2xl text-default-400 pointer-events-none" />
-                ) : (
-                  <IconEyeInvisible className="text-2xl text-default-400 pointer-events-none" />
-                )}
-              </button>
-            }
-            type={isVisible ? "text" : "password"}
-            className="max-w-sm"
-            startContent={
-              <KeyPasswordIcon className="text-lg text-default-400 pointer-events-none mr-1" />
+            description={
+              emailError && (
+                <small className="text-danger-500">enter a valid email</small>
+              )
             }
           />
-          <Input
-            label="Confirm password"
-            value={confirmPassword}
-            variant="underlined"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            name="confirmPassword"
-            endContent={
-              <button
-                className="focus:outline-none"
-                type="button"
-                onClick={() => setIsVisible(!isVisible)}
-              >
-                {isVisible ? (
-                  <IconEye className="text-2xl text-default-400 pointer-events-none" />
-                ) : (
-                  <IconEyeInvisible className="text-2xl text-default-400 pointer-events-none" />
-                )}
-              </button>
-            }
-            type={isVisible ? "text" : "password"}
-            className="max-w-sm"
-            startContent={
-              <KeyPasswordIcon className="text-lg text-default-400 pointer-events-none mr-1" />
-            }
+          <PasswordHandle
+            password={password}
+            setPassword={setPassword}
+            confirmPassword={confirmPassword}
+            setConfirmPassword={setConfirmPassword}
+            setPasswordError={setPasswordError}
+            setPasswordMatch={setPasswordMatch}
+            passwordMatch={passwordMatch}
+            passwordError={passwordError}
           />
           <Autocomplete
             onSelectionChange={(key: React.Key) => handleCitySelection(key)}
@@ -246,7 +205,7 @@ export default function Main() {
             className="w-full"
             variant="underlined"
             selectedKey={activeAreaId}
-            size="sm"
+            size="md"
             startContent={
               <Location className="text-lg text-default-400 pointer-events-none mr-1" />
             }
@@ -258,9 +217,6 @@ export default function Main() {
             ))}
           </Autocomplete>
           <LocationPicker
-            setCityName={setCityName}
-            setCityLat={setCityLat}
-            setCityLng={setCityLng}
             setActiveAreaId={setActiveAreaId}
             activeAreaId={activeAreaId}
           />
@@ -269,19 +225,24 @@ export default function Main() {
             size="lg"
             type="submit"
           >
-            {formState === null ? (
-              "Register"
-            ) : formState?.success ? (
-              <span>user Created !</span>
-            ) : (
-              <span>user creation failed...</span>
-            )}
+            Register
           </Button>
-          <p className="text-[#41a6e5] cursor-pointer hover:underline">
+          {fromError && (
+            <>
+              {formState.response.error === 5 ? (
+                <small className="text-danger-500">
+                  {formState.response.message as string}
+                </small>
+              ) : (
+                <small className="text-danger-500">check your info</small>
+              )}
+            </>
+          )}
+          <p className="text-[#41a6e5] mt-4 py-2 cursor-pointer hover:underline">
             Login instead?
           </p>
         </form>
-      </ScrollShadow>
+      </div>
     </div>
   );
 }

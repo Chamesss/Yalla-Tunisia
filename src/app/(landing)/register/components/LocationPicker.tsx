@@ -1,25 +1,13 @@
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import React, { useRef, useEffect } from "react";
 import { cities } from "@/cities";
 import { Tooltip } from "@nextui-org/react";
 
 type Props = {
-  setCityName: Dispatch<SetStateAction<string | null>>;
-  setCityLat: Dispatch<SetStateAction<string | null>>;
-  setCityLng: Dispatch<SetStateAction<string | null>>;
   setActiveAreaId: React.Dispatch<React.SetStateAction<string | null>>;
   activeAreaId: string | null;
 };
 
 export default function LocationPicker({
-  setCityName,
-  setCityLat,
-  setCityLng,
   setActiveAreaId,
   activeAreaId,
 }: Props) {
@@ -46,17 +34,8 @@ export default function LocationPicker({
     };
   }, [mapRef.current]);
 
-  useEffect(() => {
-    if (activeAreaId) {
-      const [city] = cities.filter((c) => c.id === activeAreaId);
-      setCityName(city.city);
-      setCityLat(city.lat);
-      setCityLng(city.lng);
-    }
-  }, [activeAreaId]);
-
   return (
-    <div ref={mapRef}>
+    <div ref={mapRef} className="px-8">
       <h1>Select country from the map</h1>
       <map id="map" />
       <div className="map--svg">
