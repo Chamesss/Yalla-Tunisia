@@ -7,6 +7,7 @@ import {
   Autocomplete,
   AutocompleteItem,
   Spinner,
+  Divider,
 } from "@nextui-org/react";
 import { useFormState, useFormStatus } from "react-dom";
 import addUser from "@/lib/actions/createUser";
@@ -201,7 +202,7 @@ export default function Main() {
           />
           <Autocomplete
             onSelectionChange={(key: React.Key) => handleCitySelection(key)}
-            label="Enter you city"
+            label="Enter you city (or select from the map)"
             className="w-full"
             variant="underlined"
             selectedKey={activeAreaId}
@@ -221,7 +222,7 @@ export default function Main() {
             activeAreaId={activeAreaId}
           />
           <Button
-            className="w-[95%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
+            className="w-[100%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
             size="lg"
             type="submit"
           >
@@ -238,7 +239,7 @@ export default function Main() {
               )}
             </>
           )}
-          <p className="text-[#41a6e5] mt-4 py-2 cursor-pointer hover:underline">
+          <p className="text-[#41a6e5] text-center mt-4 py-2 cursor-pointer hover:underline">
             Login instead?
           </p>
         </form>
