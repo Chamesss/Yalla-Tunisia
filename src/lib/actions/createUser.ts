@@ -1,40 +1,36 @@
 "use server"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
-import { db, auth, app } from "../../../firebase";
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { db, auth } from "../../../firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
+import { formatString } from "@/helpers/UpperCase";
 
 //Error code: 1 = firstname | 2 = email | 3 = password | 4 = location | 5 = email in use
 
 export default async function addUser(prevState: any, formData: FormData) {
-    const email = formData.get("email") as string
-    const picture = formData.get("picture") as File;
-    const username = formData.get("username") as string
-    const location = formData.get("location") as string
+    const address = formData.get("email") as string
+    const name = formData.get("username") as string
     const password = formData.get("password") as string
     const activeAreaId = formData.get("activeAreaId") as string
-    const storage = getStorage(app);
-    const storageRef = ref(storage, `images/${username}/${picture.name}`);
+    const email = String(address).trim().toLowerCase();
+    const username = formatString(name)
     try {
         const userCredential = await createUserWithEmailAndPassword(
             auth,
             email,
             password,
         );
-        const snapshot = await uploadBytes(storageRef, picture)
-        const downloadURL = await getDownloadURL(snapshot.ref);
+
         const userRef = doc(collection(db, "users"), userCredential.user.uid);
         await setDoc(userRef, {
-            email,
-            picture: downloadURL,
             username,
-            location
+            picture: `https://ui-avatars.com/api/?name=${username}`,
+            email,
+            activeAreaId
         });
-
         return { response: { success: true, error: 0, message: "" } }
     } catch (error) {
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+        console.log(error)
         if (error instanceof FirebaseError && error.code === "auth/email-already-in-use") {
             return { response: { success: false, error: 5, message: "This email is already in use." } };
         } else {

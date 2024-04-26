@@ -6,8 +6,6 @@ import {
   Input,
   Autocomplete,
   AutocompleteItem,
-  Spinner,
-  Divider,
 } from "@nextui-org/react";
 import { useFormState, useFormStatus } from "react-dom";
 import addUser from "@/lib/actions/createUser";
@@ -17,6 +15,10 @@ import EmailIcon from "@/components/icons/EmailIcon";
 import Location from "@/components/icons/Location";
 import LocationPicker from "./LocationPicker";
 import PasswordHandle from "./PasswordHandle";
+import { useDispatch } from "@/redux/store";
+import { loginUser } from "./loginUser";
+import EntireScreenLoading from "@/components/utils/EntireScreenLoading";
+import { addUserSession } from "@/redux/slices/userSlice";
 
 const initialState = {
   response: {
@@ -41,6 +43,8 @@ export default function Main() {
   const [usernameError, setUsernameError] = useState<boolean | null>(null);
   const [emailError, setEmailError] = useState<boolean | null>(null);
   const [fromError, setFromError] = useState<boolean | string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   //handlePhotoSelection
   const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -77,10 +81,27 @@ export default function Main() {
 
   useEffect(() => {
     formState.response.error === 5 && setFromError(true);
+    if (formState.response.error === 0 && formState.response.success === true) {
+      setLoading(true);
+      (async () => {
+        const result = await loginUser(email, password);
+        result &&
+          dispatch(
+            addUserSession({
+              user: result.user,
+              isLogged: true,
+              userId: result.userId,
+            })
+          );
+        result && setLoading(false);
+        window.location.replace("/");
+      })();
+    }
   }, [formState]);
 
   return (
     <div className="flex px-8 py-4 justify-evenly items-center">
+      {loading && <EntireScreenLoading />}
       <div className="w-[70%] h-full hidden lg:block">
         <LeftSection />
       </div>
