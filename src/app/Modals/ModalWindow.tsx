@@ -11,7 +11,7 @@ export default function ModalWindow({ isOpen, onOpenChange }: any) {
     >
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1 text-center">
-          : <p>Login</p>
+          <p>Login</p>
         </ModalHeader>
         <ModalBody className="flex items-center py-10 h-auto transition-all duration-300">
           <LoginModal />
