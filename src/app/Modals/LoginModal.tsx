@@ -5,8 +5,9 @@ import IconEyeInvisible from "@/components/icons/EyeClosed";
 import IconEye from "@/components/icons/EyeOpened";
 import Link from "next/link";
 import { useFormState } from "react-dom";
-import { Login } from "./ActionRegister";
+import { loginUser } from "../(landing)/register/components/loginUser";
 import { useDispatch } from "@/redux/store";
+import { addUserSession } from "@/redux/slices/userSlice";
 
 export default function LoginModal() {
   const [isVisible, setIsVisible] = useState(false);
@@ -19,7 +20,16 @@ export default function LoginModal() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     try {
-      const res = await Login({ email, password, dispatch });
+      const result = await loginUser(email, password);
+      result &&
+        dispatch(
+          addUserSession({
+            user: result.user,
+            isLogged: true,
+            userId: result.userId,
+          })
+        );
+      window.location.replace("/");
     } catch (e) {
       console.log(e);
     }
