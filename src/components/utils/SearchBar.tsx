@@ -3,7 +3,8 @@ import Filter from "../icons/Filter";
 import Search from "../icons/Search";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { Button } from "@nextui-org/react";
+import { Button, useDisclosure } from "@nextui-org/react";
+import FilterModal from "./FilterModal";
 
 type Props = {
   setMounted: Dispatch<SetStateAction<boolean>>;
@@ -12,7 +13,13 @@ type Props = {
 
 export default function SearchBar({ setMounted, mounted }: Props) {
   const { theme, resolvedTheme } = useTheme();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   useEffect(() => setMounted(true), []);
+
+  const openModal = () => {
+    onOpen();
+  };
+
   if (!mounted)
     return (
       <Image
@@ -26,9 +33,10 @@ export default function SearchBar({ setMounted, mounted }: Props) {
       />
     );
   return (
-    <div className="flex-row items-center hidden md:flex bg-slate-50 gap-4 dark:bg-[#212933] justify-center rounded-full shadow-md py-1.5 px-3">
+    <div className="flex-row items-center hidden md:flex bg-slate-50 gap-4 dark:bg-[#212933] justify-center rounded-full py-1.5 px-3">
       <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110">
         <Filter
+          onClick={openModal}
           height="1.75rem"
           width="1.75rem"
           color={resolvedTheme === "light" ? "#3b3b3b" : "white"}
@@ -41,6 +49,7 @@ export default function SearchBar({ setMounted, mounted }: Props) {
       <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110 bg-[#48b9ff] dark:bg-[#3d9cd7] p-2 rounded-full">
         <Search height="1.5rem" width="1.5rem" color="white" />
       </div>
+      <FilterModal isOpen={isOpen} onClose={onClose} />
     </div>
   );
 }

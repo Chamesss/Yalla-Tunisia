@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import ProfileDropDown from "./utils/Header/ProfileDropDown";
 import { categories as CATEGORIES } from "@/constants/categories";
 import { useRouter } from "next/navigation";
+import SearchBar from "./utils/SearchBar";
 
 export default function Header() {
   // const authenticatedNavigationItems = [
@@ -68,48 +69,12 @@ export default function Header() {
             isLogged={user.isLogged}
             categories={categories}
           />
-          {mounted && (
-            <img
-              className="w-16 cursor-pointer"
-              src={
-                resolvedTheme === "dark"
-                  ? "https://creatella.ventures/wp-content/uploads/2021/10/282-2824123_stripe-logo-png-stripe-logo-white-transparent-clipart.png"
-                  : "https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg"
-              }
-              alt="..."
-            />
-          )}
+          <span className="text-3xl font-bold drop-shadow-md text-[#48b9ff] dark:text-[#3d9cd7]">
+            Yalla Tunisia
+          </span>
         </div>
-        <div
-          className={`bg-white dark:bg-black nav-links transition-bottom absolute duration-500 ease-in-out md:static md:min-h-fit min-h-[60vh] left-0 md:w-auto  w-full flex items-center px-5 bottom-20`}
-        >
-          <ul className="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
-            <li>
-              <a className="hover:text-gray-500" href="#">
-                Products
-              </a>
-            </li>
-            <li>
-              <a className="hover:text-gray-500" href="#">
-                Solution
-              </a>
-            </li>
-            <li>
-              <a className="hover:text-gray-500" href="#">
-                Resource
-              </a>
-            </li>
-            <li>
-              <a className="hover:text-gray-500" href="#">
-                Developers
-              </a>
-            </li>
-            <li>
-              <a className="hover:text-gray-500" href="#">
-                Pricing
-              </a>
-            </li>
-          </ul>
+        <div className="max-w-[40rem] w-full">
+          <SearchBar mounted={mounted} setMounted={setMounted} />
         </div>
         <div className="flex items-center gap-6">
           <ThemeSwitcher />
