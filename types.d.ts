@@ -107,6 +107,7 @@ interface userInfoType {
     lastname: string,
     location: string,
     picture: string
+    isValid?: boolean | null
   },
   userId: string
 }
