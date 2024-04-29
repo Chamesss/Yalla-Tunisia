@@ -36,20 +36,20 @@ export default function ImagesDisplay({ images }: any) {
       </small>
     );
   return (
-    <div className="flex flex-row w-full h-full overflow-auto overflow-x-scroll scrollbar-container gap-2">
+    <>
       {Images.map(({ base64, url }: any) => (
-        <div className="relative shrink-0 !w-[30rem] h-[15rem]" key={url}>
-          <Image
-            className="object-cover w-full h-full"
-            src={url}
-            alt="Paint Splashes"
-            title="Photo from Unsplash"
-            blurDataURL={base64}
-            placeholder="blur"
-            fill
-          />
-        </div>
+        <Image
+          key={url}
+          className=" object-cover shrink-0 w-[10rem] h-[7rem] md:w-[20rem] md:h-[15rem]"
+          src={url}
+          alt="Paint Splashes"
+          title="Photo from Unsplash"
+          blurDataURL={base64}
+          placeholder="blur"
+          width={640}
+          height={640}
+        />
       ))}
-    </div>
+    </>
   );
 }

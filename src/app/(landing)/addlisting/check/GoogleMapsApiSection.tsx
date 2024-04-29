@@ -87,23 +87,11 @@ export default function GoogleMapsApiSection() {
           placeholder="Customized your placeholder"
         />
       </Autocomplete>
-      {images !== null && <ImagesDisplay images={images} />}
-      {/* {images && (
-        <div className="flex flex-row w-full overflow-x-scroll">
-          {Images.map((image: any) => {
-            return (
-              <Image
-                blurDataURL={image.base64}
-                placeholder="blur"
-                src={image.url}
-                alt={"picture"}
-                width={360}
-                height={240}
-              />
-            );
-          })}
+      {images !== null && (
+        <div className="overflow-hidden flex flex-row overflow-x-scroll gap-2 scrollbar-container">
+          <ImagesDisplay images={images} />
         </div>
-      )} */}
+      )}
     </div>
   );
 }
