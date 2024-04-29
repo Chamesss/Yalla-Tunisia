@@ -1,3 +1,4 @@
+import withPlaiceholder from "@plaiceholder/next";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: "standalone",
@@ -14,8 +15,8 @@ const nextConfig = {
                 pathname: "/**",
             },
         ],
-        domains: ['firebasestorage.googleapis.com']
+        domains: ['firebasestorage.googleapis.com', 'maps.googleapis.com']
     },
 };
 
-export default nextConfig;
+export default withPlaiceholder(nextConfig)

@@ -1,27 +1,71 @@
-import { Button, Input } from "@nextui-org/react";
+"use client";
+import { Button, Divider, Input } from "@nextui-org/react";
 import GoogleMapsApiSection from "./GoogleMapsApiSection";
 import { Checkbox } from "@nextui-org/react";
 import { useState } from "react";
+import IconArrowRight from "@/components/icons/RightArrow";
 
 export default function FormService() {
   const [addLocation, setAddLocation] = useState<boolean>(false);
   return (
     <div className="p-4 flex items-center justify-center">
-      <div className="p-4 border border-opacity-50 rounded-xl w-fit flex items-center justify-center flex-col gap-4">
-        <h1 className="text-lg font-semibold">
-          By submitting this form, you can begin showcasing your valuable
-          services to our community.
-        </h1>
-        <div className="flex flex-col gap-4">
-          <Input variant="underlined" placeholder="Store name" />
-          <Checkbox onChange={(e) => setAddLocation(e.target.checked)}>
-            Locate my store
-          </Checkbox>
-          {addLocation && <GoogleMapsApiSection />}
+      <div className="rounded-xl w-fit flex items-center justify-center flex-col max-w-[45rem]">
+        <div className="px-4 py-6 w-full bg-blue-500 rounded-tl-xl rounded-tr-xl">
+          <h1 className="text-lg font-semibold text-white text-center">
+            Become a Local Artisan: Share Your Craft with the World!
+          </h1>
         </div>
-        <div className="w-full flex flex-row justify-evenly p-2">
-          <Button className="bg-danger-500 text-white">Cancel</Button>
-          <Button className="bg-primary-500 text-white">Submit</Button>
+        <div className="w-full p-4 border border-opacity-50 border-t-0 rounded-bl-xl rounded-br-xl">
+          <small className="italic opacity-75">
+            Welcome to our community of local artisans! We're thrilled you're
+            interested in showcasing your unique creations with tourists and
+            fellow travelers. To get started, please fill out the form below
+            with the required details.
+          </small>
+          <Divider className="my-4" />
+          <small className="italic opacity-75">
+            <IconArrowRight className="inline-block text-blue-500 mr-2" />
+            If your store is already listed on Google Maps, simply check the
+            checkbox below this dialogue, then search and select it from the
+            dropdown menu.
+          </small>
+          <br />
+          <small className="italic opacity-75">
+            <IconArrowRight className="inline-block text-blue-500 mr-2" />
+            If your store isn't listed on Google Maps, then simply enter your
+            store's name.
+          </small>
+          <Divider className="my-4" />
+          <div className="flex flex-col gap-4 w-full px-6 py-4">
+            <Input
+              variant="underlined"
+              labelPlacement="inside"
+              label={"Business phone number"}
+              startContent={
+                <div className="pointer-events-none flex items-center">
+                  <span className="text-default-400 text-small">+216</span>
+                </div>
+              }
+            />
+            <Checkbox
+              className="mt-2"
+              onChange={(e) => setAddLocation(e.target.checked)}
+            >
+              Locate my store on Google Maps
+            </Checkbox>
+            {addLocation && <GoogleMapsApiSection />}
+            {!addLocation && (
+              <Input variant="underlined" placeholder="Store name" />
+            )}
+          </div>
+          <Divider className="my-4" />
+          <div className="px-6">
+            <Checkbox className="mt-2">I agree to the terms of usage.</Checkbox>
+          </div>
+          <div className="w-full flex flex-row justify-between p-2 mt-10">
+            <Button className="bg-danger-500 text-white">Cancel</Button>
+            <Button className="bg-primary-500 text-white">Submit</Button>
+          </div>
         </div>
       </div>
     </div>
