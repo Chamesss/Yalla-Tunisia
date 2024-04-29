@@ -7,6 +7,7 @@ import IconArrowRight from "@/components/icons/RightArrow";
 
 export default function FormService() {
   const [addLocation, setAddLocation] = useState<boolean>(false);
+  const [agreed, setAgreed] = useState<boolean>(false);
   return (
     <div className="p-4 flex items-center justify-center">
       <div className="rounded-xl w-fit flex items-center justify-center flex-col max-w-[45rem]">
@@ -51,20 +52,25 @@ export default function FormService() {
               className="mt-2"
               onChange={(e) => setAddLocation(e.target.checked)}
             >
-              Locate my store on Google Maps
+              <small>Locate my store on Google Maps</small>
             </Checkbox>
             {addLocation && <GoogleMapsApiSection />}
-            {!addLocation && (
-              <Input variant="underlined" placeholder="Store name" />
-            )}
+            {!addLocation && <Input placeholder="Store name" />}
           </div>
           <Divider className="my-4" />
           <div className="px-6">
-            <Checkbox className="mt-2">I agree to the terms of usage.</Checkbox>
+            <Checkbox
+              onChange={(e) => setAgreed(e.target.checked)}
+              className="mt-2"
+            >
+              <small>I agree to the terms of usage.</small>
+            </Checkbox>
           </div>
           <div className="w-full flex flex-row justify-between p-2 mt-10">
             <Button className="bg-danger-500 text-white">Cancel</Button>
-            <Button className="bg-primary-500 text-white">Submit</Button>
+            <Button isDisabled={!agreed} className="bg-primary-500 text-white">
+              Submit
+            </Button>
           </div>
         </div>
       </div>

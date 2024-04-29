@@ -9,14 +9,6 @@ type Props = {
 };
 
 export default function SubmitSection({ data, formState }: Props) {
-  useEffect(() => {
-    console.log("data === ", data);
-  }, [data]);
-
-  useEffect(() => {
-    console.log("formState === ", formState);
-  }, [formState]);
-
   return (
     <>
       <Divider className="my-4" />
