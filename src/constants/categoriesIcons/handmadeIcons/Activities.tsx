@@ -5,8 +5,6 @@ export default function Activities(props: React.SVGProps<SVGSVGElement>) {
       fill="currentColor"
       height="1em"
       width="1em"
-      fill-rule="evenodd"
-      clip-rule="evenodd"
       {...props}
     >
       <g>

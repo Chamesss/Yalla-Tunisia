@@ -6,17 +6,17 @@ export default function AccessoriesAndJewelry(
       <path
         d="M4.52207 4.35221C5.65913 2.70958 6.22764 1.88826 7.07116 1.44412C7.91468 1 8.90607 1 10.8889 1H18.5H26.1112C28.094 1 29.0854 1 29.9288 1.44412C30.7725 1.88826 31.341 2.70958 32.478 4.35221L33.6383 6.02839C35.2371 8.33833 36.0366 9.4933 35.9987 10.7953C35.9608 12.0974 35.0955 13.2027 33.3647 15.4135L23.1144 28.507C21.6897 30.3269 20.9772 31.237 20.1461 31.63C19.1029 32.1233 17.8971 32.1233 16.854 31.63C16.0228 31.237 15.3103 30.3269 13.8856 28.507L3.63526 15.4135C1.90457 13.2027 1.03923 12.0974 1.00129 10.7953C0.963363 9.4933 1.76283 8.33833 3.3618 6.02839L4.52207 4.35221Z"
         stroke="black"
-        stroke-opacity="0.6"
-        stroke-width="2"
-        stroke-linejoin="round"
+        strokeOpacity="0.6"
+        strokeWidth="2"
+        strokeLinejoin="round"
       />
       <path
         d="M12.2761 8L11.3682 9.5C10.8297 10.3897 10.8866 11.5635 11.5081 12.3849L15 17"
         stroke="black"
-        stroke-opacity="0.6"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeOpacity="0.6"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

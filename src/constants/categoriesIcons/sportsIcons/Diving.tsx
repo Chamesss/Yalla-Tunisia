@@ -5,7 +5,6 @@ export default function Diving(props: React.SVGProps<SVGSVGElement>) {
       x="0px"
       y="0px"
       viewBox="0 0 64 80"
-      enable-background="new 0 0 64 64"
       fill="currentColor"
       height="1em"
       width="1em"

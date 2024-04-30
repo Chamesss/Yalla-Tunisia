@@ -7,8 +7,6 @@ export default function Boat(props: React.SVGProps<SVGSVGElement>) {
       viewBox="0 0 847 1058.75"
       x="0px"
       y="0px"
-      fill-rule="evenodd"
-      clip-rule="evenodd"
       {...props}
     >
       <g>

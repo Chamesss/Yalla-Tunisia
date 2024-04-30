@@ -3,7 +3,6 @@ export default function Bicycles(props: React.SVGProps<SVGSVGElement>) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0.0000146 100 125"
-      enable-background="new 0 0.0000146 100 100"
       fill="currentColor"
       height="1em"
       width="1em"
