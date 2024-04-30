@@ -15,12 +15,19 @@ const initialState = {
   },
 };
 
-export function submitServiceCheck(prevState, formData: FormData) {
+export function submitServiceCheck(prevState: any, formData: FormData) {
   const bPhone = formData.get("bnumber");
   const locationChecked = formData.get("addlocation");
   // if (locationChecked === "true") {
   //   const;
   // }
+  return {
+    response: {
+      success: false,
+      message: "",
+      error: 0,
+    },
+  };
 }
 
 export default function FormService() {
