@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { auth } from "../firebase";
@@ -16,10 +18,12 @@ export default function FirebaseAuth({
         // Dispatch action to add user session
         //dispatch(addUserSession(firebaseUser));
         //setUser(firebaseUser);
+        console.log(firebaseUser);
       } else {
         // Dispatch action to logout user session
-        dispatch(logOutSession());
+        // dispatch(logOutSession());
         //setUser(null);
+        console.log(firebaseUser);
       }
     });
 
