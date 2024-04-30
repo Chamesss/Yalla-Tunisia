@@ -1,11 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
+import {
+  Autocomplete,
+  GoogleMap,
+  StreetViewPanorama,
+  StreetViewService,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 import { placesLibrary } from "@/constants/placesLibrairie";
 import { Input, Spinner } from "@nextui-org/react";
 import Image from "next/image";
 import ImagesDisplay from "./ImagesDisplay";
 import Location from "@/components/icons/Location";
+import TilesLoader from "./TilesLoader";
 
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 const restrictions = { country: "tn" };
@@ -17,19 +24,30 @@ export default function GoogleMapsApiSection() {
     google.maps.places.PlacePhoto[] | null | undefined
   >(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingTiles, setLoadingTiles] = useState<boolean>(true);
+  const [lat, setLat] = useState<any>(null);
+  const [lng, setLng] = useState<any>(null);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: googleMapsApiKey as string,
     libraries: placesLibrary,
   });
 
+  useEffect(() => {
+    lat !== null && setLoadingTiles(false);
+  }, [lat]);
+
   function onLoad(autocomplete: google.maps.places.Autocomplete) {
     setSearchResult(autocomplete);
   }
 
   function locationSelected() {
+    setLoadingTiles(true);
     if (searchResult) {
       const place = searchResult.getPlace();
+      console.log(place);
+      setLat(place.geometry?.location?.lat());
+      setLng(place.geometry?.location?.lng());
       setImages(place.photos);
     }
   }
@@ -73,6 +91,8 @@ export default function GoogleMapsApiSection() {
           *These are the presented images of your store.
         </small>
       )}
+
+      {loadingTiles === false ? <TilesLoader lat={lat} lng={lng} /> : null}
     </div>
   );
 }

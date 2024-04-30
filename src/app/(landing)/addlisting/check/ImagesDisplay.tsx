@@ -20,6 +20,7 @@ export default function ImagesDisplay({ images, loading, setLoading }: Props) {
   const urls = images.map((image: { getUrl: () => string }) => image.getUrl());
 
   useEffect(() => {
+    setImages(null);
     (async () => {
       try {
         const Images: TreatedImages[] = await getImages(urls);
@@ -28,7 +29,7 @@ export default function ImagesDisplay({ images, loading, setLoading }: Props) {
         console.log(error);
       }
     })();
-  }, []);
+  }, [images]);
 
   useEffect(() => {
     Images ? setLoading(false) : setLoading(true);

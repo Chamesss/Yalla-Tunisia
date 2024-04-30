@@ -21,7 +21,6 @@ export default function LocationPicker({
     const handleAreaHover = (e: any) => {
       const id: string = e.target.id;
       const [city] = cities.filter((c) => c.id === id);
-      console.log(city);
     };
 
     paths.forEach((path) =>

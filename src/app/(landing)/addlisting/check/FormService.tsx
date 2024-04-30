@@ -2,12 +2,37 @@
 import { Button, Divider, Input } from "@nextui-org/react";
 import GoogleMapsApiSection from "./GoogleMapsApiSection";
 import { Checkbox } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IconArrowRight from "@/components/icons/RightArrow";
+import { useFormState } from "react-dom";
+// import { submitServiceCheck } from "@/lib/actions/submitServiceCheck";
+
+const initialState = {
+  response: {
+    success: false,
+    message: "",
+    error: 0,
+  },
+};
+
+export function submitServiceCheck(prevState, formData: FormData) {
+  const bPhone = formData.get("bnumber");
+  const locationChecked = formData.get("addlocation");
+  // if (locationChecked === "true") {
+  //   const;
+  // }
+}
 
 export default function FormService() {
   const [addLocation, setAddLocation] = useState<boolean>(false);
   const [agreed, setAgreed] = useState<boolean>(false);
+  const [formState, formAction] = useFormState(
+    submitServiceCheck,
+    initialState
+  );
+
+  useEffect(() => {}, [initialState]);
+
   return (
     <div className="p-4 flex items-center justify-center">
       <div className="rounded-xl w-fit flex items-center justify-center flex-col max-w-[45rem]">
@@ -16,7 +41,10 @@ export default function FormService() {
             Become a Local Artisan: Share Your Craft with the World!
           </h1>
         </div>
-        <div className="w-full p-4 border border-opacity-50 border-t-0 rounded-bl-xl rounded-br-xl">
+        <form
+          action={formAction}
+          className="w-full p-4 border border-opacity-50 border-t-0 rounded-bl-xl rounded-br-xl"
+        >
           <small className="italic opacity-75">
             Welcome to our community of local artisans! We're thrilled you're
             interested in showcasing your unique creations with tourists and
@@ -39,6 +67,7 @@ export default function FormService() {
           <Divider className="my-4" />
           <div className="flex flex-col gap-4 w-full px-6 py-4">
             <Input
+              name="b-phone"
               variant="underlined"
               labelPlacement="inside"
               label={"Business phone number"}
@@ -51,6 +80,8 @@ export default function FormService() {
             <Checkbox
               className="mt-2"
               onChange={(e) => setAddLocation(e.target.checked)}
+              value={addLocation ? "true" : "false"}
+              name="addlocation"
             >
               <small>Locate my store on Google Maps</small>
             </Checkbox>
@@ -72,7 +103,7 @@ export default function FormService() {
               Submit
             </Button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
