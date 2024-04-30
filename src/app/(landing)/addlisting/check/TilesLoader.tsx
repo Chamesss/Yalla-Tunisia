@@ -76,7 +76,7 @@ export default function TilesLoader({ lat, lng }: Props) {
       <StreetViewService onLoad={onLoadStreetView} />
       {coords &&
         coords.map((p: string, i: number) => (
-          <div className="flex flex-col">
+          <div key={i} className="flex flex-col">
             <GoogleMap
               id="circle-example"
               mapContainerStyle={{
