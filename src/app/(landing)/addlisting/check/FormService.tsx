@@ -53,10 +53,10 @@ export default function FormService() {
           className="w-full p-4 border border-opacity-50 border-t-0 rounded-bl-xl rounded-br-xl"
         >
           <small className="italic opacity-75">
-            Welcome to our community of local artisans! We're thrilled you're
-            interested in showcasing your unique creations with tourists and
-            fellow travelers. To get started, please fill out the form below
-            with the required details.
+            Welcome to our community of local artisans! We&apos;re thrilled
+            you&apos;re interested in showcasing your unique creations with
+            tourists and fellow travelers. To get started, please fill out the
+            form below with the required details.
           </small>
           <Divider className="my-4" />
           <small className="italic opacity-75">
@@ -68,8 +68,8 @@ export default function FormService() {
           <br />
           <small className="italic opacity-75">
             <IconArrowRight className="inline-block text-blue-500 mr-2" />
-            If your store isn't listed on Google Maps, then simply enter your
-            store's name.
+            If your store isn&apos;t listed on Google Maps, then simply enter
+            your store&apos;s name.
           </small>
           <Divider className="my-4" />
           <div className="flex flex-col gap-4 w-full px-6 py-4">
