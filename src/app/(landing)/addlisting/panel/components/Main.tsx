@@ -28,18 +28,14 @@ export default function Main() {
     })();
   }, []);
 
-  // if (Loading)
-  //   return (
-  //     <div className="flex-1 flex items-center justify-center">
-  //       <Spinner />
-  //     </div>
-  //   );
-
   return (
     <div className="flex-1 p-4">
-      <div className="border border-opacity-50 rounded-xl p-8">
-        <div className="flex flex-row gap-4 flex-wrap">
-          <div className="border border-opacity-50 rounded-xl p-4 shadow-sm w-[20rem] min-w-[10rem] flex items-center justify-center">
+      <div className="border border-opacity-50 rounded-xl p-8 flex flex-col">
+        <div className="px-4 pb-2">
+          {Loading ? <SkeletonPLoader /> : <p className="">Total: {total}</p>}
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-1">
+          <div className="border border-opacity-50 rounded-xl p-4 shadow-sm flex items-center justify-center">
             <p>Add New Listing +</p>
           </div>
           {Loading ? (
@@ -47,13 +43,11 @@ export default function Main() {
           ) : (
             <>
               {handmades &&
-                handmades.map((listing, i) => (
-                  <ListingCard listing={listing} />
-                ))}
+                handmades.map((listing) => <ListingCard listing={listing} />)}
               {sports &&
-                sports.map((listing, i) => <ListingCard listing={listing} />)}
+                sports.map((listing) => <ListingCard listing={listing} />)}
               {guides &&
-                guides.map((listing, i) => <ListingCard listing={listing} />)}
+                guides.map((listing) => <ListingCard listing={listing} />)}
             </>
           )}
         </div>
@@ -66,6 +60,14 @@ function SkeletonLoader() {
   return (
     <Skeleton className="rounded-lg">
       <div className="h-24 w-[20rem] rounded-lg bg-default-300"></div>
+    </Skeleton>
+  );
+}
+
+function SkeletonPLoader() {
+  return (
+    <Skeleton className="rounded-lg w-[10rem]">
+      <div className="h-5 !w-[2rem] rounded-lg bg-default-300"></div>
     </Skeleton>
   );
 }
