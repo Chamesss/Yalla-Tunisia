@@ -1,16 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { Textarea, Input, Divider } from "@nextui-org/react";
 import AddImages from "./AddImages";
-import RadioGrpTime from "./utils/RadioGrpTime";
-import DaysPicker from "./utils/DaysPicker";
-import Restrictions from "./utils/Restrictions";
-import EventType from "./utils/EventType";
+import RadioGrpTime from "../utils/RadioGrpTime";
+import DaysPicker from "../utils/DaysPicker";
+import Restrictions from "../utils/Restrictions";
+import EventType from "../utils/EventType";
 import { MainPropsForm, PropsForm } from "@/types";
 import { useFormState, useFormStatus } from "react-dom";
 import { createSportListing } from "@/lib/actions/createSportListing";
-import SubmitSection from "./utils/SubmitSection";
-import OuterValues from "./utils/OuterValues";
-import FormStateError from "./utils/FormStateError";
+import SubmitSection from "../utils/SubmitSection";
+import OuterValues from "../utils/OuterValues";
+import FormStateError from "../utils/FormStateError";
 import { getErrorStateSports } from "@/constants/errorMapping";
 
 function SportsInfoFrom({

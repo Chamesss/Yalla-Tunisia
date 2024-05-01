@@ -13,18 +13,18 @@ import "react-day-picker/dist/style.css";
 import AddImages from "./AddImages";
 import { CustomCheckbox } from "./CustomCheckBox";
 import { spokenLanguages } from "./Languages";
-import RadioGrpTime from "./utils/RadioGrpTime";
-import DaysPicker from "./utils/DaysPicker";
-import Restrictions from "./utils/Restrictions";
-import EventType from "./utils/EventType";
+import RadioGrpTime from "../utils/RadioGrpTime";
+import DaysPicker from "../utils/DaysPicker";
+import Restrictions from "../utils/Restrictions";
+import EventType from "../utils/EventType";
 import { MainPropsForm, PropsForm } from "@/types";
 import { useFormState, useFormStatus } from "react-dom";
 import { createGuideListing } from "@/lib/actions/createGuideListing";
-import SubmitSection from "./utils/SubmitSection";
-import OuterValues from "./utils/OuterValues";
+import SubmitSection from "../utils/SubmitSection";
+import OuterValues from "../utils/OuterValues";
 import { ErrorBoundary } from "react-error-boundary";
 import fallbackRender from "@/constants/fallbackRender";
-import FormStateError from "./utils/FormStateError";
+import FormStateError from "../utils/FormStateError";
 import { getErrorStateGuide } from "@/constants/errorMapping";
 
 function GuideInfoFrom({

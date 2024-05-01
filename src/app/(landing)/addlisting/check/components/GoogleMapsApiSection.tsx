@@ -1,15 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import {
-  Autocomplete,
-  GoogleMap,
-  StreetViewPanorama,
-  StreetViewService,
-  useJsApiLoader,
-} from "@react-google-maps/api";
+import { useEffect, useState } from "react";
+import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { placesLibrary } from "@/constants/placesLibrairie";
-import { Input, Spinner } from "@nextui-org/react";
-import Image from "next/image";
+import { Spinner } from "@nextui-org/react";
 import ImagesDisplay from "./ImagesDisplay";
 import Location from "@/components/icons/Location";
 import TilesLoader from "./TilesLoader";

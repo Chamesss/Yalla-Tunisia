@@ -1,7 +1,7 @@
 import React, { useEffect, SetStateAction, Dispatch } from "react";
 import UploadImageIcon from "@/components/icons/UploadImageIcon";
 import TrashBin from "@/components/icons/TrashBin";
-import FormStateError from "./utils/FormStateError";
+import FormStateError from "../utils/FormStateError";
 
 interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {
   target: HTMLInputElement & {

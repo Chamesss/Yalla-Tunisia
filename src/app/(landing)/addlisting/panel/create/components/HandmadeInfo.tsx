@@ -12,11 +12,11 @@ import { HexColorPicker } from "react-colorful";
 import IconCancel from "@/components/icons/IconCancel";
 import { createHandmadeListing } from "@/lib/actions/createHandmadeListing";
 import { useFormState, useFormStatus } from "react-dom";
-import { CustomCheckbox } from "./utils/CustomCheckBoxUnselected";
-import SuccessLoading from "./utils/SuccessLoading";
+import { CustomCheckbox } from "../utils/CustomCheckBoxUnselected";
+import SuccessLoading from "../utils/SuccessLoading";
 import { MainPropsForm, PropsForm } from "@/types";
-import SubmitSection from "./utils/SubmitSection";
-import OuterValues from "./utils/OuterValues";
+import SubmitSection from "../utils/SubmitSection";
+import OuterValues from "../utils/OuterValues";
 import { getErrorStateHandmade } from "@/constants/errorMapping";
 
 function HandmadeForm({
