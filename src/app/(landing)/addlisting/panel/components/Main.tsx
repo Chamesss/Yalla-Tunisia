@@ -2,17 +2,17 @@
 import { useSelector } from "react-redux";
 import { userState } from "@/redux/slices/userSlice";
 import { useEffect, useState } from "react";
-import { Spinner } from "@nextui-org/react";
+import { Skeleton, Spinner } from "@nextui-org/react";
 import { getListingsByUserId } from "@/lib/ListingActions/getListingsByUserId";
-import { DocumentData } from "firebase/firestore";
+import ListingCard from "./ListingCard";
 
 export default function Main() {
   const user: userInfoType = useSelector(userState);
   const userId = user.userId;
   const [Loading, setLoading] = useState(true);
-  const [handmades, setHandmades] = useState<DocumentData[] | null>(null);
-  const [sports, setSports] = useState<DocumentData[] | null>(null);
-  const [guides, setGuides] = useState<DocumentData[] | null>(null);
+  const [handmades, setHandmades] = useState<ProductHandMade[] | null>(null);
+  const [sports, setSports] = useState<ProductSports[] | null>(null);
+  const [guides, setGuides] = useState<ProductGuides[] | null>(null);
   const [total, setTotal] = useState<number>();
 
   useEffect(() => {
@@ -28,26 +28,44 @@ export default function Main() {
     })();
   }, []);
 
-  if (Loading)
-    return (
-      <div className="flex-1 flex items-center justify-center">
-        <Spinner />
-      </div>
-    );
+  // if (Loading)
+  //   return (
+  //     <div className="flex-1 flex items-center justify-center">
+  //       <Spinner />
+  //     </div>
+  //   );
 
   return (
-    <div className="flex-1">
-      {handmades === null || handmades.length === 0 ? (
-        <p>no items to display</p>
-      ) : (
-        <div>
-          {handmades.map((object, i) => (
-            <div>
-              <p>{object.title}</p>
-            </div>
-          ))}
+    <div className="flex-1 p-4">
+      <div className="border border-opacity-50 rounded-xl p-8">
+        <div className="flex flex-row gap-4 flex-wrap">
+          <div className="border border-opacity-50 rounded-xl p-4 shadow-sm w-[20rem] min-w-[10rem] flex items-center justify-center">
+            <p>Add New Listing +</p>
+          </div>
+          {Loading ? (
+            Array(10).fill(<SkeletonLoader />)
+          ) : (
+            <>
+              {handmades &&
+                handmades.map((listing, i) => (
+                  <ListingCard listing={listing} />
+                ))}
+              {sports &&
+                sports.map((listing, i) => <ListingCard listing={listing} />)}
+              {guides &&
+                guides.map((listing, i) => <ListingCard listing={listing} />)}
+            </>
+          )}
         </div>
-      )}
+      </div>
     </div>
+  );
+}
+
+function SkeletonLoader() {
+  return (
+    <Skeleton className="rounded-lg">
+      <div className="h-24 w-[20rem] rounded-lg bg-default-300"></div>
+    </Skeleton>
   );
 }

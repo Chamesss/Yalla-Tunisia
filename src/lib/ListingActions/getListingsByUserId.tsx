@@ -14,7 +14,6 @@ export async function getListingsByUserId(userId: string) {
   let table3Docs: DocumentData[] = [];
 
   try {
-    // Create queries for each table with userId filter
     const table1Query = query(
       collection(db, "Handmades"),
       where("userId", "==", userId)
@@ -37,7 +36,13 @@ export async function getListingsByUserId(userId: string) {
     const table3Snapshot = await getDocs(table3Query);
     table3Snapshot.forEach((doc) => table3Docs.push(doc.data()));
 
-    return { Handmades: table1Docs, Sports: table2Docs, Guides: table3Docs };
+    const result = {
+      Handmades: table1Docs,
+      Sports: table2Docs,
+      Guides: table3Docs,
+    };
+
+    return JSON.parse(JSON.stringify(result));
   } catch (error) {
     console.error("Error retrieving documents:", error);
     throw error;
