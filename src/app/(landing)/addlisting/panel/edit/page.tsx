@@ -75,7 +75,7 @@ export default function page() {
   }
 
   return (
-    <div className="flex flex-row p-8 border border-opacity-50 rounded-2xl">
+    <div className="flex flex-row p-8 gap-4">
       <div className="flex flex-col flex-1 md:flex-none md:w-[30%] gap-4">
         <div className="border border-opacity-50 rounded-xl px-4 py-6">
           <CategorySection
@@ -84,11 +84,6 @@ export default function page() {
           />
         </div>
         <div className="border border-opacity-50 rounded-xl px-4 py-6">
-          {/* <LocationSection
-            CategoryName={CategoryName}
-            location={data.location}
-          /> */}
-
           <LocationSection
             location={data.location}
             setLocation={setLocation}
@@ -98,7 +93,7 @@ export default function page() {
           />
         </div>
       </div>
-      <div className="flex-1 p-6">
+      <div className="flex-1">
         {CategoryName === "Handmades" && <MainHandMade data={data} />}
         {CategoryName === "Sports" && <MainSports data={data} />}
         {CategoryName === "Guides" && <MainGuide data={data} />}

@@ -6,6 +6,8 @@ const nextConfig = {
         serverComponentsExternalPackages: ["lz4"],
     },
     images: {
+        dangerouslyAllowSVG: true,
+        contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
         formats: ["image/avif", "image/webp"],
         remotePatterns: [
             {
@@ -15,7 +17,7 @@ const nextConfig = {
                 pathname: "/**",
             },
         ],
-        domains: ['firebasestorage.googleapis.com', 'maps.googleapis.com']
+        domains: ['firebasestorage.googleapis.com', 'maps.googleapis.com', 'ui-avatars.com']
     },
 };
 

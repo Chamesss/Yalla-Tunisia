@@ -4,6 +4,7 @@ import { db, auth } from "../../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { formatString } from "@/helpers/UpperCase";
+import { cities } from "@/cities";
 
 //Error code: 1 = firstname | 2 = email | 3 = password | 4 = location | 5 = email in use
 
@@ -14,6 +15,9 @@ export default async function addUser(prevState: any, formData: FormData) {
     const activeAreaId = formData.get("activeAreaId") as string
     const email = String(address).trim().toLowerCase();
     const username = formatString(name)
+    const city = cities.find((c) => c.id === activeAreaId)
+    const lng = city?.lng
+    const lat = city?.lat
     try {
         const userCredential = await createUserWithEmailAndPassword(
             auth,
@@ -26,7 +30,16 @@ export default async function addUser(prevState: any, formData: FormData) {
             username,
             picture: `https://ui-avatars.com/api/?name=${username}`,
             email,
-            activeAreaId
+            activeAreaId,
+            seller: false,
+            description: "",
+            trusted: false,
+            lng: lng,
+            lat: lat,
+            created_at: new Date(),
+            tel: "",
+            status: false,
+            banned: false,
         });
         return { response: { success: true, error: 0, message: "" } }
     } catch (error) {

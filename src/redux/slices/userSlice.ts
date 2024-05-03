@@ -1,15 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export interface userSlice {
-    user: userType | null,
-    isLogged: boolean,
-    userId: string
-}
-
 const initialState: userSlice = {
     user: {
-        firstname: "",
-        lastname: "",
+        username: "",
         email: "",
         tel: 0,
         picture: "",
@@ -22,12 +15,7 @@ const initialState: userSlice = {
         banned: false,
         trusted: false,
         description: "",
-        city: [
-            {
-                id: 0,
-                name: ""
-            }
-        ]
+        activeAreaId: ""
     },
     isLogged: false,
     userId: ""
@@ -54,5 +42,5 @@ const userSlice = createSlice({
 });
 
 export const { addUserSession, logOutSession } = userSlice.actions;
-export const userState = (state: { user: userInfoType; }) => state.user
+export const userState = (state: { user: userSlice }) => state.user
 export default userSlice.reducer;

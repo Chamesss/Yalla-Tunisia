@@ -4,19 +4,33 @@ import { useSelector } from "react-redux";
 import User from "./User";
 import { Button, Divider } from "@nextui-org/react";
 import EditButton from "./EditButton";
+import Forbidden from "@/components/Forbidden";
+import { useEffect } from "react";
+import { getUserById } from "@/lib/UserActions/getUser";
 
 export default function Main() {
-  const user: userInfoType = useSelector(userState);
-  const firstname =
-    user.user.firstname[0].toUpperCase() + user.user.firstname.slice(1);
-  const lastname =
-    user.user.lastname[0].toUpperCase() + user.user.lastname.slice(1);
-  const fullName = firstname + " " + lastname;
+  const user: userSlice = useSelector(userState);
+
+  if (user.user === null) {
+    return <Forbidden />;
+  }
+
+  useEffect(() => {
+    (async () => {
+      const userData: userType | undefined = (await getUserById(
+        user.userId
+      )) as userType;
+      console.log("userData === ", userData);
+    })();
+  }, []);
+
+  const username =
+    user.user.username.toUpperCase().slice(0, 1) + user.user.username.slice(1);
 
   return (
     <div className="border rounded-2xl w-full">
       <div className="flex flex-row justify-between items-center p-8">
-        <User user={user} fullName={fullName} />
+        <User user={user} username={username} />
         <Button className="rounded-full bg-blue-500 text-white font-medium text-md">
           Profile Settings
         </Button>

@@ -53,8 +53,7 @@ interface ItemType {
 }
 
 interface userType {
-  firstname: string;
-  lastname: string;
+  username: string,
   email: string;
   tel: number;
   picture: string;
@@ -67,12 +66,17 @@ interface userType {
   banned: boolean;
   trusted: boolean;
   description: string;
-  city: [
-    {
-      id: number | string;
-      name: string;
-    }
-  ];
+  activeAreaId: string
+}
+
+interface userSlice {
+  isLogged: boolean,
+  user: userType | null,
+  userId: string
+}
+
+interface storeData {
+
 }
 
 interface SubCategoryType {
