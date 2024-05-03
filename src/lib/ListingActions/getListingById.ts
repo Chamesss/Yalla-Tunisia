@@ -11,7 +11,8 @@ export async function getItemById(
     const itemSnapshot = await getDoc(itemRef);
 
     if (itemSnapshot.exists()) {
-      return JSON.parse(JSON.stringify(itemSnapshot.data()));
+      const result = JSON.parse(JSON.stringify(itemSnapshot.data()));
+      return result
     } else {
       console.log(
         `No document found for ID: ${itemId} in collection: ${collectionName}`

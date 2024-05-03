@@ -1,3 +1,35 @@
+// import { userState } from "@/redux/slices/userSlice";
+// import { Input } from "@nextui-org/react";
+// import { useEffect, useState } from "react";
+// import { useSelector } from "react-redux";
+
+// export default function LocationSection({
+//   CategoryName,
+//   location,
+// }: {
+//   CategoryName: string;
+//   location: string;
+// }) {
+//   const [value, setValue] = useState<string>();
+
+//   useEffect(() => {
+//     if (!location || location.toLocaleLowerCase() === "nan") {
+//       const user = useSelector(userState);
+//       const location = user.user.location;
+//       setValue(location);
+//     } else {
+//       setValue(location);
+//     }
+//   }, []);
+
+//   return (
+//     <div className="flex flex-col gap-4">
+//       <h1 className="text-xl font-semibold">Location</h1>
+//       {value && <Input value={value} isDisabled />}
+//     </div>
+//   );
+// }
+
 import { cities } from "@/cities";
 import {
   Autocomplete,
@@ -23,6 +55,12 @@ export default function LocationSection({
   locationError,
 }: Props) {
   useEffect(() => {
+    if (!location || location.length < 1) {
+      setLocationChecked(true);
+    }
+  }, []);
+
+  useEffect(() => {
     locationChecked === true && setLocation("nan");
     locationChecked === false && setLocation(null);
   }, [locationChecked]);
@@ -33,12 +71,13 @@ export default function LocationSection({
       <Autocomplete
         isRequired
         size="sm"
-        label="Pick a location"
+        label="Current location"
         className="mt-4 relative"
         isDisabled={locationChecked}
         onInputChange={(e) => {
           setLocation(e);
         }}
+        selectedKey={location}
         description={
           locationError && (
             <small className="absolute -bottom-2 left-3 text-danger-500">

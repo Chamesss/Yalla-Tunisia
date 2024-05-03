@@ -139,6 +139,7 @@ interface ProductSports {
   duration: string,
   price: string,
   eventType: string,
+  location: string,
   grpSize: string,
   imageUrls: string[],
   restrictions: string[],
@@ -156,6 +157,7 @@ interface ProductGuides {
   imageUrls: string[],
   restrictions: string[],
   timing: string | string[],
+  location: string,
   languages: string[],
   transportation: boolean,
   paymentMethodHourly: boolean

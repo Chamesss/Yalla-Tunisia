@@ -26,7 +26,7 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
     const userId = formData.get('userId') as string
     const categoryId = formData.get('categoryId') as string
     const subCategoryId = formData.get('subCategoryId') as string
-    const location = formData.get('location') as string
+    const location = (formData.get('location') as string).toLocaleLowerCase()
 
     if (!categoryId) return { response: { success: false, error: 11, message: "invalid category" } }
     if (!subCategoryId) return { response: { success: false, error: 12, message: "invalid subCategoryId" } }
