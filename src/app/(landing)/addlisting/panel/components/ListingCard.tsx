@@ -1,28 +1,21 @@
-import {
-  Button,
-  Divider,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Skeleton,
-} from "@nextui-org/react";
+import { Divider, useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 import { categories } from "@/constants/categories";
 import EditIcon from "@/components/icons/EditIcon";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import DeleteListingModal from "./DeleteListingModal";
+import { useRouter } from "next/navigation";
 
 export default function ListingCard({
   listing,
 }: {
   listing: ProductHandMade | ProductSports | ProductGuides;
 }) {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleSelect = () => {
-    setIsOpen(false);
-  };
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [Open, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  console.log(listing);
 
   const categoryId = listing.categoryId;
   const categoryData = categories.find(
@@ -48,6 +41,27 @@ export default function ListingCard({
       return description;
     }
   }
+
+  const navigateEdit = () => {
+    setIsOpen(false);
+    router.push(`/addlisting/panel/edit?id=${listing.id}&cid=${categoryId}`);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: { target: any }) => {
+      menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        setIsOpen(false);
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [onOpenChange]);
 
   return (
     <div className="relative border border-opacity-50 rounded-xl p-3 shadow-sm">
@@ -91,34 +105,41 @@ export default function ListingCard({
       </small>
       <br />
       <small>{listing.price}</small>
-      <div className="dropdown absolute top-0 right-0">
+      <div ref={menuRef} className="dropdown absolute top-0 right-0">
         <button
-          className="p-2 flex items-center justify-center bg-white text-blue-500 rounded-full shadow-md hover:opacity-60 cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
+          className={`p-2 flex items-center justify-center bg-white text-blue-500 rounded-full shadow-md hover:opacity-60 cursor-pointer ${
+            Open && "opacity-75"
+          }`}
+          onClick={() => setIsOpen(!Open)}
         >
           <EditIcon width={20} height={20} />
         </button>
         <div className="relative">
-          {isOpen && (
-            <div className=" bg-white dark:bg-black p-2 absolute right-0">
-              <div
-                className="dropdown-item text-nowrap"
-                onClick={() => handleSelect()}
-              >
-                test value
-              </div>
+          <div
+            className={`bg-white dark:bg-black flex flex-col p-2 min-w-28 text-start absolute right-0 rounded-xl shadow-sm gap-1 ${
+              Open ? "h-fit" : "h-0 hidden"
+            }`}
+          >
+            <div
+              onClick={navigateEdit}
+              className="cursor-pointer p-2 focus:bg-blue-500 hover:bg-blue-500 rounded-xl hover:text-white focus:text-white transition-all duration-150"
+            >
+              <p className="cursor-pointer text-nowrap">Edit</p>
             </div>
-          )}
+            <div
+              onClick={onOpen}
+              className="cursor-pointer p-2 focus:bg-danger-500 focus:text-white hover:bg-danger-500 rounded-xl hover:text-white transition-all duration-150"
+            >
+              <p className="cursor-pointer text-nowrap">Delete</p>
+            </div>
+          </div>
         </div>
       </div>
+      <DeleteListingModal
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onOpenChange={onOpenChange}
+      />
     </div>
-  );
-}
-
-function SkeletonPLoader() {
-  return (
-    <Skeleton className="rounded-lg w-[10rem]">
-      <div className="h-[12rem] w-full rounded-lg bg-default-300"></div>
-    </Skeleton>
   );
 }

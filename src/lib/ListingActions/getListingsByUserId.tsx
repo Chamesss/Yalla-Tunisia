@@ -28,13 +28,19 @@ export async function getListingsByUserId(userId: string) {
     );
 
     const table1Snapshot = await getDocs(table1Query);
-    table1Snapshot.forEach((doc) => table1Docs.push(doc.data()));
+    table1Snapshot.forEach((doc) =>
+      table1Docs.push({ ...doc.data(), id: doc.id })
+    );
 
     const table2Snapshot = await getDocs(table2Query);
-    table2Snapshot.forEach((doc) => table2Docs.push(doc.data()));
+    table2Snapshot.forEach((doc) =>
+      table2Docs.push({ ...doc.data(), id: doc.id })
+    );
 
     const table3Snapshot = await getDocs(table3Query);
-    table3Snapshot.forEach((doc) => table3Docs.push(doc.data()));
+    table3Snapshot.forEach((doc) =>
+      table3Docs.push({ ...doc.data(), id: doc.id })
+    );
 
     const result = {
       Handmades: table1Docs,
