@@ -45,6 +45,14 @@ export default function FormService() {
     initialState
   );
 
+  const [selectedService, setSelectedService] = useState("");
+
+  useEffect(() => {
+    if (selectedService === "Guide") {
+      setAddLocation(false);
+    }
+  }, [selectedService]);
+
   useEffect(() => {}, [initialState]);
 
   return (
@@ -79,6 +87,24 @@ export default function FormService() {
             your store&apos;s name.
           </small>
           <Divider className="my-4" />
+          <div className="px-6">
+            <RadioGroup
+              onChange={(e) => setSelectedService(e.target.value)}
+              className="text-sm"
+              label="Select your business type*"
+            >
+              <Radio size="sm" className="text-sm" value="Handmade">
+                Handmade Business
+              </Radio>
+              <Radio size="sm" className="text-sm" value="Sports">
+                Sports & Entertainment Business
+              </Radio>
+              <Radio size="sm" className="text-sm" value="Guide">
+                Guide Service
+              </Radio>
+            </RadioGroup>
+          </div>
+          <Divider className="my-4" />
           <div className="flex flex-col gap-4 w-full px-6 py-4">
             <Input
               name="b-phone"
@@ -91,30 +117,22 @@ export default function FormService() {
                 </div>
               }
             />
+            <Input
+              variant="underlined"
+              labelPlacement="inside"
+              label={"Business name"}
+              placeholder=""
+            />
             <Checkbox
               className="mt-2"
+              isDisabled={selectedService === "Guide"}
               onChange={(e) => setAddLocation(e.target.checked)}
-              value={addLocation ? "true" : "false"}
               name="addlocation"
+              isSelected={addLocation}
             >
               <small>Locate my store on Google Maps</small>
             </Checkbox>
             {addLocation && <GoogleMapsApiSection />}
-            {!addLocation && <Input placeholder="Business name" />}
-          </div>
-          <Divider className="my-4" />
-          <div className="px-6">
-            <RadioGroup className="text-sm" label="Select your business type*">
-              <Radio size="sm" className="text-sm" value="Handmade">
-                Handmade Business
-              </Radio>
-              <Radio size="sm" className="text-sm" value="Sports">
-                Sports & Entertainment Business
-              </Radio>
-              <Radio size="sm" className="text-sm" value="Guide">
-                Guide Service
-              </Radio>
-            </RadioGroup>
           </div>
           <Divider className="my-4" />
           <div className="px-6">

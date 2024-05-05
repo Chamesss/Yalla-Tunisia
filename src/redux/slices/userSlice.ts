@@ -18,7 +18,7 @@ const initialState: userSlice = {
         activeAreaId: ""
     },
     isLogged: false,
-    userId: ""
+    userId: null
 }
 
 
@@ -32,6 +32,7 @@ const userSlice = createSlice({
             state.user = resources.user
             state.isLogged = resources.isLogged
             state.userId = resources.userId
+
         },
         logOutSession(state) {
             state.user = null

@@ -67,12 +67,13 @@ interface userType {
   trusted: boolean;
   description: string;
   activeAreaId: string
+  businessName?: string | null
 }
 
 interface userSlice {
   isLogged: boolean,
   user: userType | null,
-  userId: string
+  userId: string | null
 }
 
 interface storeData {

@@ -1,58 +1,34 @@
-// import {
-//   createUserWithEmailAndPassword,
-//   onAuthStateChanged,
-//   signInWithEmailAndPassword,
-//   signOut,
-// } from "firebase/auth";
-// import { createContext, useEffect, useState } from "react";
-// import PropTypes from "prop-types";
-// import auth from "./FirebaseConfig";
+import { getUserById } from "@/lib/UserActions/getUser";
+import revalidateUserdata from "@/lib/revalidateCookiesUserState";
+import {
+  addUserSession,
+  logOutSession,
+  userState,
+} from "@/redux/slices/userSlice";
+import React, { ReactNode, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "@/redux/store";
+import getUserFromCookies from "@/lib/getUserFromCookies";
 
-// export const AuthContext = createContext(null);
+export default function AuthStateProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    (async () => {
+      const user = await getUserFromCookies();
+      if (user === null) {
+        dispatch(logOutSession());
+      } else {
+        if (user.userId && user.user) {
+          const userData = (await getUserById(user.userId)) as userType;
+          await revalidateUserdata(userData, user.userId);
+        }
+      }
+    })();
+  }, []);
 
-// const AuthProvider = ({ children }) => {
-//   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(true);
-
-//   const createUser = (email, password) => {
-//     setLoading(true);
-//     return createUserWithEmailAndPassword(auth, email, password);
-//   };
-
-//   const loginUser = (email, password) => {
-//     setLoading(true);
-//     return signInWithEmailAndPassword(auth, email, password);
-//   };
-
-//   const logOut = () => {
-//     setLoading(true);
-//     return signOut(auth);
-//   };
-
-//   useEffect(() => {
-//     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-//       setUser(currentUser);
-//       setLoading(false);
-//     });
-
-//     return () => {
-//       unsubscribe();
-//     };
-//   }, []);
-
-//   const authValue = {
-//     createUser,
-//     user,
-//     loginUser,
-//     logOut,
-//     loading,
-//   };
-
-//   return <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>;
-// };
-
-// AuthProvider.propTypes = {
-//   children: PropTypes.node.isRequired,
-// };
-
-// export default AuthProvider;
+  return <>{children}</>;
+}
