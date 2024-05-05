@@ -1,3 +1,4 @@
+import Success from "@/components/icons/Success";
 import { Button } from "@nextui-org/react";
 import {
   Autocomplete,
@@ -6,11 +7,15 @@ import {
   StreetViewService,
   useJsApiLoader,
 } from "@react-google-maps/api";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type Props = {
   lat: any;
   lng: any;
+  coords: string[] | null | undefined;
+  setCoords: Dispatch<SetStateAction<string[] | null | undefined>>;
+  selectedTiles: string[];
+  setSelectedTiles: Dispatch<SetStateAction<string[]>>;
 };
 
 const center = {
@@ -18,14 +23,28 @@ const center = {
   lng: 10.181667,
 };
 
-export default function TilesLoader({ lat, lng }: Props) {
-  const [show, setShow] = useState(false);
-  const [coords, setCoords] = useState<null | string[]>();
+export default function TilesLoader({
+  lat,
+  lng,
+  coords,
+  setCoords,
+  selectedTiles,
+  setSelectedTiles,
+}: Props) {
+  const [show, setShow] = useState<boolean | null>(null);
+
+  const handleSelectTile = (p: string) => {
+    const index = selectedTiles.findIndex((s) => s === p);
+    if (index === -1) {
+      setSelectedTiles((prev) => [...prev, p]);
+    } else {
+      setSelectedTiles((prev) => prev.filter((s) => s !== p));
+    }
+  };
 
   const onLoadStreetView = (
     streetViewService: google.maps.StreetViewService | null
   ) => {
-    console.log("mounted");
     streetViewService &&
       streetViewService.getPanorama(
         {
@@ -36,11 +55,10 @@ export default function TilesLoader({ lat, lng }: Props) {
           radius: 5000,
         },
         (data, status) => {
+          console.log(status);
           if (status === "OK") {
             setShow(true);
-
             let coords: string[] = [];
-
             //@ts-ignore
             if (data.LG) {
               //@ts-ignore
@@ -56,7 +74,6 @@ export default function TilesLoader({ lat, lng }: Props) {
                 }
               }
             }
-
             setCoords(coords);
           }
           if (status === "ZERO_RESULTS") {
@@ -72,50 +89,67 @@ export default function TilesLoader({ lat, lng }: Props) {
   }
 
   return (
-    <div className="flex flex-row overflow-auto overflow-x-scroll gap-2 mt-10 scrollbar-container">
-      <StreetViewService onLoad={onLoadStreetView} />
-      {coords &&
-        coords.map((p: string, i: number) => (
-          <div key={i} className="flex flex-col">
-            <GoogleMap
-              id="circle-example"
-              mapContainerStyle={{
-                width: show ? "300px" : "0px",
-                height: show ? "300px" : "0px",
-                position: "relative",
-              }}
-              zoom={14}
-              center={center}
-            >
-              <StreetViewPanorama
-                options={{
-                  linksControl: true,
-                  addressControl: true,
-                  clickToGo: false,
-                  disableDefaultUI: false,
-                  imageDateControl: false,
-                  controlSize: 0,
-                  fullscreenControl: false,
-                  disableDoubleClickZoom: false,
-                  pano: p,
-                  enableCloseButton: false,
-                  motionTracking: false,
-                  motionTrackingControl: true,
-                  panControl: false,
-                  showRoadLabels: false,
-                  zoomControl: false,
-                  visible: true,
+    <>
+      <div className="flex flex-row overflow-auto overflow-x-auto gap-2 mt-10 scrollbar-container">
+        <StreetViewService onLoad={onLoadStreetView} />
+        {coords &&
+          coords.map((p: string, i: number) => (
+            <div key={i} className="flex flex-col relative">
+              <GoogleMap
+                id="circle-example"
+                mapContainerStyle={{
+                  width: show ? "300px" : "0px",
+                  height: show ? "300px" : "0px",
+                  position: "relative",
                 }}
-              />
-              <div className="absolute z-50 right-2 top-2">
-                <Button className="bg-primary-500 text-white" size="sm">
-                  Select this Tile !
-                </Button>
-              </div>
-            </GoogleMap>
-          </div>
-        ))}
-      {show === false && <p>no tiles found</p>}
-    </div>
+                zoom={14}
+                center={center}
+              >
+                <StreetViewPanorama
+                  options={{
+                    linksControl: true,
+                    addressControl: true,
+                    clickToGo: false,
+                    disableDefaultUI: false,
+                    imageDateControl: false,
+                    controlSize: 0,
+                    fullscreenControl: false,
+                    disableDoubleClickZoom: false,
+                    pano: p,
+                    enableCloseButton: false,
+                    motionTracking: false,
+                    motionTrackingControl: true,
+                    panControl: false,
+                    showRoadLabels: false,
+                    zoomControl: false,
+                    visible: true,
+                  }}
+                />
+                <div className="absolute z-10 top-[80%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <Button
+                    onClick={() => handleSelectTile(p)}
+                    className={`bg-blue-500 text-white transition-all ${
+                      selectedTiles.includes(p) && "bg-green-500"
+                    }`}
+                    size="sm"
+                  >
+                    {selectedTiles.includes(p)
+                      ? "Selected"
+                      : "Select this tile"}
+                  </Button>
+                </div>
+              </GoogleMap>
+              {selectedTiles.includes(p) && (
+                <div className="absolute top-5 right-5 z-20">
+                  <Success className="text-green-500" width={35} height={35} />
+                </div>
+              )}
+            </div>
+          ))}
+      </div>
+      {coords && coords.length === 0 && (
+        <small className="italic opacity-75">No tiles found.</small>
+      )}
+    </>
   );
 }

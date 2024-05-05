@@ -1,5 +1,4 @@
-"use client";
-import { useEffect, useState } from "react";
+import { Dispatch, useEffect, useState, SetStateAction } from "react";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { placesLibrary } from "@/constants/placesLibrairie";
 import { Spinner } from "@nextui-org/react";
@@ -7,10 +6,34 @@ import ImagesDisplay from "./ImagesDisplay";
 import Location from "@/components/icons/Location";
 import TilesLoader from "./TilesLoader";
 
+type Props = {
+  lat: any;
+  lng: any;
+  setLat: Dispatch<any>;
+  setLng: Dispatch<any>;
+  coords: string[] | null | undefined;
+  setCoords: Dispatch<SetStateAction<string[] | null | undefined>>;
+  selectedTiles: string[];
+  setSelectedTiles: Dispatch<SetStateAction<string[]>>;
+  selectedImages: string[];
+  setSelectedImages: Dispatch<SetStateAction<string[]>>;
+};
+
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 const restrictions = { country: "tn" };
 
-export default function GoogleMapsApiSection() {
+export default function GoogleMapsApiSection({
+  lat,
+  lng,
+  setLat,
+  setLng,
+  coords,
+  setCoords,
+  selectedTiles,
+  setSelectedTiles,
+  selectedImages,
+  setSelectedImages,
+}: Props) {
   const [searchResult, setSearchResult] =
     useState<google.maps.places.Autocomplete>();
   const [images, setImages] = useState<
@@ -18,8 +41,6 @@ export default function GoogleMapsApiSection() {
   >(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingTiles, setLoadingTiles] = useState<boolean>(true);
-  const [lat, setLat] = useState<any>(null);
-  const [lng, setLng] = useState<any>(null);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: googleMapsApiKey as string,
@@ -64,6 +85,15 @@ export default function GoogleMapsApiSection() {
           className="w-full"
         >
           <input
+            onChange={() => {
+              setLoadingTiles(true);
+              setLat(null);
+              setLng(null);
+              setCoords(null);
+              setImages(null);
+              setSelectedImages([]);
+              setSelectedTiles([]);
+            }}
             type="text"
             className="relative w-full focus:outline-none text-sm bg-gray-100"
             placeholder="Enter your store's name"
@@ -76,16 +106,27 @@ export default function GoogleMapsApiSection() {
             images={images}
             loading={loading}
             setLoading={setLoading}
+            selectedImages={selectedImages}
+            setSelectedImages={setSelectedImages}
           />
         </div>
       )}
-      {loading === false && (
+      {images && (
         <small className="italic opacity-75">
           *These are the presented images of your store.
         </small>
       )}
 
-      {loadingTiles === false ? <TilesLoader lat={lat} lng={lng} /> : null}
+      {loadingTiles === false ? (
+        <TilesLoader
+          lat={lat}
+          lng={lng}
+          coords={coords}
+          setCoords={setCoords}
+          selectedTiles={selectedTiles}
+          setSelectedTiles={setSelectedTiles}
+        />
+      ) : null}
     </div>
   );
 }

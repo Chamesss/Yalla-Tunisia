@@ -1,18 +1,11 @@
 "use client";
-import {
-  Button,
-  CheckboxGroup,
-  Divider,
-  Input,
-  Radio,
-  RadioGroup,
-} from "@nextui-org/react";
+import { Button, Divider, Input, Radio, RadioGroup } from "@nextui-org/react";
 import GoogleMapsApiSection from "./GoogleMapsApiSection";
 import { Checkbox } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import IconArrowRight from "@/components/icons/RightArrow";
 import { useFormState } from "react-dom";
-// import { submitServiceCheck } from "@/lib/actions/submitServiceCheck";
+import { submitProfileCheck } from "@/lib/actions/submitServiceCheck";
 
 const initialState = {
   response: {
@@ -22,30 +15,21 @@ const initialState = {
   },
 };
 
-export function submitServiceCheck(prevState: any, formData: FormData) {
-  const bPhone = formData.get("bnumber");
-  const locationChecked = formData.get("addlocation");
-  // if (locationChecked === "true") {
-  //   const;
-  // }
-  return {
-    response: {
-      success: false,
-      message: "",
-      error: 0,
-    },
-  };
-}
-
 export default function FormService() {
   const [addLocation, setAddLocation] = useState<boolean>(false);
   const [agreed, setAgreed] = useState<boolean>(false);
+  const [phone, setPhone] = useState<string>();
+  const [lat, setLat] = useState<any>();
+  const [lng, setLng] = useState<any>();
+  const [coords, setCoords] = useState<null | string[]>();
+  const [selectedTiles, setSelectedTiles] = useState<string[]>([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedService, setSelectedService] = useState("");
+
   const [formState, formAction] = useFormState(
     submitServiceCheck,
     initialState
   );
-
-  const [selectedService, setSelectedService] = useState("");
 
   useEffect(() => {
     if (selectedService === "Guide") {
@@ -53,7 +37,88 @@ export default function FormService() {
     }
   }, [selectedService]);
 
-  useEffect(() => {}, [initialState]);
+  useEffect(() => {
+    setCoords(null);
+    setLng(null);
+    setLat(null);
+    setSelectedTiles([]);
+    setSelectedImages([]);
+  }, [addLocation]);
+
+  async function submitServiceCheck(prevState: any, formData: FormData) {
+    const businessType = formData.get("businessType");
+
+    const bPhone = formData.get("bPhone");
+    const bName = formData.get("bName");
+    if (!businessType) {
+      return {
+        response: {
+          success: false,
+          message: "select business type",
+          error: 1,
+        },
+      };
+    }
+    if (!bPhone) {
+      return {
+        response: {
+          success: false,
+          message: "enter your business phone number",
+          error: 2,
+        },
+      };
+    }
+    if (!bName) {
+      return {
+        response: {
+          success: false,
+          message: "enter your business name",
+          error: 3,
+        },
+      };
+    }
+    if (addLocation) {
+      if (!lat || !lng) {
+        return {
+          response: {
+            success: false,
+            message: "please select a location",
+            error: 4,
+          },
+        };
+      }
+    }
+
+    const data = {
+      businessType,
+      bPhone,
+      bName,
+      lat: lat,
+      lng: lng,
+      imagesUrl: selectedImages,
+      tiles: selectedTiles,
+    };
+
+    const result = await submitProfileCheck(data);
+
+    if (result) {
+      return {
+        response: {
+          success: true,
+          message: "Success !!",
+          error: 0,
+        },
+      };
+    } else {
+      return {
+        response: {
+          success: false,
+          message: "internal server error",
+          error: 7,
+        },
+      };
+    }
+  }
 
   return (
     <div className="p-4 flex items-center justify-center">
@@ -92,6 +157,7 @@ export default function FormService() {
               onChange={(e) => setSelectedService(e.target.value)}
               className="text-sm"
               label="Select your business type*"
+              name="businessType"
             >
               <Radio size="sm" className="text-sm" value="Handmade">
                 Handmade Business
@@ -107,10 +173,13 @@ export default function FormService() {
           <Divider className="my-4" />
           <div className="flex flex-col gap-4 w-full px-6 py-4">
             <Input
-              name="b-phone"
+              name="bPhone"
               variant="underlined"
               labelPlacement="inside"
               label={"Business phone number"}
+              type="number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               startContent={
                 <div className="pointer-events-none flex items-center">
                   <span className="text-default-400 text-small">+216</span>
@@ -121,7 +190,8 @@ export default function FormService() {
               variant="underlined"
               labelPlacement="inside"
               label={"Business name"}
-              placeholder=""
+              placeholder="enter business name"
+              name="bName"
             />
             <Checkbox
               className="mt-2"
@@ -132,7 +202,20 @@ export default function FormService() {
             >
               <small>Locate my store on Google Maps</small>
             </Checkbox>
-            {addLocation && <GoogleMapsApiSection />}
+            {addLocation && (
+              <GoogleMapsApiSection
+                lat={lat}
+                lng={lng}
+                setLat={setLat}
+                setLng={setLng}
+                coords={coords}
+                setCoords={setCoords}
+                selectedTiles={selectedTiles}
+                setSelectedTiles={setSelectedTiles}
+                selectedImages={selectedImages}
+                setSelectedImages={setSelectedImages}
+              />
+            )}
           </div>
           <Divider className="my-4" />
           <div className="px-6">
@@ -143,9 +226,25 @@ export default function FormService() {
               <small>I agree to the terms of usage.</small>
             </Checkbox>
           </div>
+          {formState.response.error !== 0 &&
+            formState.response.success === false && (
+              <small className="italic text-danger-500 px-6">
+                {formState.response.message}
+              </small>
+            )}
+          {formState.response.error === 0 &&
+            formState.response.success === true && (
+              <small className="italic text-success-500 px-6">
+                {formState.response.message}
+              </small>
+            )}
           <div className="w-full flex flex-row justify-between p-2 mt-10">
             <Button className="bg-danger-500 text-white">Cancel</Button>
-            <Button isDisabled={!agreed} className="bg-primary-500 text-white">
+            <Button
+              isDisabled={!agreed}
+              type="submit"
+              className="bg-primary-500 text-white"
+            >
               Submit
             </Button>
           </div>
