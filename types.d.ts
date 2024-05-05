@@ -58,7 +58,6 @@ interface userType {
   tel: number;
   picture: string;
   seller: boolean;
-  admin: boolean;
   created_at: Date;
   lng: number;
   lat: number;
@@ -68,6 +67,7 @@ interface userType {
   description: string;
   activeAreaId: string
   businessName?: string | null
+  isAdmin: boolean
 }
 
 interface userSlice {

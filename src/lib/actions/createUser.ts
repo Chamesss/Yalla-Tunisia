@@ -40,6 +40,8 @@ export default async function addUser(prevState: any, formData: FormData) {
             tel: "",
             status: false,
             banned: false,
+            businessName: "",
+            isAdmin: false,
         });
         return { response: { success: true, error: 0, message: "" } }
     } catch (error) {
