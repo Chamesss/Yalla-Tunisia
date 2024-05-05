@@ -34,7 +34,7 @@ export default function Header() {
   const [mounted, setMounted] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { resolvedTheme } = useTheme();
-  const user: userInfoType = useSelector(userState);
+  const user: userSlice = useSelector(userState);
   const router = useRouter();
 
   useEffect(() => {

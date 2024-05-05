@@ -1,5 +1,12 @@
 "use client";
-import { Button, Divider, Input } from "@nextui-org/react";
+import {
+  Button,
+  CheckboxGroup,
+  Divider,
+  Input,
+  Radio,
+  RadioGroup,
+} from "@nextui-org/react";
 import GoogleMapsApiSection from "./GoogleMapsApiSection";
 import { Checkbox } from "@nextui-org/react";
 import { useEffect, useState } from "react";
@@ -93,7 +100,21 @@ export default function FormService() {
               <small>Locate my store on Google Maps</small>
             </Checkbox>
             {addLocation && <GoogleMapsApiSection />}
-            {!addLocation && <Input placeholder="Store name" />}
+            {!addLocation && <Input placeholder="Business name" />}
+          </div>
+          <Divider className="my-4" />
+          <div className="px-6">
+            <RadioGroup className="text-sm" label="Select your business type*">
+              <Radio size="sm" className="text-sm" value="Handmade">
+                Handmade Business
+              </Radio>
+              <Radio size="sm" className="text-sm" value="Sports">
+                Sports & Entertainment Business
+              </Radio>
+              <Radio size="sm" className="text-sm" value="Guide">
+                Guide Service
+              </Radio>
+            </RadioGroup>
           </div>
           <Divider className="my-4" />
           <div className="px-6">

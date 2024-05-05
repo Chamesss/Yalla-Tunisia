@@ -5,27 +5,40 @@ import User from "./User";
 import { Button, Divider } from "@nextui-org/react";
 import EditButton from "./EditButton";
 import Forbidden from "@/components/Forbidden";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUserById } from "@/lib/UserActions/getUser";
 
 export default function Main() {
-  const user: userSlice = useSelector(userState);
+  const { userId }: userSlice = useSelector(userState);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<userType>();
 
-  if (user.user === null) {
+  if (userId === null) {
     return <Forbidden />;
+  }
+
+  if (user === undefined && error) {
+    return <div></div>;
   }
 
   useEffect(() => {
     (async () => {
       const userData: userType | undefined = (await getUserById(
-        user.userId
+        userId
       )) as userType;
-      console.log("userData === ", userData);
+      if (userData === undefined) {
+        setError(true);
+        setLoading(false);
+      } else {
+        setUser(userData);
+        setLoading(false);
+      }
     })();
   }, []);
 
   const username =
-    user.user.username.toUpperCase().slice(0, 1) + user.user.username.slice(1);
+    user.username.toUpperCase().slice(0, 1) + user.username.slice(1);
 
   return (
     <div className="border rounded-2xl w-full">

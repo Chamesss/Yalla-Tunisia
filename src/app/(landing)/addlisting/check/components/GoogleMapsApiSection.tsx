@@ -65,7 +65,7 @@ export default function GoogleMapsApiSection() {
         >
           <input
             type="text"
-            className="relative w-full focus:outline-none bg-gray-100"
+            className="relative w-full focus:outline-none text-sm bg-gray-100"
             placeholder="Enter your store's name"
           />
         </Autocomplete>
