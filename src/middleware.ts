@@ -13,6 +13,9 @@ export function middleware(request: NextRequest) {
         if (userData.user?.seller === true && (reqUrl === "/addlisting/check" || reqUrl === "/addlisting")) {
             return NextResponse.redirect(new URL('/addlisting/panel', request.url))
         }
+        if (userData.user?.isAdmin === false && reqUrl === "/admin") {
+            return NextResponse.redirect(new URL('/forbidden', request.url))
+        }
     } else {
         return NextResponse.redirect(new URL('/forbidden', request.url))
     }
@@ -20,5 +23,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: ['/addlisting/:path*']
+    matcher: ['/addlisting/:path*', '/admin']
 }

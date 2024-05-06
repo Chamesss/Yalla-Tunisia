@@ -1,7 +1,5 @@
+import Main from "./components/Main";
+
 export default function page() {
-  return (
-    <div>
-      <p>Admin</p>
-    </div>
-  );
+  return <Main />;
 }
