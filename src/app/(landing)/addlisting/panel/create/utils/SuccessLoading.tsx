@@ -1,6 +1,7 @@
 import { Spinner } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { FormStatus } from "react-dom";
+import { useRouter } from "next/navigation";
 
 type Props = {
   formState: creationFromStatus;
@@ -8,6 +9,7 @@ type Props = {
 
 export default function SuccessLoading({ formState }: Props) {
   const [success, setSuccess] = useState<boolean>(formState.response.success);
+  const router = useRouter();
 
   useEffect(() => {
     setSuccess(formState.response.success);
@@ -16,7 +18,7 @@ export default function SuccessLoading({ formState }: Props) {
     }, 3000);
     formState.response.success &&
       setTimeout(() => {
-        console.log("linking...");
+        router.replace("/addlisting/panel");
       }, 3800);
   }, [formState]);
 

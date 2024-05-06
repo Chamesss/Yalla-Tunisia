@@ -132,6 +132,8 @@ interface ProductHandMade {
   materialUsed: string,
   imageUrls: string[],
   dimensions: string[],
+  status: boolean,
+  disabled: boolean
 }
 
 interface ProductSports {
@@ -149,6 +151,8 @@ interface ProductSports {
   imageUrls: string[],
   restrictions: string[],
   timing: string | string[],
+  status: boolean,
+  disabled: boolean
 }
 
 interface ProductGuides {
@@ -165,5 +169,7 @@ interface ProductGuides {
   location: string,
   languages: string[],
   transportation: boolean,
-  paymentMethodHourly: boolean
+  paymentMethodHourly: boolean,
+  status: boolean,
+  disabled: boolean
 }

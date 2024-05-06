@@ -1,5 +1,4 @@
-import Redirect from "./components/Redirect";
-
+import Main from "./components/Main";
 export default function page() {
-  return <Redirect />;
+  return <Main />;
 }

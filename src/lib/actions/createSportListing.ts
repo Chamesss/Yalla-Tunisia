@@ -123,7 +123,9 @@ export async function createSportListing(prevState: any, formData: FormData) {
         duration,
         eventType,
         timing: eventType === 'OngoingEvent' ? timing : daysArray,
-        restrictions
+        restrictions,
+        status: false,
+        disabled: false
     };
 
     const SportRef = doc(collection(db, "Sports"));

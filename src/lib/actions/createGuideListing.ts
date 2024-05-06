@@ -115,7 +115,9 @@ export async function createGuideListing(prevState: any, formData: FormData) {
         paymentMethodHourly,
         transportation,
         timing: eventType === 'OngoingEvent' ? timing : daysArray,
-        restrictions
+        restrictions,
+        status: false,
+        disabled: false
     };
 
     const GuideRef = doc(collection(db, "Guides"));

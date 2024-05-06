@@ -112,7 +112,9 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
         imageUrls,
         categoryId,
         subCategoryId,
-        location
+        location,
+        status: false,
+        disabled: false
     }
 
     const handmadeRef = doc(collection(db, "Handmades"));

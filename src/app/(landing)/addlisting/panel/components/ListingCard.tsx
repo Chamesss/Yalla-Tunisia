@@ -104,7 +104,7 @@ export default function ListingCard({
         {truncateDescription(listing.description)}
       </small>
       <br />
-      <small>{listing.price}</small>
+      <p className="text-green-600 flex justify-end mt-1">{listing.price} Dt</p>
       <div ref={menuRef} className="dropdown absolute top-0 right-0">
         <button
           className={`p-2 flex items-center justify-center bg-white text-blue-500 rounded-full shadow-md hover:opacity-60 cursor-pointer ${
@@ -139,6 +139,15 @@ export default function ListingCard({
         isOpen={isOpen}
         onOpen={onOpen}
         onOpenChange={onOpenChange}
+      />
+      <div
+        className={`absolute -top-1 -left-1 w-5 h-5 rounded-full ${
+          listing.status === true
+            ? "bg-success-500"
+            : listing.disabled === true
+            ? "bg-default-300"
+            : "bg-warning-500"
+        }`}
       />
     </div>
   );

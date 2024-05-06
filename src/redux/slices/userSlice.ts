@@ -7,7 +7,7 @@ const initialState: userSlice = {
         tel: 0,
         picture: "",
         seller: false,
-        admin: false,
+        isAdmin: false,
         created_at: (() => { return new Date() })(),
         lng: 0,
         lat: 0,

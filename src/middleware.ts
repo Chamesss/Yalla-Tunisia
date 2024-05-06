@@ -7,10 +7,10 @@ export function middleware(request: NextRequest) {
     const user = request.cookies.get('userData');
     if (user) {
         const userData = JSON.parse(user.value) as userSlice
-        if (userData.user?.seller === false && (reqUrl === "/addlisting/panel" || reqUrl === "/addlisting/edit" || reqUrl === "/addlisting/create")) {
+        if (userData.user?.seller === false && (reqUrl === "/addlisting/panel" || reqUrl === "/addlisting/edit" || reqUrl === "/addlisting/create" || reqUrl === "/addlisting")) {
             return NextResponse.redirect(new URL('/addlisting/check', request.url))
         }
-        if (userData.user?.seller === true && reqUrl === "/addlisting/check") {
+        if (userData.user?.seller === true && (reqUrl === "/addlisting/check" || reqUrl === "/addlisting")) {
             return NextResponse.redirect(new URL('/addlisting/panel', request.url))
         }
     } else {

@@ -57,6 +57,7 @@ export default function LocationSection({
       <Checkbox
         checked={locationChecked}
         onChange={() => setLocationChecked((prev) => !prev)}
+        name="locationInherit"
       >
         Pick your current location.
       </Checkbox>

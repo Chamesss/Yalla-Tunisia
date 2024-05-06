@@ -6,7 +6,7 @@ import SportsInfo from "./SportsInfo";
 import GuideInfo from "./GuideInfo";
 import LocationSection from "./LocationSection";
 import { Spinner } from "@nextui-org/react";
-import { userSlice, userState } from "@/redux/slices/userSlice";
+import { userState } from "@/redux/slices/userSlice";
 import { useSelector } from "react-redux";
 import { categories } from "@/constants/categories";
 
@@ -23,7 +23,7 @@ export default function MainCreateListing() {
   const [subCategoryError, setSubCategoryError] = useState(false);
   const [selectedOption, setSelectedOption] = useState(-1);
 
-  const user: userInfoType = useSelector(userState);
+  const user: userSlice = useSelector(userState);
 
   useEffect(() => {
     setCategoryError(false);
@@ -92,7 +92,7 @@ export default function MainCreateListing() {
                   <div className="justify-center items-center flex w-full h-full">
                     {selectedOption === 0 && (
                       <HandmadeInfo
-                        userId={user.userId}
+                        userId={user.userId!}
                         categoryId={categoryIdSelected}
                         subCategoryId={subCategoryId}
                         location={location}
@@ -103,7 +103,7 @@ export default function MainCreateListing() {
                     )}
                     {selectedOption === 1 && (
                       <SportsInfo
-                        userId={user.userId}
+                        userId={user.userId!}
                         categoryId={categoryIdSelected}
                         subCategoryId={subCategoryId}
                         location={location}
@@ -114,7 +114,7 @@ export default function MainCreateListing() {
                     )}
                     {selectedOption === 2 && (
                       <GuideInfo
-                        userId={user.userId}
+                        userId={user.userId!}
                         categoryId={categoryIdSelected}
                         subCategoryId={subCategoryId}
                         location={location}
