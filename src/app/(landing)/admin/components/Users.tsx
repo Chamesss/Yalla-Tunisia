@@ -20,11 +20,11 @@ import { Timestamp } from "firebase/firestore";
 
 const columns = [
   { name: "Info", uid: "Info" },
-  { name: "date", uid: "date" },
-  { name: "seller", uid: "seller" },
-  { name: "activeAreaId", uid: "activeAreaId" },
-  { name: "status", uid: "status" },
-  { name: "ACTIONS", uid: "actions" },
+  { name: "Creation Date", uid: "Creation Date" },
+  { name: "Seller", uid: "Seller" },
+  { name: "Location", uid: "Location" },
+  { name: "Status", uid: "Status" },
+  { name: "Actions", uid: "Actions" },
 ];
 
 const statusColorMap = {
@@ -80,7 +80,7 @@ export default function Users() {
               {user.email}
             </User>
           );
-        case "date":
+        case "Creation Date":
           let formattedDate;
           if (user.created_at instanceof Timestamp) {
             formattedDate = user.created_at.toDate().toLocaleString();
@@ -94,7 +94,7 @@ export default function Users() {
               </p>
             </div>
           );
-        case "seller":
+        case "Seller":
           return (
             <div className="flex flex-col">
               <Chip
@@ -107,7 +107,7 @@ export default function Users() {
               </Chip>
             </div>
           );
-        case "activeAreaId":
+        case "Location":
           const city = cities.find((c) => c.id === user.activeAreaId);
           return (
             <div className="flex flex-col">
@@ -116,7 +116,7 @@ export default function Users() {
               </p>
             </div>
           );
-        case "status":
+        case "Status":
           return (
             <Chip
               className="capitalize"
@@ -127,7 +127,7 @@ export default function Users() {
               {user.status === true ? "Active" : "Inactive"}
             </Chip>
           );
-        case "actions":
+        case "Actions":
           return (
             <div className="relative flex items-center gap-2">
               <Tooltip content="Details">

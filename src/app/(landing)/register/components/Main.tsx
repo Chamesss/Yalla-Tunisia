@@ -19,6 +19,7 @@ import { useDispatch } from "@/redux/store";
 import { loginUser } from "@/lib/actions/userLogin";
 import EntireScreenLoading from "@/components/utils/EntireScreenLoading";
 import { addUserSession } from "@/redux/slices/userSlice";
+import Router from "next/router";
 
 const initialState = {
   response: {
@@ -59,7 +60,7 @@ export default function MainRegister() {
     }
   };
 
-  const handleCitySelection = (key: React.Key) => {
+  const handleCitySelection = (key: React.Key | null) => {
     const [city] = cities.filter((c) => c.id === (key as string));
     city ? setActiveAreaId(city.id) : setActiveAreaId(null);
   };
@@ -222,7 +223,9 @@ export default function MainRegister() {
             passwordError={passwordError}
           />
           <Autocomplete
-            onSelectionChange={(key: React.Key) => handleCitySelection(key)}
+            onSelectionChange={(key: React.Key | null) =>
+              handleCitySelection(key)
+            }
             label="Enter you city (or select from the map)"
             className="w-full"
             variant="underlined"

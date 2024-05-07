@@ -1,5 +1,5 @@
-import Redirect from "./Redirect";
+import { redirect } from "next/navigation";
 
 export default function page() {
-  return void 0;
+  redirect("/addlisting/panel");
 }

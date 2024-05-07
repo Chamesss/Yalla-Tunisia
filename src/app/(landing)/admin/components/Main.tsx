@@ -3,8 +3,9 @@ import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import Users from "./Users";
 import Listings from "./Listings";
 import Approvals from "./Approvals";
+import Reclamations from "./Reclamations";
 
-const config = ["Users", "Listings", "Approvals"];
+const config = ["Users", "Listings", "Approvals", "Reclamations"];
 
 export default function Main() {
   return (
@@ -17,6 +18,7 @@ export default function Main() {
                 {c === "Users" && <Users />}
                 {c === "Listings" && <Listings />}
                 {c === "Approvals" && <Approvals />}
+                {c === "Reclamations" && <Reclamations />}
               </CardBody>
             </Card>
           </Tab>
