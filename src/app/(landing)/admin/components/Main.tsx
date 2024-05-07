@@ -9,14 +9,16 @@ const config = ["Users", "Listings", "Approvals"];
 export default function Main() {
   return (
     <div className="flex flex-1 p-4 w-full flex-col">
-      <Tabs aria-label="Options" className="w-full">
+      <Tabs aria-label="Options">
         {config.map((c: string, i: number) => (
-          <Tab key={i} className="!w-full bg-red-500 flex-1" title={c}>
-            <div className="bg-blue-500 flex-auto">
-              {c === "Users" && <Users />}
-              {c === "Listings" && <Listings />}
-              {c === "Approvals" && <Approvals />}
-            </div>
+          <Tab key={i} className="flex-auto flex" title={c}>
+            <Card className="w-full">
+              <CardBody className="flex-1">
+                {c === "Users" && <Users />}
+                {c === "Listings" && <Listings />}
+                {c === "Approvals" && <Approvals />}
+              </CardBody>
+            </Card>
           </Tab>
         ))}
       </Tabs>

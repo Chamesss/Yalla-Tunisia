@@ -53,6 +53,7 @@ interface ItemType {
 }
 
 interface userType {
+  id?: string,
   username: string,
   email: string;
   tel: number;

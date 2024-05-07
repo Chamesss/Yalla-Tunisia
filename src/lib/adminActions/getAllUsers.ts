@@ -6,11 +6,14 @@ export async function getAllUsers() {
         const usersRef = collection(db, "users");
         const q = query(usersRef);
         const querySnapshot = await getDocs(q);
-        const users = querySnapshot.docs.map((doc) => doc.data());
-        const result = JSON.parse(JSON.stringify(users));
-        return result
+        const users = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+
+        return users;
     } catch (error) {
-        console.log(error)
+        console.error("Error getting users:", error);
         return false
     }
 }
