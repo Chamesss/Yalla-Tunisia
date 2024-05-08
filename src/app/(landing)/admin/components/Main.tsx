@@ -1,12 +1,22 @@
 "use client";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import Users from "./Users";
-import Listings from "./Listings";
 import Approvals from "./Approvals";
 import Reclamations from "./Reclamations";
 import Withdrawal from "./Withdrawal";
+import Handmades from "./Handmades";
+import Sports from "./Sports";
+import Guides from "./Guides";
 
-const config = ["Users", "Listings", "Approvals", "Reclamations", "Withdrawal"];
+const config = [
+  "Users",
+  "Handmades",
+  "Sports & Entertainment",
+  "Guides",
+  "Approvals",
+  "Reclamations",
+  "Withdrawal",
+];
 
 export default function Main() {
   return (
@@ -17,7 +27,9 @@ export default function Main() {
             <Card className="w-full">
               <CardBody className="flex-1 max-h-[80vh] overflow-y-auto">
                 {c === "Users" && <Users />}
-                {c === "Listings" && <Listings />}
+                {c === "Handmades" && <Handmades />}
+                {c === "Sports & Entertainment" && <Sports />}
+                {c === "Guides" && <Guides />}
                 {c === "Approvals" && <Approvals />}
                 {c === "Reclamations" && <Reclamations />}
                 {c === "Withdrawal" && <Withdrawal />}

@@ -18,7 +18,7 @@ import TrashBin from "@/components/icons/TrashBin";
 import { cities } from "@/cities";
 import { Timestamp } from "firebase/firestore";
 import DeleteUserModal from "./DeleteUserModal";
-import CountData from "@/helpers/CountData";
+import { CountData } from "@/helpers/CountData";
 import Ban from "@/components/icons/Ban";
 import Success from "@/components/icons/Success";
 import UnBan from "@/components/icons/UnBan";
@@ -40,13 +40,9 @@ const statusColorMap = {
 };
 
 export default function Users() {
-  const [totalUsers, setTotalUsers] = useState<number>();
   const [active, setActive] = useState<number>();
   const [pending, setPending] = useState<number>();
   const [disabled, setDisabled] = useState<number>();
-  const [activeUsers, setActiveUsers] = useState<userType[]>();
-  const [pendingUsers, setPendingUsers] = useState<userType[]>();
-  const [disabledUsers, setDisabledUsers] = useState<userType[]>();
   const [loading, setLoading] = useState<boolean>(true);
   const [users, setUsers] = useState<userType[]>();
   const [userToDelete, setUserToDelete] = useState<userType>();
@@ -56,7 +52,6 @@ export default function Users() {
   useEffect(() => {
     (async () => {
       const result = (await getAllUsers()) as userType[];
-      setUsers(result);
       const { active, pending, disabled } = CountData(result);
       const activeUsers = result.filter(
         (u) => u.status === true && u.banned === false
@@ -67,10 +62,8 @@ export default function Users() {
       const disabledUsers = result.filter(
         (u) => u.status === false && u.banned === true
       );
-      setActiveUsers(activeUsers);
-      setPendingUsers(pendingUsers);
-      setDisabledUsers(disabledUsers);
-      setTotalUsers(result.length);
+      const combinedUsers = [...pendingUsers, ...activeUsers, ...disabledUsers];
+      setUsers(combinedUsers);
       setActive(active);
       setPending(pending);
       setDisabled(disabled);

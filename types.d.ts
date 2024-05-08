@@ -136,7 +136,8 @@ interface ProductHandMade {
   dimensions: string[],
   status: boolean,
   disabled: boolean,
-  sold?: boolean
+  sold?: boolean,
+  created_at?: Date
 }
 
 interface ProductSports {
@@ -156,7 +157,8 @@ interface ProductSports {
   timing: string | string[],
   status: boolean,
   disabled: boolean,
-  sold?: boolean
+  sold?: boolean,
+  created_at?: Date
 }
 
 interface ProductGuides {
@@ -176,5 +178,6 @@ interface ProductGuides {
   paymentMethodHourly: boolean,
   status: boolean,
   disabled: boolean,
-  sold?: boolean
+  sold?: boolean,
+  created_at?: Date
 }
