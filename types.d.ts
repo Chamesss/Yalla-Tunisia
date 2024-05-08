@@ -69,6 +69,7 @@ interface userType {
   activeAreaId: string
   businessName?: string | null
   isAdmin: boolean
+  balance?: string | number
 }
 
 interface userSlice {
@@ -134,7 +135,8 @@ interface ProductHandMade {
   imageUrls: string[],
   dimensions: string[],
   status: boolean,
-  disabled: boolean
+  disabled: boolean,
+  sold?: boolean
 }
 
 interface ProductSports {
@@ -153,7 +155,8 @@ interface ProductSports {
   restrictions: string[],
   timing: string | string[],
   status: boolean,
-  disabled: boolean
+  disabled: boolean,
+  sold?: boolean
 }
 
 interface ProductGuides {
@@ -172,5 +175,6 @@ interface ProductGuides {
   transportation: boolean,
   paymentMethodHourly: boolean,
   status: boolean,
-  disabled: boolean
+  disabled: boolean,
+  sold?: boolean
 }
