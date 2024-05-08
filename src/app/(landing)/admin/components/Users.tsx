@@ -7,16 +7,18 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Spinner,
   Chip,
   Tooltip,
   User,
+  useDisclosure,
 } from "@nextui-org/react";
 import EditIcon from "@/components/icons/EditIcon";
 import IconEye from "@/components/icons/EyeOpened";
 import TrashBin from "@/components/icons/TrashBin";
 import { cities } from "@/cities";
 import { Timestamp } from "firebase/firestore";
+import DeleteUserModal from "./DeleteUserModal";
+import CountData from "@/helpers/CountData";
 
 const columns = [
   { name: "Info", uid: "Info" },
@@ -43,6 +45,9 @@ export default function Users() {
   const [disabledUsers, setDisabledUsers] = useState<userType[]>();
   const [loading, setLoading] = useState<boolean>(true);
   const [users, setUsers] = useState<userType[]>();
+  const [userToDelete, setUserToDelete] = useState<userType>();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [success, setSuccess] = useState<boolean>(false);
   useEffect(() => {
     (async () => {
       const result = (await getAllUsers()) as userType[];
@@ -66,7 +71,7 @@ export default function Users() {
       setDisabled(disabled);
       setLoading(false);
     })();
-  }, []);
+  }, [success]);
   const renderCell = React.useCallback(
     (user: userType, columnKey: string | number) => {
       switch (columnKey) {
@@ -141,7 +146,13 @@ export default function Users() {
                 </span>
               </Tooltip>
               <Tooltip color="danger" content="Delete user">
-                <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                <span
+                  className="text-lg text-danger cursor-pointer active:opacity-50"
+                  onClick={() => {
+                    onOpen();
+                    setUserToDelete(user);
+                  }}
+                >
                   <TrashBin />
                 </span>
               </Tooltip>
@@ -179,18 +190,14 @@ export default function Users() {
           </TableBody>
         </Table>
       )}
+      <DeleteUserModal
+        user={userToDelete}
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onClose={onClose}
+        success={success}
+        setSuccess={setSuccess}
+      />
     </>
   );
-}
-
-function CountData(data: userType[]) {
-  let active = 0;
-  let pending = 0;
-  let disabled = 0;
-  for (const i in data) {
-    if (data[i].status === true && data[i].banned === false) active++;
-    if (data[i].status === false && data[i].banned === false) pending++;
-    if (data[i].banned === true) disabled++;
-  }
-  return { active, pending, disabled };
 }
