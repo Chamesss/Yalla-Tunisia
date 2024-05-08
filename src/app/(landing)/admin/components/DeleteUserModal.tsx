@@ -1,4 +1,6 @@
+import { banUser } from "@/lib/adminActions/banUser";
 import { deleteUserById } from "@/lib/adminActions/deleteUserById";
+import { unBanUser } from "@/lib/adminActions/unBanUser";
 import {
   Modal,
   ModalContent,
@@ -19,6 +21,7 @@ type Props = {
   onClose: () => void;
   success: boolean;
   setSuccess: Dispatch<SetStateAction<boolean>>;
+  action: string | undefined;
 };
 
 export default function DeleteUserModal({
@@ -28,6 +31,7 @@ export default function DeleteUserModal({
   onClose,
   success,
   setSuccess,
+  action,
 }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -36,6 +40,36 @@ export default function DeleteUserModal({
     try {
       if (user && user.id) {
         const result = await deleteUserById(user.id);
+        if (result) {
+          setSuccess(true);
+        }
+      }
+    } catch (e) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleBanUser = async () => {
+    try {
+      if (user && user.id) {
+        const result = await banUser(user.id);
+        if (result) {
+          setSuccess(true);
+        }
+      }
+    } catch (e) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUnBanUser = async () => {
+    try {
+      if (user && user.id) {
+        const result = await unBanUser(user.id);
         if (result) {
           setSuccess(true);
         }
@@ -61,10 +95,17 @@ export default function DeleteUserModal({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Delete confirmation
+                {action === "delete" && "Delete"}
+                {action === "ban" && "Ban"}
+                {action === "unban" && "Unban"}
+                confirmation
               </ModalHeader>
               <ModalBody>
-                <p>Are you sure you want to delete this profile?</p>
+                <p>
+                  Are you sure you want to {action === "delete" && "delete"}
+                  {action === "ban" && "ban"}
+                  {action === "unban" && "unban"} this profile?
+                </p>
                 <Divider className="my-2" />
                 {user && (
                   <User
@@ -86,7 +127,13 @@ export default function DeleteUserModal({
                   color="primary"
                   onPress={() => {
                     setLoading(true);
-                    handleDeleteUser();
+                    if (action === "delete") {
+                      handleDeleteUser();
+                    } else if (action === "ban") {
+                      handleBanUser();
+                    } else if (action === "unban") {
+                      handleUnBanUser();
+                    }
                   }}
                 >
                   {loading && <Spinner color="warning" />}

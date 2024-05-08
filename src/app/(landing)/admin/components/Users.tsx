@@ -19,6 +19,9 @@ import { cities } from "@/cities";
 import { Timestamp } from "firebase/firestore";
 import DeleteUserModal from "./DeleteUserModal";
 import CountData from "@/helpers/CountData";
+import Ban from "@/components/icons/Ban";
+import Success from "@/components/icons/Success";
+import UnBan from "@/components/icons/UnBan";
 
 const columns = [
   { name: "Info", uid: "Info" },
@@ -26,6 +29,7 @@ const columns = [
   { name: "Seller", uid: "Seller" },
   { name: "Location", uid: "Location" },
   { name: "Status", uid: "Status" },
+  { name: "Banned", uid: "Banned" },
   { name: "Actions", uid: "Actions" },
 ];
 
@@ -48,6 +52,7 @@ export default function Users() {
   const [userToDelete, setUserToDelete] = useState<userType>();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [success, setSuccess] = useState<boolean>(false);
+  const [action, setAction] = useState<string>();
   useEffect(() => {
     (async () => {
       const result = (await getAllUsers()) as userType[];
@@ -132,23 +137,57 @@ export default function Users() {
               {user.status === true ? "Active" : "Inactive"}
             </Chip>
           );
+        case "Banned":
+          return (
+            <Chip
+              className="capitalize"
+              color={user.banned === true ? "danger" : "default"}
+              size="sm"
+              variant="flat"
+            >
+              {user.banned === true ? "Banned" : "Active"}
+            </Chip>
+          );
         case "Actions":
           return (
             <div className="relative flex items-center gap-2">
-              <Tooltip content="Details">
-                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                  <IconEye />
-                </span>
-              </Tooltip>
-              <Tooltip content="Edit user">
-                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                  <EditIcon />
-                </span>
-              </Tooltip>
+              {user.banned === true ? (
+                <Tooltip
+                  className="text-white"
+                  color="success"
+                  content="Unban user"
+                >
+                  <span
+                    className="text-lg text-success-500 cursor-pointer active:opacity-50"
+                    onClick={() => {
+                      setAction("unban");
+                      onOpen();
+                      setUserToDelete(user);
+                    }}
+                  >
+                    <UnBan />
+                  </span>
+                </Tooltip>
+              ) : (
+                <Tooltip color="danger" content="Ban user">
+                  <span
+                    className="text-lg text-danger-500 cursor-pointer active:opacity-50"
+                    onClick={() => {
+                      setAction("ban");
+                      onOpen();
+                      setUserToDelete(user);
+                    }}
+                  >
+                    <Ban />
+                  </span>
+                </Tooltip>
+              )}
+
               <Tooltip color="danger" content="Delete user">
                 <span
-                  className="text-lg text-danger cursor-pointer active:opacity-50"
+                  className="text-lg text-danger-500 cursor-pointer active:opacity-50"
                   onClick={() => {
+                    setAction("delete");
                     onOpen();
                     setUserToDelete(user);
                   }}
@@ -197,6 +236,7 @@ export default function Users() {
         onClose={onClose}
         success={success}
         setSuccess={setSuccess}
+        action={action}
       />
     </>
   );
