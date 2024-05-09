@@ -153,11 +153,13 @@ export default function Handmades() {
         );
       case "Actions":
         return (
-          <div className="relative flex items-center gap-2">
-            <DisableItem listing={listing} />
-            <DeleteItem />
-            <MoreInfo listing={listing} />
-            <Approve />
+          <div className="relative flex items-center gap-2 justify-between">
+            <div className="flex flex-row items-center gap-3">
+              <DisableItem listing={listing} />
+              <DeleteItem />
+              <MoreInfo listing={listing} />
+            </div>
+            <Approve listing={listing} CategoryName="Handmades" />
           </div>
         );
       default:

@@ -2,6 +2,9 @@ import IconEye from "@/components/icons/EyeOpened";
 import { getUserById } from "@/lib/UserActions/getUser";
 import {
   Button,
+  Card,
+  CardBody,
+  Divider,
   Modal,
   ModalBody,
   ModalContent,
@@ -42,25 +45,33 @@ export default function MoreInfo({ listing }: Props) {
           <IconEye />
         </span>
       </Tooltip>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        className="max-h-[90vh] overflow-y-auto scrollbar-container py-2"
+      >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Modal Title
+                More Info
               </ModalHeader>
               <ModalBody>
                 <h1 className="italic opacity-75">Owner</h1>
                 {user && (
-                  <div className="flex flex-col gap-4 items-start">
-                    <User
-                      avatarProps={{ radius: "lg", src: user.picture }}
-                      description={user.email}
-                      name={user.username}
-                    >
-                      {user.email}
-                    </User>
-                  </div>
+                  <Card>
+                    <CardBody>
+                      <div className="flex flex-col gap-4 items-start">
+                        <User
+                          avatarProps={{ radius: "lg", src: user.picture }}
+                          description={user.email}
+                          name={user.username}
+                        >
+                          {user.email}
+                        </User>
+                      </div>
+                    </CardBody>
+                  </Card>
                 )}
                 {loading && (
                   <div className="min-w-20 min-h-20 flex items-center justify-center">
@@ -68,71 +79,75 @@ export default function MoreInfo({ listing }: Props) {
                   </div>
                 )}
                 <h1 className="italic opacity-75">Item details</h1>
-                <div>
-                  <div className="flex flex-row overflow-x-auto">
-                    {listing.imageUrls.map((image, i) => (
-                      <Image
-                        key={i}
-                        src={image}
-                        width={128}
-                        height={128}
-                        alt={`${listing.title}-picture-${i}`}
-                      />
-                    ))}
-                  </div>
-                  <div className="w-full flex flex-row justify-between">
-                    <h1>{listing.title}</h1>
-                    <span>{listing.price} DT</span>
-                  </div>
-                  <small>{listing.description}</small>
-                  <br />
-                  <small>
-                    {listing.materialUsed
-                      ? listing.materialUsed
-                      : "No materials specified"}
-                  </small>
-                  <br />
-                  <small>{listing.qte}</small>
-                  <div>
-                    <h1>Colors</h1>
-                    {listing.colors.map((c) => (
-                      <div
-                        style={{ backgroundColor: c }}
-                        className={`w-8 h-8 rounded-full bg-[${c}] `}
-                      />
-                    ))}
-                  </div>
-                  <div className="gap-2 flex flex-row">
-                    <h1>Sizes</h1>
-                    {listing.sizes.map((s) => (
-                      <>
-                        {s && (
-                          <span className="py-1 px-3 bg-primary-500 text-white rounded-2xl italic">
-                            {s}
-                          </span>
-                        )}
-                      </>
-                    ))}
-                  </div>
-                  {listing.dimensions[0] && listing.dimensions[1] ? (
-                    <div>
-                      <span>
-                        {listing.dimensions[0]} * {listing.dimensions[1]}
-                      </span>
+                <Card>
+                  <CardBody>
+                    <div className="flex flex-col gap-1 p-2">
+                      <div className="flex flex-row overflow-x-auto">
+                        {listing.imageUrls.map((image, i) => (
+                          <Image
+                            key={i}
+                            src={image}
+                            width={128}
+                            height={128}
+                            alt={`${listing.title}-picture-${i}`}
+                          />
+                        ))}
+                      </div>
+                      <Divider className="my-2" />
+                      <div className="w-full flex flex-row justify-between">
+                        <h1>{listing.title}</h1>
+                        <span className="text-success-600">
+                          {listing.price} DT
+                        </span>
+                      </div>
+                      <small className="italic">{listing.description}</small>
+                      <Divider className="my-2" />
+                      <div className="flex flex-col gap-2">
+                        <p className="italic">
+                          Materials used:{" "}
+                          <small>
+                            {listing.materialUsed
+                              ? listing.materialUsed
+                              : "No materials specified"}
+                          </small>
+                        </p>
+                        <p className="italic">Qte: {listing.qte}</p>
+                        <div className="flex flex-row gap-3 items-center">
+                          <h1 className="italic">Colors: </h1>
+                          {listing.colors.map((c) => (
+                            <div
+                              style={{ backgroundColor: c }}
+                              className={`w-8 h-8 rounded-full bg-[${c}] `}
+                            />
+                          ))}
+                        </div>
+                        <div className="flex flex-row gap-3 items-center">
+                          <h1 className="italic">Sizes: </h1>
+                          {listing.sizes.map((s) => (
+                            <>
+                              {s && (
+                                <small className="py-1 px-3 bg-primary-500 text-white rounded-2xl italic">
+                                  {s}
+                                </small>
+                              )}
+                            </>
+                          ))}
+                        </div>
+                        <div className="flex flex-row gap-3 items-center">
+                          <h1 className="italic">Dimensions: </h1>
+                          {listing.dimensions[0] && listing.dimensions[1] ? (
+                            <small>
+                              {listing.dimensions[0]} * {listing.dimensions[1]}
+                            </small>
+                          ) : (
+                            <small>No dimensions available</small>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  ) : (
-                    <span>No dimensions available</span>
-                  )}
-                </div>
+                  </CardBody>
+                </Card>
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
-                </Button>
-              </ModalFooter>
             </>
           )}
         </ModalContent>
