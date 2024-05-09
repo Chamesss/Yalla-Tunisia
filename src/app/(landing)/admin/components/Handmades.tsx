@@ -74,9 +74,7 @@ export default function Handmades() {
       const pendingListing = result.filter(
         (u) => u.status === false && u.disabled === false
       );
-      const disabledListing = result.filter(
-        (u) => u.status === false && u.disabled === true
-      );
+      const disabledListing = result.filter((u) => u.disabled === true);
       const combinedListings = [
         ...activeListing,
         ...pendingListing,
@@ -155,11 +153,23 @@ export default function Handmades() {
         return (
           <div className="relative flex items-center gap-2 justify-between">
             <div className="flex flex-row items-center gap-3">
-              <DisableItem listing={listing} />
-              <DeleteItem />
+              <DisableItem
+                setSuccess={setSuccess}
+                listing={listing}
+                CategoryName="Handmades"
+              />
+              <DeleteItem
+                setSuccess={setSuccess}
+                listing={listing}
+                CategoryName="Handmades"
+              />
               <MoreInfo listing={listing} />
             </div>
-            <Approve listing={listing} CategoryName="Handmades" />
+            <Approve
+              setSuccess={setSuccess}
+              listing={listing}
+              CategoryName="Handmades"
+            />
           </div>
         );
       default:
