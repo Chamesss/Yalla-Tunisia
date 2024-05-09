@@ -21,16 +21,19 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
     const xxl = formData.get('size-xxl')
     const width = formData.get('width')
     const height = formData.get('height')
-    const colors = formData.getAll('colors')
+    const colorsString = formData.getAll('colors')[0] as string
+    const colors = colorsString.split(',');
+    console.log(colors)
     const productImages = formData.getAll('productImages')
     const userId = formData.get('userId') as string
     const categoryId = formData.get('categoryId') as string
     const subCategoryId = formData.get('subCategoryId') as string
-    const location = (formData.get('location') as string).toLocaleLowerCase()
+    const locationValue = (formData.get('location') as string)
 
     if (!categoryId) return { response: { success: false, error: 11, message: "invalid category" } }
     if (!subCategoryId) return { response: { success: false, error: 12, message: "invalid subCategoryId" } }
-    if (!location) return { response: { success: false, error: 13, message: "invalid location" } }
+    if (!locationValue) return { response: { success: false, error: 13, message: "invalid location" } }
+    const location = locationValue.toLocaleLowerCase()
 
     if (title) {
         if (title.toString().length < 3) {

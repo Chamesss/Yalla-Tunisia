@@ -12,10 +12,11 @@ import {
   User,
   useDisclosure,
 } from "@nextui-org/react";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 type Props = {
-  listing: ProductHandMade | ProductSports | ProductGuides;
+  listing: ProductHandMade;
 };
 
 export default function MoreInfo({ listing }: Props) {
@@ -49,9 +50,9 @@ export default function MoreInfo({ listing }: Props) {
                 Modal Title
               </ModalHeader>
               <ModalBody>
+                <h1 className="italic opacity-75">Owner</h1>
                 {user && (
                   <div className="flex flex-col gap-4 items-start">
-                    <h1 className="italic opacity-75">Owner</h1>
                     <User
                       avatarProps={{ radius: "lg", src: user.picture }}
                       description={user.email}
@@ -66,6 +67,63 @@ export default function MoreInfo({ listing }: Props) {
                     <Spinner />
                   </div>
                 )}
+                <h1 className="italic opacity-75">Item details</h1>
+                <div>
+                  <div className="flex flex-row overflow-x-auto">
+                    {listing.imageUrls.map((image, i) => (
+                      <Image
+                        key={i}
+                        src={image}
+                        width={128}
+                        height={128}
+                        alt={`${listing.title}-picture-${i}`}
+                      />
+                    ))}
+                  </div>
+                  <div className="w-full flex flex-row justify-between">
+                    <h1>{listing.title}</h1>
+                    <span>{listing.price} DT</span>
+                  </div>
+                  <small>{listing.description}</small>
+                  <br />
+                  <small>
+                    {listing.materialUsed
+                      ? listing.materialUsed
+                      : "No materials specified"}
+                  </small>
+                  <br />
+                  <small>{listing.qte}</small>
+                  <div>
+                    <h1>Colors</h1>
+                    {listing.colors.map((c) => (
+                      <div
+                        style={{ backgroundColor: c }}
+                        className={`w-8 h-8 rounded-full bg-[${c}] `}
+                      />
+                    ))}
+                  </div>
+                  <div className="gap-2 flex flex-row">
+                    <h1>Sizes</h1>
+                    {listing.sizes.map((s) => (
+                      <>
+                        {s && (
+                          <span className="py-1 px-3 bg-primary-500 text-white rounded-2xl italic">
+                            {s}
+                          </span>
+                        )}
+                      </>
+                    ))}
+                  </div>
+                  {listing.dimensions[0] && listing.dimensions[1] ? (
+                    <div>
+                      <span>
+                        {listing.dimensions[0]} * {listing.dimensions[1]}
+                      </span>
+                    </div>
+                  ) : (
+                    <span>No dimensions available</span>
+                  )}
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>

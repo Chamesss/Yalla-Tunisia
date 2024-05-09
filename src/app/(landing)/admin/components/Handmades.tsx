@@ -29,6 +29,7 @@ import { getUserById } from "@/lib/UserActions/getUser";
 import MoreInfo from "./TableActionsComponents/MoreInfo";
 import DeleteItem from "./TableActionsComponents/DeleteItem";
 import DisableItem from "./TableActionsComponents/DisableItem";
+import Approve from "./TableActionsComponents/Approve";
 
 const columns = [
   { name: "Info", uid: "Info" },
@@ -156,6 +157,7 @@ export default function Handmades() {
             <DisableItem listing={listing} />
             <DeleteItem />
             <MoreInfo listing={listing} />
+            <Approve />
           </div>
         );
       default:
