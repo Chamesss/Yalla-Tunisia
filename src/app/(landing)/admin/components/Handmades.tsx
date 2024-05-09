@@ -1,5 +1,5 @@
 import { getAllUsers } from "@/lib/adminActions/getAllUsers";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -11,6 +11,8 @@ import {
   Tooltip,
   User,
   useDisclosure,
+  Spinner,
+  Skeleton,
 } from "@nextui-org/react";
 import EditIcon from "@/components/icons/EditIcon";
 import IconEye from "@/components/icons/EyeOpened";
@@ -24,22 +26,18 @@ import Success from "@/components/icons/Success";
 import UnBan from "@/components/icons/UnBan";
 import { getHandMadesAdmin } from "@/lib/adminActions/getAllListings";
 import { getUserById } from "@/lib/UserActions/getUser";
+import MoreInfo from "./TableActionsComponents/MoreInfo";
+import DeleteItem from "./TableActionsComponents/DeleteItem";
+import DisableItem from "./TableActionsComponents/DisableItem";
 
 const columns = [
   { name: "Info", uid: "Info" },
   { name: "Creation Date", uid: "Creation Date" },
-  { name: "Seller", uid: "Seller" },
   { name: "Location", uid: "Location" },
   { name: "Status", uid: "Status" },
   { name: "Banned", uid: "Banned" },
   { name: "Actions", uid: "Actions" },
 ];
-
-const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
 
 export default function Handmades() {
   const [active, setActive] = useState<number>();
@@ -47,10 +45,24 @@ export default function Handmades() {
   const [disabled, setDisabled] = useState<number>();
   const [loading, setLoading] = useState<boolean>(true);
   const [listings, setListings] = useState<ProductHandMade[]>();
-  const [userToDelete, setUserToDelete] = useState<userType>();
+  const [userToDelete, setUserToDelete] = useState<ProductHandMade>();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [success, setSuccess] = useState<boolean>(false);
   const [action, setAction] = useState<string>();
+
+  const handleCity = async (listing: ProductHandMade) => {
+    if (listing.location === "nan") {
+      const user = (await getUserById(listing.userId)) as userType;
+      const city = cities.find((c) => c.id === user.activeAreaId);
+      if (city?.city) {
+        return city.city;
+      }
+      return "Date unavailable";
+    } else {
+      return listing.location;
+    }
+  };
+
   useEffect(() => {
     (async () => {
       const result = (await getHandMadesAdmin()) as ProductHandMade[];
@@ -76,19 +88,16 @@ export default function Handmades() {
       setLoading(false);
     })();
   }, [success]);
+
+  //Table cells
   const renderCell = (listing: ProductHandMade, columnKey: string | number) => {
-    // const user = (await getUserById(listing.userId)) as userType;
     switch (columnKey) {
-      //   case "Info":
-      //     return (
-      //       <User
-      //         avatarProps={{ radius: "lg", src: user.picture }}
-      //         description={user.email}
-      //         name={user.username}
-      //       >
-      //         {user.email}
-      //       </User>
-      //     );
+      case "Info":
+        return (
+          <p className="text-bold text-sm capitalize text-default-400">
+            {listing.title}
+          </p>
+        );
       case "Creation Date":
         let formattedDate;
         if (listing.created_at instanceof Timestamp) {
@@ -103,15 +112,22 @@ export default function Handmades() {
             </p>
           </div>
         );
-      //   case "Location":
-      //     const city = cities.find((c) => c.id === listing.activeAreaId);
-      //     return (
-      //       <div className="flex flex-col">
-      //         <p className="text-bold text-sm capitalize text-default-400">
-      //           {city?.city}
-      //         </p>
-      //       </div>
-      //     );
+      case "Location":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-sm capitalize text-default-400">
+              <Suspense
+                fallback={
+                  <Skeleton className="rounded-xl opacity-75">
+                    <p>Loading</p>
+                  </Skeleton>
+                }
+              >
+                {handleCity(listing)}
+              </Suspense>
+            </p>
+          </div>
+        );
       case "Status":
         return (
           <Chip
@@ -127,62 +143,21 @@ export default function Handmades() {
         return (
           <Chip
             className="capitalize"
-            color={listing.disabled === true ? "danger" : "default"}
+            color={listing.disabled === true ? "danger" : "success"}
             size="sm"
             variant="flat"
           >
-            {listing.disabled === true ? "Banned" : "Active"}
+            {listing.disabled === true ? "Banned" : "No"}
           </Chip>
         );
-      //   case "Actions":
-      //     return (
-      //       <div className="relative flex items-center gap-2">
-      //         {user.banned === true ? (
-      //           <Tooltip
-      //             className="text-white"
-      //             color="success"
-      //             content="Unban user"
-      //           >
-      //             <span
-      //               className="text-lg text-success-500 cursor-pointer active:opacity-50"
-      //               onClick={() => {
-      //                 setAction("unban");
-      //                 onOpen();
-      //                 setUserToDelete(user);
-      //               }}
-      //             >
-      //               <UnBan />
-      //             </span>
-      //           </Tooltip>
-      //         ) : (
-      //           <Tooltip color="danger" content="Ban user">
-      //             <span
-      //               className="text-lg text-danger-500 cursor-pointer active:opacity-50"
-      //               onClick={() => {
-      //                 setAction("ban");
-      //                 onOpen();
-      //                 setUserToDelete(user);
-      //               }}
-      //             >
-      //               <Ban />
-      //             </span>
-      //           </Tooltip>
-      //         )}
-
-      //         <Tooltip color="danger" content="Delete user">
-      //           <span
-      //             className="text-lg text-danger-500 cursor-pointer active:opacity-50"
-      //             onClick={() => {
-      //               setAction("delete");
-      //               onOpen();
-      //               setUserToDelete(user);
-      //             }}
-      //           >
-      //             <TrashBin />
-      //           </span>
-      //         </Tooltip>
-      //       </div>
-      //     );
+      case "Actions":
+        return (
+          <div className="relative flex items-center gap-2">
+            <DisableItem listing={listing} />
+            <DeleteItem />
+            <MoreInfo listing={listing} />
+          </div>
+        );
       default:
         return void 0;
     }
@@ -213,15 +188,6 @@ export default function Handmades() {
           </TableBody>
         </Table>
       )}
-      <DeleteUserModal
-        user={userToDelete}
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onClose={onClose}
-        success={success}
-        setSuccess={setSuccess}
-        action={action}
-      />
     </>
   );
 }
