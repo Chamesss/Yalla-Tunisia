@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 type Props = {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
-  listing: ProductHandMade;
+  listing: ProductHandMade | ProductSports | ProductGuides;
   CategoryName: string;
 };
 

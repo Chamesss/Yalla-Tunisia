@@ -163,7 +163,7 @@ export default function Handmades() {
                 listing={listing}
                 CategoryName="Handmades"
               />
-              <MoreInfo listing={listing} />
+              <MoreInfo CategoryName="Handmades" listing={listing} />
             </div>
             <Approve
               setSuccess={setSuccess}

@@ -1,4 +1,6 @@
 import IconEye from "@/components/icons/EyeOpened";
+import { categories } from "@/constants/categories";
+import { FilterCategory } from "@/helpers/SelectCategoryName";
 import { getUserById } from "@/lib/UserActions/getUser";
 import {
   Button,
@@ -17,15 +19,41 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { config } from "@/helpers/SelectCategoryName";
+import HandmadeCard from "./HandmadeCard";
+import SportsCard from "./SportsCard";
+import GuideCard from "./GuideCard";
 
 type Props = {
-  listing: ProductHandMade;
+  CategoryName: string;
+  listing: ProductHandMade | ProductSports | ProductGuides;
 };
 
-export default function MoreInfo({ listing }: Props) {
+export default function MoreInfo({ CategoryName, listing }: Props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [user, setUser] = useState<userType>();
   const [loading, setLoading] = useState(true);
+
+  function displayItem() {
+    switch (CategoryName) {
+      case undefined: {
+        return <p>Something went wrong</p>;
+      }
+      case "Handmades": {
+        return <HandmadeCard listing={listing as ProductHandMade} />;
+      }
+      case "Sports": {
+        return <SportsCard listing={listing as ProductSports} />;
+      }
+      case "Guides": {
+        return <GuideCard listing={listing as ProductGuides} />;
+      }
+      default: {
+        return void 0;
+      }
+    }
+  }
+
   useEffect(() => {
     if (isOpen) {
       (async () => {
@@ -79,74 +107,7 @@ export default function MoreInfo({ listing }: Props) {
                   </div>
                 )}
                 <h1 className="italic opacity-75">Item details</h1>
-                <Card>
-                  <CardBody>
-                    <div className="flex flex-col gap-1 p-2">
-                      <div className="flex flex-row overflow-x-auto">
-                        {listing.imageUrls.map((image, i) => (
-                          <Image
-                            key={i}
-                            src={image}
-                            width={128}
-                            height={128}
-                            alt={`${listing.title}-picture-${i}`}
-                          />
-                        ))}
-                      </div>
-                      <Divider className="my-2" />
-                      <div className="w-full flex flex-row justify-between">
-                        <h1>{listing.title}</h1>
-                        <span className="text-success-600">
-                          {listing.price} DT
-                        </span>
-                      </div>
-                      <small className="italic">{listing.description}</small>
-                      <Divider className="my-2" />
-                      <div className="flex flex-col gap-2">
-                        <p className="italic">
-                          Materials used:{" "}
-                          <small>
-                            {listing.materialUsed
-                              ? listing.materialUsed
-                              : "No materials specified"}
-                          </small>
-                        </p>
-                        <p className="italic">Qte: {listing.qte}</p>
-                        <div className="flex flex-row gap-3 items-center">
-                          <h1 className="italic">Colors: </h1>
-                          {listing.colors.map((c) => (
-                            <div
-                              style={{ backgroundColor: c }}
-                              className={`w-8 h-8 rounded-full bg-[${c}] `}
-                            />
-                          ))}
-                        </div>
-                        <div className="flex flex-row gap-3 items-center">
-                          <h1 className="italic">Sizes: </h1>
-                          {listing.sizes.map((s) => (
-                            <>
-                              {s && (
-                                <small className="py-1 px-3 bg-primary-500 text-white rounded-2xl italic">
-                                  {s}
-                                </small>
-                              )}
-                            </>
-                          ))}
-                        </div>
-                        <div className="flex flex-row gap-3 items-center">
-                          <h1 className="italic">Dimensions: </h1>
-                          {listing.dimensions[0] && listing.dimensions[1] ? (
-                            <small>
-                              {listing.dimensions[0]} * {listing.dimensions[1]}
-                            </small>
-                          ) : (
-                            <small>No dimensions available</small>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </CardBody>
-                </Card>
+                {displayItem()}
               </ModalBody>
             </>
           )}
