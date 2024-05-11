@@ -1,4 +1,3 @@
-import { getAllUsers } from "@/lib/adminActions/getAllUsers";
 import React, { Suspense, useEffect, useState } from "react";
 import {
   Table,
@@ -8,31 +7,17 @@ import {
   TableRow,
   TableCell,
   Chip,
-  Tooltip,
-  User,
   useDisclosure,
   Spinner,
   Skeleton,
 } from "@nextui-org/react";
-import EditIcon from "@/components/icons/EditIcon";
-import IconEye from "@/components/icons/EyeOpened";
-import TrashBin from "@/components/icons/TrashBin";
-import { cities } from "@/cities";
 import { Timestamp } from "firebase/firestore";
-import DeleteUserModal from "./DeleteUserModal";
 import { CountDataPrduct } from "@/helpers/CountData";
-import Ban from "@/components/icons/Ban";
-import Success from "@/components/icons/Success";
-import UnBan from "@/components/icons/UnBan";
-import {
-  getHandMadesAdmin,
-  getSportsAdmin,
-} from "@/lib/adminActions/getAllListings";
-import { getUserById } from "@/lib/UserActions/getUser";
-import MoreInfo from "./TableActionsComponents/MoreInfo";
-import DeleteItem from "./TableActionsComponents/DeleteItem";
-import DisableItem from "./TableActionsComponents/DisableItem";
-import Approve from "./TableActionsComponents/Approve";
+import { getSportsAdmin } from "@/lib/adminActions/getAllListings";
+import MoreInfo from "../TableActionsComponents/MoreInfo";
+import DeleteItem from "../TableActionsComponents/DeleteItem";
+import DisableItem from "../TableActionsComponents/DisableItem";
+import Approve from "../TableActionsComponents/Approve";
 import { handleCity } from "@/helpers/getLocationNan";
 
 const columns = [

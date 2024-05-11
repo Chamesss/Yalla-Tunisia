@@ -12,15 +12,12 @@ import {
   User,
   useDisclosure,
 } from "@nextui-org/react";
-import EditIcon from "@/components/icons/EditIcon";
-import IconEye from "@/components/icons/EyeOpened";
 import TrashBin from "@/components/icons/TrashBin";
 import { cities } from "@/cities";
 import { Timestamp } from "firebase/firestore";
-import DeleteUserModal from "./DeleteUserModal";
+import DeleteUserModal from "../TableActionsComponents/DeleteUserModal";
 import { CountData } from "@/helpers/CountData";
 import Ban from "@/components/icons/Ban";
-import Success from "@/components/icons/Success";
 import UnBan from "@/components/icons/UnBan";
 
 const columns = [

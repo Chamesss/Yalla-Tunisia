@@ -1,12 +1,12 @@
 "use client";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
-import Users from "./Users";
-import Approvals from "./Approvals";
-import Reclamations from "./Reclamations";
-import Withdrawal from "./Withdrawal";
-import Handmades from "./Handmades";
-import Sports from "./Sports";
-import Guides from "./Guides";
+import Users from "./Users/Users";
+import Approvals from "./Approvals/Approvals";
+import Reclamations from "./Reclamations/Reclamations";
+import Withdrawal from "./Withdrawl/Withdrawal";
+import Handmades from "./Handmades/Handmades";
+import Sports from "./Sports/Sports";
+import Guides from "./Guides/Guides";
 
 const config = {
   Users: Users,

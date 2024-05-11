@@ -2,8 +2,7 @@ import Location from "@/components/icons/Location";
 import DateBox from "@/components/utils/DateBox";
 import { ExtractDayMonthYear } from "@/helpers/ExtractDayMonthYear";
 import { handleCity } from "@/helpers/getLocationNan";
-import { Card, CardBody, Chip, Divider, Skeleton } from "@nextui-org/react";
-import { Timestamp } from "firebase/firestore";
+import { Card, CardBody, Divider, Skeleton } from "@nextui-org/react";
 import Image from "next/image";
 import React, { Suspense } from "react";
 
