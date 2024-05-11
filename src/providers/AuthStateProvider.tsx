@@ -23,8 +23,9 @@ export default function AuthStateProvider({
         dispatch(logOutSession());
       } else {
         if (user.userId && user.user) {
-          const userData = (await getUserById(user.userId)) as userType;
-          await revalidateUserdata(userData, user.userId);
+          const response = await fetch(`/api/users/getuser/${user.userId}`);
+          const userState = (await response.json()) as userType;
+          await revalidateUserdata(userState, user.userId);
         }
       }
     })();

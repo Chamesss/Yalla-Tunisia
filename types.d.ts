@@ -7,51 +7,6 @@ interface IconFilteringProps {
   onClick?: React.MouseEventHandler<SVGSVGElement>;
 }
 
-interface Result {
-  id: string;
-  userId: number;
-  title: string;
-  description: string;
-  color: string[];
-  price: string;
-  size: string[];
-  picture: string;
-}
-
-interface ItemType {
-  id: string;
-  userId: string | number;
-  title: string;
-  description: string;
-  colors: string[];
-  price: string | number;
-  pictures: string;
-  lng: number;
-  lat: number;
-  status: boolean;
-  banned: boolean;
-  views: number;
-  sizes: string[];
-  category: [
-    {
-      id: number | string;
-      name: string;
-    }
-  ];
-  subcategory: [
-    {
-      id: number | string;
-      name: string;
-    }
-  ];
-  city: [
-    {
-      id: number | string;
-      name: string;
-    }
-  ];
-}
-
 interface userType {
   id?: string,
   username: string,
@@ -76,10 +31,6 @@ interface userSlice {
   isLogged: boolean,
   user: userType | null,
   userId: string | null
-}
-
-interface storeData {
-
 }
 
 interface SubCategoryType {
@@ -180,4 +131,15 @@ interface ProductGuides {
   disabled: boolean,
   sold?: boolean,
   created_at?: Date
+}
+
+interface Approvals {
+  bName: string,
+  bPhone: string,
+  businessType: string,
+  imagesUrl: string[],
+  lat: number,
+  lng: number,
+  tiles: string[],
+  status: boolean
 }
