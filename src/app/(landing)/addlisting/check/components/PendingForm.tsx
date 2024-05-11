@@ -1,7 +1,3 @@
-import IconArrowRight from "@/components/icons/RightArrow";
-import { Divider } from "@nextui-org/react";
-import React from "react";
-
 export default function PendingForm() {
   return (
     <div className="rounded-xl w-fit flex items-center justify-center flex-col max-w-[45rem]">

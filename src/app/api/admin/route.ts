@@ -3,7 +3,7 @@ import { fetchData } from "../utils/Endpoint"
 import { NextApiRequest, NextApiResponse } from "next";
 import { headers, cookies } from 'next/headers';
 
-export const revalidate = 0
+export const revalidate = 60
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
     console.log('context from next req/res === ', req.headers)

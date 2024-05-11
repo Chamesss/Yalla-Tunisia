@@ -4,7 +4,7 @@ import { headers, cookies } from 'next/headers';
 import { db } from "@/firebase";
 import { collection, query, getDocs } from "firebase/firestore";
 
-export const revalidate = 0
+export const revalidate = 60
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
     try {

@@ -141,5 +141,6 @@ interface Approvals {
   lat: number,
   lng: number,
   tiles: string[],
-  status: boolean
+  status: boolean,
+  userId: string
 }

@@ -1,4 +1,3 @@
-import { getAllUsers } from "@/lib/adminActions/getAllUsers";
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -11,12 +10,12 @@ import {
   Tooltip,
   User,
   useDisclosure,
+  Spinner,
 } from "@nextui-org/react";
 import TrashBin from "@/components/icons/TrashBin";
 import { cities } from "@/cities";
 import { Timestamp } from "firebase/firestore";
 import DeleteUserModal from "../TableActionsComponents/DeleteUserModal";
-import { CountData } from "@/helpers/CountData";
 import Ban from "@/components/icons/Ban";
 import UnBan from "@/components/icons/UnBan";
 
@@ -30,17 +29,7 @@ const columns = [
   { name: "Actions", uid: "Actions" },
 ];
 
-const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
-
 export default function Users() {
-  const [active, setActive] = useState<number>();
-  const [pending, setPending] = useState<number>();
-  const [disabled, setDisabled] = useState<number>();
-  const [loading, setLoading] = useState<boolean>(true);
   const [users, setUsers] = useState<userType[]>();
   const [userToDelete, setUserToDelete] = useState<userType>();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -48,8 +37,10 @@ export default function Users() {
   const [action, setAction] = useState<string>();
   useEffect(() => {
     (async () => {
-      const result = (await getAllUsers()) as userType[];
-      const { active, pending, disabled } = CountData(result);
+      const res = await fetch(`/api/admin/getallusers/`, {
+        cache: "force-cache",
+      });
+      const result = (await res.json()) as userType[];
       const activeUsers = result.filter(
         (u) => u.status === true && u.banned === false
       );
@@ -61,10 +52,6 @@ export default function Users() {
       );
       const combinedUsers = [...pendingUsers, ...activeUsers, ...disabledUsers];
       setUsers(combinedUsers);
-      setActive(active);
-      setPending(pending);
-      setDisabled(disabled);
-      setLoading(false);
     })();
   }, [success]);
   const renderCell = React.useCallback(
@@ -196,7 +183,7 @@ export default function Users() {
 
   return (
     <>
-      {users && (
+      {users ? (
         <Table aria-label="Example table with custom cells">
           <TableHeader columns={columns}>
             {(column) => (
@@ -218,6 +205,10 @@ export default function Users() {
             )}
           </TableBody>
         </Table>
+      ) : (
+        <div className="flex-1 flex items-center justify-center">
+          <Spinner />
+        </div>
       )}
       <DeleteUserModal
         user={userToDelete}
