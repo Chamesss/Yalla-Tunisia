@@ -19,6 +19,7 @@ export async function createSportListing(prevState: any, formData: FormData) {
     const timingValue = formData.get('timing')
     const productImages = formData.getAll('productImages')
     const restrictionLength = formData.get('restrictionLength')
+    const locationValue = (formData.get('location') as string)
     let restrictions: string[] = [];
     for (let i = 0; i < Number(restrictionLength); i++) {
         restrictions.push(formData.get(`restriction-${i}`) as string)
@@ -26,11 +27,11 @@ export async function createSportListing(prevState: any, formData: FormData) {
     const userId = formData.get('userId') as string
     const categoryId = formData.get('categoryId') as string
     const subCategoryId = formData.get('subCategoryId') as string
-    const location = formData.get('location') as string
 
     if (!categoryId) return { response: { success: false, error: 11, message: "invalid category" } }
     if (!subCategoryId) return { response: { success: false, error: 12, message: "invalid subCategoryId" } }
-    if (!location) return { response: { success: false, error: 13, message: "invalid location" } }
+    if (!locationValue) return { response: { success: false, error: 13, message: "invalid location" } }
+    const location = locationValue.toLocaleLowerCase()
 
     if (title) {
         if (title.toString().length < 3) {
@@ -124,8 +125,10 @@ export async function createSportListing(prevState: any, formData: FormData) {
         eventType,
         timing: eventType === 'OngoingEvent' ? timing : daysArray,
         restrictions,
+        location,
         status: false,
-        disabled: false
+        disabled: false,
+        created_at: new Date()
     };
 
     const SportRef = doc(collection(db, "Sports"));

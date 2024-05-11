@@ -117,7 +117,8 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
         subCategoryId,
         location,
         status: false,
-        disabled: false
+        disabled: false,
+        created_at: new Date()
     }
 
     const handmadeRef = doc(collection(db, "Handmades"));

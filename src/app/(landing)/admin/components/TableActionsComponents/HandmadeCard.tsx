@@ -15,9 +15,10 @@ export default function HandmadeCard({
               <Image
                 key={i}
                 src={image}
-                width={128}
-                height={128}
+                width={580}
+                height={580}
                 alt={`${listing.title}-picture-${i}`}
+                className="w-auto h-[9rem]"
               />
             ))}
           </div>

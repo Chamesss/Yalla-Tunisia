@@ -12,7 +12,7 @@ export async function createGuideListing(prevState: any, formData: FormData) {
     const description = formData.get('description')
     const userId = formData.get('userId') as string
     const categoryId = formData.get('categoryId') as string
-    const location = formData.get('location') as string
+    const locationValue = (formData.get('location') as string)
     const languageLength = formData.get('language-length')
     const paymentMethodValue = formData.get('paymentMethod')
     const price = formData.get('price')
@@ -33,7 +33,8 @@ export async function createGuideListing(prevState: any, formData: FormData) {
 
     if (!categoryId) return { response: { success: false, error: 11, message: "invalid category" } }
 
-    if (!location) return { response: { success: false, error: 13, message: "invalid location" } }
+    if (!locationValue) return { response: { success: false, error: 13, message: "invalid location" } }
+    const location = locationValue.toLocaleLowerCase()
 
     if (title) {
         if (title.toString().length < 3) {
@@ -117,7 +118,8 @@ export async function createGuideListing(prevState: any, formData: FormData) {
         timing: eventType === 'OngoingEvent' ? timing : daysArray,
         restrictions,
         status: false,
-        disabled: false
+        disabled: false,
+        created_at: new Date()
     };
 
     const GuideRef = doc(collection(db, "Guides"));

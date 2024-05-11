@@ -16,9 +16,10 @@ export default function GuideCard({ listing }: { listing: ProductGuides }) {
               <Image
                 key={i}
                 src={image}
-                width={128}
-                height={128}
+                width={580}
+                height={580}
                 alt={`${listing.title}-picture-${i}`}
+                className="w-auto h-[9rem]"
               />
             ))}
           </div>
@@ -72,7 +73,7 @@ export default function GuideCard({ listing }: { listing: ProductGuides }) {
             <div className="flex flex-row items-center gap-3">
               <h1>Payment method</h1>
               <small className="italic">
-                {listing.paymentMethodHourly ? "Hourly" : "Per day"}
+                {listing.paymentMethodHourly ? "Hourly" : "Per entire tour"}
               </small>
             </div>
             <Divider className="my-2" />
@@ -108,6 +109,15 @@ export default function GuideCard({ listing }: { listing: ProductGuides }) {
                   {handleCity(listing)}
                 </small>
               </Suspense>
+            </div>
+            <Divider className="my-2" />
+            <div>
+              <h1>Restrictions</h1>
+              {listing.restrictions.map((item, i) => (
+                <div>
+                  <p>{item}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
