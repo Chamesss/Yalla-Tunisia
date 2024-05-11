@@ -10,7 +10,7 @@ export default function HandmadeCard({
     <Card>
       <CardBody>
         <div className="flex flex-col gap-1 p-2">
-          <div className="flex flex-row overflow-x-auto">
+          <div className="flex flex-row overflow-x-auto gap-2 scrollbar-container">
             {listing.imageUrls.map((image, i) => (
               <Image
                 key={i}

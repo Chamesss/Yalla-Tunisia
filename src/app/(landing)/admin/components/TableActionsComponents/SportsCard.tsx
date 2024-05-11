@@ -10,7 +10,7 @@ export default function SportsCard({ listing }: { listing: ProductSports }) {
     <Card>
       <CardBody>
         <div className="flex flex-col gap-1 p-2">
-          <div className="flex flex-row overflow-x-auto">
+          <div className="flex flex-row overflow-x-auto gap-2 scrollbar-container">
             {listing.imageUrls.map((image, i) => (
               <Image
                 key={i}
@@ -33,9 +33,7 @@ export default function SportsCard({ listing }: { listing: ProductSports }) {
           </h1>
           <div className="flex flex-row flex-wrap gap-2">
             {listing.eventType === "OngoingEvent" ? (
-              <div>
-                <p>{listing.timing as string}</p>
-              </div>
+              <p>{listing.timing as string}</p>
             ) : (
               <>
                 {typeof listing.timing === "object" &&

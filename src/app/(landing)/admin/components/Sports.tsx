@@ -33,6 +33,7 @@ import MoreInfo from "./TableActionsComponents/MoreInfo";
 import DeleteItem from "./TableActionsComponents/DeleteItem";
 import DisableItem from "./TableActionsComponents/DisableItem";
 import Approve from "./TableActionsComponents/Approve";
+import { handleCity } from "@/helpers/getLocationNan";
 
 const columns = [
   { name: "Info", uid: "Info" },
@@ -53,19 +54,6 @@ export default function Sports() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [success, setSuccess] = useState<boolean>(false);
   const [action, setAction] = useState<string>();
-
-  const handleCity = async (listing: ProductSports) => {
-    if (listing.location === "nan") {
-      const user = (await getUserById(listing.userId)) as userType;
-      const city = cities.find((c) => c.id === user.activeAreaId);
-      if (city?.city) {
-        return city.city;
-      }
-      return "Date unavailable";
-    } else {
-      return listing.location;
-    }
-  };
 
   useEffect(() => {
     (async () => {
