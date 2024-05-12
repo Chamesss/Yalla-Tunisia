@@ -3,7 +3,7 @@ import getUserFromCookies from "../getUserFromCookies";
 import { db } from "@/firebase";
 import ApproveUser from "./ApproveUser";
 
-export async function ApproveItemAdmin(id: string) {
+export async function ApproveItemAdmin(id: string, CategoryName: string) {
     const user = await getUserFromCookies()
     if (!user) {
         throw new Error("Permission denied");
@@ -15,25 +15,20 @@ export async function ApproveItemAdmin(id: string) {
         throw new Error("Missing user ID");
     }
     try {
-        const approvalsQuery = query(collection(db, 'Approval'), where('userId', '==', id));
-        const approvalSnapshot = await getDocs(approvalsQuery);
+        const itemRef = doc(collection(db, CategoryName), id);
+        const itemSnap = await getDoc(itemRef);
 
-        // Check if any documents exist in the snapshot
-        if (!approvalSnapshot.empty) {
-            approvalSnapshot.forEach(async (doc) => {
-                const itemData = doc.data();
-                itemData.status = true;
-                await updateDoc(doc.ref, itemData);
-                await ApproveUser(id)
-                console.log("User disabled successfully:", id);
-            });
-            return true;
+        if (itemSnap.exists()) {
+            const ItemData = itemSnap.data();
+            ItemData.status = true;
+
+            await updateDoc(itemRef, ItemData);
+            return true
         } else {
-            console.warn("User not found:", id);
-            return false;
+            console.warn("Item not found:", id);
         }
     } catch (error) {
-        console.error("Error disabling user:", error);
+        console.error("Error approving item:", error);
         return error
     }
 }

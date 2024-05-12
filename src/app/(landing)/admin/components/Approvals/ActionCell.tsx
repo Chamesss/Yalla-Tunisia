@@ -1,4 +1,5 @@
 import IconEye from "@/components/icons/EyeOpened";
+import { ApproveApprovals } from "@/lib/adminActions/ApproveApproval";
 import { ApproveItemAdmin } from "@/lib/adminActions/ApproveItem";
 import { Button, Tooltip } from "@nextui-org/react";
 import React from "react";
@@ -11,7 +12,7 @@ type Props = {
 export default function ActionCell({ item, setReload }: Props) {
   const HandleSubmit = async () => {
     try {
-      await ApproveItemAdmin(item.userId);
+      await ApproveApprovals(item.userId);
       setReload((prev) => !prev);
     } catch (e) {
       console.log(e);
