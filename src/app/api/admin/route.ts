@@ -1,11 +1,9 @@
-import { NextResponse } from "next/server"
-import { fetchData } from "../utils/Endpoint"
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server"
 import { headers, cookies } from 'next/headers';
 
 export const revalidate = 60
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
     console.log('context from next req/res === ', req.headers)
     const contextHeader = headers().get('context')
     console.log('context from next/headers === ', contextHeader)

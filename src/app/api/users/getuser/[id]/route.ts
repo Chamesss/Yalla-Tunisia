@@ -1,8 +1,8 @@
 import { db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextApiRequest, route: { params: { id: string } }, res: NextApiResponse) {
+export async function GET(req: NextRequest, route: { params: { id: string } }, res: NextResponse) {
     try {
         const itemRef = doc(db, 'users', route.params.id);
         const itemSnapshot = await getDoc(itemRef);

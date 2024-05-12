@@ -1,12 +1,10 @@
-import { NextResponse } from "next/server"
-import { NextApiRequest, NextApiResponse } from "next";
-import { headers, cookies } from 'next/headers';
+import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/firebase";
 import { collection, query, getDocs } from "firebase/firestore";
 
 export const revalidate = 0
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
     try {
         const itemsRef = collection(db, "Approval");
         const q = query(itemsRef);
