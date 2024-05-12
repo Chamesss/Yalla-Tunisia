@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default function CheckOutBox({ productId }: Props) {
-  const user: userInfoType = useSelector(userState);
+  const user: userSlice = useSelector(userState);
   const dispatch = useDispatch();
 
   const addToCart = () => {
