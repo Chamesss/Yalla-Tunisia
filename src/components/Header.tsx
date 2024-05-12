@@ -7,7 +7,7 @@ import DropDownItem from "./utils/DropDownItem";
 import { useTheme } from "next-themes";
 import { Button, useDisclosure } from "@nextui-org/react";
 import ModalWindow from "@/app/Modals/ModalWindow";
-import { userSlice, userState } from "@/redux/slices/userSlice";
+import { userState } from "@/redux/slices/userSlice";
 import { useSelector } from "react-redux";
 import ProfileDropDown from "./utils/Header/ProfileDropDown";
 import { categories as CATEGORIES } from "@/constants/categories";

@@ -13,7 +13,7 @@ interface HeaderDrawerProps {
   onOpen: () => void;
   IsOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  user: userInfoType | null;
+  user: userSlice | null;
   isLogged: boolean;
   categories: CategoryType[];
 }
@@ -95,12 +95,12 @@ export default function HeaderDrawer({
         className="w-[100%] bg-white dark:bg-[#000000]"
       >
         <div className="px-4 py-8 flex items-start flex-col w-full bg-white dark:bg-[#000000] h-full">
-          {isLogged ? (
+          {user && user.user ? (
             <div>
               <Link href="/profile">
                 <User
-                  className="cursor-pointer hover:underline"
-                  name={user?.user.firstname + " " + user?.user.firstname}
+                  className="cursor-pointer hover:underline capitalize"
+                  name={user.user.username}
                   avatarProps={{ src: user?.user.picture }}
                   description="State"
                 />

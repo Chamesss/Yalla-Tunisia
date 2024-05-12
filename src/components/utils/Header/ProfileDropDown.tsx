@@ -10,7 +10,7 @@ import useLogout from "@/hooks/useLogout";
 import Image from "next/image";
 
 type Props = {
-  user: userInfoType;
+  user: userSlice;
 };
 
 export default function ProfileDropDown({ user }: Props) {
@@ -19,11 +19,13 @@ export default function ProfileDropDown({ user }: Props) {
     <div>
       <Dropdown>
         <DropdownTrigger>
-          <Avatar
-            as="button"
-            className="transition-transform"
-            src={user.user.picture}
-          />
+          {user && user.user && (
+            <Avatar
+              as="button"
+              className="transition-transform"
+              src={user.user.picture}
+            />
+          )}
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
           <DropdownItem
