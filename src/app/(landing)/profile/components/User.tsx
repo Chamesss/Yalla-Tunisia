@@ -4,20 +4,20 @@ import EditIcon from "@/components/icons/EditIcon";
 import { cities } from "@/cities";
 
 type Props = {
-  user: userSlice;
+  user: userType;
   username: string;
 };
 
 export default function User({ user, username }: Props) {
-  const location = cities.find((c) => c.id === user.user!.activeAreaId);
+  const location = cities.find((c) => c.id === user!.activeAreaId);
   console.log(user);
   return (
     <div className="flex flex-row items-center gap-4">
       <div className="relative">
         <Image
           className="rounded-full overflow-hidden object-cover w-[5rem] h-[5rem]"
-          src={user.user!.picture as string}
-          alt={`${user.user!.username + " profile picture"}`}
+          src={user!.picture as string}
+          alt={`${user!.username + " profile picture"}`}
           width={380}
           height={380}
         />

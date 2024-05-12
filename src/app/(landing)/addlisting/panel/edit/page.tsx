@@ -19,7 +19,7 @@ const Main = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const cid = searchParams.get("cid");
-  const validateCid = categories.find((c) => c.id === cid);
+  const validateCid = categories.find((c) => c.id === cid) as CategoryType;
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<any>();
@@ -28,17 +28,6 @@ const Main = () => {
   const [location, setLocation] = useState<string | null>("");
   const [locationChecked, setLocationChecked] = useState<boolean>(false);
   const [locationError, setLocationError] = useState(false);
-
-  if (!validateCid) {
-    return <GoBack />;
-  }
-
-  const CategoryName =
-    validateCid.name === "Hand-Made"
-      ? "Handmades"
-      : validateCid.name === "Sports & Entertainments"
-      ? "Sports"
-      : "Guides";
 
   useEffect(() => {
     (async () => {
@@ -69,6 +58,13 @@ const Main = () => {
       }
     })();
   }, []);
+
+  const CategoryName =
+    validateCid.name === "Hand-Made"
+      ? "Handmades"
+      : validateCid.name === "Sports & Entertainments"
+      ? "Sports"
+      : "Guides";
 
   if (loading) {
     return <Loading />;

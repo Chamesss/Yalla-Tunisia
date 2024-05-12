@@ -42,8 +42,9 @@ export default function HandmadeCard({
             <p className="italic">Qte: {listing.qte}</p>
             <div className="flex flex-row gap-3 items-center">
               <h1 className="italic">Colors: </h1>
-              {listing.colors.map((c) => (
+              {listing.colors.map((c, i) => (
                 <div
+                  key={i}
                   style={{ backgroundColor: c }}
                   className={`w-8 h-8 rounded-full bg-[${c}] `}
                 />
