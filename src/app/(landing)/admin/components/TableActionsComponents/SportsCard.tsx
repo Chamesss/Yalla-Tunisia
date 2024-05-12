@@ -100,7 +100,7 @@ export default function SportsCard({ listing }: { listing: ProductSports }) {
           <div>
             <h1>Restrictions</h1>
             {listing.restrictions.map((item, i) => (
-              <div>
+              <div key={i}>
                 <p>{item}</p>
               </div>
             ))}

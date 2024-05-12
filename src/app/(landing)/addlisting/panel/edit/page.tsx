@@ -12,6 +12,10 @@ import CategorySection from "./components/CategorySection";
 import LocationSection from "./components/LocationSection";
 
 export default function page() {
+  return <Main />;
+}
+
+const Main = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const cid = searchParams.get("cid");
@@ -100,4 +104,4 @@ export default function page() {
       </div>
     </div>
   );
-}
+};

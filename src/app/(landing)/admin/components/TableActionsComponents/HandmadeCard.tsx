@@ -1,5 +1,6 @@
 import { Card, CardBody, Divider } from "@nextui-org/react";
 import Image from "next/image";
+import React from "react";
 
 export default function HandmadeCard({
   listing,
@@ -50,14 +51,14 @@ export default function HandmadeCard({
             </div>
             <div className="flex flex-row gap-3 items-center">
               <h1 className="italic">Sizes: </h1>
-              {listing.sizes.map((s) => (
-                <>
+              {listing.sizes.map((s, i) => (
+                <React.Fragment key={i}>
                   {s && (
                     <small className="py-1 px-3 bg-primary-500 text-white rounded-2xl italic">
                       {s}
                     </small>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </div>
             <div className="flex flex-row gap-3 items-center">

@@ -1,7 +1,7 @@
 "use client";
 import { useSelector } from "react-redux";
 import { userState } from "@/redux/slices/userSlice";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Skeleton, Divider } from "@nextui-org/react";
 import { getListingsByUserId } from "@/lib/ListingActions/getListingsByUserId";
 import ListingCard from "./ListingCard";
@@ -111,13 +111,23 @@ export default function Main() {
               ) : (
                 <>
                   {handmades &&
-                    handmades.map((listing) => (
-                      <ListingCard listing={listing} />
+                    handmades.map((listing, i) => (
+                      <React.Fragment key={i}>
+                        <ListingCard listing={listing} />
+                      </React.Fragment>
                     ))}
                   {sports &&
-                    sports.map((listing) => <ListingCard listing={listing} />)}
+                    sports.map((listing, i) => (
+                      <React.Fragment key={i}>
+                        <ListingCard listing={listing} />
+                      </React.Fragment>
+                    ))}
                   {guides &&
-                    guides.map((listing) => <ListingCard listing={listing} />)}
+                    guides.map((listing, i) => (
+                      <React.Fragment key={i}>
+                        <ListingCard listing={listing} />
+                      </React.Fragment>
+                    ))}
                 </>
               )}
             </div>
