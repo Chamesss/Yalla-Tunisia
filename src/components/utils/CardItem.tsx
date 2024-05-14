@@ -26,7 +26,6 @@ type Props = {
 };
 
 export default function CardItem({ data }: Props) {
-  console.log(data);
   const [isFavorite, setIsFavorite] = useState<boolean>();
   const { isModalOpen, openModal, closeModal } = useAuthModal();
   const dispatch = useDispatch();

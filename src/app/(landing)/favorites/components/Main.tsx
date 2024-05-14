@@ -45,7 +45,11 @@ export default function Main() {
   return (
     <div className="px-8 py-8 flex flex-row flex-wrap gap-8">
       {favorites ? (
-        favorites.map((f, i) => <CardItem data={f} />)
+        favorites.map((f, i) => (
+          <React.Fragment key={i}>
+            <CardItem data={f} />
+          </React.Fragment>
+        ))
       ) : (
         <div className="flex flex-row flex-wrap gap-8">
           {[...Array(10)].map((_, index) => (
