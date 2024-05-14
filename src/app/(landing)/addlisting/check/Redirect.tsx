@@ -14,6 +14,7 @@ export default function Redirect() {
       if (user) {
         const response = await fetch(`/api/getapproval/${user.userId}`);
         const approval = await response.json();
+        console.log("approvals === ", approvals);
         setApprovals(approval.length);
         setLoading(false);
       }
@@ -27,7 +28,7 @@ export default function Redirect() {
         </div>
       ) : (
         <div className="flex items-center justify-center mt-4">
-          {approvals === 0 ? <FormService /> : <PendingForm />}
+          {approvals === undefined ? <FormService /> : <PendingForm />}
         </div>
       )}
     </React.Fragment>

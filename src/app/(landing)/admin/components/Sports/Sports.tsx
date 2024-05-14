@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TableDisplay } from "../TableActionsComponents/constants";
 import { Spinner } from "@nextui-org/react";
 
-const CategoryName = "Guides";
+const CategoryName = "Sports";
 type Product = ProductSports;
 
 export default function Sports() {

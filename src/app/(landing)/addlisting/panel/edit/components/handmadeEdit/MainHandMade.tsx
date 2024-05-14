@@ -11,20 +11,30 @@ export default function MainHandMade({ data }: { data: ProductHandMade }) {
   const [colors, setColors] = useState<string[]>([]);
   return (
     <div className="flex flex-col gap-2 border border-opacity-50 rounded-xl px-4 py-6">
-      <h1>General Info</h1>
-      <Input value={data.title} placeholder="title" />
-      <Input value={data.price} placeholder="price" />
-      <Input value={data.qte} placeholder="Qte" />
-      <Textarea value={data.description} placeholder="Description" />
-      <Input value={data.materialUsed} placeholder="materials used" />
+      <h1 className="my-2 text-lg font-semibold">General Info</h1>
+      <Input label="Title" value={data.title} placeholder="title" />
+      <div className="flex flex-row items-center justify-center gap-3">
+        <Input label="Price" value={data.price} placeholder="price" />
+        <Input label="Qte" value={data.qte} placeholder="Qte" />
+      </div>
+      <Textarea
+        label="Description"
+        value={data.description}
+        placeholder="Description"
+      />
+      <Input
+        label="Materials Used"
+        value={data.materialUsed}
+        placeholder="materials used"
+      />
       <Divider className="my-2" />
-      <h1>Pictures</h1>
+      <h1 className="my-2 text-lg font-semibold">Pictures</h1>
       <HandleImages
         previewImages={previewImages}
         setPreviewImages={setPreviewImages}
       />
       <Divider className="my-2" />
-      <p>sizes</p>
+      <h1 className="my-2 text-lg font-semibold">Sizes</h1>
       <div className="px-2">
         <div className="flex flex-row gap-8">
           <CheckboxGroup
@@ -59,8 +69,8 @@ export default function MainHandMade({ data }: { data: ProductHandMade }) {
           <small>(cm)</small>
         </div>
         <Divider className="my-2" />
-        <h1>Colors section</h1>
-        <div className="flex flex-row">
+        <h1 className="my-2 text-lg font-semibold">Colors section</h1>
+        <div className="flex flex-row items-center justify-center gap-2">
           <HexColorPicker color={color} onChange={setColor} />
           <div className="grid grid-cols-2 grid-rows-3 flex-wrap w-auto h-fit gap-2">
             {data.colors.map((c) => (
