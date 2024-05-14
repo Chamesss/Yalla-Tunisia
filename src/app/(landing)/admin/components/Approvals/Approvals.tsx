@@ -18,6 +18,7 @@ export default function Approvals() {
     (async () => {
       const res = await fetch("/api/admin/getapprovals", {
         cache: "force-cache",
+        next: { revalidate: 30 },
       });
       const data = (await res.json()) as Approvals[];
       console.log(data);

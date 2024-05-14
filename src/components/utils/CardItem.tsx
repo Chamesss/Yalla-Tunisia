@@ -1,8 +1,12 @@
+"use client";
 import { Card, CardHeader, CardBody, Image, Divider } from "@nextui-org/react";
 import Category from "./../icons/Category";
 import Location from "./../icons/Location";
 import Link from "next/link";
 import { categories as CATEGORIES } from "@/constants/categories";
+import { useEffect } from "react";
+import getUserFromCookies from "@/lib/getUserFromCookies";
+import addToFavorites from "@/lib/UserActions/addToFavorites";
 
 type Props = {
   data: ProductHandMade | ProductSports | ProductGuides;
@@ -29,9 +33,34 @@ export default function CardItem({ data }: Props) {
       ? "Sports"
       : "Guides";
 
+  useEffect(() => {
+    (async () => {
+      const user = await getUserFromCookies();
+      if (user) {
+        const userId = user.userId;
+        const response = await fetch(`/api/favorites/checkfavorites/`, {
+          headers: {
+            itemId: data.id,
+            userId: userId as string,
+          },
+        });
+        const res = await response.json();
+        console.log("response === ", res.isFavorite);
+      }
+    })();
+  }, []);
+
+  const handleAddToFavorites = async () => {
+    const user = await getUserFromCookies();
+    if (user && user.userId) {
+      const response = await addToFavorites(user.userId, data.id);
+      console.log(response);
+    }
+  };
+
   return (
     <div className="p-1 md:p-4 flex items-center justify-center">
-      <Card className="py-0 min-w-32 md:w-48 lg:w-56 shadow-[0_0px_12px_-5px_rgba(0,0,0,0.1)] hover:scale-[103%] cursor-pointer rounded-xl">
+      <Card className="py-0 min-w-32 md:w-48 lg:w-56 shadow-[0_0px_12px_-5px_rgba(0,0,0,0.1)] hover:scale-[103%] cursor-pointer rounded-xl relative">
         <Link href={`/listings/${CategoryName}/${data.id}`}>
           <CardHeader className="p-0 overflow-hidden rounded-sm bg-white items-center justify-center">
             <Image
@@ -64,6 +93,10 @@ export default function CardItem({ data }: Props) {
             </div>
           </CardBody>
         </Link>
+        <div
+          className="w-10 h-10 rounded-full bg-red-500 absolute top-2 right-2 z-20 pointer-events-auto"
+          onClick={handleAddToFavorites}
+        ></div>
       </Card>
     </div>
   );

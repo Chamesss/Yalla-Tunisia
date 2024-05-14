@@ -1,7 +1,7 @@
 import IconEye from "@/components/icons/EyeOpened";
 import { ApproveApprovals } from "@/lib/adminActions/ApproveApproval";
-import { Button, Tooltip, useDisclosure } from "@nextui-org/react";
-import React from "react";
+import { Button, Spinner, Tooltip, useDisclosure } from "@nextui-org/react";
+import React, { useState } from "react";
 import ApproveModal from "./ApproveModal";
 
 type Props = {
@@ -11,13 +11,17 @@ type Props = {
 
 export default function ActionCell({ item, setReload }: Props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [loading, setLoading] = useState(false);
 
   const HandleSubmit = async () => {
+    setLoading(true);
     try {
       await ApproveApprovals(item.userId);
       setReload((prev) => !prev);
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -32,8 +36,14 @@ export default function ActionCell({ item, setReload }: Props) {
         </span>
       </Tooltip>
       <span className="text-lg text-success-500 cursor-pointer active:opacity-50">
-        <Button color="primary" onClick={HandleSubmit}>
-          Approve
+        <Button color="primary" onClick={HandleSubmit} isDisabled={item.status}>
+          {loading ? (
+            <Spinner color="warning" />
+          ) : item.status ? (
+            "Approved"
+          ) : (
+            "Approve"
+          )}
         </Button>
       </span>
       <ApproveModal item={item} isOpen={isOpen} onOpenChange={onOpenChange} />

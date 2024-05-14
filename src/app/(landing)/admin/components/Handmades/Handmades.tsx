@@ -12,7 +12,7 @@ export default function Sports() {
   useEffect(() => {
     (async () => {
       const res = await fetch(`/api/admin/getalllistings/${CategoryName}`, {
-        cache: "force-cache",
+        next: { revalidate: 10 },
       });
       const result = (await res.json()) as Product[];
       const activeListing = result.filter(

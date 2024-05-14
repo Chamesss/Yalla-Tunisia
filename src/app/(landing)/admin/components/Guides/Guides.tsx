@@ -13,6 +13,7 @@ export default function Sports() {
     (async () => {
       const res = await fetch(`/api/admin/getalllistings/${CategoryName}`, {
         cache: "force-cache",
+        next: { revalidate: 30 },
       });
       const result = (await res.json()) as Product[];
       const activeListing = result.filter(

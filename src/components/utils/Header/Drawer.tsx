@@ -36,7 +36,7 @@ export default function HeaderDrawer({
   ];
   const values1 = [
     {
-      name: "Add Listing",
+      name: "Listings",
       link: "/addlisting",
     },
     {
@@ -46,10 +46,6 @@ export default function HeaderDrawer({
     {
       name: "Favorites",
       link: "/favorites",
-    },
-    {
-      name: "My Listings",
-      link: "/mylistings",
     },
   ];
 
