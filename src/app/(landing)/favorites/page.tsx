@@ -1,3 +1,5 @@
-export default function page() {
-  return <div>Favorites</div>;
+import Main from "./components/Main";
+
+export default async function page() {
+  return <Main />;
 }

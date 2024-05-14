@@ -17,13 +17,18 @@ import {
 } from "@/redux/slices/favoritesSlice";
 import { useDispatch } from "@/redux/store";
 import removeFromFavorites from "@/lib/UserActions/removeFromfavorites";
+import LoginModal from "@/app/Modals/LoginModal";
+import ModalWindow from "@/app/Modals/ModalWindow";
+import useAuthModal from "@/hooks/useAuthModal";
 
 type Props = {
   data: ProductHandMade | ProductSports | ProductGuides;
 };
 
 export default function CardItem({ data }: Props) {
+  console.log(data);
   const [isFavorite, setIsFavorite] = useState<boolean>();
+  const { isModalOpen, openModal, closeModal } = useAuthModal();
   const dispatch = useDispatch();
 
   const truncatedTitle =
@@ -49,10 +54,10 @@ export default function CardItem({ data }: Props) {
   const { productsIds } = useSelector(favoritesState);
 
   useEffect(() => {
-    if (productsIds.includes(data.id)) {
+    if (productsIds.some((item) => item.id === data.id)) {
       setIsFavorite(true);
     }
-  }, []);
+  }, [productsIds]);
 
   const handleAddToFavorites = async () => {
     const user = await getUserFromCookies();
@@ -63,9 +68,16 @@ export default function CardItem({ data }: Props) {
         dispatch(removeProductFromFavorites(data.id));
       } else {
         setIsFavorite(true);
-        await addToFavorites(user.userId, data.id);
-        dispatch(addProductToFavorites(data.id));
+        await addToFavorites(user.userId, data.id, CategoryName);
+        dispatch(
+          addProductToFavorites({
+            productId: data.id,
+            categoryName: CategoryName,
+          })
+        );
       }
+    } else {
+      openModal();
     }
   };
 
@@ -115,6 +127,7 @@ export default function CardItem({ data }: Props) {
           )}
         </div>
       </Card>
+      <ModalWindow isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 }

@@ -32,8 +32,8 @@ export default function AuthStateProvider({
               userId: user.userId,
             },
           });
-          const favorites = (await favoritesRes.json()) as FavoritesResponse;
-          dispatch(getFavorites(favorites));
+          const { favorites } = (await favoritesRes.json()) as Favorites;
+          dispatch(getFavorites({ favorites: favorites, userId: user.userId }));
         }
       }
     })();

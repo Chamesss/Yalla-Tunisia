@@ -155,5 +155,8 @@ interface FavoritesResponse {
 
 interface Favorites {
   userId: string,
-  favorites: string[]
+  favorites: {
+    id: string,
+    ref: string
+  }[]
 }

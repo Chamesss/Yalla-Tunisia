@@ -2,16 +2,16 @@
 import { db } from "@/firebase";
 import { setDoc, doc, arrayUnion, updateDoc, getDoc } from "firebase/firestore";
 
-export default async function addToFavorites(userId: string, itemId: string) {
+export default async function addToFavorites(userId: string, itemId: string, CategoryName: string) {
 
     try {
         const favoritesRef = doc(db, 'Favorites', userId);
         const favoritesSnapshot = await getDoc(favoritesRef);
         if (!favoritesSnapshot.exists()) {
-            await setDoc(favoritesRef, { userId, favorites: [itemId] });
+            await setDoc(favoritesRef, { userId, favorites: { id: itemId, ref: CategoryName } });
         } else {
             await updateDoc(favoritesRef, {
-                favorites: arrayUnion(itemId)
+                favorites: arrayUnion({ id: itemId, ref: CategoryName })
             });
         }
 

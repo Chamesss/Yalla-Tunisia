@@ -22,11 +22,12 @@ export function middleware(request: NextRequest) {
         if (reqUrl === "/addlisting/panel" || reqUrl === '/addlisting/check' || reqUrl === "/addlisting/panel/edit" || reqUrl === "/addlisting/panel/create" || reqUrl === "/addlisting" || reqUrl === "/admin") {
             return NextResponse.redirect(new URL('/forbidden', request.url))
         }
+        if (reqUrl === "/favorites") return NextResponse.redirect(new URL('/forbidden', request.url))
 
     }
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: ['/addlisting/:path*', '/admin', '/register', '/login']
+    matcher: ['/addlisting/:path*', '/admin', '/register', '/login', '/favorites']
 }
