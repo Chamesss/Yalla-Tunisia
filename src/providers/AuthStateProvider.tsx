@@ -9,6 +9,7 @@ import React, { ReactNode, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@/redux/store";
 import getUserFromCookies from "@/lib/getUserFromCookies";
+import { getFavorites } from "@/redux/slices/favoritesSlice";
 
 export default function AuthStateProvider({
   children,
@@ -26,6 +27,13 @@ export default function AuthStateProvider({
           const response = await fetch(`/api/users/getuser/${user.userId}`);
           const userState = (await response.json()) as userType;
           await revalidateUserdata(userState, user.userId);
+          const favoritesRes = await fetch(`/api/favorites`, {
+            headers: {
+              userId: user.userId,
+            },
+          });
+          const favorites = (await favoritesRes.json()) as FavoritesResponse;
+          dispatch(getFavorites(favorites));
         }
       }
     })();

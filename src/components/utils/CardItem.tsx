@@ -4,15 +4,28 @@ import Category from "./../icons/Category";
 import Location from "./../icons/Location";
 import Link from "next/link";
 import { categories as CATEGORIES } from "@/constants/categories";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import getUserFromCookies from "@/lib/getUserFromCookies";
 import addToFavorites from "@/lib/UserActions/addToFavorites";
+import HeartEmpty from "../icons/HeartEmpty";
+import HeartFull from "../icons/HeartFull";
+import { useSelector } from "react-redux";
+import {
+  addProductToFavorites,
+  favoritesState,
+  removeProductFromFavorites,
+} from "@/redux/slices/favoritesSlice";
+import { useDispatch } from "@/redux/store";
+import removeFromFavorites from "@/lib/UserActions/removeFromfavorites";
 
 type Props = {
   data: ProductHandMade | ProductSports | ProductGuides;
 };
 
 export default function CardItem({ data }: Props) {
+  const [isFavorite, setIsFavorite] = useState<boolean>();
+  const dispatch = useDispatch();
+
   const truncatedTitle =
     data.title.length > 20 ? data.title.slice(0, 20) + "..." : data.title;
 
@@ -33,28 +46,26 @@ export default function CardItem({ data }: Props) {
       ? "Sports"
       : "Guides";
 
+  const { productsIds } = useSelector(favoritesState);
+
   useEffect(() => {
-    (async () => {
-      const user = await getUserFromCookies();
-      if (user) {
-        const userId = user.userId;
-        const response = await fetch(`/api/favorites/checkfavorites/`, {
-          headers: {
-            itemId: data.id,
-            userId: userId as string,
-          },
-        });
-        const res = await response.json();
-        console.log("response === ", res.isFavorite);
-      }
-    })();
+    if (productsIds.includes(data.id)) {
+      setIsFavorite(true);
+    }
   }, []);
 
   const handleAddToFavorites = async () => {
     const user = await getUserFromCookies();
     if (user && user.userId) {
-      const response = await addToFavorites(user.userId, data.id);
-      console.log(response);
+      if (isFavorite) {
+        setIsFavorite(false);
+        await removeFromFavorites(user.userId, data.id);
+        dispatch(removeProductFromFavorites(data.id));
+      } else {
+        setIsFavorite(true);
+        await addToFavorites(user.userId, data.id);
+        dispatch(addProductToFavorites(data.id));
+      }
     }
   };
 
@@ -94,9 +105,15 @@ export default function CardItem({ data }: Props) {
           </CardBody>
         </Link>
         <div
-          className="w-10 h-10 rounded-full bg-red-500 absolute top-2 right-2 z-20 pointer-events-auto"
+          className="w-10 h-10 flex items-center justify-center rounded-full absolute top-2 right-2 z-20 pointer-events-auto transition-all hover:scale-110 active:scale-105"
           onClick={handleAddToFavorites}
-        ></div>
+        >
+          {isFavorite ? (
+            <HeartFull className="text-red-500 text-3xl" />
+          ) : (
+            <HeartEmpty className="text-3xl" />
+          )}
+        </div>
       </Card>
     </div>
   );

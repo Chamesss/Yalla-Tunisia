@@ -144,3 +144,16 @@ interface Approvals {
   status: boolean,
   userId: string
 }
+
+interface FavoriteResponse {
+  isFavorite: boolean
+}
+
+interface FavoritesResponse {
+  favorites: string[] | undefined
+}
+
+interface Favorites {
+  userId: string,
+  favorites: string[]
+}
