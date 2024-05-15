@@ -1,11 +1,13 @@
 ""
 import { cities } from "@/cities";
-import { getUserById } from "@/lib/UserActions/getUser";
 
 export const handleCity = async (listing: ProductSports | ProductGuides | ProductHandMade) => {
     if (listing.location === "nan") {
         try {
-            const result = await fetch(`/api/users/getuser/${listing.userId}`)
+            const result = await fetch(`/api/users/getuser/${listing.userId}`, {
+                cache: "force-cache",
+                next: { revalidate: 3600 }
+            })
             const user = await result.json() as userType
 
             const city = cities.find((c) => c.id === user.activeAreaId);
@@ -14,7 +16,7 @@ export const handleCity = async (listing: ProductSports | ProductGuides | Produc
             }
         } catch (error) {
             console.log(error)
-            return false
+            return "Something went wrong";
         }
 
         return "location unavailable";

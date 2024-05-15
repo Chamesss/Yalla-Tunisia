@@ -138,7 +138,7 @@ export default function Main() {
   );
 }
 
-function SkeletonLoader() {
+export function SkeletonLoader() {
   return (
     <Skeleton className="rounded-lg opacity-50">
       <div className="h-24 w-[20rem] rounded-lg bg-default-300 opacity-50"></div>
@@ -146,7 +146,7 @@ function SkeletonLoader() {
   );
 }
 
-function SkeletonPLoader() {
+export function SkeletonPLoader() {
   return (
     <Skeleton className="rounded-lg w-[2rem] opacity-50">
       <Chip className="h-5 !w-[2rem] rounded-lg bg-default-300 opacity-50"></Chip>

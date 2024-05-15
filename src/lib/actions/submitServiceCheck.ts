@@ -1,7 +1,7 @@
 "use server"
 import { cookies } from "next/headers"
 import { db } from "../../firebase";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, addDoc } from "firebase/firestore";
 export async function submitProfileCheck(data: any) {
     try {
         const cookieStore = cookies()
@@ -13,8 +13,11 @@ export async function submitProfileCheck(data: any) {
                 userId: userId,
                 ...data
             }
-            const ApprovalRef = doc(collection(db, "Approval"));
-            await setDoc(ApprovalRef, submitData);
+            const approvalRef = doc(db, 'Approval', userId as string);
+            await setDoc(approvalRef, {
+                userId,
+                submitData
+            });
             return true
         }
         return false
