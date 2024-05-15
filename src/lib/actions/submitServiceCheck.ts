@@ -11,12 +11,13 @@ export async function submitProfileCheck(data: any) {
             const userId = userData.userId
             const submitData = {
                 userId: userId,
+                status: false,
                 ...data
             }
             const approvalRef = doc(db, 'Approval', userId as string);
             await setDoc(approvalRef, {
                 userId,
-                submitData
+                ...submitData
             });
             return true
         }
