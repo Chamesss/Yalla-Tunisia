@@ -10,7 +10,7 @@ import {
 import Location from "./../icons/Location";
 import Link from "next/link";
 import { categories as CATEGORIES } from "@/constants/categories";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import getUserFromCookies from "@/lib/getUserFromCookies";
 import addToFavorites from "@/lib/UserActions/addToFavorites";
 import HeartEmpty from "../icons/HeartEmpty";
@@ -36,11 +36,6 @@ import getBusinessName from "@/lib/ListingActions/getBusinessName";
 
 type Props = {
   data: ProductHandMade | ProductSports | ProductGuides;
-};
-
-type BusinessData = {
-  submitData: Approvals;
-  userId: string;
 };
 
 export default function CardItem({ data }: Props) {
@@ -101,16 +96,16 @@ export default function CardItem({ data }: Props) {
     }
   };
 
-  async function getBusinessNamePromise(userId: string) {
+  const getBusinessNamePromise = useCallback(async (userId: string) => {
     try {
-      const result = (await getBusinessName(userId)) as BusinessData | boolean;
+      const result = (await getBusinessName(userId)) as Approvals | boolean;
       if (typeof result === "object") {
-        return result.submitData.bName;
+        return result.bName;
       } else return "Data unavailable";
     } catch (e) {
       console.log(e);
     }
-  }
+  }, []);
 
   return (
     <>
