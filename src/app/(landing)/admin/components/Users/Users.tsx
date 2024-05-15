@@ -39,6 +39,7 @@ export default function Users() {
     (async () => {
       const res = await fetch(`/api/admin/getallusers/`, {
         cache: "force-cache",
+        next: { revalidate: 60 },
       });
       const result = (await res.json()) as userType[];
       const activeUsers = result.filter(
