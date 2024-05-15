@@ -3,11 +3,14 @@ import React from "react";
 
 export default function CardSkeleton() {
   return (
-    <Card className="w-[200px] space-y-5 p-1 pb-3" radius="lg">
+    <Card
+      className="w-[140px] sm:w-[160px] md:w-[180px] lg:w-[200px] space-y-3 md:space-y-5 p-1 pb-3"
+      radius="lg"
+    >
       <Skeleton className="rounded-lg">
-        <div className="h-[11rem] rounded-lg bg-default-300"></div>
+        <div className="h-[8rem] md:h-[9rem] lg:h-[11rem] rounded-lg bg-default-300"></div>
       </Skeleton>
-      <div className="space-y-3 flex flex-col px-1 pb-3">
+      <div className="space-y-2 md:space-y-3 flex flex-col px-1 md:pb-2 lg:pb-3 pb-1">
         <Skeleton className="w-3/5 rounded-lg">
           <div className="h-3 w-3/5 rounded-lg bg-default-200"></div>
         </Skeleton>

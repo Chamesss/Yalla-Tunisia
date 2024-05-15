@@ -88,51 +88,65 @@ export default function Main() {
   };
 
   return (
-    <div className="px-5 sm:px-10 md:px-20 py-4 flex flex-col flex-1">
-      <div className="pt-4 mt-2 px-8">
-        <h1 className="flex flex-row text-2xl font-semibold gap-4">
-          <Star className="text-red-500 mt-[0.1rem]" /> Favorites
-        </h1>
-        <h1 className="opacity-75 italic text-sm mt-1">
-          Here you can find all your favorite offers saved for later.
-        </h1>
-      </div>
-      <Divider className="mt-4" />
-      <div className="px-2 sm:px-8 py-4 flex-1 flex flex-col">
-        <CheckboxGroup
-          className="gap-1 mb-2"
-          orientation="horizontal"
-          value={groupSelected}
-          onChange={(e) => handleFilter(e)}
-        >
-          <CustomCheckbox value="Handmades">Handmades</CustomCheckbox>
-          <CustomCheckbox value="Sports">Sports & Entertainment</CustomCheckbox>
-          <CustomCheckbox value="Guides">Guides</CustomCheckbox>
-        </CheckboxGroup>
-        <div className="flex mt-8 flex-1 items-center">
-          {/* {favorites ? (
-            <div className="flex flex-auto items-start flex-row flex-wrap gap-4">
-              {favorites.length > 0 ? (
-                favorites.map((f, i) => (
-                  <React.Fragment key={i}>
-                    <CardItem data={f.data} />
-                  </React.Fragment>
-                ))
-              ) : (
-                <div className="text-center w-full">
-                  <p>No items do display.</p>
-                </div>
-              )}
-            </div>
-          ) : ( */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 m-auto bg-red-500 gap-8">
-            {[...Array(10)].map((_, index) => (
-              <React.Fragment key={index}>
-                <CardSkeleton />
-              </React.Fragment>
-            ))}
+    <div className="flex items-center justify-center">
+      <div className="px-5 max-w-[78rem] sm:px-10 md:px-20 py-4 flex flex-col flex-1">
+        <div className="pt-4 mt-2 px-2 sm:px-4">
+          <h1 className="text-2xl font-semibold mb-4 sm:mb-0 ">
+            <Star className="text-red-500 mb-[0.6rem] inline-block mr-2" />
+            <span className="text-3xl">Favorites</span>
+          </h1>
+          <h1 className="opacity-75 italic text-sm mt-1">
+            Here you can find all your favorite offers saved for later.
+          </h1>
+        </div>
+        <Divider className="mt-4" />
+        <div className="px-0 py-4 flex-1 flex flex-col">
+          <CheckboxGroup
+            className="gap-1 mb-2 flex flex-wrap"
+            orientation="horizontal"
+            value={groupSelected}
+            onChange={(e) => handleFilter(e)}
+          >
+            <CustomCheckbox value="Handmades">
+              <p className="text-tiny sm:text-sm md:text-medium">Handmades</p>
+            </CustomCheckbox>
+            <CustomCheckbox value="Sports">
+              <p className="text-tiny sm:text-sm md:text-medium">
+                Sports & Entertainment
+              </p>
+            </CustomCheckbox>
+            <CustomCheckbox value="Guides">
+              <p className="text-tiny sm:text-sm md:text-medium">Guides</p>
+            </CustomCheckbox>
+          </CheckboxGroup>
+          <div className="flex mt-8 flex-1 items-center justify-center">
+            {favorites ? (
+              <div className="grid auto-cols-auto sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:gap-8 grid-cols-2 gap-4">
+                {favorites.length > 0 ? (
+                  favorites.map((f, i) => (
+                    <React.Fragment key={i}>
+                      <CardItem data={f.data} />
+                    </React.Fragment>
+                  ))
+                ) : (
+                  <div className="text-center w-full">
+                    <p>No items do display.</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="grid auto-cols-auto sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:gap-8 grid-cols-2 gap-4">
+                {[...Array(10)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="w-fit flex justify-center items-center"
+                  >
+                    <CardSkeleton key={index} />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-          {/* )} */}
         </div>
       </div>
     </div>

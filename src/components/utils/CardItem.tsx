@@ -113,8 +113,8 @@ export default function CardItem({ data }: Props) {
   }
 
   return (
-    <div className="p-1 md:p-4 flex items-center justify-center">
-      <Card className="py-0 min-w-32 md:w-48 lg:w-56 shadow-[0_0px_12px_-5px_rgba(0,0,0,0.1)] hover:scale-[103%] cursor-pointer rounded-xl relative">
+    <>
+      <Card className="py-0 w-[140px] xs:w-[165px] sm:w-[170px] md:w-[180px] lg:w-[200px] shadow-[0_0px_12px_-5px_rgba(0,0,0,0.1)] hover:scale-[103%] cursor-pointer rounded-xl relative">
         <Link href={`/listings/${CategoryName}/${data.id}`}>
           <CardHeader className="p-1 relative overflow-hidden rounded-sm items-center justify-center">
             <div className="relative w-full rounded-lg overflow-hidden border-box">
@@ -123,25 +123,25 @@ export default function CardItem({ data }: Props) {
                 width={640}
                 height={640}
                 src={data.imageUrls[0]}
-                className={`h-[10rem] w-full object-contain rounded-none`}
+                className={`h-[8rem] md:h-[9rem] lg:h-[11rem] w-full object-contain rounded-none`}
               />
               <Image
                 alt={data.title}
                 width={640}
                 height={640}
                 src={data.imageUrls[0]}
-                className={`h-[10rem] w-full object-cover -z-10 blur absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-none bottom-0 my-auto box-border`}
+                className={`h-[8rem] md:h-[9rem] lg:h-[11rem] w-full object-cover -z-10 blur absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-none bottom-0 my-auto box-border`}
               />
             </div>
           </CardHeader>
-          <CardBody className="overflow-hidden py-2 px-2">
-            <p className="text-sm mb-2 uppercase font-bold break-all min-h-10 lg:min-h-0 flex flex-row items-center gap-2">
-              {<Icon className="mb-[0.1rem] text-lg opacity-75" />}
-              {truncatedTitle}
+          <CardBody className="overflow-hidden py-1 px-1">
+            <p className="truncate">
+              <Icon className="mb-[0.45rem] mr-[0.25rem] text-lg opacity-75 inline-block" />
+              {data.title}
             </p>
             <div className="flex flex-col justify-self-end">
-              <small className="text-default-500 flex items-center gap-1 capitalize">
-                <Location />
+              <small className="text-default-500 capitalize">
+                <Location className="inline-block mb-[0.25rem] mr-[0.25rem]" />
                 <Suspense fallback={<SkeletonString />}>
                   {handleCity(data)}
                 </Suspense>
@@ -181,7 +181,7 @@ export default function CardItem({ data }: Props) {
         </div>
       </Card>
       <ModalWindow isOpen={isModalOpen} onClose={closeModal} />
-    </div>
+    </>
   );
 }
 
