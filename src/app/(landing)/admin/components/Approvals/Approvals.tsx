@@ -17,7 +17,6 @@ export default function Approvals() {
   useEffect(() => {
     (async () => {
       const res = await fetch("/api/admin/getapprovals", {
-        cache: "force-cache",
         next: { revalidate: 30 },
       });
       const data = (await res.json()) as Approvals[];

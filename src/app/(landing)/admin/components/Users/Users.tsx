@@ -37,10 +37,7 @@ export default function Users() {
   const [action, setAction] = useState<string>();
   useEffect(() => {
     (async () => {
-      const res = await fetch(`/api/admin/getallusers/`, {
-        cache: "force-cache",
-        next: { revalidate: 60 },
-      });
+      const res = await fetch(`/api/admin/getallusers/`);
       const result = (await res.json()) as userType[];
       const activeUsers = result.filter(
         (u) => u.status === true && u.banned === false
