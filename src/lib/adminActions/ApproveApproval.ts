@@ -15,18 +15,15 @@ export async function ApproveApprovals(id: string) {
         throw new Error("Missing user ID");
     }
     try {
-        const approvalsQuery = query(collection(db, 'Approval'), where('userId', '==', id));
-        const approvalSnapshot = await getDocs(approvalsQuery);
+        const approvalRef = doc(db, 'Approval', id);
+        const approvalSnapshot = await getDoc(approvalRef);
 
         // Check if any documents exist in the snapshot
-        if (!approvalSnapshot.empty) {
-            approvalSnapshot.forEach(async (doc) => {
-                const itemData = doc.data();
-                itemData.status = true;
-                await updateDoc(doc.ref, itemData);
-                await ApproveUser(id)
-                console.log("User disabled successfully:", id);
-            });
+        if (approvalSnapshot.exists()) {
+            const approvalData = approvalSnapshot.data()
+            approvalData.status = true;
+            await updateDoc(approvalRef, approvalData);
+            await ApproveUser(id)
             return true;
         } else {
             console.warn("User not found:", id);
