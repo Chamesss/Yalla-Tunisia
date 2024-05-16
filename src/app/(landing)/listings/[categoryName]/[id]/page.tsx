@@ -14,8 +14,8 @@ export default async function page({
   return (
     <div>
       {categoryName === "Handmades" && <HandmadePage res={res} />}
-      {categoryName === "Sports" && <SportsAndEntertainmentPage />}
-      {categoryName === "Guides" && <GuidePage />}
+      {categoryName === "Sports" && <SportsAndEntertainmentPage res={res} />}
+      {categoryName === "Guides" && <GuidePage res={res} />}
     </div>
   );
 }

@@ -32,10 +32,10 @@ export default function DeleteListingModal({
                 <p>Are you sure you want to delete this item?</p>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="danger" variant="light" onClick={onClose}>
                   Cancel
                 </Button>
-                <Button color="primary" onPress={onClose}>
+                <Button color="primary" onClick={onClose}>
                   Proceed
                 </Button>
               </ModalFooter>

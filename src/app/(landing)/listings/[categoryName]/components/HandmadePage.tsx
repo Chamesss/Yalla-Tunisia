@@ -1,55 +1,30 @@
 import React from "react";
 import CarouselImages from "./CarousselImages";
-import { getUser } from "@/lib/getUser";
-import SelectionMenu from "./components/SelectionMenu";
-import {
-  Avatar,
-  Badge,
-  Button,
-  Chip,
-  Divider,
-  Tooltip,
-  User,
-} from "@nextui-org/react";
-import Location from "@/components/icons/Location";
-import MapSection from "./components/MapSection";
+import { Divider, Tooltip } from "@nextui-org/react";
 import CheckOutBox from "./components/CheckOutBox";
 import MapScrollable from "./components/MapScrollable";
+import InfoSection from "./components/InfoSection";
 
-export default async function HandmadePage({ res }: any) {
-  const data = res as ProductHandMade;
-  const pictureArray = Array(5).fill(data.imageUrls);
-  // const user = await getUser(data.userId.toString());
-  // console.log("user === ", user);
-  // // const user: userType = userId;
-
+export default async function HandmadePage({ res }: { res: ProductHandMade }) {
   return (
     <div className="flex flex-col py-4 mb-20 px-8 ">
-      <div className="flex flex-row gap-6 relative">
-        <div className="bg-gray-500 rounded-xl">
-          <CarouselImages data={pictureArray} />
+      <div className="flex flex-col lg:flex-row  gap-6 relative">
+        <div className="flex lg:hidden flex-col w-full">
+          <InfoSection data={res} />
+        </div>
+        <div className="rounded-xl sm:w-1/2 sm:h-1/2 w-fit flex self-center lg:self-auto">
+          <div className="flex-1">
+            <CarouselImages images={res.imageUrls} />
+          </div>
         </div>
         <div className="p-2 w-full overflow-y-auto">
-          <div className="flex flex-row justify-between items-center">
-            <span className="text-2xl font-semibold tracking-wide flex flex-row text-[#fd384f]">
-              <p className="text-3xl">{data.price}&nbsp;</p>
-              TND
-            </span>
-            <SelectionMenu />
-          </div>
-          <p className="text-2xl font-semibold tracking-wide">{data.title}</p>
-          <div className="mt-2 flex gap-2">
-            <Chip className="italic text-opacity-75" size="sm">
-              {data.categoryId}
-            </Chip>
-            <Chip className="italic text-opacity-75" size="sm">
-              {data.subCategoryId}
-            </Chip>
+          <div className="hidden lg:flex flex-col w-full">
+            <InfoSection data={res} />
           </div>
           <Divider className="my-4" />
           <div>
             <p className="text-lg font-semibold">Description:</p>
-            <p className="mt-2">{data.description}</p>
+            <p className="mt-2">{res.description}</p>
           </div>
           <Divider className="my-4" />
           <div className="flex relative flex-row gap-2 items-center hover:underline cursor-pointer mt-2">
@@ -89,7 +64,7 @@ export default async function HandmadePage({ res }: any) {
         </div>
 
         <div className="w-[75%] p-4">
-          <CheckOutBox productId={data.id} />
+          <CheckOutBox productId={res.id} />
         </div>
         {/* <p className="font-medium">Views: {data.views}</p> */}
       </div>

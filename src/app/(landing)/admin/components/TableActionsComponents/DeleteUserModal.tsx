@@ -120,12 +120,12 @@ export default function DeleteUserModal({
                 <Divider className="my-2" />
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="danger" variant="light" onClick={onClose}>
                   Cancel
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() => {
+                  onClick={() => {
                     setLoading(true);
                     if (action === "delete") {
                       handleDeleteUser();

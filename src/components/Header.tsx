@@ -90,7 +90,7 @@ export default function Header() {
             <ProfileDropDown user={user} />
           ) : (
             <Button
-              onPress={onOpen}
+              onClick={onOpen}
               className="bg-[#48b9ff] text-white dark:bg-[#3d9cd7] px-5 py-2 rounded-full hover:bg-[#41a6e5] dark:hover:bg-[#3688bc]"
             >
               Sign in

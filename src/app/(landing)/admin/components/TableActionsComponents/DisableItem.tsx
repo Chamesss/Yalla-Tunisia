@@ -89,10 +89,10 @@ export default function DisableItem({
                 </p>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="danger" variant="light" onClick={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={handlePress}>
+                <Button color="primary" onClick={handlePress}>
                   {loading ? <Spinner color="warning" /> : "Submit"}
                 </Button>
               </ModalFooter>

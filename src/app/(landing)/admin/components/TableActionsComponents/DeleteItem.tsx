@@ -63,10 +63,10 @@ export default function DeleteItem({
                 <p>Are you sure you want to delete this offer?</p>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="danger" variant="light" onClick={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={handleDeleteListing}>
+                <Button color="primary" onClick={handleDeleteListing}>
                   {loading ? <Spinner color="warning" /> : "Submit"}
                 </Button>
               </ModalFooter>
