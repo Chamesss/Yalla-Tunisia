@@ -109,19 +109,19 @@ export default function CardItem({ data }: Props) {
                 width={640}
                 height={640}
                 src={data.imageUrls[0]}
-                className={`h-[8rem] md:h-[9rem] lg:h-[11rem] w-full object-contain rounded-none`}
+                className={`h-[9.5rem] md:h-[11rem] lg:h-[13rem] w-full object-contain rounded-none`}
               />
               <Image
                 alt={data.title}
                 width={640}
                 height={640}
                 src={data.imageUrls[0]}
-                className={`h-[8rem] md:h-[9rem] lg:h-[11rem] w-full object-cover -z-10 blur absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-none bottom-0 my-auto box-border`}
+                className={`h-[9.5rem] md:h-[11rem] lg:h-[13rem] w-full object-cover -z-10 blur absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-none bottom-0 my-auto box-border`}
               />
             </div>
           </CardHeader>
-          <CardBody className="overflow-hidden py-1 px-1">
-            <p className="truncate">
+          <CardBody className="overflow-hidden py-1 xs:px-2">
+            <p className="truncate font-bold uppercase">
               <Icon className="mb-[0.45rem] mr-[0.25rem] text-lg opacity-75 inline-block" />
               {data.title}
             </p>

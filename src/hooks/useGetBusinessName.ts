@@ -8,22 +8,17 @@ export const useBusinessName = () => {
     const [loading, setLoading] = useState(true);
 
     const fetchBusinessName = useCallback(async (data: Data) => {
-        if (data.location.toLowerCase() === "nan") {
-            try {
-                const result = (await getBusinessName(data.userId)) as Approvals | boolean;
-                if (typeof result === "object") {
-                    setBusinessName(result.bName);
-                } else {
-                    setBusinessName(null);
-                }
-                setLoading(false);
-            } catch (error) {
-                console.log(error);
-                setLoading(false);
+        try {
+            const result = (await getBusinessName(data.userId)) as Approvals | boolean;
+            if (typeof result === "object") {
+                setBusinessName(result.bName);
+            } else {
+                setBusinessName(null);
             }
-        } else {
-            setBusinessName(data.location)
-            setLoading(false)
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
         }
 
     }, []);
