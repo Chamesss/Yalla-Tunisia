@@ -139,7 +139,7 @@ export default function Main() {
                 {[...Array(10)].map((_, index) => (
                   <div
                     key={index}
-                    className="w-fit flex justify-center items-center"
+                    className="w-fit flex justify-center items-center opacity-75"
                   >
                     <CardSkeleton key={index} />
                   </div>
