@@ -1,16 +1,9 @@
 "use client";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Image,
-  Skeleton,
-  Chip,
-} from "@nextui-org/react";
+import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
 import Location from "./../icons/Location";
 import Link from "next/link";
 import { categories as CATEGORIES } from "@/constants/categories";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import getUserFromCookies from "@/lib/getUserFromCookies";
 import addToFavorites from "@/lib/UserActions/addToFavorites";
 import HeartEmpty from "../icons/HeartEmpty";
@@ -25,14 +18,16 @@ import { useDispatch } from "@/redux/store";
 import removeFromFavorites from "@/lib/UserActions/removeFromfavorites";
 import ModalWindow from "@/app/Modals/ModalWindow";
 import useAuthModal from "@/hooks/useAuthModal";
-import { handleCity } from "@/helpers/getLocationNan";
 import LanguagesDisplay from "./Card/LanguagesDisplay";
 import {
   isProductHandmades,
   isProductSports,
   isProductGuides,
 } from "@/helpers/TypeGuard";
-import getBusinessName from "@/lib/ListingActions/getBusinessName";
+import { useBusinessName } from "@/hooks/useGetBusinessName";
+import { useCityNameFromUser } from "@/hooks/useGetCityNameFromUser";
+import BusinessNameChip from "./Card/BusinessNameChip";
+import SkeletonString from "./Card/SkeletonString";
 
 type Props = {
   data: ProductHandMade | ProductSports | ProductGuides;
@@ -41,10 +36,25 @@ type Props = {
 export default function CardItem({ data }: Props) {
   const [isFavorite, setIsFavorite] = useState<boolean>();
   const { isModalOpen, openModal, closeModal } = useAuthModal();
+  const { businessName, loading, fetchBusinessName } = useBusinessName();
+  const { city, loadingCity, error, handleCity } = useCityNameFromUser();
   const dispatch = useDispatch();
 
-  const truncatedTitle =
-    data.title.length > 20 ? data.title.slice(0, 20) + "..." : data.title;
+  useEffect(() => {
+    fetchBusinessName(data);
+  }, []);
+
+  useEffect(() => {
+    handleCity(data);
+  }, []);
+
+  const { productsIds } = useSelector(favoritesState);
+
+  useEffect(() => {
+    if (productsIds.some((item) => item.id === data.id)) {
+      setIsFavorite(true);
+    }
+  }, [productsIds]);
 
   const categoriesWithIdsAndNames = CATEGORIES.map((category) => ({
     id: category.id,
@@ -65,14 +75,6 @@ export default function CardItem({ data }: Props) {
       : CategoryNameValue === "Sports & Entertainments"
       ? "Sports"
       : "Guides";
-
-  const { productsIds } = useSelector(favoritesState);
-
-  useEffect(() => {
-    if (productsIds.some((item) => item.id === data.id)) {
-      setIsFavorite(true);
-    }
-  }, [productsIds]);
 
   const handleAddToFavorites = async () => {
     const user = await getUserFromCookies();
@@ -95,17 +97,6 @@ export default function CardItem({ data }: Props) {
       openModal();
     }
   };
-
-  const getBusinessNamePromise = useCallback(async (userId: string) => {
-    try {
-      const result = (await getBusinessName(userId)) as Approvals | boolean;
-      if (typeof result === "object") {
-        return result.bName;
-      } else return "Data unavailable";
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
 
   return (
     <>
@@ -137,23 +128,13 @@ export default function CardItem({ data }: Props) {
             <div className="flex flex-col justify-self-end">
               <small className="text-default-500 capitalize">
                 <Location className="inline-block mb-[0.25rem] mr-[0.25rem]" />
-                <Suspense fallback={<SkeletonString />}>
-                  {handleCity(data)}
-                </Suspense>
+                {loadingCity ? <SkeletonString /> : <span>{city}</span>}
               </small>
-              {isProductHandmades(data) && (
-                <Suspense fallback={<SkeletonString />}>
-                  <Chip className="mt-1" variant="flat" radius="md" size="sm">
-                    <small>{getBusinessNamePromise(data.userId)}</small>
-                  </Chip>
-                </Suspense>
-              )}
-              {isProductSports(data) && (
-                <Suspense fallback={<SkeletonString />}>
-                  <Chip className="mt-1" variant="flat" radius="md" size="sm">
-                    <small>{getBusinessNamePromise(data.userId)}</small>
-                  </Chip>
-                </Suspense>
+              {(isProductHandmades(data) || isProductSports(data)) && (
+                <BusinessNameChip
+                  businessName={businessName}
+                  loading={loading}
+                />
               )}
               {isProductGuides(data) && <LanguagesDisplay data={data} />}
               <div className="flex justify-end items-center p-0 mt-2">
@@ -177,13 +158,5 @@ export default function CardItem({ data }: Props) {
       </Card>
       <ModalWindow isOpen={isModalOpen} onClose={closeModal} />
     </>
-  );
-}
-
-function SkeletonString() {
-  return (
-    <Skeleton className="w-2/5 rounded-lg flex self-end">
-      <div className="h-3 w-2/5 rounded-lg bg-default-300"></div>
-    </Skeleton>
   );
 }

@@ -133,6 +133,8 @@ interface ProductGuides {
   created_at?: Date
 }
 
+type Product = ProductGuides | ProductHandMade | ProductSports
+
 interface Approvals {
   bName: string,
   bPhone: string,
