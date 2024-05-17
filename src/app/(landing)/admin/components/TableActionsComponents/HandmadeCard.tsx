@@ -34,8 +34,8 @@ export default function HandmadeCard({
             <p className="italic">
               Materials used:{" "}
               <small>
-                {listing.materialUsed
-                  ? listing.materialUsed
+                {listing.materialsUsed
+                  ? listing.materialsUsed
                   : "No materials specified"}
               </small>
             </p>

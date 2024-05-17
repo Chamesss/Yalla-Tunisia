@@ -24,7 +24,7 @@ export default function MainHandMade({ data }: { data: ProductHandMade }) {
       />
       <Input
         label="Materials Used"
-        value={data.materialUsed}
+        value={data.materialsUsed}
         placeholder="materials used"
       />
       <Divider className="my-2" />
