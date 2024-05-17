@@ -32,7 +32,7 @@ export default function CheckOutBox({ productId }: Props) {
   return (
     <div className="border border-solid border-black border-opacity-10 rounded-lg p-4">
       <div className="flex flex-row items-center">
-        <p className="flex-1">Delivered to</p>
+        <p className="flex-1 text-tiny xs:text-medium">Delivered to</p>
         <Autocomplete
           defaultItems={cities}
           placeholder="Location.."

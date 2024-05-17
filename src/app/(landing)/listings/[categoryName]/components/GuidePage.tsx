@@ -27,40 +27,6 @@ export default async function GuidePage({ res }: { res: ProductSports }) {
             <p className="mt-2">{res.description}</p>
           </div>
           <Divider className="my-4" />
-          <div className="flex relative flex-row gap-2 items-center hover:underline cursor-pointer mt-2">
-            <div className="relative w-14 h-14">
-              {/* <img
-                className="relative bg-gray-200 rounded-full"
-                src={user.picture}
-              /> */}
-              {/* {user.trusted && ( */}
-              <Tooltip content="Trusted">
-                <div className="w-4 h-4 absolute rounded-full bg-[#48b9ff] outline outline-white dark:outline-[#212933] right-0 bottom-0 z-10" />
-              </Tooltip>
-              {/* )} */}
-            </div>
-            <div>
-              {/* <span>{user.firstname + " " + user.lastname}</span> */}
-              {/* <p className="flex flex-row gap-1 text-sm items-center opacity-50">
-                <Location /> {user.city[0].name}
-              </p> */}
-            </div>
-          </div>
-          <blockquote className="relative p-2 rounded-lg mt-4">
-            <p className="text-gray-600 italic text-sm">
-              <span className="absolute top-0 left-0 text-xl text-gray-400">
-                “
-              </span>
-              {/* {user.description} Lorem ipsum dolor sit amet consectetur */}
-              adipisicing elit. Reiciendis pariatur explicabo vitae incidunt nam
-              distinctio iure, inventore, totam tempora nobis quis magnam!
-              Aliquam reprehenderit.
-              <span className="absolute bottom-0 right-0 text-xl text-gray-400">
-                ”
-              </span>
-            </p>
-          </blockquote>
-          <MapScrollable />
         </div>
 
         <div className="w-[75%] p-4">

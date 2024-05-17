@@ -1,8 +1,12 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import SelectionMenu from "./SelectionMenu";
 import { Chip } from "@nextui-org/react";
 import { isProductHandmades, isProductSports } from "@/helpers/TypeGuard";
 import { categories } from "@/constants/categories";
+import { useCityNameFromUser } from "@/hooks/useGetCityNameFromUser";
+import SkeletonString from "@/components/utils/Card/SkeletonString";
+import Location from "@/components/icons/Location";
 
 type Props = {
   data: Product;
@@ -44,6 +48,12 @@ const handleSubCategoryId = (categoryId: string, subCategoryId: string) => {
 };
 
 export default function InfoSection({ data }: Props) {
+  const { city, loadingCity, error, handleCity } = useCityNameFromUser();
+
+  useEffect(() => {
+    handleCity(data);
+  }, []);
+
   return (
     <>
       <div className="flex flex-row justify-between items-center">
@@ -54,6 +64,21 @@ export default function InfoSection({ data }: Props) {
         <p className="text-3xl">{data.price}&nbsp;</p>
         TND
       </span>
+      <div className="my-1">
+        {loadingCity ? (
+          <Chip variant="flat" size="lg" color="primary">
+            <span className="capitalize flex flex-row justify-center items-center gap-2">
+              <SkeletonString />
+            </span>
+          </Chip>
+        ) : (
+          <Chip variant="flat" size="lg" color="primary">
+            <span className="capitalize flex flex-row justify-center items-center gap-2">
+              <Location /> {city}
+            </span>
+          </Chip>
+        )}
+      </div>
       <div className="mt-2 flex gap-2">
         <Chip className="italic text-opacity-75" size="sm">
           {handleCategoryId(data.categoryId)}

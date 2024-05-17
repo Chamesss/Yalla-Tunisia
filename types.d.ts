@@ -82,7 +82,7 @@ interface ProductHandMade {
   location: string,
   qte: string,
   sizes: string[],
-  materialUsed: string,
+  materialsUsed: string,
   imageUrls: string[],
   dimensions: string[],
   status: boolean,

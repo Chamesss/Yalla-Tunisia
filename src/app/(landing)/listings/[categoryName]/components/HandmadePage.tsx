@@ -1,76 +1,174 @@
 import React from "react";
 import CarouselImages from "./CarousselImages";
-import { Divider, Tooltip } from "@nextui-org/react";
+import { CheckboxGroup, Chip, Divider, Tooltip, tv } from "@nextui-org/react";
 import CheckOutBox from "./components/CheckOutBox";
 import MapScrollable from "./components/MapScrollable";
 import InfoSection from "./components/InfoSection";
+import Title from "@/components/utils/Title";
+import { CustomCheckbox } from "@/app/(landing)/addlisting/panel/create/utils/CustomCheckBoxUnselected";
+import CheckIcon from "@/components/icons/CheckBoxIcon";
+import IconCancel from "@/components/icons/IconCancel";
 
 export default async function HandmadePage({ res }: { res: ProductHandMade }) {
   return (
-    <div className="flex flex-col py-4 mb-20 px-8 ">
-      <div className="flex flex-col lg:flex-row  gap-6 relative">
-        <div className="flex lg:hidden flex-col w-full">
-          <InfoSection data={res} />
-        </div>
-        <div className="rounded-xl sm:w-1/2 sm:h-1/2 w-fit flex self-center lg:self-auto">
-          <div className="flex-1">
-            <CarouselImages images={res.imageUrls} />
-          </div>
-        </div>
-        <div className="p-2 w-full overflow-y-auto">
-          <div className="hidden lg:flex flex-col w-full">
+    <div className="flex justify-center">
+      <div className="flex flex-col py-4 mb-20 px-8 max-w-[100rem]">
+        <div className="flex flex-col lg:flex-row  gap-6 relative">
+          <div className="flex lg:hidden flex-col w-full">
             <InfoSection data={res} />
           </div>
-          <Divider className="my-4" />
+          <div className="rounded-xl sm:w-1/2 sm:h-1/2 w-fit flex self-center lg:self-auto">
+            <div className="flex-1">
+              <CarouselImages images={res.imageUrls} />
+            </div>
+          </div>
           <div>
-            <p className="text-lg font-semibold">Description:</p>
-            <p className="mt-2">{res.description}</p>
-          </div>
-          <Divider className="my-4" />
-          <div className="flex relative flex-row gap-2 items-center hover:underline cursor-pointer mt-2">
-            <div className="relative w-14 h-14">
-              {/* <img
-                className="relative bg-gray-200 rounded-full"
-                src={user.picture}
-              /> */}
-              {/* {user.trusted && ( */}
-              <Tooltip content="Trusted">
-                <div className="w-4 h-4 absolute rounded-full bg-[#48b9ff] outline outline-white dark:outline-[#212933] right-0 bottom-0 z-10" />
-              </Tooltip>
-              {/* )} */}
+            <div className="p-2 w-full overflow-y-auto">
+              <div className="hidden lg:flex flex-col w-full">
+                <InfoSection data={res} />
+              </div>
+              <Divider className="my-0 lg:opacity-100 lg:my-4 opacity-0" />
+              <div className="-mt-4 lg:mt-0">
+                <p className="text-lg font-semibold">Description</p>
+                <p className="mt-2 italic opacity-80">{res.description}</p>
+              </div>
+              <Divider className="my-4" />
             </div>
-            <div>
-              {/* <span>{user.firstname + " " + user.lastname}</span> */}
-              {/* <p className="flex flex-row gap-1 text-sm items-center opacity-50">
-                <Location /> {user.city[0].name}
-              </p> */}
+            <div
+              className="px-2 justify-between items-center flex-row flex w-full"
+              id="colorSection"
+            >
+              <div className="space-y-2 flex-auto">
+                <h1 className="text-lg font-semibold">Dimensions</h1>
+                <p className="text-nowrap">
+                  <Chip
+                    variant="flat"
+                    isDisabled={res.dimensions[0] ? true : false}
+                    className="text-lg"
+                    color="primary"
+                  >
+                    {res.dimensions[0] ? res.dimensions[0] : "n/a"}
+                  </Chip>{" "}
+                  *{" "}
+                  <Chip
+                    isDisabled={res.dimensions[1] ? true : false}
+                    variant="flat"
+                    className="text-lg"
+                    color="primary"
+                  >
+                    {res.dimensions[1] ? res.dimensions[1] : "n/a"}
+                  </Chip>{" "}
+                  (cm)
+                </p>
+              </div>
+              <Divider
+                orientation="vertical"
+                className="h-20 mx-4 w-[0.1rem] "
+              />
+              <div className="space-y-2 flex-1">
+                <h1 className="text-lg font-semibold">Quantity</h1>
+                <Chip
+                  variant="flat"
+                  color="primary"
+                  className="text-lg min-w-10"
+                >
+                  {res.qte}
+                </Chip>
+              </div>
+            </div>
+            <Divider className="my-4" />
+            <div className="px-2 space-y-2">
+              <h1 className="text-lg font-semibold">Sizes</h1>
+              <div className="flex flex-row gap-1 sm:gap-2 items-center">
+                {res.sizes.map((s, i) => {
+                  const styles = checkbox({
+                    isSelected: s !== null,
+                    isFocusVisible: false,
+                  });
+                  return (
+                    <Chip
+                      key={i}
+                      classNames={{
+                        base: styles.base(),
+                        content: styles.content(),
+                      }}
+                      color="primary"
+                      startContent={
+                        s !== null ? (
+                          <CheckIcon className="ml-1 text-white hidden xs:inline-block" />
+                        ) : (
+                          <IconCancel className="text-default-300 text-medium mt-[0.1rem] hidden xs:inline-block" />
+                        )
+                      }
+                      variant="faded"
+                      size={`${s !== null ? "lg" : "md"}`}
+                      className="pointer-events-none text-tiny px-[0.1rem] sm:px-1"
+                    >
+                      {Sizes[i]}
+                    </Chip>
+                  );
+                })}
+              </div>
+            </div>
+            <>
+              <Divider className="my-4" />
+              <div className="space-y-2 flex-1">
+                <h1 className="text-lg font-semibold">Colors</h1>
+                <div className="flex flex-row gap-2 px-2">
+                  {res.colors.map((c: string, i) => (
+                    <div
+                      key={i}
+                      style={{ backgroundColor: c }}
+                      className="w-10 h-10 rounded-full relative"
+                    />
+                  ))}
+                </div>
+              </div>
+            </>
+            <Divider className="my-4" />
+            <div className="px-2 space-y-2">
+              <h1 className="text-lg font-semibold">Materials used</h1>
+              <Chip
+                variant="flat"
+                size="lg"
+                color="default"
+                className="capitalize"
+              >
+                {res.materialsUsed}
+              </Chip>
             </div>
           </div>
-          <blockquote className="relative p-2 rounded-lg mt-4">
-            <p className="text-gray-600 italic text-sm">
-              <span className="absolute top-0 left-0 text-xl text-gray-400">
-                “
-              </span>
-              {/* {user.description} Lorem ipsum dolor sit amet consectetur */}
-              adipisicing elit. Reiciendis pariatur explicabo vitae incidunt nam
-              distinctio iure, inventore, totam tempora nobis quis magnam!
-              Aliquam reprehenderit.
-              <span className="absolute bottom-0 right-0 text-xl text-gray-400">
-                ”
-              </span>
-            </p>
-          </blockquote>
-          <MapScrollable />
+          <div className="w-[100%] lg:max-w-[25rem] max-w-auto p-4">
+            <CheckOutBox productId={res.id} />
+          </div>
+          {/* <p className="font-medium">Views: {data.views}</p> */}
         </div>
-
-        <div className="w-[75%] p-4">
-          <CheckOutBox productId={res.id} />
+        <div id="targetSection" className="mt-28 w-full">
+          {/* <MapSection lat={user.lat} lng={user.lng} /> */}
         </div>
-        {/* <p className="font-medium">Views: {data.views}</p> */}
-      </div>
-      <div id="targetSection" className="mt-28 w-full">
-        {/* <MapSection lat={user.lat} lng={user.lng} /> */}
       </div>
     </div>
   );
 }
+
+export const checkbox = tv({
+  slots: {
+    base: "border-default hover:bg-default-200",
+    content: "text-default-500",
+  },
+  variants: {
+    isSelected: {
+      true: {
+        base: "border-primary bg-primary hover:bg-primary-500 hover:border-primary-500",
+        content: "text-primary-foreground pl-1",
+      },
+    },
+    isFocusVisible: {
+      true: {
+        base: "outline-none ring-2 ring-focus ring-offset-2 ring-offset-background",
+      },
+    },
+  },
+});
+
+const Sizes = ["xs", "sm", "md", "lg", "xl", "xxl"];

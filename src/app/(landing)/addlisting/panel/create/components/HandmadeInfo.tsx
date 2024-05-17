@@ -276,9 +276,9 @@ function HandmadeForm({
             </Button>
           </div>
           <div className="grid grid-cols-2 grid-rows-3 flex-wrap w-auto h-fit gap-2">
-            {colors.map((c) => (
+            {colors.map((c, i) => (
               <div
-                key={c}
+                key={i}
                 style={{ backgroundColor: c }}
                 className="w-10 h-10 rounded-full relative"
               >
