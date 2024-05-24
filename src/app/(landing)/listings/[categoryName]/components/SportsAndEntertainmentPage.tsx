@@ -1,9 +1,17 @@
 import React from "react";
 import CarouselImages from "./CarousselImages";
-import { Divider, Tooltip } from "@nextui-org/react";
+import {
+  Calendar,
+  Chip,
+  Divider,
+  RangeCalendar,
+  Tooltip,
+} from "@nextui-org/react";
 import CheckOutBox from "./components/CheckOutBox";
 import MapScrollable from "./components/MapScrollable";
 import InfoSection from "./components/InfoSection";
+import { today, getLocalTimeZone } from "@internationalized/date";
+import CalendarRange from "./components/CalendarRange";
 
 export default async function SportsAndEntertainmentPage({
   res,
@@ -27,44 +35,61 @@ export default async function SportsAndEntertainmentPage({
           </div>
           <Divider className="my-4" />
           <div>
-            <p className="text-lg font-semibold">Description:</p>
+            <p className="text-lg font-semibold">Description</p>
             <p className="mt-2">{res.description}</p>
           </div>
           <Divider className="my-4" />
-          <div className="flex relative flex-row gap-2 items-center hover:underline cursor-pointer mt-2">
-            <div className="relative w-14 h-14">
-              {/* <img
-                className="relative bg-gray-200 rounded-full"
-                src={user.picture}
-              /> */}
-              {/* {user.trusted && ( */}
-              <Tooltip content="Trusted">
-                <div className="w-4 h-4 absolute rounded-full bg-[#48b9ff] outline outline-white dark:outline-[#212933] right-0 bottom-0 z-10" />
-              </Tooltip>
-              {/* )} */}
+
+          <div
+            className="justify-between items-center flex-row flex w-full"
+            id="colorSection"
+          >
+            <div className="space-y-2 flex-auto">
+              <h1 className="text-lg font-semibold">Max Groupe size</h1>
+              <p className="text-nowrap">
+                <Chip variant="flat" className="text-lg" color="primary">
+                  {res.grpSize} Person(s)
+                </Chip>
+              </p>
             </div>
-            <div>
-              {/* <span>{user.firstname + " " + user.lastname}</span> */}
-              {/* <p className="flex flex-row gap-1 text-sm items-center opacity-50">
-                <Location /> {user.city[0].name}
-              </p> */}
+            <Divider orientation="vertical" className="h-20 mx-4 w-[0.1rem] " />
+            <div className="space-y-2 flex-1">
+              <h1 className="text-lg font-semibold">Duration</h1>
+              <Chip variant="flat" color="primary" className="text-lg min-w-10">
+                {res.duration} Hours
+              </Chip>
             </div>
           </div>
-          <blockquote className="relative p-2 rounded-lg mt-4">
-            <p className="text-gray-600 italic text-sm">
-              <span className="absolute top-0 left-0 text-xl text-gray-400">
-                “
-              </span>
-              {/* {user.description} Lorem ipsum dolor sit amet consectetur */}
-              adipisicing elit. Reiciendis pariatur explicabo vitae incidunt nam
-              distinctio iure, inventore, totam tempora nobis quis magnam!
-              Aliquam reprehenderit.
-              <span className="absolute bottom-0 right-0 text-xl text-gray-400">
-                ”
-              </span>
-            </p>
-          </blockquote>
-          <MapScrollable />
+          <Divider className="my-4" />
+          <div className="items-start justify-start text-start flex-col flex ">
+            <h1 className="text-lg font-semibold text-start">Calendar</h1>
+            {res.eventType === "ScheduledEvent" ? (
+              <div className="flex w-full justify-center overflow-x-hidden">
+                <div className="xs:scale-100 scale-90">
+                  <CalendarRange listing={res} />
+                </div>
+              </div>
+            ) : (
+              <div className="mt-2">
+                <Chip variant="flat" className="text-lg p-4" color="primary">
+                  {res.timing as string}
+                </Chip>
+              </div>
+            )}
+          </div>
+          <Divider className="my-4" />
+          <div>
+            <h1 className="text-lg font-semibold text-start mb-2">
+              Restrictions
+            </h1>
+            {res.restrictions.map((r, i) => (
+              <React.Fragment key={i}>
+                <p className="py-2 px-4 bg-default-300 rounded-xl mt-2">{r}</p>
+              </React.Fragment>
+            ))}
+          </div>
+
+          {/* <MapScrollable /> */}
         </div>
 
         <div className="w-[75%] p-4">
