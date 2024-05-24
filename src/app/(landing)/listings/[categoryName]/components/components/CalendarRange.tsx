@@ -27,6 +27,7 @@ export default function CalendarRange({ listing }: Props) {
         mode="multiple"
         min={1}
         selected={formattedDays}
+        className="!p-0 !m-0"
       />
     );
   }
