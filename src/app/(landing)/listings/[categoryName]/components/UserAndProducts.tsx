@@ -3,7 +3,7 @@ import IconExternalLink from "@/components/icons/ExternalLink";
 import IconArrowRight from "@/components/icons/RightArrow";
 import { getLocationUserCompute } from "@/helpers/getLocationUserCompute";
 import { Button, Divider, Spinner, User } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import SimilarOffers from "./SimilarOffers";
 
 export default function UserAndProducts({
@@ -16,6 +16,7 @@ export default function UserAndProducts({
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<userType>();
   const [approval, setApproval] = useState<Approvals>();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     (async () => {
@@ -48,8 +49,8 @@ export default function UserAndProducts({
       ) : (
         <React.Fragment>
           {user ? (
-            <div className="w-full flex flex-col items-center justify-center py-4 border border-default-300 rounded-xl">
-              <div className="max-w-[50rem] w-full p-4 drop-shadow-md rounded-xl flex flex-row justify-between items-center">
+            <div className="w-full flex flex-col items-center justify-center border border-default-300 rounded-xl">
+              <div className="max-w-[50rem] flex-col items-start w-full space-y-5 py-6 px-4 drop-shadow-md rounded-xl flex xs:flex-row justify-between xs:items-center">
                 <User
                   name={user?.username}
                   avatarProps={{
@@ -64,9 +65,14 @@ export default function UserAndProducts({
                 </Button>
               </div>
               <Divider className="my-4 w-[90%]" />
-              <div className="w-full flex flex-col space-y-3 items-center justify-center">
+              <div
+                ref={containerRef}
+                className="w-full flex flex-col space-y-3 items-center justify-center"
+              >
                 <h1 className="text-lg font-semibold">Similar Offers</h1>
-                <SimilarOffers section={section} />
+                <div className="w-full inline-block  bg-blue-500 p-4">
+                  <SimilarOffers section={section} />
+                </div>
               </div>
             </div>
           ) : (

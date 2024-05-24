@@ -2,12 +2,38 @@ import CardSkeleton from "@/components/utils/CardSkeleton";
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 const settings = {
-  dots: true,
-  infinite: true,
+  dots: false,
   speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 3,
+  slidesToShow: 5,
+  slidesToScroll: 2,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 0,
+      },
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 0,
+        initialSlide: 0,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+      },
+    },
+  ],
 };
 
 export default function SimilarOffers({ section }: { section: string }) {
@@ -36,10 +62,12 @@ export default function SimilarOffers({ section }: { section: string }) {
   return (
     <React.Fragment>
       {loading ? (
-        <div className="w-full">
+        <div className="bg-green-400 block">
           <Slider {...settings}>
             {[...Array(5)].map((_, i) => (
-              <CardSkeleton key={i} />
+              <div className="" key={i}>
+                <CardSkeleton />
+              </div>
             ))}
           </Slider>
         </div>
