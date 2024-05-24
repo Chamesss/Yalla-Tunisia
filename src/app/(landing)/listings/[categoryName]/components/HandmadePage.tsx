@@ -8,6 +8,7 @@ import Title from "@/components/utils/Title";
 import { CustomCheckbox } from "@/app/(landing)/addlisting/panel/create/utils/CustomCheckBoxUnselected";
 import CheckIcon from "@/components/icons/CheckBoxIcon";
 import IconCancel from "@/components/icons/IconCancel";
+import UserAndProducts from "./UserAndProducts";
 
 export default async function HandmadePage({ res }: { res: ProductHandMade }) {
   return (
@@ -143,8 +144,9 @@ export default async function HandmadePage({ res }: { res: ProductHandMade }) {
           </div>
           {/* <p className="font-medium">Views: {data.views}</p> */}
         </div>
-        <div id="targetSection" className="mt-28 w-full">
-          {/* <MapSection lat={user.lat} lng={user.lng} /> */}
+
+        <div className="mt-8">
+          <UserAndProducts userId={res.userId} section={"Handmades"} />
         </div>
       </div>
     </div>

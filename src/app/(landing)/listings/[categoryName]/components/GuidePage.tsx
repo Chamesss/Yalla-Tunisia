@@ -9,6 +9,7 @@ import CheckIcon from "@/components/icons/CheckBoxIcon";
 import { checkbox } from "./HandmadePage";
 import Success from "@/components/icons/Success";
 import IconCancel from "@/components/icons/IconCancel";
+import UserAndProducts from "./UserAndProducts";
 
 export default async function GuidePage({ res }: { res: ProductGuides }) {
   return (
@@ -143,8 +144,8 @@ export default async function GuidePage({ res }: { res: ProductGuides }) {
           </div>
           {/* <p className="font-medium">Views: {data.views}</p> */}
         </div>
-        <div id="targetSection" className="mt-28 w-full">
-          {/* <MapSection lat={user.lat} lng={user.lng} /> */}
+        <div className="mt-8">
+          <UserAndProducts userId={res.userId} section="Guides" />
         </div>
       </div>
     </div>

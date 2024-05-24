@@ -11,7 +11,7 @@ export async function GET(req: NextRequest, route: { params: { id: string } }, r
             return Response.json(approvalSnapshot.data());
         } else {
             console.log(`No approvals found for user ID: ${route.params.id}`);
-            return Response.json({ approvals: [] });
+            return Response.json({});
         }
     } catch (error) {
         console.error("Error retrieving approvals:", error);

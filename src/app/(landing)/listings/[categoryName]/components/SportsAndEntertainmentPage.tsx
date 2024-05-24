@@ -12,6 +12,7 @@ import MapScrollable from "./components/MapScrollable";
 import InfoSection from "./components/InfoSection";
 import { today, getLocalTimeZone } from "@internationalized/date";
 import CalendarRange from "./components/CalendarRange";
+import UserAndProducts from "./UserAndProducts";
 
 export default async function SportsAndEntertainmentPage({
   res,
@@ -111,8 +112,8 @@ export default async function SportsAndEntertainmentPage({
           </div>
           {/* <p className="font-medium">Views: {data.views}</p> */}
         </div>
-        <div id="targetSection" className="mt-28 w-full">
-          {/* <MapSection lat={user.lat} lng={user.lng} /> */}
+        <div className="mt-8">
+          <UserAndProducts userId={res.userId} section="Sports" />
         </div>
       </div>
     </div>
