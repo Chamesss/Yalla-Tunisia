@@ -82,6 +82,7 @@ export default function ImagesDisplay({
               placeholder="blur"
               width={640}
               height={640}
+              unoptimized
             />
             {selectedImages.includes(url) && (
               <div className="absolute top-5 right-5">
