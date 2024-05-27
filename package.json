@@ -42,6 +42,7 @@
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.1.3",
     "use-google-maps-script": "^0.1.2",
     "use-places-autocomplete": "^4.0.1"
   },

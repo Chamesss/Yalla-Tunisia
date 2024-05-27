@@ -9,7 +9,11 @@ export async function GET(req: NextRequest, route: { params: { id: string } }, r
 
         if (itemSnapshot.exists()) {
             const user = JSON.parse(JSON.stringify(itemSnapshot.data()));
-            return Response.json(user);
+            const data = {
+                id: itemSnapshot.id,
+                ...user
+            }
+            return Response.json(data);
         } else {
             console.log(
                 `No document found for ID: ${route.params.id} in collection: ${'users'}`

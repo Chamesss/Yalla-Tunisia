@@ -13,7 +13,7 @@ import UserAndProducts from "./UserAndProducts";
 export default async function HandmadePage({ res }: { res: ProductHandMade }) {
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col py-4 mb-20 px-8 max-w-[100rem]">
+      <div className="flex flex-col py-4 mb-20 px-2 xs:px-3 sm:px-8 w-auto max-w-[100rem]">
         <div className="flex flex-col lg:flex-row  gap-6 relative">
           <div className="flex lg:hidden flex-col w-full">
             <InfoSection data={res} />
@@ -111,21 +111,19 @@ export default async function HandmadePage({ res }: { res: ProductHandMade }) {
                 })}
               </div>
             </div>
-            <>
-              <Divider className="my-4" />
-              <div className="space-y-2 flex-1">
-                <h1 className="text-lg font-semibold">Colors</h1>
-                <div className="flex flex-row gap-2 px-2">
-                  {res.colors.map((c: string, i) => (
-                    <div
-                      key={i}
-                      style={{ backgroundColor: c }}
-                      className="w-10 h-10 rounded-full relative"
-                    />
-                  ))}
-                </div>
+            <Divider className="my-4" />
+            <div className="px-2 space-y-2 flex-1">
+              <h1 className="text-lg font-semibold">Colors</h1>
+              <div className="flex flex-row gap-2 px-2">
+                {res.colors.map((c: string, i) => (
+                  <div
+                    key={i}
+                    style={{ backgroundColor: c }}
+                    className="w-10 h-10 rounded-full relative"
+                  />
+                ))}
               </div>
-            </>
+            </div>
             <Divider className="my-4" />
             <div className="px-2 space-y-2">
               <h1 className="text-lg font-semibold">Materials used</h1>

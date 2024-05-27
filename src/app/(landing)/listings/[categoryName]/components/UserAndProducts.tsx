@@ -5,6 +5,7 @@ import { getLocationUserCompute } from "@/helpers/getLocationUserCompute";
 import { Button, Divider, Spinner, User } from "@nextui-org/react";
 import React, { useEffect, useState, useRef } from "react";
 import SimilarOffers from "./SimilarOffers";
+import Link from "next/link";
 
 export default function UserAndProducts({
   userId,
@@ -22,7 +23,7 @@ export default function UserAndProducts({
     (async () => {
       try {
         const resUser = await fetch(`/api/users/getuser/${userId}`, {
-          cache: "force-cache",
+          cache: "no-cache",
         });
         const resApproval = await fetch(`/api/getapproval/${userId}`, {
           cache: "no-cache",
@@ -51,15 +52,17 @@ export default function UserAndProducts({
           {user ? (
             <div className="w-full flex flex-col items-center justify-center border border-default-300 rounded-xl">
               <div className="max-w-[50rem] flex-col items-start w-full space-y-5 py-6 px-4 drop-shadow-md rounded-xl flex xs:flex-row justify-between xs:items-center">
-                <User
-                  name={user?.username}
-                  avatarProps={{
-                    src: user?.picture,
-                  }}
-                  description={
-                    <span className="capitalize">{approval?.bName}</span>
-                  }
-                />
+                <Link href={`/profiles/${user?.id}`}>
+                  <User
+                    name={user?.username}
+                    avatarProps={{
+                      src: user?.picture,
+                    }}
+                    description={
+                      <span className="capitalize">{approval?.bName}</span>
+                    }
+                  />
+                </Link>
                 <Button color="primary">
                   Visit business page <IconArrowRight />
                 </Button>
@@ -67,12 +70,10 @@ export default function UserAndProducts({
               <Divider className="my-4 w-[90%]" />
               <div
                 ref={containerRef}
-                className="w-full flex flex-col space-y-3 items-center justify-center"
+                className="w-full flex flex-col space-y-3 items-center justify-center overflow-hidden"
               >
                 <h1 className="text-lg font-semibold">Similar Offers</h1>
-                <div className="w-full inline-block  bg-blue-500 p-4">
-                  <SimilarOffers section={section} />
-                </div>
+                <SimilarOffers section={section} />
               </div>
             </div>
           ) : (
