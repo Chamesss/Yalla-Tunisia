@@ -28,6 +28,7 @@ export default function ImagesDisplay({ business }: { business: Approvals }) {
               alt="store picture"
               src={p}
               className="h-[14rem] w-auto object-contain"
+              unoptimized
             />
           ))}
         </React.Fragment>
