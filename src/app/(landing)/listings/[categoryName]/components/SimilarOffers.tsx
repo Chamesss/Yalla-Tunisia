@@ -77,7 +77,12 @@ export default function SimilarOffers({ section }: { section: string }) {
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-auto h-fit gap-2 py-4 overflow-visible">
-          {products && products.map((p, i) => <CardItem data={p} />)}
+          {products &&
+            products.map((p, i) => (
+              <React.Fragment key={i}>
+                <CardItem data={p} />
+              </React.Fragment>
+            ))}
         </div>
       )}
     </React.Fragment>
