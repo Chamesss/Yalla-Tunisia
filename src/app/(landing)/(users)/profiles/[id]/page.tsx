@@ -3,9 +3,15 @@ import { getLocationUserCompute } from "@/helpers/getLocationUserCompute";
 import { getUserById } from "@/lib/UserActions/getUser";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 import DropDownProfiles from "./components/DropDownProfiles";
 import { Divider } from "@nextui-org/react";
+import { getListingsByUserId } from "@/lib/ListingActions/getListingsByUserId";
+import ItemsDisplay from "./components/ItemsDisplay";
+import { SkeletonLoader } from "@/app/(landing)/addlisting/panel/components/Main";
+import CardSkeleton from "@/components/utils/CardSkeleton";
+import LocationPicker from "@/app/(landing)/register/components/LocationPicker";
+import GeoCart from "./components/GeoCart";
 
 export default async function Profiles({ params }: { params: { id: string } }) {
   const user = (await getUserById(params.id)) as userType;
@@ -41,11 +47,38 @@ export default async function Profiles({ params }: { params: { id: string } }) {
           </div>
           <Divider />
           <div className="w-full flex flex-row flex-1">
-            <div className="w-[30%] flex p-8">into</div>
+            <div className="w-[30%] flex p-8 flex-col space-y-3">
+              <h1 className="text-xl font-bold tracking-wide">Info</h1>
+              <h1 className="text-xl font-bold tracking-wide">Location</h1>
+              <div className="w-full px-8">
+                <GeoCart activeAreaId={user.activeAreaId} />
+              </div>
+            </div>
             <Divider orientation="vertical" className="w-[0.05rem]" />
-            <div className="flex flex-1 space-y-3 flex-col p-8">
-              <h1>Description</h1>
-              <blockquote>{user.description}</blockquote>
+            <div className="flex flex-1 flex-col">
+              <div className="flex flex-col p-8 space-y-3">
+                <h1 className="text-xl font-bold tracking-wide">Description</h1>
+                <blockquote>{user.description}</blockquote>
+              </div>
+              <Divider />
+              <div className="flex flex-col p-8 space-y-3">
+                <h1 className="text-xl font-bold tracking-wide">Store</h1>
+              </div>
+              <Divider />
+              <div className="space-y-3 p-8">
+                <h1 className="text-xl font-bold tracking-wide">Offers</h1>
+                <div className="w-full flex item-center justify-center">
+                  <Suspense
+                    fallback={
+                      <div className="grid grid-cols-3 gap-10 w-fit">
+                        {Array(6).fill(<CardSkeleton />)}
+                      </div>
+                    }
+                  >
+                    <ItemsDisplay id={params.id} />
+                  </Suspense>
+                </div>
+              </div>
             </div>
           </div>
         </div>

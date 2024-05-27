@@ -162,3 +162,9 @@ interface Favorites {
     ref: string
   }[]
 }
+
+interface AllProductsResult {
+  Handmades: ProductHandMade[]
+  Sports: ProductSports[]
+  Guides: ProductGuides[]
+}
