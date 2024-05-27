@@ -12,12 +12,18 @@ import { SkeletonLoader } from "@/app/(landing)/addlisting/panel/components/Main
 import CardSkeleton from "@/components/utils/CardSkeleton";
 import LocationPicker from "@/app/(landing)/register/components/LocationPicker";
 import GeoCart from "./components/GeoCart";
+import DisplayStore from "./components/DisplayStore";
+import { ExtractDayMonthYear } from "@/helpers/ExtractDayMonthYear";
+import { Timestamp } from "firebase/firestore";
+import { ExtractDate } from "@/helpers/ExtractDateTimestamp";
 
 export default async function Profiles({ params }: { params: { id: string } }) {
   const user = (await getUserById(params.id)) as userType;
   if (!user) {
     redirect("/forbidden");
   }
+
+  const date = ExtractDate(user.created_at);
 
   return (
     <div className="flex flex-1 justify-center">
@@ -41,6 +47,7 @@ export default async function Profiles({ params }: { params: { id: string } }) {
                 <p className="flex flex-row gap-2 text-lg text-default-500 items-center">
                   <Location /> {getLocationUserCompute(user.activeAreaId)?.city}
                 </p>
+                <p>{user.seller ? "Seller" : "Visitor"}</p>
               </div>
             </div>
             <DropDownProfiles />
@@ -49,6 +56,11 @@ export default async function Profiles({ params }: { params: { id: string } }) {
           <div className="w-full flex flex-row flex-1">
             <div className="w-[30%] flex p-8 flex-col space-y-3">
               <h1 className="text-xl font-bold tracking-wide">Info</h1>
+              <div>
+                <p>{user.username}</p>
+                <p>Tel: {user.tel}</p>
+                <p>Joined at {date}</p>
+              </div>
               <h1 className="text-xl font-bold tracking-wide">Location</h1>
               <div className="w-full px-8">
                 <GeoCart activeAreaId={user.activeAreaId} />
@@ -61,10 +73,19 @@ export default async function Profiles({ params }: { params: { id: string } }) {
                 <blockquote>{user.description}</blockquote>
               </div>
               <Divider />
-              <div className="flex flex-col p-8 space-y-3">
-                <h1 className="text-xl font-bold tracking-wide">Store</h1>
-              </div>
-              <Divider />
+              {user.seller && (
+                <React.Fragment>
+                  <div className="flex flex-col p-8 space-y-3">
+                    <h1 className="text-xl font-bold tracking-wide">Store</h1>
+                    <div>
+                      <Suspense fallback={<p>Loading...</p>}>
+                        <DisplayStore id={params.id} />
+                      </Suspense>
+                    </div>
+                  </div>
+                  <Divider />
+                </React.Fragment>
+              )}
               <div className="space-y-3 p-8">
                 <h1 className="text-xl font-bold tracking-wide">Offers</h1>
                 <div className="w-full flex item-center justify-center">

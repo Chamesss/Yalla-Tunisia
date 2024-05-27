@@ -14,7 +14,7 @@ interface userType {
   tel: number;
   picture: string;
   seller: boolean;
-  created_at: Date;
+  created_at: any;
   lng: number;
   lat: number;
   status: boolean;
