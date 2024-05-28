@@ -11,7 +11,11 @@ export async function getUserById(
 
         if (itemSnapshot.exists()) {
             const result = JSON.parse(JSON.stringify(itemSnapshot.data()));
-            return result
+            const data = {
+                id: itemSnapshot.id,
+                ...result
+            }
+            return data
         } else {
             console.log(
                 `No document found for ID: ${itemId} in collection: ${'users'}`

@@ -1,92 +1,141 @@
 "use client";
-import { userState } from "@/redux/slices/userSlice";
-import { useSelector } from "react-redux";
-import User from "./User";
-import { Button, Divider, Spinner } from "@nextui-org/react";
+import { Button, Chip, Divider } from "@nextui-org/react";
 import EditButton from "./EditButton";
-import Forbidden from "@/components/Forbidden";
-import React, { useEffect, useState } from "react";
-import { getUserById } from "@/lib/UserActions/getUser";
-import getUserFromCookies from "@/lib/getUserFromCookies";
+import React, { Suspense } from "react";
+import CardSkeleton from "@/components/utils/CardSkeleton";
+import { ExtractDate } from "@/helpers/ExtractDateTimestamp";
+import { getLocationUserCompute } from "@/helpers/getLocationUserCompute";
+import DisplayStore from "../../profiles/[id]/components/DisplayStore";
+import GeoCart from "../../profiles/[id]/components/GeoCart";
+import ItemsDisplay from "../../profiles/[id]/components/ItemsDisplay";
+import DropDownProfiles from "./DropDownProfiles";
+import Image from "next/image";
+import Location from "@/components/icons/Location";
 
-export default function Main() {
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<userType>();
-
-  useEffect(() => {
-    (async () => {
-      const user = await getUserFromCookies();
-      if (user?.userId) {
-        const res = await fetch(`/api/users/getuser/${user.userId}`, {
-          cache: "force-cache",
-        });
-        const userData = (await res.json()) as userType;
-        if (userData === undefined) {
-          setError(true);
-          setLoading(false);
-        } else {
-          setUser(userData);
-          setLoading(false);
-        }
-      }
-    })();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex-1 flex items-center justify-center">
-        <Spinner />
-      </div>
-    );
-  }
+export default function Main({ user }: { user: userType }) {
+  const date = ExtractDate(user.created_at);
 
   return (
-    <React.Fragment>
-      {error ? (
-        <p>Something went wrong</p>
-      ) : (
-        <>
-          {user && (
-            <div className="border rounded-2xl w-full">
-              <div className="flex flex-row justify-between items-center p-8">
-                <User
-                  user={user}
-                  username={
-                    user.username.toUpperCase().slice(0, 1) +
-                    user.username.slice(1)
-                  }
-                />
-                <Button className="rounded-full bg-blue-500 text-white font-medium text-md">
-                  Profile Settings
-                </Button>
-              </div>
-              <Divider />
-              <div className="flex flex-row">
-                <div className="flex-1 p-8 border-r-1 border-opacity-30">
-                  <div className="flex flex-col">
-                    <div className="flex flex-row items-center gap-4 w-fit">
-                      <h1 className="text-[1.25rem] font-medium">
-                        Description
-                      </h1>
-                      <EditButton />
-                    </div>
-                    <p className="mt-4">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Similique fuga aperiam mollitia veniam unde dolorem aut
-                      nulla doloribus in excepturi? Reprehenderit ratione
-                      pariatur rerum iste, cumque doloribus molestiae non
-                      expedita.
-                    </p>
-                  </div>
-                </div>
-                <Divider orientation="vertical" />
-                <div className="flex-grow-[2] p-8">userItems</div>
+    <div className="flex flex-1 justify-center">
+      <div className="max-w-[100rem] flex flex-1 w-full px-2 xs:px-4 sm:px-6 md:px-10 lg:px-20 py-16">
+        <div className="border border-opacity-75 rounded-xl w-full flex flex-1 flex-col">
+          <div className="p-5 md:p-8 flex flex-row justify-between">
+            <div className="flex flex-row gap-4">
+              <Image
+                width={1024}
+                height={1024}
+                src={user.picture}
+                alt="profile-picture"
+                className="md:w-20 md:h-20 h-16 w-16 rounded-full drop-shadow-sm"
+                priority={true}
+                quality={100}
+              />
+              <div>
+                <p className="capitalize text-xl md:text-2xl font-semibold">
+                  {user.username}.
+                </p>
+                <p className="flex flex-row gap-1 text-medium md:text-lg text-default-500 items-center">
+                  <Location className="mb-[0.125rem] text-sm" />{" "}
+                  {getLocationUserCompute(user.activeAreaId)?.city}
+                </p>
+                <Chip variant="flat" color="primary">
+                  {user.seller ? "Seller" : "Visitor"}
+                </Chip>
               </div>
             </div>
-          )}
-        </>
-      )}
-    </React.Fragment>
+            <DropDownProfiles />
+          </div>
+          <Divider />
+          <div className="w-full flex flex-col md:flex-row flex-1">
+            <div className="w-[100%] md:w-[30%] flex p-5 md:p-8 flex-col space-y-3">
+              <div className="w-full justify-between flex flex-row items-center">
+                <h1 className="text-xl font-bold tracking-wide">Info</h1>
+                <EditButton />
+              </div>
+              <div className="px-3 py-2 rounded-lg space-y-1">
+                <p className="text-sm">
+                  Phone:{" "}
+                  <span className="font-semibold text-lg text-default-500 ml-2">
+                    {user.tel}
+                  </span>
+                </p>
+                <p className="text-sm">
+                  Joined at{" "}
+                  <span className="font-semibold text-lg text-default-500 ml-2">
+                    {date}
+                  </span>
+                </p>
+              </div>
+              <div className="w-full justify-between flex flex-row items-center">
+                <h1 className="text-xl font-bold tracking-wide">Location</h1>
+                <EditButton />
+              </div>
+              <div className="flex justify-center">
+                <div className="px-2 lg:px-8 w-[18rem] xs:w-[21rem] md:[18rem]">
+                  <GeoCart activeAreaId={user.activeAreaId} />
+                </div>
+              </div>
+            </div>
+            <Divider
+              orientation="vertical"
+              className="w-[0.05rem] hidden md:block"
+            />
+            <div className="flex flex-1 flex-col">
+              <div className="flex flex-col p-5 md:p-8 space-y-3">
+                <div className="w-full justify-between flex flex-row items-center">
+                  <h1 className="text-xl font-bold tracking-wide">
+                    Description
+                  </h1>
+                  <EditButton />
+                </div>
+                <blockquote className="italic text-default-600">
+                  ❝ {user.description} ❞
+                </blockquote>
+              </div>
+              <Divider />
+              {user.seller && (
+                <React.Fragment>
+                  <div className="flex flex-col p-5 md:p-8 space-y-3">
+                    <div className="w-full justify-between flex flex-row items-center">
+                      <h1 className="text-xl font-bold tracking-wide">Store</h1>
+                      <EditButton />
+                    </div>
+                    <div>
+                      <Suspense fallback={<p>Loading...</p>}>
+                        <DisplayStore id={user.id as string} />
+                      </Suspense>
+                    </div>
+                  </div>
+                  <Divider />
+                </React.Fragment>
+              )}
+              <div className="space-y-3 p-5 md:p-8">
+                <div className="w-full justify-between flex flex-row items-center">
+                  <h1 className="text-xl font-bold tracking-wide">Info</h1>
+                  <Button variant="flat" color="primary">
+                    Go to panel
+                  </Button>
+                </div>
+                <div className="w-full flex item-center justify-center">
+                  <Suspense
+                    fallback={
+                      <div className="grid grid-cols-3 gap-10 w-fit">
+                        {Array(6).map((_, index) => (
+                          <React.Fragment key={index}>
+                            <CardSkeleton />
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    }
+                  >
+                    <ItemsDisplay id={user.id as string} />
+                  </Suspense>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
