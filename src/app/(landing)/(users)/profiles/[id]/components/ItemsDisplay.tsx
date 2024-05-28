@@ -1,11 +1,37 @@
 import CardItem from "@/components/utils/CardItem";
+import CardSkeleton from "@/components/utils/CardSkeleton";
 import { getListingsByUserId } from "@/lib/ListingActions/getListingsByUserId";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export default async function ItemsDisplay({ id }: { id: string }) {
-  const products = (await getListingsByUserId(id)) as AllProductsResult;
-  const length =
-    products.Handmades.length + products.Guides.length + products.Sports.length;
+export default function ItemsDisplay({ id }: { id: string }) {
+  const [products, setProducts] = useState<AllProductsResult | null>(null);
+  const [length, setLength] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    (async () => {
+      const products = (await getListingsByUserId(id)) as AllProductsResult;
+      setProducts(products);
+      setLength(
+        products.Handmades.length +
+          products.Guides.length +
+          products.Sports.length
+      );
+      setLoading(false);
+    })();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-3 gap-10 w-fit">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <React.Fragment key={index}>
+            <CardSkeleton />
+          </React.Fragment>
+        ))}
+      </div>
+    );
+  }
 
   if (length === 0) {
     return (
@@ -17,9 +43,13 @@ export default async function ItemsDisplay({ id }: { id: string }) {
 
   return (
     <div className="w-full space-y-4 px-2 py-2">
-      <ProductCategory title="Handmades" products={products.Handmades} />
-      <ProductCategory title="Sports" products={products.Sports} />
-      <ProductCategory title="Guides" products={products.Guides} />
+      {products && (
+        <>
+          <ProductCategory title="Handmades" products={products.Handmades} />
+          <ProductCategory title="Sports" products={products.Sports} />
+          <ProductCategory title="Guides" products={products.Guides} />
+        </>
+      )}
     </div>
   );
 }

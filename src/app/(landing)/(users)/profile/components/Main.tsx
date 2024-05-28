@@ -21,15 +21,20 @@ export default function Main({ user }: { user: userType }) {
         <div className="border border-opacity-75 rounded-xl w-full flex flex-1 flex-col">
           <div className="p-5 md:p-8 flex flex-row justify-between">
             <div className="flex flex-row gap-4">
-              <Image
-                width={1024}
-                height={1024}
-                src={user.picture}
-                alt="profile-picture"
-                className="md:w-20 md:h-20 h-16 w-16 rounded-full drop-shadow-sm"
-                priority={true}
-                quality={100}
-              />
+              <div className="relative">
+                <Image
+                  width={1024}
+                  height={1024}
+                  src={user.picture}
+                  alt="profile-picture"
+                  className="md:w-20 md:h-20 h-16 w-16 rounded-full drop-shadow-sm"
+                  priority={true}
+                  quality={100}
+                />
+                <div className="absolute top-0 right-0">
+                  <EditButton />
+                </div>
+              </div>
               <div>
                 <p className="capitalize text-xl md:text-2xl font-semibold">
                   {user.username}.
@@ -101,9 +106,7 @@ export default function Main({ user }: { user: userType }) {
                       <EditButton />
                     </div>
                     <div>
-                      <Suspense fallback={<p>Loading...</p>}>
-                        <DisplayStore id={user.id as string} />
-                      </Suspense>
+                      <DisplayStore id={user.id as string} />
                     </div>
                   </div>
                   <Divider />
@@ -111,25 +114,13 @@ export default function Main({ user }: { user: userType }) {
               )}
               <div className="space-y-3 p-5 md:p-8">
                 <div className="w-full justify-between flex flex-row items-center">
-                  <h1 className="text-xl font-bold tracking-wide">Info</h1>
+                  <h1 className="text-xl font-bold tracking-wide">Offers</h1>
                   <Button variant="flat" color="primary">
                     Go to panel
                   </Button>
                 </div>
                 <div className="w-full flex item-center justify-center">
-                  <Suspense
-                    fallback={
-                      <div className="grid grid-cols-3 gap-10 w-fit">
-                        {Array(6).map((_, index) => (
-                          <React.Fragment key={index}>
-                            <CardSkeleton />
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    }
-                  >
-                    <ItemsDisplay id={user.id as string} />
-                  </Suspense>
+                  <ItemsDisplay id={user.id as string} />
                 </div>
               </div>
             </div>

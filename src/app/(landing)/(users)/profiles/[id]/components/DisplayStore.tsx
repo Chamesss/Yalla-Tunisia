@@ -1,14 +1,24 @@
 import getBusinessName from "@/lib/ListingActions/getBusinessName";
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GoogleTilesContainer from "./GoogleTilesContainer";
 import ImagesDisplay from "./ImagesDisplay";
 import { Chip } from "@nextui-org/react";
 import Store from "@/components/icons/Store";
 import Phone from "@/components/icons/Phone";
 
-export default async function DisplayStore({ id }: { id: string }) {
-  const business = (await getBusinessName(id)) as Approvals | boolean;
+export default function DisplayStore({ id }: { id: string }) {
+  const [business, setBusiness] = useState<Approvals | boolean | undefined>();
+
+  useEffect(() => {
+    (async () => {
+      const business = (await getBusinessName(id)) as Approvals | boolean;
+      setBusiness(business);
+    })();
+  }, []);
+
+  if (typeof business === "undefined") {
+    return <p>Loading...</p>;
+  }
 
   if (typeof business === "boolean") {
     return (
