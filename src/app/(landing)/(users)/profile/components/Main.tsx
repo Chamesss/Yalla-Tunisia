@@ -1,7 +1,14 @@
 "use client";
-import { Button, Chip, Divider, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  Chip,
+  Divider,
+  Input,
+  Tooltip,
+  useDisclosure,
+} from "@nextui-org/react";
 import EditButton from "./EditButton";
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import CardSkeleton from "@/components/utils/CardSkeleton";
 import { ExtractDate } from "@/helpers/ExtractDateTimestamp";
 import { getLocationUserCompute } from "@/helpers/getLocationUserCompute";
@@ -13,8 +20,11 @@ import Image from "next/image";
 import Location from "@/components/icons/Location";
 import ChangePictureModal from "./modals/ChangePictureModal";
 import SecurityModal from "./modals/SecurityModal";
+import CloseButton from "./CloseButton";
+import SaveButton from "./SaveButton";
 
 export default function Main({ user }: { user: userType }) {
+  const [editInfo, setEditInfo] = useState<boolean>(false);
   const date = ExtractDate(user.created_at);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -58,21 +68,56 @@ export default function Main({ user }: { user: userType }) {
             <div className="w-[100%] md:w-[30%] flex p-5 md:p-8 flex-col space-y-3">
               <div className="w-full justify-between flex flex-row items-center">
                 <h1 className="text-xl font-bold tracking-wide">Info</h1>
-                <EditButton />
+                {editInfo === false ? (
+                  <Tooltip content="Edit" color="primary">
+                    <div onClick={() => setEditInfo((prev) => !prev)}>
+                      <EditButton />
+                    </div>
+                  </Tooltip>
+                ) : (
+                  <div className="flex flex-row gap-2">
+                    <Tooltip content="Cancel" color="danger">
+                      <div onClick={() => setEditInfo(false)}>
+                        <CloseButton />
+                      </div>
+                    </Tooltip>
+                    <Tooltip
+                      content="Save"
+                      color="success"
+                      className="text-white"
+                    >
+                      <div>
+                        <SaveButton />
+                      </div>
+                    </Tooltip>
+                  </div>
+                )}
               </div>
               <div className="px-3 py-2 rounded-lg space-y-1">
-                <p className="text-sm">
-                  Phone:{" "}
-                  <span className="font-semibold text-lg text-default-500 ml-2">
-                    {user.tel}
-                  </span>
-                </p>
-                <p className="text-sm">
-                  Joined at{" "}
-                  <span className="font-semibold text-lg text-default-500 ml-2">
-                    {date}
-                  </span>
-                </p>
+                {editInfo === false ? (
+                  <>
+                    <p className="text-sm">
+                      Phone:{" "}
+                      <span className="font-semibold text-lg text-default-500 ml-2">
+                        {user.tel}
+                      </span>
+                    </p>
+                    <p className="text-sm">
+                      Joined at{" "}
+                      <span className="font-semibold text-lg text-default-500 ml-2">
+                        {date}
+                      </span>
+                    </p>
+                  </>
+                ) : (
+                  <Input
+                    label="Edit phone"
+                    labelPlacement="inside"
+                    startContent={
+                      <small className="text-default-500">+216</small>
+                    }
+                  />
+                )}
               </div>
               <SecurityModal user={user} />
               <div className="w-full justify-between flex flex-row items-center">
@@ -80,7 +125,7 @@ export default function Main({ user }: { user: userType }) {
                 <EditButton />
               </div>
               <div className="flex justify-center">
-                <div className="px-2 lg:px-8 w-[18rem] xs:w-[21rem] md:[18rem] !z-10">
+                <div className="px-2 lg:px-8 w-[18rem] xs:w-[21rem] md:[18rem] !-z-10">
                   <GeoCart activeAreaId={user.activeAreaId} />
                 </div>
               </div>
