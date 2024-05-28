@@ -15,14 +15,18 @@ export default function ImagesDisplay({ business }: { business: Approvals }) {
   const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   const [Images, setImages] = useState<TreatedImages[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
       try {
         const Images: TreatedImages[] = await getImages(business.imagesUrl);
         setImages(Images);
+        setLoading(false);
       } catch (error) {
         console.log(error);
+        setError(true);
+        setLoading(false);
       }
     })();
   }, []);
@@ -46,20 +50,28 @@ export default function ImagesDisplay({ business }: { business: Approvals }) {
             </small>
           ) : (
             <React.Fragment>
-              {Images &&
-                Images.map(({ base64, url }: any) => (
-                  <Image
-                    key={url}
-                    width={640}
-                    height={640}
-                    alt="store picture"
-                    blurDataURL={base64}
-                    placeholder="blur"
-                    src={url}
-                    className="h-[14rem] w-auto object-contain"
-                    unoptimized
-                  />
-                ))}
+              {error ? (
+                <small className="italic flex flex-row items-center justify-center p-4 gap-4">
+                  Something went wrong, try reloading the page.
+                </small>
+              ) : (
+                <React.Fragment>
+                  {Images &&
+                    Images.map(({ base64, url }: any) => (
+                      <Image
+                        key={url}
+                        width={640}
+                        height={640}
+                        alt="store picture"
+                        blurDataURL={base64}
+                        placeholder="blur"
+                        src={url}
+                        className="h-[14rem] w-auto object-contain"
+                        unoptimized
+                      />
+                    ))}
+                </React.Fragment>
+              )}
             </React.Fragment>
           )}
         </React.Fragment>
