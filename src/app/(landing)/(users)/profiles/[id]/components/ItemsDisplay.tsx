@@ -32,7 +32,7 @@ function ProductCategory({
   products: ProductSports[] | ProductGuides[] | ProductHandMade[];
 }) {
   return (
-    <div className="space-y-4 bg-default-100 px-4 py-6 rounded-md drop-shadow-sm shadow-sm">
+    <div className="space-y-4 bg-default-100 px-4 py-6 rounded-lg drop-shadow-sm shadow-sm">
       <h1 className="text-lg font-semibold opacity-75">{title}</h1>
       {products.length === 0 ? (
         <p className="my-4">No offers to display.</p>

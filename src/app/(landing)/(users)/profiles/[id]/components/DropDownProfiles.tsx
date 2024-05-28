@@ -5,22 +5,19 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Button,
 } from "@nextui-org/react";
+import ThreeDots from "@/components/icons/ThreeDots";
 
 export default function DropDownProfiles() {
   return (
     <Dropdown>
       <DropdownTrigger>
-        <Button variant="bordered">Open Menu</Button>
+        <div className="p-4 border border-default-300 rounded-full cursor-pointer h-fit w-fit hover:opacity-75">
+          <ThreeDots />
+        </div>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
-        <DropdownItem key="new">New file</DropdownItem>
-        <DropdownItem key="copy">Copy link</DropdownItem>
-        <DropdownItem key="edit">Edit file</DropdownItem>
-        <DropdownItem key="delete" className="text-danger" color="danger">
-          Delete file
-        </DropdownItem>
+        <DropdownItem key="new">Report</DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );
