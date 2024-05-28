@@ -1,46 +1,6 @@
 import CardSkeleton from "@/components/utils/CardSkeleton";
 import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
-
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import CardItem from "@/components/utils/CardItem";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/css";
-
-const settings = {
-  dots: false,
-  speed: 500,
-  slidesToShow: 5,
-  slidesToScroll: 2,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
-      },
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        initialSlide: 3,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2,
-      },
-    },
-  ],
-};
 
 export default function SimilarOffers({ section }: { section: string }) {
   const [products, setProducts] = useState<Product[]>();
@@ -48,9 +8,8 @@ export default function SimilarOffers({ section }: { section: string }) {
 
   useEffect(() => {
     (async () => {
-      const docFolder = section.toLowerCase();
       try {
-        const res = await fetch(`/api/${docFolder}/getsimilar`, {
+        const res = await fetch(`/api/products/getsimilar`, {
           headers: {
             docName: section,
           },

@@ -1,7 +1,5 @@
 "use client";
-import IconExternalLink from "@/components/icons/ExternalLink";
 import IconArrowRight from "@/components/icons/RightArrow";
-import { getLocationUserCompute } from "@/helpers/getLocationUserCompute";
 import { Button, Divider, Spinner, User } from "@nextui-org/react";
 import React, { useEffect, useState, useRef } from "react";
 import SimilarOffers from "./SimilarOffers";
@@ -30,7 +28,6 @@ export default function UserAndProducts({
         });
         const user = (await resUser.json()) as userType;
         const approval = (await resApproval.json()) as Approvals;
-        console.log("approval === ", approval);
         setUser(user);
         setApproval(approval);
         setLoading(false);
