@@ -1,3 +1,4 @@
+"use client";
 import getBusinessName from "@/lib/ListingActions/getBusinessName";
 import React, { useEffect, useState } from "react";
 import GoogleTilesContainer from "./GoogleTilesContainer";
