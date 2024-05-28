@@ -1,3 +1,4 @@
+"use client";
 import CardItem from "@/components/utils/CardItem";
 import CardSkeleton from "@/components/utils/CardSkeleton";
 import { getListingsByUserId } from "@/lib/ListingActions/getListingsByUserId";
