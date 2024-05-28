@@ -1,5 +1,5 @@
 "use client";
-import { Button, Chip, Divider } from "@nextui-org/react";
+import { Button, Chip, Divider, useDisclosure } from "@nextui-org/react";
 import EditButton from "./EditButton";
 import React, { Suspense } from "react";
 import CardSkeleton from "@/components/utils/CardSkeleton";
@@ -11,9 +11,12 @@ import ItemsDisplay from "../../profiles/[id]/components/ItemsDisplay";
 import DropDownProfiles from "./DropDownProfiles";
 import Image from "next/image";
 import Location from "@/components/icons/Location";
+import ChangePictureModal from "./modals/ChangePictureModal";
+import SecurityModal from "./modals/SecurityModal";
 
 export default function Main({ user }: { user: userType }) {
   const date = ExtractDate(user.created_at);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <div className="flex flex-1 justify-center">
@@ -31,7 +34,7 @@ export default function Main({ user }: { user: userType }) {
                   priority={true}
                   quality={100}
                 />
-                <div className="absolute top-0 right-0">
+                <div className="absolute top-0 right-0" onClick={onOpen}>
                   <EditButton />
                 </div>
               </div>
@@ -71,12 +74,13 @@ export default function Main({ user }: { user: userType }) {
                   </span>
                 </p>
               </div>
+              <SecurityModal user={user} />
               <div className="w-full justify-between flex flex-row items-center">
                 <h1 className="text-xl font-bold tracking-wide">Location</h1>
                 <EditButton />
               </div>
               <div className="flex justify-center">
-                <div className="px-2 lg:px-8 w-[18rem] xs:w-[21rem] md:[18rem]">
+                <div className="px-2 lg:px-8 w-[18rem] xs:w-[21rem] md:[18rem] !z-10">
                   <GeoCart activeAreaId={user.activeAreaId} />
                 </div>
               </div>
@@ -127,6 +131,13 @@ export default function Main({ user }: { user: userType }) {
           </div>
         </div>
       </div>
+      <ChangePictureModal
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onOpenChange={onOpenChange}
+        current={user.picture}
+        id={user.id as string}
+      />
     </div>
   );
 }

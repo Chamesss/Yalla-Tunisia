@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 // Existing GET function... (unchanged)
 
-export async function updateUserPicture(userId: string, newPicture: any) {
+export async function updateUserPicture(userId: string, newPicture: File) {
     try {
         // 1. Get user document reference
         const userRef = doc(db, "users", userId);
@@ -28,6 +28,7 @@ export async function updateUserPicture(userId: string, newPicture: any) {
         // 5. Update user document with the new picture URL
         const pictureUrl = await getDownloadURL(newPictureRef); // Get URL of the uploaded image
         await updateDoc(userRef, { picture: pictureUrl });
+        return true
 
         console.log("User picture updated successfully!");
     } catch (error) {
