@@ -7,9 +7,9 @@ import { usePathname } from "next/navigation";
 export default function ModalWindow({ isOpen, onClose, onOpen }: any) {
   const pathname = usePathname();
 
-  // useEffect(() => {
-  //   onClose();
-  // }, [pathname]);
+  useEffect(() => {
+    onClose();
+  }, [pathname]);
 
   return (
     <Modal

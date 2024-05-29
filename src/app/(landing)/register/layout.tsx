@@ -3,5 +3,5 @@ export default async function layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <>{children}</>;
+  return <div>{children}</div>;
 }

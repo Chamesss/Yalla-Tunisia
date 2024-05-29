@@ -6,10 +6,11 @@ import {
   Input,
   Autocomplete,
   AutocompleteItem,
+  useDisclosure,
+  Spinner,
 } from "@nextui-org/react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import addUser from "@/lib/actions/createUser";
-import LeftSection from "./LeftSection";
 import UserIcon from "@/components/icons/UserIcon";
 import EmailIcon from "@/components/icons/EmailIcon";
 import Location from "@/components/icons/Location";
@@ -19,7 +20,7 @@ import { useDispatch } from "@/redux/store";
 import { loginUser } from "@/lib/actions/userLogin";
 import EntireScreenLoading from "@/components/utils/EntireScreenLoading";
 import { addUserSession } from "@/redux/slices/userSlice";
-import Router from "next/router";
+import ModalWindow from "@/app/Modals/ModalWindow";
 
 const initialState = {
   response: {
@@ -36,7 +37,6 @@ export default function MainRegister() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [formState, formAction] = useFormState(addUser, initialState);
   const [activeAreaId, setActiveAreaId] = useState<string | null>(null);
   const [passwordMatch, setPasswordMatch] = useState<boolean | null>(null);
@@ -45,20 +45,9 @@ export default function MainRegister() {
   const [emailError, setEmailError] = useState<boolean | null>(null);
   const [fromError, setFromError] = useState<boolean | string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [registerLoading, setRegisterLoading] = useState<boolean>(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
-
-  //handlePhotoSelection
-  const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
-        setSelectedPhoto(result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleCitySelection = (key: React.Key | null) => {
     const [city] = cities.filter((c) => c.id === (key as string));
@@ -72,7 +61,7 @@ export default function MainRegister() {
     !passwordError &&
     passwordMatch &&
     activeAreaId
-      ? formAction(formData)
+      ? (setRegisterLoading(true), formAction(formData))
       : setFromError(true);
   };
 
@@ -81,6 +70,7 @@ export default function MainRegister() {
   }, [username, email, password, confirmPassword, activeAreaId]);
 
   useEffect(() => {
+    setRegisterLoading(false);
     formState.response.error === 5 && setFromError(true);
     if (formState.response.error === 0 && formState.response.success === true) {
       setLoading(true);
@@ -101,24 +91,213 @@ export default function MainRegister() {
   }, [formState]);
 
   return (
-    <div className="flex px-8 py-4 justify-evenly items-center">
+    <div className="flex px-4 xs:px-8 py-4 justify-evenly items-center">
       {loading && <EntireScreenLoading />}
-      <div className="w-[70%] h-full hidden lg:block">
+      {/* <div className="w-[70%] h-full hidden lg:block">
         <LeftSection />
-      </div>
-      <div className="scrollbar-container overflow-y-scroll w-fit lg:w-[30%] border border-opacity-50 rounded-xl p-6 max-h-[80vh]">
+      </div> */}
+      <div className="max-w-[50rem] w-full flex justify-center">
         <form
-          className="flex flex-col justify-center gap-4 w-full"
+          className="flex flex-col justify-center items-center gap-4 w-full"
           action={(formData) => submitForm(formData)}
           autoComplete="off"
         >
-          <h1 className="mb-2 text-xl font-bold">Sign Up</h1>
+          <h1 className="mb-4 mt-4 text-2xl font-bold text-center text-[#3688bc]">
+            SIGN UP
+          </h1>
           <input
             className="absolute hidden"
             name="activeAreaId"
             value={activeAreaId || ""}
           />
-          {/* <div className="flex items-center justify-center flex-col w-full">
+
+          <div className="flex md:flex-row flex-col gap-10 w-fit md:w-full !justify-center !items-start">
+            <div className="flex flex-col gap-10 w-full md:w-fit">
+              <div className="flex flex-1 flex-col space-y-4 rounded-xl shadow !h-fit px-6 xs:px-8 sm:px-12 py-10 relative overflow-hidden">
+                <h1 className="text-start text-lg font-semibold ml-1">
+                  Account Info
+                </h1>
+                <Input
+                  className="w-[100%]"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  onBlur={() =>
+                    username.length > 0 &&
+                    username.length < 3 &&
+                    setUsernameError(true)
+                  }
+                  onFocus={() => setUsernameError(null)}
+                  variant="underlined"
+                  label="Username"
+                  required
+                  autoComplete=""
+                  aria-autocomplete="both"
+                  aria-haspopup="false"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  autoCapitalize="off"
+                  name="username"
+                  size="md"
+                  startContent={
+                    <UserIcon className="text-lg text-default-400 pointer-events-none mr-1" />
+                  }
+                  description={
+                    usernameError && (
+                      <small className="text-danger-500">
+                        enter a valid username
+                      </small>
+                    )
+                  }
+                />
+                <Input
+                  className="w-full"
+                  variant="underlined"
+                  onBlur={() =>
+                    email.length > 0 &&
+                    !emailRegex.test(email) &&
+                    setEmailError(true)
+                  }
+                  onFocus={() => setEmailError(null)}
+                  label="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  id="email"
+                  name="email"
+                  required
+                  autoComplete="off"
+                  type="email"
+                  size="md"
+                  startContent={
+                    <EmailIcon className="text-lg text-default-400 pointer-events-none mr-1" />
+                  }
+                  description={
+                    emailError && (
+                      <small className="text-danger-500">
+                        enter a valid email
+                      </small>
+                    )
+                  }
+                />
+                <PasswordHandle
+                  password={password}
+                  setPassword={setPassword}
+                  confirmPassword={confirmPassword}
+                  setConfirmPassword={setConfirmPassword}
+                  setPasswordError={setPasswordError}
+                  setPasswordMatch={setPasswordMatch}
+                  passwordMatch={passwordMatch}
+                  passwordError={passwordError}
+                />
+              </div>
+              <div className="hidden md:block">
+                <Button
+                  className="w-[100%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
+                  size="lg"
+                  type="submit"
+                >
+                  {registerLoading ? <Spinner color="warning" /> : "Register"}
+                </Button>
+                {fromError && (
+                  <div className="w-full py-1 flex items-center">
+                    <small className="capitalize text-danger-500 w-full text-center mt-1">
+                      {formState.response.error === 5 ? (
+                        <>{formState.response.message as string}</>
+                      ) : (
+                        "check your info"
+                      )}
+                    </small>
+                  </div>
+                )}
+                <p
+                  onClick={onOpen}
+                  className="text-[#41a6e5] text-center mt-4 py-2 cursor-pointer hover:underline"
+                >
+                  Login instead?
+                </p>
+              </div>
+            </div>
+            <div className="flex relative overflow-hidden flex-1 flex-col space-y-4 rounded-xl shadow h-fit px-6 xs:px-8 sm:px-12 py-10">
+              <h1 className="text-start text-lg font-semibold ml-1">
+                Location
+              </h1>
+              <Autocomplete
+                onSelectionChange={(key: React.Key | null) =>
+                  handleCitySelection(key)
+                }
+                label="Enter you city (or select from the map)"
+                className="w-full"
+                variant="underlined"
+                selectedKey={activeAreaId}
+                size="md"
+                startContent={
+                  <Location className="text-lg text-default-400 pointer-events-none mr-1" />
+                }
+              >
+                {cities.map((c) => (
+                  <AutocompleteItem key={c.id} value={c.city}>
+                    {c.city}
+                  </AutocompleteItem>
+                ))}
+              </Autocomplete>
+              <div className="p-4 !-mt-4">
+                <LocationPicker
+                  setActiveAreaId={setActiveAreaId}
+                  activeAreaId={activeAreaId}
+                />
+              </div>
+            </div>
+            <div className="block md:hidden w-full">
+              <Button
+                className="w-[100%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
+                size="lg"
+                type="submit"
+              >
+                {registerLoading ? <Spinner color="warning" /> : "Register"}
+              </Button>
+              {fromError && (
+                <div className="w-full py-1 flex items-center">
+                  <small className="capitalize text-danger-500 w-full text-center mt-1">
+                    {formState.response.error === 5 ? (
+                      <>{formState.response.message as string}</>
+                    ) : (
+                      "check your info"
+                    )}
+                  </small>
+                </div>
+              )}
+              <p
+                onClick={onOpen}
+                className="text-[#41a6e5] text-center mt-4 py-2 cursor-pointer hover:underline"
+              >
+                Login instead?
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+      <ModalWindow isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
+    </div>
+  );
+}
+
+//  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+
+//handlePhotoSelection
+// const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
+//   const file = e.target.files?.[0];
+//   if (file) {
+//     const reader = new FileReader();
+//     reader.onload = () => {
+//       const result = reader.result as string;
+//       setSelectedPhoto(result);
+//     };
+//     reader.readAsDataURL(file);
+//   }
+// };
+
+{
+  /* <div className="flex items-center justify-center flex-col w-full">
             <input
               type="file"
               accept="image/*"
@@ -153,121 +332,5 @@ export default function MainRegister() {
                 )}
               </div>
             </label>
-          </div> */}
-          <Input
-            className="w-[100%]"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            onBlur={() =>
-              username.length > 0 &&
-              username.length < 3 &&
-              setUsernameError(true)
-            }
-            onFocus={() => setUsernameError(null)}
-            variant="underlined"
-            label="Username"
-            required
-            autoComplete=""
-            aria-autocomplete="both"
-            aria-haspopup="false"
-            autoCorrect="off"
-            spellCheck="false"
-            autoCapitalize="off"
-            name="username"
-            size="md"
-            startContent={
-              <UserIcon className="text-lg text-default-400 pointer-events-none mr-1" />
-            }
-            description={
-              usernameError && (
-                <small className="text-danger-500">
-                  enter a valid username
-                </small>
-              )
-            }
-          />
-          <Input
-            className="w-full"
-            variant="underlined"
-            onBlur={() =>
-              email.length > 0 && !emailRegex.test(email) && setEmailError(true)
-            }
-            onFocus={() => setEmailError(null)}
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            id="email"
-            name="email"
-            required
-            autoComplete="off"
-            type="email"
-            size="md"
-            startContent={
-              <EmailIcon className="text-lg text-default-400 pointer-events-none mr-1" />
-            }
-            description={
-              emailError && (
-                <small className="text-danger-500">enter a valid email</small>
-              )
-            }
-          />
-          <PasswordHandle
-            password={password}
-            setPassword={setPassword}
-            confirmPassword={confirmPassword}
-            setConfirmPassword={setConfirmPassword}
-            setPasswordError={setPasswordError}
-            setPasswordMatch={setPasswordMatch}
-            passwordMatch={passwordMatch}
-            passwordError={passwordError}
-          />
-          <Autocomplete
-            onSelectionChange={(key: React.Key | null) =>
-              handleCitySelection(key)
-            }
-            label="Enter you city (or select from the map)"
-            className="w-full"
-            variant="underlined"
-            selectedKey={activeAreaId}
-            size="md"
-            startContent={
-              <Location className="text-lg text-default-400 pointer-events-none mr-1" />
-            }
-          >
-            {cities.map((c) => (
-              <AutocompleteItem key={c.id} value={c.city}>
-                {c.city}
-              </AutocompleteItem>
-            ))}
-          </Autocomplete>
-          <LocationPicker
-            setActiveAreaId={setActiveAreaId}
-            activeAreaId={activeAreaId}
-          />
-          <Button
-            className="w-[100%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
-            size="lg"
-            type="submit"
-          >
-            Register
-          </Button>
-          {fromError && (
-            <>
-              {formState.response.error === 5 ? (
-                <small className="text-danger-500">
-                  {formState.response.message as string}
-                </small>
-              ) : (
-                <small className="text-danger-500">check your info</small>
-              )}
-            </>
-          )}
-          <p className="text-[#41a6e5] text-center mt-4 py-2 cursor-pointer hover:underline">
-            Login instead?
-          </p>
-        </form>
-      </div>
-    </div>
-  );
+          </div> */
 }

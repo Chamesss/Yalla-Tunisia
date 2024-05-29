@@ -23,6 +23,7 @@ export function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL('/forbidden', request.url))
         }
         if (reqUrl === "/favorites") return NextResponse.redirect(new URL('/forbidden', request.url))
+        if (reqUrl === "/profile") return NextResponse.redirect(new URL('/forbidden', request.url))
 
     }
 }

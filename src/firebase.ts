@@ -4,6 +4,8 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
+// import ServiceAccountKey from "@/serviceAccount.json"
+// import admin, { ServiceAccount } from "firebase-admin";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,6 +21,18 @@ const firebaseConfig = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENTID
 };
+
+// // const serviceAccount = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_SERVICE_ACCOUNT_KEY as string);
+
+// const serviceAccount = ServiceAccountKey as ServiceAccount;
+
+// if (!admin.apps.length) {
+//     admin.initializeApp({
+//         credential: admin.credential.cert(serviceAccount),
+//     });
+// }
+
+// export const adminAuth = admin.auth();
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);

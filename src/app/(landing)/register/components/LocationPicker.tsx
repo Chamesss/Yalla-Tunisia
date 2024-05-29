@@ -34,7 +34,7 @@ export default function LocationPicker({
   }, [mapRef.current]);
 
   return (
-    <div ref={mapRef} className="px-8 py-2 mt-6 border border-opacity-50">
+    <div ref={mapRef} className="px-8 py-2 mt-6">
       <map id="map" />
       <div className="map--svg">
         <svg viewBox="0 0 290 615">
