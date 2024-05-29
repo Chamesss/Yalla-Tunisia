@@ -30,9 +30,11 @@ const favoritesSlice = createSlice({
             state.productsIds = state.productsIds.filter(product => product.id !== productIdToRemove);
         },
         getFavorites(state, action) {
-            const { favorites }: { favorites: Favorites } = action.payload
-            state.productsIds = [...favorites.favorites]
-            state.userId = favorites.userId
+            const { favorites }: { favorites: Favorites | undefined } = action.payload
+            if (favorites && favorites.favorites) {
+                state.productsIds = [...favorites.favorites]
+                state.userId = favorites.userId
+            }
         },
         cleanFavoritesState(state) {
             state.productsIds = []

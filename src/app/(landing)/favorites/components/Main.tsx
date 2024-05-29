@@ -65,6 +65,9 @@ export default function Main() {
 
     if (productsIds && productsIds.length > 0) {
       fetchFavorites();
+    } else {
+      setFavorites([]);
+      setFavoritesGlobal([]);
     }
   }, [productsIds]);
 
@@ -121,19 +124,22 @@ export default function Main() {
           </CheckboxGroup>
           <div className="flex mt-8 flex-1 items-center justify-center">
             {favorites ? (
-              <div className="grid auto-cols-auto sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:gap-8 grid-cols-2 gap-4">
-                {favorites.length > 0 ? (
-                  favorites.map((f, i) => (
-                    <React.Fragment key={i}>
-                      <CardItem data={f.data} />
-                    </React.Fragment>
-                  ))
-                ) : (
+              <>
+                {favorites.length > 0 && (
+                  <div className="grid auto-cols-auto sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:gap-8 grid-cols-2 gap-4">
+                    {favorites.map((f, i) => (
+                      <React.Fragment key={i}>
+                        <CardItem data={f.data} />
+                      </React.Fragment>
+                    ))}
+                  </div>
+                )}
+                {favorites.length === 0 && (
                   <div className="text-center w-full">
                     <p>No items do display.</p>
                   </div>
                 )}
-              </div>
+              </>
             ) : (
               <div className="grid auto-cols-auto sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:gap-8 grid-cols-2 gap-4">
                 {[...Array(10)].map((_, index) => (
