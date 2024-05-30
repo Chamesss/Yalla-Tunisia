@@ -10,6 +10,8 @@ import GeoCart from "./components/GeoCart";
 import { ExtractDate } from "@/helpers/ExtractDateTimestamp";
 import TabsSection from "./components/TabsSection";
 import Phone from "@/components/icons/Phone";
+import AccordionProfile from "./components/Accordion";
+import AccordionMap from "./components/AccordionMap";
 
 export default async function Profiles({ params }: { params: { id: string } }) {
   const user = (await getUserById(params.id)) as userType;
@@ -39,12 +41,12 @@ export default async function Profiles({ params }: { params: { id: string } }) {
                 </div>
               </CardBody>
             </Card>
-            <div className="absolute -top-6 lg:-top-12 left-4 sm:left-10 lg:left-20 -z-10">
+            <div className="absolute -top-6 lg:-top-12 left-1.5 sm:left-10 lg:left-20 -z-10">
               <Card className="rounded-full border border-opacity-10 shadow-[0_0px_40px_-5px_rgba(0,0,0,0.25)]">
-                <CardBody className="block w-[6rem] h-[6rem] lg:h-[10rem] lg:w-[10rem] rounded-full " />
+                <CardBody className="block w-[7rem] h-[7rem] lg:h-[10rem] lg:w-[10rem] rounded-full " />
               </Card>
             </div>
-            <div className="absolute -top-6 lg:-top-12 left-4 sm:left-10 lg:left-20 w-[6rem] h-[6rem] lg:h-[10rem] lg:w-[10rem] rounded-full bg-white z-10">
+            <div className="absolute -top-6 lg:-top-12 left-1.5 sm:left-10 lg:left-20 w-[7rem] h-[7rem] lg:h-[10rem] lg:w-[10rem] rounded-full bg-white z-10">
               <div className="relative p-1">
                 <Image
                   width={1024}
@@ -59,35 +61,45 @@ export default async function Profiles({ params }: { params: { id: string } }) {
             </div>
           </div>
         </div>
-        <div className="flex w-full justify-center mt-10">
-          <div className="flex w-[100%] lg:w-[90%] justify-center lg:justify-between flex-col lg:flex-row gap-10">
-            <div className="flex flex-col items-start w-full lg:w-fit gap-4 py-[0.6rem] overflow-hidden px-3">
-              <div className="flex flex-row items-center w-full justify-start gap-4 overflow-hidden">
-                <h1 className="text-medium">Intro</h1>
-                <Divider />
+        <div className="flex w-full justify-center mt-4 lg:mt-10">
+          <div className="flex w-[100%] lg:w-[90%] justify-center lg:justify-between flex-col lg:flex-row gap-4 mg:gap-10">
+            <div className="flex flex-col items-start w-full lg:w-fit gap-4 overflow-visible px-0">
+              <div className="w-full relative !outline-none !border-none block lg:hidden">
+                <AccordionProfile user={user} date={date} />
               </div>
-              <div className="px-4 w-full space-y-3 flex flex-col items-start">
-                <p className="flex flex-row gap-1 text-medium md:text-medium text-default-500 items-center">
-                  <Location className="mb-[0.125rem] text-sm" />{" "}
-                  {getLocationUserCompute(user.activeAreaId)?.city}
-                </p>
-                <p className="flex flex-row gap-1 text-sm md:text-lg text-default-500 items-center">
-                  <Phone className="mb-[0.125rem] text-sm" />{" "}
-                  <span className="text-sm">
-                    +216 <span className="italic">{user.tel}</span>
-                  </span>
-                </p>
-                <p className="font-semibold text-sm text-default-500 ml-0.5">
-                  Joined {date}
-                </p>
+              <div className="hidden lg:flex flex-col w-full px-4 pb-4 space-y-4">
+                <div className="flex flex-row items-center w-full justify-start gap-4 overflow-hidden">
+                  <h1 className="text-medium">Intro</h1>
+                  <Divider />
+                </div>
+                <div className="px-4 w-full space-y-2 flex flex-col items-start">
+                  <p className="flex flex-row gap-1 font-semibold !py-0 -ml-[0.075rem] text-sm text-default-500 items-center">
+                    <Location className="mb-[0.125rem] text-sm" />{" "}
+                    {getLocationUserCompute(user.activeAreaId)?.city}
+                  </p>
+                  <p className="flex flex-row gap-1 font-semibold text-sm text-default-500 items-center">
+                    <Phone className="mb-[0.125rem] text-sm" />{" "}
+                    <span className="text-sm">
+                      +216 <span className="italic">{user.tel}</span>
+                    </span>
+                  </p>
+                  <p className="font-semibold ml-[0.075rem] text-sm text-default-500">
+                    Joined {date}
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-row items-center w-full justify-start gap-4 overflow-hidden">
-                <h1 className="text-medium">Location</h1>
-                <Divider />
+              <div className="w-full relative !outline-none !border-none lg:hidden">
+                <AccordionMap user={user} />
               </div>
-              <div className="flex justify-center w-full">
-                <div className="px-2 lg:px-8 w-[18rem]">
-                  <GeoCart activeAreaId={user.activeAreaId} />
+              <div className="hidden lg:flex flex-col w-full p-4 space-y-4">
+                <div className="flex flex-row items-center w-full justify-start gap-4 overflow-hidden">
+                  <h1 className="text-medium">Location</h1>
+                  <Divider />
+                </div>
+                <div className="flex justify-center w-full">
+                  <div className="px-2 lg:px-8 w-[18rem]">
+                    <GeoCart activeAreaId={user.activeAreaId} />
+                  </div>
                 </div>
               </div>
             </div>

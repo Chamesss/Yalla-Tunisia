@@ -1,21 +1,16 @@
-import React, { ReactNode } from "react";
-import { cities } from "@/cities";
-import {
-  Chip,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  Tooltip,
-} from "@nextui-org/react";
+"use client";
+import React from "react";
+import { Tooltip } from "@nextui-org/react";
 
 type Props = {
   activeAreaId: string | null;
+  open?: boolean;
 };
 
-export default function GeoCart({ activeAreaId }: Props) {
+export default function GeoCart({ activeAreaId, open }: Props) {
   return (
     <div className="px-4">
-      <div className="map--svg pointer-events-none">
+      <div className={`map--svg pointer-events-none`}>
         <svg viewBox="0 0 290 615">
           <a id="01">
             <Tooltip
