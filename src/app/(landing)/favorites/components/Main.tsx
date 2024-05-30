@@ -1,15 +1,8 @@
 "use client";
 import Star from "@/components/icons/Star";
 import CardItem from "@/components/utils/CardItem";
-import Title from "@/components/utils/Title";
 import { favoritesState } from "@/redux/slices/favoritesSlice";
-import {
-  Card,
-  CardBody,
-  CheckboxGroup,
-  Divider,
-  Skeleton,
-} from "@nextui-org/react";
+import { CheckboxGroup, Divider } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { CustomCheckbox } from "../../addlisting/panel/create/utils/CustomCheckBoxUnselected";

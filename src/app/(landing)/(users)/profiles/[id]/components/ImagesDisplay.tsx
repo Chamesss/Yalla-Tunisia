@@ -3,7 +3,8 @@ import { placesLibrary } from "@/constants/placesLibrairie";
 import { Spinner } from "@nextui-org/react";
 import { useJsApiLoader } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import NextImage from "next/image";
+import { Image } from "@nextui-org/react";
 import { getImages } from "@/app/(landing)/addlisting/check/components/ImagesPlaceholder";
 
 type TreatedImages = {
@@ -59,6 +60,8 @@ export default function ImagesDisplay({ business }: { business: Approvals }) {
                   {Images &&
                     Images.map(({ base64, url }: any) => (
                       <Image
+                        isZoomed
+                        as={NextImage}
                         key={url}
                         width={640}
                         height={640}
@@ -66,7 +69,7 @@ export default function ImagesDisplay({ business }: { business: Approvals }) {
                         blurDataURL={base64}
                         placeholder="blur"
                         src={url}
-                        className="h-[14rem] w-auto object-contain"
+                        className="h-[13rem] w-auto object-contain rounded-xl"
                         unoptimized
                       />
                     ))}

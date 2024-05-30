@@ -1,18 +1,39 @@
 "use client";
+import { CustomCheckbox } from "@/app/(landing)/addlisting/panel/create/utils/CustomCheckBoxUnselected";
 import CardItem from "@/components/utils/CardItem";
 import CardSkeleton from "@/components/utils/CardSkeleton";
-import { getListingsByUserId } from "@/lib/ListingActions/getListingsByUserId";
+import { CheckboxGroup } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 
 export default function ItemsDisplay({ id }: { id: string }) {
-  const [products, setProducts] = useState<AllProductsResult | null>(null);
+  const [products, setProducts] = useState<Product[] | null>(null);
   const [length, setLength] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [productsGlobal, setProductsGlobal] = useState<AllProductsResult>();
+  const [groupSelected, setGroupSelected] = React.useState<string[]>([
+    "Handmades",
+    "Sports",
+    "Guides",
+  ]);
 
   useEffect(() => {
     (async () => {
-      const products = (await getListingsByUserId(id)) as AllProductsResult;
-      setProducts(products);
+      const res = await fetch("/api/listings/getlistingbyuserid/", {
+        headers: {
+          userId: id,
+        },
+        cache: "force-cache",
+      });
+      const products = (await res.json()) as AllProductsResult;
+      const allProducts = [
+        ...products.Handmades,
+        ...products.Sports,
+        ...products.Guides,
+      ];
+
+      console.log("all products === ", allProducts);
+      setProducts(allProducts);
+      setProductsGlobal(products);
       setLength(
         products.Handmades.length +
           products.Guides.length +
@@ -21,6 +42,34 @@ export default function ItemsDisplay({ id }: { id: string }) {
       setLoading(false);
     })();
   }, []);
+
+  const handleFilter = (e: string[]) => {
+    setProducts(null);
+    setGroupSelected(e);
+    const filteredProducts: Product[] = [];
+    if (productsGlobal) {
+      for (const category of e) {
+        if (category.toLocaleLowerCase() === "handmades") {
+          for (const item of productsGlobal.Handmades) {
+            filteredProducts.push(item);
+          }
+        }
+
+        if (category.toLocaleLowerCase() === "sports") {
+          for (const item of productsGlobal.Sports) {
+            filteredProducts.push(item);
+          }
+        }
+
+        if (category.toLocaleLowerCase() === "guides") {
+          for (const item of productsGlobal.Guides) {
+            filteredProducts.push(item);
+          }
+        }
+      }
+    }
+    setProducts(filteredProducts);
+  };
 
   if (loading) {
     return (
@@ -43,14 +92,36 @@ export default function ItemsDisplay({ id }: { id: string }) {
   }
 
   return (
-    <div className="w-full space-y-4 px-2 py-2">
-      {products && (
-        <>
-          <ProductCategory title="Handmades" products={products.Handmades} />
+    <div className="w-full space-y-6 px-2 py-8">
+      <CheckboxGroup
+        className="gap-1 mb-6 flex flex-wrap mt-2"
+        orientation="horizontal"
+        value={groupSelected}
+        onChange={(e) => handleFilter(e)}
+      >
+        <CustomCheckbox value="Handmades">
+          <p className="text-tiny sm:text-sm md:text-medium">Handmades</p>
+        </CustomCheckbox>
+        <CustomCheckbox value="Sports">
+          <p className="text-tiny sm:text-sm md:text-medium">
+            Sports & Entertainment
+          </p>
+        </CustomCheckbox>
+        <CustomCheckbox value="Guides">
+          <p className="text-tiny sm:text-sm md:text-medium">Guides</p>
+        </CustomCheckbox>
+      </CheckboxGroup>
+      <div className="flex flex-row flex-wrap gap-4">
+        {products &&
+          products.map((p, i) => (
+            <React.Fragment key={i}>
+              <CardItem data={p} />
+            </React.Fragment>
+          ))}
+        {/* <ProductCategory title="Handmades" products={products.Handmades} />
           <ProductCategory title="Sports" products={products.Sports} />
-          <ProductCategory title="Guides" products={products.Guides} />
-        </>
-      )}
+          <ProductCategory title="Guides" products={products.Guides} /> */}
+      </div>
     </div>
   );
 }
@@ -63,7 +134,7 @@ function ProductCategory({
   products: ProductSports[] | ProductGuides[] | ProductHandMade[];
 }) {
   return (
-    <div className="space-y-4 bg-default-100 px-4 py-6 rounded-lg drop-shadow-sm shadow-sm">
+    <div className="space-y-4 px-4 py-6">
       <h1 className="text-lg font-semibold opacity-75">{title}</h1>
       {products.length === 0 ? (
         <p className="my-4">No offers to display.</p>

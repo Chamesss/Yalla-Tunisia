@@ -68,7 +68,7 @@ export default function GoogleTilesContainer({
             <StreetViewPanorama
               options={{
                 linksControl: true,
-                addressControl: true,
+                addressControl: false,
                 clickToGo: false,
                 disableDefaultUI: false,
                 imageDateControl: false,
@@ -78,7 +78,7 @@ export default function GoogleTilesContainer({
                 pano: p,
                 enableCloseButton: false,
                 motionTracking: false,
-                motionTrackingControl: true,
+                motionTrackingControl: false,
                 panControl: false,
                 showRoadLabels: false,
                 zoomControl: false,

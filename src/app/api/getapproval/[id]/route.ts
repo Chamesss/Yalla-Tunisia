@@ -8,7 +8,11 @@ export async function GET(req: NextRequest, route: { params: { id: string } }, r
         const approvalSnapshot = await getDoc(approvalRef);
 
         if (approvalSnapshot.exists()) {
-            return Response.json(approvalSnapshot.data());
+            const data = {
+                id: approvalSnapshot.id,
+                ...approvalSnapshot.data()
+            }
+            return Response.json(data);
         } else {
             console.log(`No approvals found for user ID: ${route.params.id}`);
             return Response.json({});

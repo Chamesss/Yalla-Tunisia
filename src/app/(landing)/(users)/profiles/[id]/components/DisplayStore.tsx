@@ -3,7 +3,7 @@ import getBusinessName from "@/lib/ListingActions/getBusinessName";
 import React, { useEffect, useState } from "react";
 import GoogleTilesContainer from "./GoogleTilesContainer";
 import ImagesDisplay from "./ImagesDisplay";
-import { Chip } from "@nextui-org/react";
+import { Chip, Divider } from "@nextui-org/react";
 import Store from "@/components/icons/Store";
 import Phone from "@/components/icons/Phone";
 
@@ -12,7 +12,10 @@ export default function DisplayStore({ id }: { id: string }) {
 
   useEffect(() => {
     (async () => {
-      const business = (await getBusinessName(id)) as Approvals | boolean;
+      const res = await fetch(`/api/getapproval/${id}`, {
+        cache: "force-cache",
+      });
+      const business = (await res.json()) as Approvals;
       setBusiness(business);
     })();
   }, []);
@@ -31,23 +34,51 @@ export default function DisplayStore({ id }: { id: string }) {
 
   return (
     <React.Fragment>
-      <div>
+      <div className="pb-6">
         <div className="space-y-4">
-          <div className="flex flex-col md:flex-row gap-3">
-            <Chip variant="flat" color="primary" size="lg">
-              <Store className="inline-block text-lg mr-2 mb-[0.125rem]" />
-              {business.bName}
-            </Chip>
-            <Chip variant="flat" color="primary" size="lg">
-              <Phone className="inline-block text-lg mr-2 mb-[0.125rem]" />
-              {business.bPhone}
-            </Chip>
+          <div className="p-6 overflow-hidden">
+            <div className="flex flex-row overflow-hidden gap-4 items-center">
+              <h1 className="text-nowrap">Store View</h1>
+              <Divider />
+            </div>
           </div>
-          <div className="flex flex-row overflow-x-auto scrollbar-container gap-3 px-2 py-1">
+          <div className="flex flex-row items-start gap-4 justify-around">
+            <div className="flex flex-row overflow-auto overflow-x-auto gap-3 px-2 py-1 scrollbar-container">
+              <GoogleTilesContainer business={business} />
+            </div>
+            <div className="flex flex-col md:flex-col gap-3 mt-4 px-4 py-4 rounded-xl">
+              <p className="text-opacity-90 text-sm">
+                <Chip
+                  variant="flat"
+                  color="primary"
+                  size="md"
+                  className="-px-2 mr-2"
+                >
+                  <Store className="inline-block text-lg" />
+                </Chip>
+                {business.bName}
+              </p>
+              <p className="text-opacity-90 italic text-sm">
+                <Chip
+                  variant="flat"
+                  color="primary"
+                  size="md"
+                  className="-px-2 mr-2"
+                >
+                  <Phone className="inline-block text-lg" />
+                </Chip>
+                +216 {business.bPhone}
+              </p>
+            </div>
+          </div>
+          <div className="p-6 overflow-hidden">
+            <div className="flex flex-row overflow-hidden gap-4 items-center">
+              <h1 className="text-nowrap">Store Images</h1>
+              <Divider />
+            </div>
+          </div>
+          <div className="flex flex-row gap-4 px-4 py-2 flex-wrap justify-center">
             <ImagesDisplay business={business} />
-          </div>
-          <div className="flex flex-row overflow-auto overflow-x-auto gap-3 mt-10 px-2 py-1 scrollbar-container">
-            <GoogleTilesContainer business={business} />
           </div>
         </div>
       </div>
