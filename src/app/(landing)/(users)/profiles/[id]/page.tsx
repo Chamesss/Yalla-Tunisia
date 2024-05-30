@@ -3,27 +3,10 @@ import { getLocationUserCompute } from "@/helpers/getLocationUserCompute";
 import { getUserById } from "@/lib/UserActions/getUser";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import React, { Suspense } from "react";
+import React from "react";
 import DropDownProfiles from "./components/DropDownProfiles";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Chip,
-  Divider,
-  Tab,
-  Tabs,
-  User,
-} from "@nextui-org/react";
-import { getListingsByUserId } from "@/lib/ListingActions/getListingsByUserId";
-import ItemsDisplay from "./components/ItemsDisplay";
-import { SkeletonLoader } from "@/app/(landing)/addlisting/panel/components/Main";
-import CardSkeleton from "@/components/utils/CardSkeleton";
-import LocationPicker from "@/app/(landing)/register/components/LocationPicker";
+import { Card, CardBody, Chip, Divider } from "@nextui-org/react";
 import GeoCart from "./components/GeoCart";
-import DisplayStore from "./components/DisplayStore";
-import { ExtractDayMonthYear } from "@/helpers/ExtractDayMonthYear";
-import { Timestamp } from "firebase/firestore";
 import { ExtractDate } from "@/helpers/ExtractDateTimestamp";
 import TabsSection from "./components/TabsSection";
 import Phone from "@/components/icons/Phone";
@@ -40,13 +23,13 @@ export default async function Profiles({ params }: { params: { id: string } }) {
     <div className="flex flex-1 flex-col">
       <div className="max-w-[100rem] flex justify-center flex-col flex-1 w-full px-2 xs:px-4 sm:px-6 md:px-10 lg:px-15 py-16">
         <div className="flex w-full justify-center">
-          <div className="w-[90%] relative">
-            <Card className="overflow-visible">
-              <CardBody className="min-h-[8rem] relative">
-                <div className="ml-[16rem]">
-                  <h1 className="text-3xl tracking-wide capitalize opacity-95 flex flex-col w-fit gap-2 items-start">
+          <div className="lg:w-[90%] w-[100%] relative">
+            <Card className="overflow-visible border border-opacity-10 shadow-[0px_0px_30px_-15px_rgba(0,0,0,0.2)]">
+              <CardBody className="min-h-[6rem] lg:min-h-[8rem] relative !outline-none !border-none">
+                <div className="ml-[6.85rem] sm:ml-[9rem] lg:ml-[16rem]">
+                  <h1 className="text-xl lg:text-3xl tracking-wide capitalize opacity-95 flex flex-col w-fit gap-1 lg:gap-2 items-start">
                     <span>{user.username}.</span>
-                    <Chip variant="flat" color="primary">
+                    <Chip variant="flat" color="primary" className="text-tiny">
                       {user.seller ? "Seller" : "Visitor"}
                     </Chip>
                   </h1>
@@ -56,12 +39,12 @@ export default async function Profiles({ params }: { params: { id: string } }) {
                 </div>
               </CardBody>
             </Card>
-            <div className="absolute -top-12 left-20 -z-10">
-              <Card className="rounded-full">
-                <CardBody className="block h-[10rem] w-[10rem] rounded-full " />
+            <div className="absolute -top-6 lg:-top-12 left-4 sm:left-10 lg:left-20 -z-10">
+              <Card className="rounded-full border border-opacity-10 shadow-[0_0px_40px_-5px_rgba(0,0,0,0.25)]">
+                <CardBody className="block w-[6rem] h-[6rem] lg:h-[10rem] lg:w-[10rem] rounded-full " />
               </Card>
             </div>
-            <div className="absolute -top-12 left-20 h-[10rem] w-[10rem] rounded-full bg-white z-10">
+            <div className="absolute -top-6 lg:-top-12 left-4 sm:left-10 lg:left-20 w-[6rem] h-[6rem] lg:h-[10rem] lg:w-[10rem] rounded-full bg-white z-10">
               <div className="relative p-1">
                 <Image
                   width={1024}
@@ -77,13 +60,13 @@ export default async function Profiles({ params }: { params: { id: string } }) {
           </div>
         </div>
         <div className="flex w-full justify-center mt-10">
-          <div className="flex w-[90%] justify-between flex-row gap-10">
-            <div className="flex flex-col gap-4 px-6 py-[0.6rem] overflow-hidden">
-              <div className="flex flex-row items-center gap-4">
+          <div className="flex w-[100%] lg:w-[90%] justify-center lg:justify-between flex-col lg:flex-row gap-10">
+            <div className="flex flex-col justify-center items-center w-full lg:w-fit gap-4 px-6 py-[0.6rem] overflow-hidden">
+              <div className="flex flex-row items-center w-full gap-4">
                 <h1 className="text-medium">Intro</h1>
                 <Divider />
               </div>
-              <div className="px-4 space-y-3 flex flex-col items-start">
+              <div className="px-4 w-full space-y-3 flex flex-col items-start">
                 <p className="flex flex-row gap-1 text-medium md:text-medium text-default-500 items-center">
                   <Location className="mb-[0.125rem] text-sm" />{" "}
                   {getLocationUserCompute(user.activeAreaId)?.city}
@@ -98,16 +81,16 @@ export default async function Profiles({ params }: { params: { id: string } }) {
                   Joined {date}
                 </p>
               </div>
-              <div className="flex flex-row items-center gap-4">
+              <div className="flex w-full flex-row items-center gap-4">
                 <h1 className="text-medium">Location</h1>
                 <Divider />
               </div>
-              <div className="px-2 lg:px-8 w-[18rem] xs:w-[21rem] md:[18rem]">
+              <div className="px-2 lg:px-8 w-[18rem]">
                 <GeoCart activeAreaId={user.activeAreaId} />
               </div>
             </div>
             <div className="flex-1 flex flex-col justify-start space-y-3">
-              <Card>
+              <Card className="shadow-[0px_0px_30px_-15px_rgba(0,0,0,0.2)] border border-opacity-10">
                 <CardBody className="px-4 py-4 space-y-4">
                   <h1 className="text-medium">Description</h1>
                   <blockquote className="italic text-default-600">

@@ -34,7 +34,7 @@ export default function DisplayStore({ id }: { id: string }) {
 
   return (
     <React.Fragment>
-      <div className="pb-6">
+      <div>
         <div className="space-y-4">
           <div className="p-6 overflow-hidden">
             <div className="flex flex-row overflow-hidden gap-4 items-center">

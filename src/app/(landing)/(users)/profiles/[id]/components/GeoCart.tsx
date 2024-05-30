@@ -14,7 +14,7 @@ type Props = {
 
 export default function GeoCart({ activeAreaId }: Props) {
   return (
-    <div className="">
+    <div className="px-4">
       <div className="map--svg pointer-events-none">
         <svg viewBox="0 0 290 615">
           <a id="01">

@@ -92,9 +92,9 @@ export default function ItemsDisplay({ id }: { id: string }) {
   }
 
   return (
-    <div className="w-full space-y-6 px-2 py-8">
+    <div className="w-full space-y-6 lg:px-2 py-3 lg:py-8">
       <CheckboxGroup
-        className="gap-1 mb-6 flex flex-wrap mt-2"
+        className="gap-1 mb-6 flex flex-wrap lg:mt-2 text-tiny"
         orientation="horizontal"
         value={groupSelected}
         onChange={(e) => handleFilter(e)}
@@ -111,7 +111,7 @@ export default function ItemsDisplay({ id }: { id: string }) {
           <p className="text-tiny sm:text-sm md:text-medium">Guides</p>
         </CustomCheckbox>
       </CheckboxGroup>
-      <div className="flex flex-row flex-wrap gap-4">
+      <div className="flex flex-row flex-wrap gap-2 lg:gap-4">
         {products &&
           products.map((p, i) => (
             <React.Fragment key={i}>
