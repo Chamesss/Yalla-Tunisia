@@ -34,7 +34,7 @@ export default function DisplayStore({ id }: { id: string }) {
 
   return (
     <React.Fragment>
-      <div>
+      <div className="pb-6">
         <div className="space-y-4">
           <div className="p-6 overflow-hidden">
             <div className="flex flex-row overflow-hidden gap-4 items-center">
@@ -42,8 +42,8 @@ export default function DisplayStore({ id }: { id: string }) {
               <Divider />
             </div>
           </div>
-          <div className="flex flex-row items-start gap-4 justify-around">
-            <div className="flex flex-row overflow-auto overflow-x-auto gap-3 px-2 py-1 scrollbar-container">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 justify-center sm:justify-around">
+            <div className="flex flex-row overflow-auto overflow-x-auto gap-3 px-2 py-1 scrollbar-container scale-90 xs:scale-100">
               <GoogleTilesContainer business={business} />
             </div>
             <div className="flex flex-col md:flex-col gap-3 mt-4 px-4 py-4 rounded-xl">

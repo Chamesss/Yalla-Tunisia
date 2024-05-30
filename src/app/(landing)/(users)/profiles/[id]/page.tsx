@@ -20,7 +20,7 @@ export default async function Profiles({ params }: { params: { id: string } }) {
   const date = ExtractDate(user.created_at);
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col items-center">
       <div className="max-w-[100rem] flex justify-center flex-col flex-1 w-full px-2 xs:px-4 sm:px-6 md:px-10 lg:px-15 py-16">
         <div className="flex w-full justify-center">
           <div className="lg:w-[90%] w-[100%] relative">
@@ -61,8 +61,8 @@ export default async function Profiles({ params }: { params: { id: string } }) {
         </div>
         <div className="flex w-full justify-center mt-10">
           <div className="flex w-[100%] lg:w-[90%] justify-center lg:justify-between flex-col lg:flex-row gap-10">
-            <div className="flex flex-col justify-center items-center w-full lg:w-fit gap-4 px-6 py-[0.6rem] overflow-hidden">
-              <div className="flex flex-row items-center w-full gap-4">
+            <div className="flex flex-col items-start w-full lg:w-fit gap-4 py-[0.6rem] overflow-hidden px-3">
+              <div className="flex flex-row items-center w-full justify-start gap-4 overflow-hidden">
                 <h1 className="text-medium">Intro</h1>
                 <Divider />
               </div>
@@ -81,12 +81,14 @@ export default async function Profiles({ params }: { params: { id: string } }) {
                   Joined {date}
                 </p>
               </div>
-              <div className="flex w-full flex-row items-center gap-4">
+              <div className="flex flex-row items-center w-full justify-start gap-4 overflow-hidden">
                 <h1 className="text-medium">Location</h1>
                 <Divider />
               </div>
-              <div className="px-2 lg:px-8 w-[18rem]">
-                <GeoCart activeAreaId={user.activeAreaId} />
+              <div className="flex justify-center w-full">
+                <div className="px-2 lg:px-8 w-[18rem]">
+                  <GeoCart activeAreaId={user.activeAreaId} />
+                </div>
               </div>
             </div>
             <div className="flex-1 flex flex-col justify-start space-y-3">

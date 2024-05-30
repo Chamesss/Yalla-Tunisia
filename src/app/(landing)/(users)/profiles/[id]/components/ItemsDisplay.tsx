@@ -92,9 +92,9 @@ export default function ItemsDisplay({ id }: { id: string }) {
   }
 
   return (
-    <div className="w-full space-y-6 lg:px-2 py-3 lg:py-8">
+    <div className="w-full space-y-6 lg:px-2 py-3 lg:pb-8">
       <CheckboxGroup
-        className="gap-1 mb-6 flex flex-wrap lg:mt-2 text-tiny"
+        className="gap-1 mb-6 flex flex-wrap lg:mt-2 text-tiny px-[0.3rem] sm:px-4"
         orientation="horizontal"
         value={groupSelected}
         onChange={(e) => handleFilter(e)}
@@ -111,16 +111,18 @@ export default function ItemsDisplay({ id }: { id: string }) {
           <p className="text-tiny sm:text-sm md:text-medium">Guides</p>
         </CustomCheckbox>
       </CheckboxGroup>
-      <div className="flex flex-row flex-wrap gap-2 lg:gap-4">
-        {products &&
-          products.map((p, i) => (
-            <React.Fragment key={i}>
-              <CardItem data={p} />
-            </React.Fragment>
-          ))}
-        {/* <ProductCategory title="Handmades" products={products.Handmades} />
+      <div className="flex justify-center">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-2 xl:grid-cols-3">
+          {products &&
+            products.map((p, i) => (
+              <React.Fragment key={i}>
+                <CardItem data={p} />
+              </React.Fragment>
+            ))}
+          {/* <ProductCategory title="Handmades" products={products.Handmades} />
           <ProductCategory title="Sports" products={products.Sports} />
           <ProductCategory title="Guides" products={products.Guides} /> */}
+        </div>
       </div>
     </div>
   );
