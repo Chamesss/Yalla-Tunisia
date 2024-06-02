@@ -17,7 +17,7 @@ export default function DropDownProfiles() {
         </div>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
-        <DropdownItem key="new">Delete profile</DropdownItem>
+        <DropdownItem key="delete">Delete profile</DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );
