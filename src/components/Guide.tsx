@@ -17,7 +17,7 @@ export default async function Guides() {
         <Link
           href={{
             pathname: "/listings",
-            query: { flag: "guides" },
+            query: { cat: "66207ab5b27e1a42a69a6517" },
           }}
         >
           <Button className="px-4 py-0 bg-black/50 text-white transition-all rounded-lg hover:scale-105">

@@ -95,3 +95,17 @@ export const categories = [
         ]
     }
 ]
+
+export const CategoriesIds = ["66207a2aeaae61ad28ef0b19", "66207a58baeaaee2d5e6d417", "66207ab5b27e1a42a69a6517"]
+export const SubcategoryIds = ["66207a3c814a7dfe395f98fd", "66207a46e07b9b595a189c49", "66207a4ebea5db3927c25c26", "66207a65f129bf107bddf067", "66207a6efb5a60b6391b76ca", "66207a7690c97cf8267d4768", "66207a7ead63be32426c43dc", "66207a855bb009447014b9ac", "66207a8d50a522430f6074b6", "66207aac44cc047a47abbf30", "66207abd90b31d11aa680131"]
+
+export const CategoryWName = [{
+    id: "66207a2aeaae61ad28ef0b19",
+    name: "Handmades",
+}, {
+    id: "66207a58baeaaee2d5e6d417",
+    name: "Sports & Entertainment"
+}, {
+    id: "66207ab5b27e1a42a69a6517",
+    name: "Guides"
+}]

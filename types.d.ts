@@ -36,7 +36,7 @@ interface userSlice {
 interface SubCategoryType {
   id: string;
   name: string;
-  picture: string;
+  icon: (props: SVGProps<SVGSVGElement>) => JSX.Element;
 }
 interface CategoryType {
   id: string;
