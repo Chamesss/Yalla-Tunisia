@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 
 interface DropdownItemProps {
@@ -52,7 +53,8 @@ export default function DropdownItem({ category }: DropdownItemProps) {
             {category.subcategories.map((d: subcategories, i: number) => {
               const SubCategoryIcon = d.Icon;
               return (
-                <div
+                <Link
+                  href={`/listings?sub=${d.id}`}
                   key={i}
                   className="flex flex-row items-center justify-between p-1.5 dark:hover:bg-slate-950 hover:bg-gray-100 cursor-pointer"
                 >
@@ -73,7 +75,7 @@ export default function DropdownItem({ category }: DropdownItemProps) {
                       clipRule="evenodd"
                     />
                   </svg>
-                </div>
+                </Link>
               );
             })}
           </div>

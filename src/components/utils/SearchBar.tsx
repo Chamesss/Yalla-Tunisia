@@ -5,6 +5,7 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import { Button, useDisclosure } from "@nextui-org/react";
 import FilterModal from "./FilterModal";
+import Link from "next/link";
 
 type Props = {
   setMounted: Dispatch<SetStateAction<boolean>>;
@@ -13,6 +14,7 @@ type Props = {
 
 export default function SearchBar({ setMounted, mounted }: Props) {
   const { theme, resolvedTheme } = useTheme();
+  const [keyword, setKeyword] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   useEffect(() => setMounted(true), []);
 
@@ -45,10 +47,15 @@ export default function SearchBar({ setMounted, mounted }: Props) {
       <input
         className="w-full outline-none border-none bg-slate-50 dark:bg-[#212933]"
         placeholder="Search..."
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
       />
-      <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110 bg-[#48b9ff] dark:bg-[#3d9cd7] p-2 rounded-full">
-        <Search height="1.5rem" width="1.5rem" color="white" />
-      </div>
+      <Link href={`/listings?keyword=${keyword}`}>
+        <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110 bg-[#48b9ff] dark:bg-[#3d9cd7] p-2 rounded-full">
+          <Search height="1.5rem" width="1.5rem" color="white" />
+        </div>
+      </Link>
+
       <FilterModal isOpen={isOpen} onClose={onClose} />
     </div>
   );

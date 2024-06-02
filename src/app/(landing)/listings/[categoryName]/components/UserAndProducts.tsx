@@ -60,9 +60,11 @@ export default function UserAndProducts({
                     }
                   />
                 </Link>
-                <Button color="primary">
-                  Visit business page <IconArrowRight />
-                </Button>
+                <Link href={`/profiles/${user.id}`}>
+                  <Button color="primary">
+                    Visit business page <IconArrowRight />
+                  </Button>
+                </Link>
               </div>
               <Divider className="my-4 w-[90%]" />
               <div

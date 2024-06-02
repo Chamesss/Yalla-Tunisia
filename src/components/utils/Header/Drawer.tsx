@@ -152,12 +152,15 @@ export default function HeaderDrawer({
             >
               <AccordionItem key="1" aria-label="Handmades" title="Handmades">
                 {categories[0].subcategories.map((d, i) => (
-                  <p
-                    key={i}
-                    className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
-                  >
-                    {d.name}
-                  </p>
+                  <div key={i} className="my-1">
+                    <Link
+                      href={`/listings?sub=${d.id}`}
+                      className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {d.name}
+                    </Link>
+                  </div>
                 ))}
               </AccordionItem>
               <AccordionItem
@@ -165,23 +168,31 @@ export default function HeaderDrawer({
                 aria-label="Sports & Entertainments"
                 title="Sports & Entertainments"
               >
-                {categories[1].subcategories.map((d, i) => (
-                  <p
-                    key={i}
-                    className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
-                  >
-                    {d.name}
-                  </p>
-                ))}
+                <div className="flex flex-col flex-nowrap">
+                  {categories[1].subcategories.map((d, i) => (
+                    <div key={i} className="my-1">
+                      <Link
+                        href={`/listings?sub=${d.id}`}
+                        className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {d.name}
+                      </Link>
+                    </div>
+                  ))}
+                </div>
               </AccordionItem>
               <AccordionItem key="3" aria-label="Guides" title="Guides">
                 {categories[2].subcategories.map((d, i) => (
-                  <p
-                    key={i}
-                    className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
-                  >
-                    {d.name}
-                  </p>
+                  <div key={i} className="my-1">
+                    <Link
+                      href={`/listings?sub=${d.id}`}
+                      className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {d.name}
+                    </Link>
+                  </div>
                 ))}
               </AccordionItem>
             </Accordion>

@@ -15,7 +15,7 @@ export default function EditToggle({
     <>
       <div
         onClick={onOpen}
-        className="p-4 border border-default-300 rounded-full cursor-pointer h-fit w-fit hover:opacity-75"
+        className="p-1.5 flex items-center justify-center sm:p-4 border border-default-300 rounded-full cursor-pointer h-fit w-fit hover:opacity-75"
       >
         <Setting />
       </div>

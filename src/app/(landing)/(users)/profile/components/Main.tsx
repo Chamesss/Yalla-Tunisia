@@ -41,7 +41,7 @@ export default function Main({ user }: { user: userType }) {
         <div className="flex w-full justify-center">
           <div className="lg:w-[90%] w-[100%] relative">
             <Card className="overflow-visible border border-opacity-10 shadow-[0px_0px_30px_-15px_rgba(0,0,0,0.2)]">
-              <CardBody className="min-h-[6rem] lg:min-h-[8rem] relative !outline-none !border-none">
+              <CardBody className="sm:min-h-[6rem] lg:min-h-[8rem] relative !outline-none !border-none">
                 <div className="ml-[6.85rem] sm:ml-[9rem] lg:ml-[16rem]">
                   <h1 className="text-xl lg:text-3xl tracking-wide capitalize opacity-95 flex flex-col w-fit gap-1 lg:gap-2 items-start">
                     <span>{user.username}.</span>
@@ -50,20 +50,20 @@ export default function Main({ user }: { user: userType }) {
                     </Chip>
                   </h1>
                 </div>
-                <div className="absolute gap-4 top-5 right-5 ">
-                  <div className="flex flex-row gap-4">
+                <div className="absolute gap-4 top-5 right-3 sm:right-5 ">
+                  <div className="flex flex-row gap-1 sm:gap-4">
                     <EditToggle current={user.picture} id={user.id as string} />
                     <DropDownProfiles />
                   </div>
                 </div>
               </CardBody>
             </Card>
-            <div className="absolute -top-6 lg:-top-12 left-1.5 sm:left-10 lg:left-20 -z-10">
+            <div className="absolute -top-6 lg:-top-12 left-0.5 sm:left-10 lg:left-20 -z-10">
               <Card className="rounded-full border border-opacity-10 shadow-[0_0px_40px_-5px_rgba(0,0,0,0.25)]">
                 <CardBody className="block w-[7rem] h-[7rem] lg:h-[10rem] lg:w-[10rem] rounded-full " />
               </Card>
             </div>
-            <div className="absolute -top-6 lg:-top-12 left-1.5 sm:left-10 lg:left-20 w-[7rem] h-[7rem] lg:h-[10rem] lg:w-[10rem] rounded-full bg-white z-10">
+            <div className="absolute -top-6 lg:-top-12 left-0.5 sm:left-10 lg:left-20 w-[7rem] h-[7rem] lg:h-[10rem] lg:w-[10rem] rounded-full bg-white z-10">
               <div className="relative p-1">
                 <Image
                   width={1024}
