@@ -12,7 +12,7 @@ import {
 import "react-day-picker/dist/style.css";
 import AddImages from "./AddImages";
 import { CustomCheckbox } from "./CustomCheckBox";
-import { spokenLanguages } from "./Languages";
+import { iterableLanguages, spokenLanguages } from "./Languages";
 import RadioGrpTime from "../utils/RadioGrpTime";
 import DaysPicker from "../utils/DaysPicker";
 import Restrictions from "../utils/Restrictions";
@@ -201,7 +201,7 @@ function GuideInfoFrom({
             <ErrorBoundary fallbackRender={fallbackRender}>
               <Autocomplete
                 id="LanguageSelector"
-                defaultItems={spokenLanguages}
+                defaultItems={iterableLanguages}
                 label="Select your spoken languages"
                 className="max-w-xs"
                 onSelectionChange={(e) =>

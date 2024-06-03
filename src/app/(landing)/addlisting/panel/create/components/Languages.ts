@@ -102,3 +102,5 @@ export const spokenLanguages: string[] = [
     "Lao",
     "Khmer"
 ];
+
+export const iterableLanguages: Iterable<object> = spokenLanguages.map(language => ({ name: language }));
