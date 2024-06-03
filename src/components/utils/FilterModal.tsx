@@ -26,7 +26,7 @@ type Props = {
   setSelectedLocationId: Dispatch<SetStateAction<string>>;
 };
 
-type selectedSub = {
+export type selectedSub = {
   id: string;
   name: string;
 };
@@ -153,16 +153,7 @@ export default function FilterModal({
               <Button color="danger" onClick={onClose}>
                 Close
               </Button>
-              {/* <Link
-                href={{
-                  pathname: "/listings",
-                  query: {
-                    cat: selectedCategory,
-                    sub: selectedSubcategory,
-                    locId: selectedLocationId,
-                  },
-                }}
-              > */}
+
               <Button color="primary" onClick={onClose}>
                 Action
               </Button>
