@@ -3,7 +3,7 @@ import Filter from "../icons/Filter";
 import Search from "../icons/Search";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { Button, useDisclosure } from "@nextui-org/react";
+import { Button, Chip, useDisclosure } from "@nextui-org/react";
 import FilterModal from "./FilterModal";
 import Link from "next/link";
 
@@ -13,14 +13,27 @@ type Props = {
 };
 
 export default function SearchBar({ setMounted, mounted }: Props) {
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedLocationId, setSelectedLocationId] = useState<string>("");
+
+  const [searchLength, setSearchLength] = useState<number>(0);
+
   const { theme, resolvedTheme } = useTheme();
   const [keyword, setKeyword] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   useEffect(() => setMounted(true), []);
 
-  const openModal = () => {
-    onOpen();
-  };
+  useEffect(() => {
+    if (isOpen === false) {
+      let length: number = 0;
+      selectedCategory.length > 0 && length++;
+      selectedSubcategory.length > 0 && length++;
+      selectedLocationId.length > 0 && length++;
+
+      setSearchLength(length);
+    }
+  }, [isOpen]);
 
   if (!mounted)
     return (
@@ -36,13 +49,23 @@ export default function SearchBar({ setMounted, mounted }: Props) {
     );
   return (
     <div className="flex-row items-center hidden md:flex bg-slate-50 gap-4 dark:bg-[#212933] justify-center rounded-full py-1.5 px-3">
-      <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110">
+      <div className="relative cursor-pointer transition-all duration-500 ease-in-out hover:scale-110">
         <Filter
-          onClick={openModal}
+          onClick={onOpen}
           height="1.75rem"
           width="1.75rem"
           color={resolvedTheme === "light" ? "#3b3b3b" : "white"}
         />
+        {searchLength > 0 && (
+          <Chip
+            size="sm"
+            variant="flat"
+            color="primary"
+            className="absolute -top-1.5 -left-1.5 z-10 p-1 scale-75"
+          >
+            {searchLength}
+          </Chip>
+        )}
       </div>
       <input
         className="w-full outline-none border-none bg-slate-50 dark:bg-[#212933]"
@@ -50,13 +73,32 @@ export default function SearchBar({ setMounted, mounted }: Props) {
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
       />
-      <Link href={`/listings?keyword=${keyword}`}>
+      <Link
+        href={{
+          pathname: "/listings",
+          query: {
+            cat: selectedCategory,
+            sub: selectedSubcategory,
+            locId: selectedLocationId,
+            keyword: keyword,
+          },
+        }}
+      >
         <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110 bg-[#48b9ff] dark:bg-[#3d9cd7] p-2 rounded-full">
           <Search height="1.5rem" width="1.5rem" color="white" />
         </div>
       </Link>
 
-      <FilterModal isOpen={isOpen} onClose={onClose} />
+      <FilterModal
+        isOpen={isOpen}
+        onClose={onClose}
+        selectedSubcategory={selectedSubcategory}
+        setSelectedSubcategory={setSelectedSubcategory}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        selectedLocationId={selectedLocationId}
+        setSelectedLocationId={setSelectedLocationId}
+      />
     </div>
   );
 }
