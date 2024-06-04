@@ -27,6 +27,8 @@ export default function Main() {
   const category = searchParams.get("cat") || "";
   const keyword = searchParams.get("keyword") || "";
   const subCategory = searchParams.get("sub") || "";
+  const min = searchParams.get("min") || "";
+  const max = searchParams.get("max") || "";
 
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -42,31 +44,31 @@ export default function Main() {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    (async () => {
-      const handmadesDocs = await fetch(`/api/admin/getalllistings/Handmades`, {
-        cache: "no-cache",
-      });
-      const handmades = (await handmadesDocs.json()) as ProductHandMade[];
-      console.log("handmades === ", handmades);
-      setHandmades(handmades);
-      const sportsDoc = await fetch(`/api/admin/getalllistings/Sports`, {
-        cache: "no-cache",
-      });
-      const sports = (await sportsDoc.json()) as ProductSports[];
-      setSports(sports);
-      console.log("sports === ", sports);
-      const guidesDoc = await fetch(`/api/admin/getalllistings/Guides`, {
-        cache: "no-cache",
-      });
-      const guides = (await guidesDoc.json()) as ProductGuides[];
-      console.log("guides === ", guides);
-      setGuides(guides);
-      const allProducts = [...handmades, ...sports, ...guides];
-      setAllProducts(allProducts);
-      setLoading(false);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const handmadesDocs = await fetch(`/api/admin/getalllistings/Handmades`, {
+  //       cache: "no-cache",
+  //     });
+  //     const handmades = (await handmadesDocs.json()) as ProductHandMade[];
+  //     console.log("handmades === ", handmades);
+  //     setHandmades(handmades);
+  //     const sportsDoc = await fetch(`/api/admin/getalllistings/Sports`, {
+  //       cache: "no-cache",
+  //     });
+  //     const sports = (await sportsDoc.json()) as ProductSports[];
+  //     setSports(sports);
+  //     console.log("sports === ", sports);
+  //     const guidesDoc = await fetch(`/api/admin/getalllistings/Guides`, {
+  //       cache: "no-cache",
+  //     });
+  //     const guides = (await guidesDoc.json()) as ProductGuides[];
+  //     console.log("guides === ", guides);
+  //     setGuides(guides);
+  //     const allProducts = [...handmades, ...sports, ...guides];
+  //     setAllProducts(allProducts);
+  //     setLoading(false);
+  //   })();
+  // }, []);
 
   useEffect(() => {
     if (selectedCategory === "") {
@@ -98,6 +100,37 @@ export default function Main() {
     }
   }, [selectedCategory]);
 
+  useEffect(() => {
+    let query = "?";
+    if (subCategory && SubcategoryIds.includes(subCategory)) {
+      query += `sub=${subCategory}`;
+      if (keyword.length > 0) {
+        query += `&keyword=${keyword}`;
+      }
+    } else if (category && CategoriesIds.includes(category)) {
+      query += `cat=${category}`;
+      if (keyword.length > 0) {
+        query += `&keyword=${keyword}`;
+      }
+    } else if (keyword.length > 0) {
+      query += `keyword=${keyword}`;
+    } else {
+      query += "random=true";
+    }
+
+    if (min) {
+      query += `&min=${min}`;
+    }
+    if (max) {
+      query += `&max=${max}`;
+    }
+    (async () => {
+      const res = await fetch(`/api/listings/search${query}`);
+      const response = await res.json();
+      console.log(response);
+    })();
+  }, []);
+
   if (SubcategoryIds.includes(subCategory)) {
     if (keyword.length > 0) {
       //fetch products by subcategory and keyword
@@ -122,7 +155,7 @@ export default function Main() {
 
   return (
     <div className="flex flex-1 flex-grow min-h-[90vh]">
-      <div className="max-w-[100rem] flex justify-center flex-col flex-1 w-full px-2 xs:px-4 sm:px-6 md:px-10 lg:px-15 py-8">
+      <div className="max-w-[100rem] flex justify-center flex-col flex-1 w-full px-2 xs:px-4 sm:px-6 py-8">
         <div className="flex flex-row items-stretch flex-1 justify-center gap-6">
           <div className="flex w-[23%]">
             <Card className="flex flex-1 py-3">
@@ -204,6 +237,7 @@ export default function Main() {
                   <Input
                     className="w-full"
                     placeholder="Search"
+                    defaultValue={keyword}
                     endContent={
                       <div className="p-1.5 bg-transparent hover:bg-black/10 rounded-full">
                         <IconSearch className="opacity-75 text-2xl cursor-pointer" />

@@ -24,6 +24,10 @@ type Props = {
   setSelectedCategory: Dispatch<SetStateAction<string>>;
   selectedLocationId: string;
   setSelectedLocationId: Dispatch<SetStateAction<string>>;
+  min: string;
+  setMin: Dispatch<SetStateAction<string>>;
+  max: string;
+  setMax: Dispatch<SetStateAction<string>>;
 };
 
 export type selectedSub = {
@@ -40,6 +44,10 @@ export default function FilterModal({
   setSelectedCategory,
   selectedLocationId,
   setSelectedLocationId,
+  min,
+  setMin,
+  max,
+  setMax,
 }: Props) {
   const [subcategoriesFiltered, setSubcategoryFiltered] = useState<
     selectedSub[]
@@ -143,9 +151,19 @@ export default function FilterModal({
               <div className="space-y-3">
                 <p>Price</p>
                 <div className="flex flex-row items-center gap-4 px-10">
-                  <Input size="sm" label="min" />
+                  <Input
+                    size="sm"
+                    label="min"
+                    value={min}
+                    onChange={(e) => setMin(e.target.value)}
+                  />
                   <IconArrowRight className="text-4xl" />
-                  <Input size="sm" label="max" />
+                  <Input
+                    size="sm"
+                    label="max"
+                    value={max}
+                    onChange={(e) => setMax(e.target.value)}
+                  />
                 </div>
               </div>
             </ModalBody>

@@ -1,6 +1,8 @@
-import { fetchData } from "../utils/Endpoint"
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(req: NextRequest, res: NextResponse) {
+
+    console.log(req.nextUrl.searchParams.get("sub"))
     // const { searchParams } = new URL(request.url)
     // const id = searchParams.get('id')
     // const res = await fetchData("/listings")

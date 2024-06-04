@@ -17,6 +17,9 @@ export default function SearchBar({ setMounted, mounted }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedLocationId, setSelectedLocationId] = useState<string>("");
 
+  const [min, setMin] = useState<string>("");
+  const [max, setMax] = useState<string>("");
+
   const [searchLength, setSearchLength] = useState<number>(0);
 
   const { theme, resolvedTheme } = useTheme();
@@ -30,7 +33,9 @@ export default function SearchBar({ setMounted, mounted }: Props) {
       selectedCategory.length > 0 && length++;
       selectedSubcategory.length > 0 && length++;
       selectedLocationId.length > 0 && length++;
-
+      if (min.length > 0 || max.length > 0) {
+        length++;
+      }
       setSearchLength(length);
     }
   }, [isOpen]);
@@ -81,6 +86,8 @@ export default function SearchBar({ setMounted, mounted }: Props) {
             sub: selectedSubcategory,
             locId: selectedLocationId,
             keyword: keyword,
+            min: min,
+            max: max,
           },
         }}
       >
@@ -98,6 +105,10 @@ export default function SearchBar({ setMounted, mounted }: Props) {
         setSelectedCategory={setSelectedCategory}
         selectedLocationId={selectedLocationId}
         setSelectedLocationId={setSelectedLocationId}
+        min={min}
+        setMin={setMin}
+        max={max}
+        setMax={setMax}
       />
     </div>
   );
