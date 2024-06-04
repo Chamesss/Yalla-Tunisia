@@ -125,9 +125,13 @@ export default function Main() {
       query += `&max=${max}`;
     }
     (async () => {
-      const res = await fetch(`/api/listings/search${query}`);
-      const response = await res.json();
-      console.log(response);
+      const res = await fetch(`/api/listings/search${query}`, {
+        cache: "no-cache",
+      });
+      const response = (await res.json()) as Product[] | undefined;
+      setAllProducts(response);
+      console.log("all products === ", response);
+      setLoading(false);
     })();
   }, []);
 

@@ -109,3 +109,15 @@ export const CategoryWName = [{
     id: "66207ab5b27e1a42a69a6517",
     name: "Guides"
 }]
+
+export const CategoryWNameDoc = [{
+    id: "66207a2aeaae61ad28ef0b19",
+    name: "Handmades",
+}, {
+    id: "66207a58baeaaee2d5e6d417",
+    name: "Sports"
+}, {
+    id: "66207ab5b27e1a42a69a6517",
+    name: "Guides"
+}]
+
