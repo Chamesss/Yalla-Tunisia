@@ -2,20 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 export async function GET(req: NextRequest, res: NextResponse) {
-    // const { sub: subCategory = '', keyword = '', cat: category = '', min = '', max = '' } = req.query;
 
-    console.log(req.nextUrl.searchParams.get("sub"))
-    // const subCategory = searchParams.get('sub') || "";
-    // const keyword = searchParams.get('keyword') || "";
-    // const category = searchParams.get('cat') || "";
-    // const min = searchParams.get('min') || "";
-    // const max = searchParams.get('max') || "";
+    const subCategory = req.nextUrl.searchParams.get('sub') || "";
+    const keyword = req.nextUrl.searchParams.get('keyword') || "";
+    const category = req.nextUrl.searchParams.get('cat') || "";
+    const min = req.nextUrl.searchParams.get('min') || "";
+    const max = req.nextUrl.searchParams.get('max') || "";
 
-    // Log the parameters to verify
-    // console.log({ subCategory, keyword, category, min, max });
-
-    // Perform your fetch or database query using these parameters
-    // Example: Fetch products from a database based on the query parameters
     let data = [];
 
     // if (subCategory) {
