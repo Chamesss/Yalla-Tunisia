@@ -1,10 +1,9 @@
 "use client";
-
 import { cities } from "@/cities";
-import IconArrowRight from "@/components/icons/RightArrow";
 import IconSearch from "@/components/icons/Search";
 import CardItem from "@/components/utils/CardItem";
 import CardSkeleton from "@/components/utils/CardSkeleton";
+import { usePathname } from "next/navigation";
 import { selectedSub } from "@/components/utils/FilterModal";
 import {
   CategoriesIds,
@@ -21,6 +20,7 @@ import {
 } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import useQueryChangeDetector from "@/hooks/useQueryChangeDetector";
 
 export default function Main() {
   const searchParams = useSearchParams();
@@ -44,31 +44,7 @@ export default function Main() {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const handmadesDocs = await fetch(`/api/admin/getalllistings/Handmades`, {
-  //       cache: "no-cache",
-  //     });
-  //     const handmades = (await handmadesDocs.json()) as ProductHandMade[];
-  //     console.log("handmades === ", handmades);
-  //     setHandmades(handmades);
-  //     const sportsDoc = await fetch(`/api/admin/getalllistings/Sports`, {
-  //       cache: "no-cache",
-  //     });
-  //     const sports = (await sportsDoc.json()) as ProductSports[];
-  //     setSports(sports);
-  //     console.log("sports === ", sports);
-  //     const guidesDoc = await fetch(`/api/admin/getalllistings/Guides`, {
-  //       cache: "no-cache",
-  //     });
-  //     const guides = (await guidesDoc.json()) as ProductGuides[];
-  //     console.log("guides === ", guides);
-  //     setGuides(guides);
-  //     const allProducts = [...handmades, ...sports, ...guides];
-  //     setAllProducts(allProducts);
-  //     setLoading(false);
-  //   })();
-  // }, []);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (selectedCategory === "") {
@@ -100,7 +76,10 @@ export default function Main() {
     }
   }, [selectedCategory]);
 
+  const query = useQueryChangeDetector();
+
   useEffect(() => {
+    setLoading(true);
     let query = "?";
     if (subCategory && SubcategoryIds.includes(subCategory)) {
       query += `sub=${subCategory}`;
@@ -133,7 +112,12 @@ export default function Main() {
       console.log("all products === ", response);
       setLoading(false);
     })();
-  }, []);
+  }, [query]);
+
+  useEffect(() => {
+    console.log("Query parameters:", query);
+    // Perform actions based on the query parameters
+  }, [query]);
 
   if (SubcategoryIds.includes(subCategory)) {
     if (keyword.length > 0) {
@@ -159,13 +143,13 @@ export default function Main() {
 
   return (
     <div className="flex flex-1 flex-grow min-h-[90vh]">
-      <div className="max-w-[100rem] flex justify-center flex-col flex-1 w-full px-2 xs:px-4 sm:px-6 py-8">
-        <div className="flex flex-row items-stretch flex-1 justify-center gap-6">
-          <div className="flex w-[23%]">
+      <div className="max-w-[100rem] flex justify-center flex-col flex-1 w-full px-2 xs:px-2 sm:px-3 py-4">
+        <div className="flex flex-row items-stretch flex-1 justify-center gap-3">
+          <div className="flex w-[20%]">
             <Card className="flex flex-1 py-3">
               <CardBody>
                 <div className="space-y-3 px-2">
-                  <p>Category</p>
+                  <p className="text-medium font-semibold">Category</p>
                   <div className="flex flex-row flex-wrap gap-2 px-2">
                     {CategoryWName.map((c, i) => (
                       <button
@@ -185,7 +169,7 @@ export default function Main() {
                   </div>
                 </div>
                 <div className="space-y-3 mt-4 px-2">
-                  <p>Subcategory</p>
+                  <p className="text-medium font-semibold">Subcategory</p>
                   <div className="flex flex-row flex-wrap gap-2 px-2 min-h-[1rem]">
                     {subcategoriesFiltered.map((c, index) => (
                       <button
@@ -206,7 +190,7 @@ export default function Main() {
                   </div>
                 </div>
                 <div className="space-y-3 mt-4 px-2">
-                  <p>Location</p>
+                  <p className="text-medium font-semibold">Location</p>
                   <Autocomplete
                     defaultItems={cities}
                     placeholder="Location.."
@@ -224,11 +208,21 @@ export default function Main() {
                   </Autocomplete>
                 </div>
                 <div className="space-y-3 mt-4 px-2">
-                  <p>Price</p>
-                  <div className="flex flex-row items-center gap-4 px-10">
-                    <Input size="sm" label="min" />
-                    <IconArrowRight className="text-4xl" />
-                    <Input size="sm" label="max" />
+                  <p className="text-medium font-semibold">Price</p>
+                  <div className="flex flex-row items-center justify-center gap-4 px-10">
+                    <Input
+                      size="sm"
+                      label="min"
+                      labelPlacement="outside-left"
+                      className="min-w-[5rem]"
+                    />
+                    <p className="mx-2">-</p>
+                    <Input
+                      size="sm"
+                      label="max"
+                      labelPlacement="outside-left"
+                      className="min-w-[5rem]"
+                    />
                   </div>
                 </div>
               </CardBody>
@@ -280,3 +274,29 @@ export default function Main() {
     </div>
   );
 }
+
+// useEffect(() => {
+//   (async () => {
+//     const handmadesDocs = await fetch(`/api/admin/getalllistings/Handmades`, {
+//       cache: "no-cache",
+//     });
+//     const handmades = (await handmadesDocs.json()) as ProductHandMade[];
+//     console.log("handmades === ", handmades);
+//     setHandmades(handmades);
+//     const sportsDoc = await fetch(`/api/admin/getalllistings/Sports`, {
+//       cache: "no-cache",
+//     });
+//     const sports = (await sportsDoc.json()) as ProductSports[];
+//     setSports(sports);
+//     console.log("sports === ", sports);
+//     const guidesDoc = await fetch(`/api/admin/getalllistings/Guides`, {
+//       cache: "no-cache",
+//     });
+//     const guides = (await guidesDoc.json()) as ProductGuides[];
+//     console.log("guides === ", guides);
+//     setGuides(guides);
+//     const allProducts = [...handmades, ...sports, ...guides];
+//     setAllProducts(allProducts);
+//     setLoading(false);
+//   })();
+// }, []);

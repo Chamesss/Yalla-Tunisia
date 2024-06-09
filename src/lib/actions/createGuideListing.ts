@@ -8,7 +8,7 @@ import { uploadImages } from "./uploadPictures";
 //Error codes:{ title=1 / price=2 / description=4 / language=5 / timing=6 / days=7 / category=11 / subcategory=12 / location=13}
 export async function createGuideListing(prevState: any, formData: FormData) {
 
-    const title = formData.get('title')
+    const title = formData.get('title') as string
     const description = formData.get('description')
     const userId = formData.get('userId') as string
     const categoryId = formData.get('categoryId') as string
@@ -101,6 +101,8 @@ export async function createGuideListing(prevState: any, formData: FormData) {
         return { response: { success: false, error: 22, message: "upload at least 1 picture" } }
     }
 
+    const keywordsArray: string[] = title.split(' ').map(word => word.toLowerCase());
+
     const imageUrls = await uploadImages(productImages, userId, getStorage, uploadBytes, getDownloadURL, app, storageRef)
 
     const data = {
@@ -117,6 +119,7 @@ export async function createGuideListing(prevState: any, formData: FormData) {
         transportation,
         timing: eventType === 'OngoingEvent' ? timing : daysArray,
         restrictions,
+        keywords: keywordsArray,
         status: false,
         disabled: false,
         created_at: new Date()

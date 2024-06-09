@@ -8,7 +8,7 @@ import { uploadImages } from "./uploadPictures";
 
 export async function createHandmadeListing(prevState: any, formData: FormData) {
 
-    const title = formData.get('title')
+    const title = formData.get('title') as string
     const price = formData.get('price');
     const qte = formData.get('qte')
     const description = formData.get('description')
@@ -98,6 +98,8 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
         return { response: { success: false, error: 22, message: "upload at least 1 picture" } }
     }
 
+    const keywordsArray: string[] = title.split(' ').map(word => word.toLowerCase());
+
     const sizes = [xs, sm, md, lg, xl, xxl]
     const dimensions = [width, height]
     const imageUrls = await uploadImages(productImages, userId, getStorage, uploadBytes, getDownloadURL, app, storageRef)
@@ -116,6 +118,7 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
         categoryId,
         subCategoryId,
         location,
+        keywords: keywordsArray,
         status: false,
         disabled: false,
         created_at: new Date()

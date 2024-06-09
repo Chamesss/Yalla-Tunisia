@@ -3,12 +3,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/firebase";  // Adjust the import path as needed
 import { collection, query, where, getDocs } from "firebase/firestore";
 
+const collections = ["Handmades", "Guides", "Sports"];
+
+
 export async function GET(req: NextRequest, res: NextResponse) {
     const subCategory = req.nextUrl.searchParams.get('sub') || "";
     const keyword = req.nextUrl.searchParams.get('keyword') || "";
     const Category = req.nextUrl.searchParams.get('cat') || "";
     const min = req.nextUrl.searchParams.get('min') || "";
     const max = req.nextUrl.searchParams.get('max') || "";
+
+    const keywordsArray: string[] = keyword.split(' ').map(word => word.toLowerCase());
 
     let subcategory: any = false;
     let category: any = false;
@@ -40,10 +45,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
                     q = query(
                         collection(db, categoryName),
                         where("subCategoryId", "==", subcategory),
-                        where('title', ">=", keyword),
-                        where('title', '<', keyword + 'z'),
-                        where('description', ">=", keyword),
-                        where('description', '<', keyword + 'z'),
+                        where("keywords", "array-contains-any", keywordsArray),
                         where("price", ">=", min),
                         where("price", "<=", max)
                     );
@@ -51,10 +53,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
                     q = query(
                         collection(db, categoryName),
                         where("subCategoryId", "==", subcategory),
-                        where('title', ">=", keyword),
-                        where('title', '<', keyword + 'z'),
-                        where('description', ">=", keyword),
-                        where('description', '<', keyword + 'z'),
+                        where("keywords", "array-contains-any", keywordsArray),
                     );
                 }
             } else {
@@ -77,10 +76,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 if (min || max) {
                     q = query(
                         collection(db, categoryName),
-                        where('title', ">=", keyword),
-                        where('title', '<', keyword + 'z'),
-                        where('description', ">=", keyword),
-                        where('description', '<', keyword + 'z'),
+                        where("keywords", "array-contains-any", keywordsArray),
                         where("price", ">=", min),
                         where("price", "<=", max)
                     );
@@ -88,9 +84,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
                     q = query(
                         collection(db, categoryName),
                         where('title', ">=", keyword),
-                        where('title', '<', keyword + 'z'),
+                        where('title', '<', keyword + '~'),
                         where('description', ">=", keyword),
-                        where('description', '<', keyword + 'z'),
+                        where('description', '<', keyword + '~'),
                     );
                 }
             } else {
@@ -105,32 +101,76 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 }
             }
         } else {
-            const collections = ["Handmades", "Guides", "Sports"];
-            if (min || max) {
-                for (const coll of collections) {
-                    const collectionQuery = query(collection(db, coll), where("price", ">=", min),
-                        where("price", "<=", max));
-                    const querySnapshot = await getDocs(collectionQuery);
-                    querySnapshot.forEach((doc) => {
-                        data.push(doc.data());
-                    });
+            if (keyword) {
+                if (min || max) {
+                    for (const coll of collections) {
+                        const collectionQuery = query(
+                            collection(db, coll),
+                            where("keywords", "array-contains-any", keywordsArray),
+                            where("price", ">=", min),
+                            where("price", "<=", max)
+                        );
+                        const querySnapshot = await getDocs(collectionQuery);
+                        querySnapshot.forEach((doc) => {
+                            data.push({
+                                id: doc.id,
+                                ...doc.data()
+                            });
+                        });
+                    }
+                } else {
+                    console.log('here')
+                    for (const coll of collections) {
+                        const collectionQuery = query(
+                            collection(db, coll),
+                            where("keywords", "array-contains-any", keywordsArray),
+                        );
+                        const querySnapshot = await getDocs(collectionQuery);
+                        querySnapshot.forEach((doc) => {
+                            data.push({
+                                id: doc.id,
+                                ...doc.data()
+                            });
+                        });
+                    }
                 }
             } else {
-                for (const coll of collections) {
-                    const collectionQuery = query(collection(db, coll));
-                    const querySnapshot = await getDocs(collectionQuery);
-                    querySnapshot.forEach((doc) => {
-                        data.push(doc.data());
-                    });
+                if (min || max) {
+                    for (const coll of collections) {
+                        const collectionQuery = query(collection(db, coll), where("price", ">=", min),
+                            where("price", "<=", max));
+                        const querySnapshot = await getDocs(collectionQuery);
+                        querySnapshot.forEach((doc) => {
+                            data.push({
+                                id: doc.id,
+                                ...doc.data()
+                            })
+                        });
+                    }
+                } else {
+                    for (const coll of collections) {
+                        const collectionQuery = query(collection(db, coll));
+                        const querySnapshot = await getDocs(collectionQuery);
+                        querySnapshot.forEach((doc) => {
+                            data.push({
+                                id: doc.id,
+                                ...doc.data()
+                            })
+                        });
+                    }
                 }
             }
+
 
             return Response.json(data);
         }
 
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            data.push(doc.data());
+            data.push({
+                id: doc.id,
+                ...doc.data()
+            })
         });
 
     } catch (error) {

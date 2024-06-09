@@ -9,7 +9,7 @@ import { uploadImages } from "./uploadPictures";
 
 export async function createSportListing(prevState: any, formData: FormData) {
 
-    const title = formData.get('title')
+    const title = formData.get('title') as string
     const price = formData.get('price');
     const grpSize = formData.get('grpSize')
     const description = formData.get('description')
@@ -112,6 +112,8 @@ export async function createSportListing(prevState: any, formData: FormData) {
 
     const imageUrls = await uploadImages(productImages, userId, getStorage, uploadBytes, getDownloadURL, app, storageRef)
 
+    const keywordsArray: string[] = title.split(' ').map(word => word.toLowerCase());
+
     const data = {
         userId,
         categoryId,
@@ -126,6 +128,7 @@ export async function createSportListing(prevState: any, formData: FormData) {
         timing: eventType === 'OngoingEvent' ? timing : daysArray,
         restrictions,
         location,
+        keyword: keywordsArray,
         status: false,
         disabled: false,
         created_at: new Date()
