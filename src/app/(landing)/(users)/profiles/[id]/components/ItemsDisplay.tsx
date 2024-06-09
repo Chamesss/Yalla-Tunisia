@@ -22,7 +22,7 @@ export default function ItemsDisplay({ id }: { id: string }) {
         headers: {
           userId: id,
         },
-        cache: "force-cache",
+        cache: "no-cache",
       });
       const products = (await res.json()) as AllProductsResult;
       const allProducts = [

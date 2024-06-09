@@ -21,7 +21,7 @@ const config = {
 export default function Main() {
   return (
     <div className="flex flex-1 p-4 w-full flex-col">
-      <Tabs aria-label="Options">
+      <Tabs aria-label="Options" destroyInactiveTabPanel={false}>
         {Object.entries(config).map(([key, Component]) => (
           <Tab key={key} className="flex-auto flex" title={key}>
             <Card className="w-full">
