@@ -3,9 +3,8 @@ import Filter from "../icons/Filter";
 import Search from "../icons/Search";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { Button, Chip, useDisclosure } from "@nextui-org/react";
+import { Chip, useDisclosure } from "@nextui-org/react";
 import FilterModal from "./FilterModal";
-import Link from "next/link";
 
 type Props = {
   setMounted: Dispatch<SetStateAction<boolean>>;
@@ -39,6 +38,17 @@ export default function SearchBar({ setMounted, mounted }: Props) {
       setSearchLength(length);
     }
   }, [isOpen]);
+
+  const handleNavigate = () => {
+    window.location.href = `/listings?${new URLSearchParams({
+      cat: selectedCategory,
+      sub: selectedSubcategory,
+      locId: selectedLocationId,
+      keyword: keyword,
+      min: min,
+      max: max,
+    }).toString()}`;
+  };
 
   if (!mounted)
     return (
@@ -77,24 +87,15 @@ export default function SearchBar({ setMounted, mounted }: Props) {
         placeholder="Search..."
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
-      />
-      <Link
-        href={{
-          pathname: "/listings",
-          query: {
-            cat: selectedCategory,
-            sub: selectedSubcategory,
-            locId: selectedLocationId,
-            keyword: keyword,
-            min: min,
-            max: max,
-          },
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleNavigate();
         }}
-      >
+      />
+      <div onClick={handleNavigate}>
         <div className="cursor-pointer transition-all duration-500 ease-in-out hover:scale-110 bg-[#48b9ff] dark:bg-[#3d9cd7] p-2 rounded-full">
           <Search height="1.5rem" width="1.5rem" color="white" />
         </div>
-      </Link>
+      </div>
 
       <FilterModal
         isOpen={isOpen}

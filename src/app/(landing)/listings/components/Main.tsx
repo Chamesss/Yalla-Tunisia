@@ -3,14 +3,8 @@ import { cities } from "@/cities";
 import IconSearch from "@/components/icons/Search";
 import CardItem from "@/components/utils/CardItem";
 import CardSkeleton from "@/components/utils/CardSkeleton";
-import { usePathname } from "next/navigation";
 import { selectedSub } from "@/components/utils/FilterModal";
-import {
-  CategoriesIds,
-  CategoryWName,
-  SubcategoryIds,
-  categories,
-} from "@/constants/categories";
+import { CategoryWName, categories } from "@/constants/categories";
 import {
   Autocomplete,
   AutocompleteItem,
@@ -21,7 +15,6 @@ import {
 } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import useQueryChangeDetector from "@/hooks/useQueryChangeDetector";
 
 type Result = {
   data: Product[];
@@ -30,32 +23,37 @@ type Result = {
 
 export default function Main() {
   const searchParams = useSearchParams();
-
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string>(
-    searchParams.get("sub") || ""
+  const [selectedSubcategory, setSelectedSubcategory] = useState<
+    string | undefined
+  >(searchParams.get("sub") || undefined);
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
+    searchParams.get("cat") || undefined
   );
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    searchParams.get("cat") || ""
-  );
-  const [selectedLocationId, setSelectedLocationId] = useState<string>("");
+  const [selectedLocationId, setSelectedLocationId] = useState<
+    string | undefined
+  >("");
   const [subcategoriesFiltered, setSubcategoryFiltered] = useState<
     selectedSub[]
   >([]);
-  const [min, setMin] = useState<string>(searchParams.get("min") || "");
-  const [max, setMax] = useState<string>(searchParams.get("min") || "");
+  const [min, setMin] = useState<string | undefined>(
+    searchParams.get("min") || undefined
+  );
+  const [max, setMax] = useState<string | undefined>(
+    searchParams.get("min") || undefined
+  );
   const [keyword, setKeyword] = useState<string>(
     searchParams.get("keyword") || ""
   );
 
-  const [allProducts, setAllProducts] = useState<Product[] | undefined>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [allProducts, setAllProducts] = useState<Product[] | undefined>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [lastVisible, setLastVisible] = useState<string>();
   const [endResult, setEndResult] = useState<boolean>(false);
 
   useEffect(() => {
-    if (selectedCategory === "") {
-      setSelectedSubcategory("");
-      let allSubs: any = [];
+    let allSubs: any = [];
+    if (!selectedCategory) {
+      setSelectedSubcategory(undefined);
       categories.forEach((c) => {
         c.subcategories.forEach((sub) =>
           allSubs.push({ id: sub.id, name: sub.name })
@@ -63,7 +61,6 @@ export default function Main() {
       });
       setSubcategoryFiltered(allSubs);
     } else {
-      let allSubs: any = [];
       const index = categories.findIndex((c) => c.id === selectedCategory);
       categories[index].subcategories.forEach((sub) =>
         allSubs.push({ id: sub.id, name: sub.name })
@@ -77,12 +74,9 @@ export default function Main() {
         setSelectedSubcategory("");
       } else {
         setSubcategoryFiltered(allSubs);
-        setSelectedSubcategory("");
       }
     }
   }, [selectedCategory]);
-
-  const query = useQueryChangeDetector(setLastVisible);
 
   useEffect(() => {
     fetchProducts(
@@ -96,46 +90,29 @@ export default function Main() {
   }, []);
 
   function fetchProducts(
-    selectedSubcategory: string,
-    selectedCategory: string,
+    selectedSubcategory: string | undefined,
+    selectedCategory: string | undefined,
     keyword: string,
-    min: string,
-    max: string,
+    min: string | undefined,
+    max: string | undefined,
     lastVisible: string | undefined
   ) {
+    if (!selectedCategory && !selectedSubcategory) return;
+    console.log("passed !! ");
     setLoading(true);
-
     let query = "?";
-
-    if (selectedSubcategory) {
-      query += `&sub=${selectedSubcategory}`;
-    }
-
-    if (selectedCategory) {
-      query += `&cat=${selectedCategory}`;
-    }
-
-    if (keyword.length > 0) {
-      query += `&keyword=${keyword}`;
-    }
-
-    if (min) {
-      query += `&min=${min}`;
-    }
-
-    if (max) {
-      query += `&max=${max}`;
-    }
-
+    if (selectedSubcategory) query += `&sub=${selectedSubcategory}`;
+    if (selectedCategory) query += `&cat=${selectedCategory}`;
+    if (keyword.length > 0) query += `&keyword=${keyword}`;
+    if (min) query += `&min=${min}`;
+    if (max) query += `&max=${max}`;
     (async () => {
       const res = await fetch(
         `/api/listings/search${query}&lastVisible=${lastVisible}`,
         { cache: "no-cache" }
       );
       const response = (await res.json()) as Result | undefined;
-
       if (response && response.data.length < 3) setEndResult(true);
-
       setAllProducts((prev) => {
         if (prev && response) {
           return [...prev, ...response?.data];
@@ -147,6 +124,20 @@ export default function Main() {
       setLoading(false);
     })();
   }
+
+  const handleSearch = () => {
+    setEndResult(false);
+    setLastVisible(undefined);
+    setAllProducts([]);
+    fetchProducts(
+      selectedSubcategory,
+      selectedCategory,
+      keyword,
+      min,
+      max,
+      undefined
+    );
+  };
 
   return (
     <div className="flex flex-1 flex-grow min-h-[90vh]">
@@ -166,8 +157,7 @@ export default function Main() {
                           setSelectedSubcategory("");
                           setAllProducts([]);
                           setLastVisible(undefined);
-                          setKeyword("");
-                          fetchProducts("", c.id, "", "", "", undefined);
+                          fetchProducts("", c.id, keyword, "", "", undefined);
                         }}
                         key={`${c.name}-${i}`}
                         className={`px-2 py-1 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
@@ -189,8 +179,7 @@ export default function Main() {
                           setSelectedSubcategory(c.id);
                           setAllProducts([]);
                           setLastVisible(undefined);
-                          setKeyword("");
-                          fetchProducts(c.id, "", "", "", "", undefined);
+                          fetchProducts(c.id, "", keyword, "", "", undefined);
                         }}
                         key={`${c.name}-${index}`}
                         className={`px-2 py-1 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
@@ -229,6 +218,8 @@ export default function Main() {
                       label="min"
                       labelPlacement="outside-left"
                       className="min-w-[5rem]"
+                      type="number"
+                      onChange={(e) => setMin(e.target.value)}
                     />
                     <p className="mx-2">-</p>
                     <Input
@@ -236,6 +227,8 @@ export default function Main() {
                       label="max"
                       labelPlacement="outside-left"
                       className="min-w-[5rem]"
+                      type="number"
+                      onChange={(e) => setMax(e.target.value)}
                     />
                   </div>
                 </div>
@@ -251,21 +244,12 @@ export default function Main() {
                     placeholder="Search"
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") handleSearch();
+                    }}
                     endContent={
                       <div
-                        onClick={() => {
-                          setEndResult(false);
-                          setLastVisible(undefined);
-                          setAllProducts([]);
-                          fetchProducts(
-                            selectedSubcategory,
-                            selectedCategory,
-                            keyword,
-                            min,
-                            max,
-                            undefined
-                          );
-                        }}
+                        onClick={handleSearch}
                         className="p-1.5 bg-transparent hover:bg-black/10 rounded-full"
                       >
                         <IconSearch className="opacity-75 text-2xl cursor-pointer" />
@@ -310,11 +294,16 @@ export default function Main() {
                               Load More
                             </Button>
                           )}
-                          {endResult && <p>End Result.</p>}
                         </>
                       )}
-                      {allProducts && allProducts.length === 0 && (
+                      {allProducts && allProducts.length === 0 && endResult && (
                         <p>No Offers Found.</p>
+                      )}
+                      {allProducts && allProducts.length > 0 && endResult && (
+                        <p>End Result.</p>
+                      )}
+                      {!selectedCategory && !selectedSubcategory && (
+                        <p>Please select a category</p>
                       )}
                     </div>
                   </div>
