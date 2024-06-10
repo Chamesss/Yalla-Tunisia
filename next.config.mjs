@@ -19,6 +19,7 @@ const nextConfig = {
         ],
         domains: ['firebasestorage.googleapis.com', 'maps.googleapis.com', 'ui-avatars.com']
     },
+    reactStrictMode: false
 };
 
 export default withPlaiceholder(nextConfig)

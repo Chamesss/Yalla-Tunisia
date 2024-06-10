@@ -128,7 +128,7 @@ export async function createSportListing(prevState: any, formData: FormData) {
         timing: eventType === 'OngoingEvent' ? timing : daysArray,
         restrictions,
         location,
-        keyword: keywordsArray,
+        keywords: keywordsArray,
         status: false,
         disabled: false,
         created_at: new Date()

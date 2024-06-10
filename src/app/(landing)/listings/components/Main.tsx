@@ -14,6 +14,7 @@ import {
 import {
   Autocomplete,
   AutocompleteItem,
+  Button,
   Card,
   CardBody,
   Input,
@@ -21,6 +22,11 @@ import {
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import useQueryChangeDetector from "@/hooks/useQueryChangeDetector";
+
+type Result = {
+  data: Product[];
+  lastVisible: any;
+};
 
 export default function Main() {
   const searchParams = useSearchParams();
@@ -37,14 +43,9 @@ export default function Main() {
     selectedSub[]
   >([]);
 
-  const [handmades, setHandmades] = useState<ProductHandMade[]>();
-  const [sports, setSports] = useState<ProductSports[]>();
-  const [guides, setGuides] = useState<ProductGuides[]>();
-  const [allProducts, setAllProducts] = useState<Product[]>();
-
+  const [allProducts, setAllProducts] = useState<Product[] | undefined>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const pathname = usePathname();
+  const [lastVisible, setLastVisible] = useState<any>();
 
   useEffect(() => {
     if (selectedCategory === "") {
@@ -78,7 +79,30 @@ export default function Main() {
 
   const query = useQueryChangeDetector();
 
+  // useEffect(() => {
+  //   console.log("mounted");
+  //   fetchProducts();
+  // }, []);
+
+  // Debouncing function
+  function debounce(func: () => void, timeout = 300) {
+    let timer: NodeJS.Timeout;
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func();
+      }, timeout);
+    };
+  }
+
+  // Debounced fetchProducts function
+  const debouncedFetchProducts = debounce(fetchProducts, 300);
+
   useEffect(() => {
+    debouncedFetchProducts();
+  }, []);
+
+  function fetchProducts() {
     setLoading(true);
     let query = "?";
     if (subCategory && SubcategoryIds.includes(subCategory)) {
@@ -104,41 +128,24 @@ export default function Main() {
       query += `&max=${max}`;
     }
     (async () => {
-      const res = await fetch(`/api/listings/search${query}`, {
-        cache: "no-cache",
+      const res = await fetch(
+        `/api/listings/search${query}&lastVisible=${lastVisible}`,
+        {
+          cache: "no-cache",
+          headers: {},
+        }
+      );
+      const response = (await res.json()) as Result | undefined;
+      setAllProducts((prev) => {
+        if (prev && response) {
+          return [...prev, ...response?.data];
+        } else {
+          return response?.data;
+        }
       });
-      const response = (await res.json()) as Product[] | undefined;
-      setAllProducts(response);
-      console.log("all products === ", response);
+      setLastVisible(response?.lastVisible);
       setLoading(false);
     })();
-  }, [query]);
-
-  useEffect(() => {
-    console.log("Query parameters:", query);
-    // Perform actions based on the query parameters
-  }, [query]);
-
-  if (SubcategoryIds.includes(subCategory)) {
-    if (keyword.length > 0) {
-      //fetch products by subcategory and keyword
-    } else {
-      //fetch products by subcategory
-    }
-  } else {
-    if (CategoriesIds.includes(category)) {
-      if (keyword.length > 0) {
-        //fetch products by category and keyword
-      } else {
-        //fetch products by category
-      }
-    } else {
-      if (keyword.length > 0) {
-        //fetch products by keyword
-      } else {
-        //fetch Random
-      }
-    }
   }
 
   return (
@@ -253,7 +260,7 @@ export default function Main() {
                         ))}
                       </div>
                     ) : (
-                      <div className="flex flex-0 items-start">
+                      <div className="flex flex-0 items-center flex-col space-y-4 justify-center">
                         <div className="grid grid-cols-5 gap-8">
                           {allProducts &&
                             allProducts.map((product, i) => (
@@ -262,6 +269,7 @@ export default function Main() {
                               </React.Fragment>
                             ))}
                         </div>
+                        <Button onClick={fetchProducts}>Load More</Button>
                       </div>
                     )}
                   </div>
@@ -274,29 +282,3 @@ export default function Main() {
     </div>
   );
 }
-
-// useEffect(() => {
-//   (async () => {
-//     const handmadesDocs = await fetch(`/api/admin/getalllistings/Handmades`, {
-//       cache: "no-cache",
-//     });
-//     const handmades = (await handmadesDocs.json()) as ProductHandMade[];
-//     console.log("handmades === ", handmades);
-//     setHandmades(handmades);
-//     const sportsDoc = await fetch(`/api/admin/getalllistings/Sports`, {
-//       cache: "no-cache",
-//     });
-//     const sports = (await sportsDoc.json()) as ProductSports[];
-//     setSports(sports);
-//     console.log("sports === ", sports);
-//     const guidesDoc = await fetch(`/api/admin/getalllistings/Guides`, {
-//       cache: "no-cache",
-//     });
-//     const guides = (await guidesDoc.json()) as ProductGuides[];
-//     console.log("guides === ", guides);
-//     setGuides(guides);
-//     const allProducts = [...handmades, ...sports, ...guides];
-//     setAllProducts(allProducts);
-//     setLoading(false);
-//   })();
-// }, []);
