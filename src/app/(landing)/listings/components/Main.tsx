@@ -36,8 +36,14 @@ export default function Main() {
   const min = searchParams.get("min") || "";
   const max = searchParams.get("max") || "";
 
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>(() => {
+    if (subCategory) return subCategory;
+    return "";
+  });
+  const [selectedCategory, setSelectedCategory] = useState<string>(() => {
+    if (category) return category;
+    return CategoryWName[0].id;
+  });
   const [selectedLocationId, setSelectedLocationId] = useState<string>("");
   const [subcategoriesFiltered, setSubcategoryFiltered] = useState<
     selectedSub[]
@@ -69,7 +75,7 @@ export default function Main() {
           name: categories[2].subcategories[0].name,
         };
         setSubcategoryFiltered([value]);
-        setSelectedSubcategory("66207abd90b31d11aa680131");
+        setSelectedSubcategory("");
       } else {
         setSubcategoryFiltered(allSubs);
         setSelectedSubcategory("");
@@ -79,63 +85,42 @@ export default function Main() {
 
   const query = useQueryChangeDetector();
 
-  // useEffect(() => {
-  //   console.log("mounted");
-  //   fetchProducts();
-  // }, []);
-
-  // Debouncing function
-  function debounce(func: () => void, timeout = 300) {
-    let timer: NodeJS.Timeout;
-    return () => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        func();
-      }, timeout);
-    };
-  }
-
-  // Debounced fetchProducts function
-  const debouncedFetchProducts = debounce(fetchProducts, 300);
-
   useEffect(() => {
-    debouncedFetchProducts();
-  }, []);
+    fetchProducts();
+  }, [selectedCategory, selectedSubcategory]);
 
   function fetchProducts() {
     setLoading(true);
+
     let query = "?";
-    if (subCategory && SubcategoryIds.includes(subCategory)) {
-      query += `sub=${subCategory}`;
-      if (keyword.length > 0) {
-        query += `&keyword=${keyword}`;
-      }
-    } else if (category && CategoriesIds.includes(category)) {
-      query += `cat=${category}`;
-      if (keyword.length > 0) {
-        query += `&keyword=${keyword}`;
-      }
-    } else if (keyword.length > 0) {
-      query += `keyword=${keyword}`;
-    } else {
-      query += "random=true";
+
+    if (selectedSubcategory) {
+      query += `&sub=${selectedSubcategory}`;
+    }
+
+    if (selectedCategory) {
+      query += `&cat=${selectedCategory}`;
+    }
+
+    if (keyword.length > 0) {
+      query += `&keyword=${keyword}`;
     }
 
     if (min) {
       query += `&min=${min}`;
     }
+
     if (max) {
       query += `&max=${max}`;
     }
+
     (async () => {
       const res = await fetch(
         `/api/listings/search${query}&lastVisible=${lastVisible}`,
-        {
-          cache: "no-cache",
-          headers: {},
-        }
+        { cache: "no-cache" }
       );
       const response = (await res.json()) as Result | undefined;
+      console.log(response);
       setAllProducts((prev) => {
         if (prev && response) {
           return [...prev, ...response?.data];
@@ -160,11 +145,12 @@ export default function Main() {
                   <div className="flex flex-row flex-wrap gap-2 px-2">
                     {CategoryWName.map((c, i) => (
                       <button
-                        onClick={() =>
-                          setSelectedCategory(
-                            selectedCategory === c.id ? "" : c.id
-                          )
-                        }
+                        onClick={() => {
+                          setSelectedCategory(c.id);
+                          setSelectedSubcategory("");
+                          setAllProducts([]);
+                          setLastVisible(undefined);
+                        }}
                         key={`${c.name}-${i}`}
                         className={`px-2 py-1 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
                           selectedCategory === c.id && "!text-white bg-sky-600"
@@ -180,11 +166,11 @@ export default function Main() {
                   <div className="flex flex-row flex-wrap gap-2 px-2 min-h-[1rem]">
                     {subcategoriesFiltered.map((c, index) => (
                       <button
-                        onClick={() =>
-                          setSelectedSubcategory(
-                            selectedSubcategory === c.id ? "" : c.id
-                          )
-                        }
+                        onClick={() => {
+                          setSelectedSubcategory(c.id);
+                          setAllProducts([]);
+                          setLastVisible(undefined);
+                        }}
                         key={`${c.name}-${index}`}
                         className={`px-2 py-1 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
                           selectedSubcategory === c.id &&
