@@ -30,28 +30,27 @@ type Result = {
 
 export default function Main() {
   const searchParams = useSearchParams();
-  const category = searchParams.get("cat") || "";
-  const keyword = searchParams.get("keyword") || "";
-  const subCategory = searchParams.get("sub") || "";
-  const min = searchParams.get("min") || "";
-  const max = searchParams.get("max") || "";
 
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string>(() => {
-    if (subCategory) return subCategory;
-    return "";
-  });
-  const [selectedCategory, setSelectedCategory] = useState<string>(() => {
-    if (category) return category;
-    return CategoryWName[0].id;
-  });
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>(
+    searchParams.get("sub") || ""
+  );
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    searchParams.get("cat") || ""
+  );
   const [selectedLocationId, setSelectedLocationId] = useState<string>("");
   const [subcategoriesFiltered, setSubcategoryFiltered] = useState<
     selectedSub[]
   >([]);
+  const [min, setMin] = useState<string>(searchParams.get("min") || "");
+  const [max, setMax] = useState<string>(searchParams.get("min") || "");
+  const [keyword, setKeyword] = useState<string>(
+    searchParams.get("keyword") || ""
+  );
 
   const [allProducts, setAllProducts] = useState<Product[] | undefined>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [lastVisible, setLastVisible] = useState<any>();
+  const [lastVisible, setLastVisible] = useState<string>();
+  const [endResult, setEndResult] = useState<boolean>(false);
 
   useEffect(() => {
     if (selectedCategory === "") {
@@ -83,13 +82,27 @@ export default function Main() {
     }
   }, [selectedCategory]);
 
-  const query = useQueryChangeDetector();
+  const query = useQueryChangeDetector(setLastVisible);
 
   useEffect(() => {
-    fetchProducts();
-  }, [selectedCategory, selectedSubcategory]);
+    fetchProducts(
+      selectedSubcategory,
+      selectedCategory,
+      keyword,
+      min,
+      max,
+      lastVisible
+    );
+  }, []);
 
-  function fetchProducts() {
+  function fetchProducts(
+    selectedSubcategory: string,
+    selectedCategory: string,
+    keyword: string,
+    min: string,
+    max: string,
+    lastVisible: string | undefined
+  ) {
     setLoading(true);
 
     let query = "?";
@@ -120,7 +133,9 @@ export default function Main() {
         { cache: "no-cache" }
       );
       const response = (await res.json()) as Result | undefined;
-      console.log(response);
+
+      if (response && response.data.length < 3) setEndResult(true);
+
       setAllProducts((prev) => {
         if (prev && response) {
           return [...prev, ...response?.data];
@@ -146,10 +161,13 @@ export default function Main() {
                     {CategoryWName.map((c, i) => (
                       <button
                         onClick={() => {
+                          setEndResult(false);
                           setSelectedCategory(c.id);
                           setSelectedSubcategory("");
                           setAllProducts([]);
                           setLastVisible(undefined);
+                          setKeyword("");
+                          fetchProducts("", c.id, "", "", "", undefined);
                         }}
                         key={`${c.name}-${i}`}
                         className={`px-2 py-1 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
@@ -167,9 +185,12 @@ export default function Main() {
                     {subcategoriesFiltered.map((c, index) => (
                       <button
                         onClick={() => {
+                          setEndResult(false);
                           setSelectedSubcategory(c.id);
                           setAllProducts([]);
                           setLastVisible(undefined);
+                          setKeyword("");
+                          fetchProducts(c.id, "", "", "", "", undefined);
                         }}
                         key={`${c.name}-${index}`}
                         className={`px-2 py-1 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
@@ -228,36 +249,74 @@ export default function Main() {
                   <Input
                     className="w-full"
                     placeholder="Search"
-                    defaultValue={keyword}
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
                     endContent={
-                      <div className="p-1.5 bg-transparent hover:bg-black/10 rounded-full">
+                      <div
+                        onClick={() => {
+                          setEndResult(false);
+                          setLastVisible(undefined);
+                          setAllProducts([]);
+                          fetchProducts(
+                            selectedSubcategory,
+                            selectedCategory,
+                            keyword,
+                            min,
+                            max,
+                            undefined
+                          );
+                        }}
+                        className="p-1.5 bg-transparent hover:bg-black/10 rounded-full"
+                      >
                         <IconSearch className="opacity-75 text-2xl cursor-pointer" />
                       </div>
                     }
                   />
                   <h1 className="px-2">Results</h1>
                   <div className="flex flex-1 justify-center">
-                    {loading ? (
-                      <div className="grid grid-cols-4 gap-8">
-                        {Array.from({ length: 8 }).map((_, i) => (
-                          <React.Fragment key={i}>
-                            <CardSkeleton />
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="flex flex-0 items-center flex-col space-y-4 justify-center">
-                        <div className="grid grid-cols-5 gap-8">
-                          {allProducts &&
-                            allProducts.map((product, i) => (
+                    <div className="flex flex-0 items-center flex-col space-y-4 justify-center">
+                      {allProducts && (
+                        <>
+                          <div className="grid grid-cols-5 gap-8">
+                            {allProducts.map((product, i) => (
                               <React.Fragment key={i}>
                                 <CardItem data={product} />
                               </React.Fragment>
                             ))}
-                        </div>
-                        <Button onClick={fetchProducts}>Load More</Button>
-                      </div>
-                    )}
+                          </div>
+                          {loading && (
+                            <div className="grid grid-cols-5 gap-8">
+                              {Array.from({ length: 8 }).map((_, i) => (
+                                <React.Fragment key={i}>
+                                  <CardSkeleton />
+                                </React.Fragment>
+                              ))}
+                            </div>
+                          )}
+                          {allProducts.length !== 0 && endResult === false && (
+                            <Button
+                              onClick={() => {
+                                setEndResult(false);
+                                fetchProducts(
+                                  selectedSubcategory,
+                                  selectedCategory,
+                                  keyword,
+                                  min,
+                                  max,
+                                  lastVisible
+                                );
+                              }}
+                            >
+                              Load More
+                            </Button>
+                          )}
+                          {endResult && <p>End Result.</p>}
+                        </>
+                      )}
+                      {allProducts && allProducts.length === 0 && (
+                        <p>No Offers Found.</p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </CardBody>

@@ -243,6 +243,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
                 } else {
 
+                    console.log(keywordsArray)
+
                     const Query = lastDocRef ?
                         query(
                             collection(db, categoryName || collections[0]),

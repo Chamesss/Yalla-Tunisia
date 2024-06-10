@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useQueryChangeDetector = () => {
+const useQueryChangeDetector = (setLastVisible: React.Dispatch<any>) => {
     const [query, setQuery] = useState({});
 
     const previousQuery = useRef('');
@@ -20,6 +20,7 @@ const useQueryChangeDetector = () => {
             if (currentQuery !== previousQuery.current) {
                 previousQuery.current = currentQuery;
                 console.log('url query changed');
+                setLastVisible(null)
                 setQuery(parseQueryParams());
             }
         };
