@@ -204,17 +204,14 @@ function GuideInfoFrom({
                 defaultItems={iterableLanguages}
                 label="Select your spoken languages"
                 className="max-w-xs"
-                onSelectionChange={(e) =>
-                  typeof e === "string" &&
-                  setLanguages((prev) => [...prev, e as string])
-                }
+                onInputChange={(e) => setLanguages((prev) => [...prev, e])}
                 disabledKeys={languages}
                 description={
                   formError === 5 && <FormStateError formState={formState} />
                 }
               >
-                {spokenLanguages.map((l) => (
-                  <AutocompleteItem key={l} value={l}>
+                {spokenLanguages.map((l, i) => (
+                  <AutocompleteItem key={i} value={l}>
                     {l}
                   </AutocompleteItem>
                 ))}

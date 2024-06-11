@@ -23,7 +23,12 @@ export const useCityNameFromUser = () => {
                     setCity("location unavailable");
                 }
             } else {
-                setCity(listing.location);
+                const index = cities.findIndex((c) => c.id === listing.location)
+                if (index > -1) {
+                    setCity(cities[index].city)
+                } else {
+                    setCity(listing.location);
+                }
             }
             setLoading(false);
         } catch (error) {

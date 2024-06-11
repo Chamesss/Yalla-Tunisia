@@ -47,6 +47,10 @@ export default function MainCreateListing() {
     setSubCategoryError(false);
   }, [subCategoryId]);
 
+  useEffect(() => {
+    console.log("location", location);
+  }, [location]);
+
   return (
     <div className="relative">
       <div className="flex flex-col md:flex-row gap-4">

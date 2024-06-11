@@ -35,16 +35,13 @@ export default function LocationSection({
         size="sm"
         label="Pick a location"
         className="mt-4 relative"
+        isDisabled={locationChecked}
         onSelectionChange={(key) => {
           if (key) {
             setLocation(key.toString());
           } else {
             setLocation(undefined);
           }
-        }}
-        isDisabled={locationChecked}
-        onInputChange={(e) => {
-          setLocation(e);
         }}
         description={
           locationError && (
@@ -55,7 +52,7 @@ export default function LocationSection({
         }
       >
         {cities.map((c) => (
-          <AutocompleteItem key={c.city} value={c.city}>
+          <AutocompleteItem key={c.id} value={c.id}>
             {c.city}
           </AutocompleteItem>
         ))}

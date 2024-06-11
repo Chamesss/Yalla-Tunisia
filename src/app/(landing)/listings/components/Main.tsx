@@ -160,6 +160,7 @@ export default function Main() {
                           setSelectedSubcategory("");
                           setAllProducts([]);
                           setLastVisible(undefined);
+                          setKeyword("");
                           fetchProducts(
                             "",
                             c.id,
