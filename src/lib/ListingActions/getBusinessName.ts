@@ -6,7 +6,8 @@ export default async function getBusinessName(userId: string) {
         const approvalRef = doc(db, 'Approval', userId);
         const approvalSnapshot = await getDoc(approvalRef);
         if (approvalSnapshot.exists()) {
-            const data = {
+            //@ts-ignore
+            const data: Approvals = {
                 id: approvalSnapshot.id,
                 ...approvalSnapshot.data()
             }

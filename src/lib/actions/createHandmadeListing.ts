@@ -5,6 +5,7 @@ import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "fire
 import { app, db } from "../../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { uploadImages } from "./uploadPictures";
+import getBusinessName from "../ListingActions/getBusinessName";
 
 export async function createHandmadeListing(prevState: any, formData: FormData) {
 
@@ -33,7 +34,16 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
     if (!categoryId) return { response: { success: false, error: 11, message: "invalid category" } }
     if (!subCategoryId) return { response: { success: false, error: 12, message: "invalid subCategoryId" } }
     if (!locationValue) return { response: { success: false, error: 13, message: "invalid location" } }
-    const location = locationValue.toLocaleLowerCase()
+    let location = locationValue.toLocaleLowerCase()
+
+    if (location === "nan") {
+        try {
+            const business = await getBusinessName(userId) as Approvals
+            location = business.locationId
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     if (title) {
         if (title.toString().length < 3) {

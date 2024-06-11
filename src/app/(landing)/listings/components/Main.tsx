@@ -31,7 +31,7 @@ export default function Main() {
   );
   const [selectedLocationId, setSelectedLocationId] = useState<
     string | undefined
-  >("");
+  >(searchParams.get("locId") || undefined);
   const [subcategoriesFiltered, setSubcategoryFiltered] = useState<
     selectedSub[]
   >([]);
@@ -82,6 +82,7 @@ export default function Main() {
     fetchProducts(
       selectedSubcategory,
       selectedCategory,
+      selectedLocationId,
       keyword,
       min,
       max,
@@ -92,17 +93,18 @@ export default function Main() {
   function fetchProducts(
     selectedSubcategory: string | undefined,
     selectedCategory: string | undefined,
+    selectedLocationId: string | undefined,
     keyword: string,
-    min: string | undefined,
-    max: string | undefined,
+    min: string | undefined = "",
+    max: string | undefined = "",
     lastVisible: string | undefined
   ) {
     if (!selectedCategory && !selectedSubcategory) return;
-    console.log("passed !! ");
     setLoading(true);
     let query = "?";
     if (selectedSubcategory) query += `&sub=${selectedSubcategory}`;
     if (selectedCategory) query += `&cat=${selectedCategory}`;
+    if (selectedLocationId) query += `&locId=${selectedLocationId}`;
     if (keyword.length > 0) query += `&keyword=${keyword}`;
     if (min) query += `&min=${min}`;
     if (max) query += `&max=${max}`;
@@ -132,6 +134,7 @@ export default function Main() {
     fetchProducts(
       selectedSubcategory,
       selectedCategory,
+      selectedLocationId,
       keyword,
       min,
       max,
@@ -157,7 +160,15 @@ export default function Main() {
                           setSelectedSubcategory("");
                           setAllProducts([]);
                           setLastVisible(undefined);
-                          fetchProducts("", c.id, keyword, "", "", undefined);
+                          fetchProducts(
+                            "",
+                            c.id,
+                            selectedLocationId,
+                            keyword,
+                            min,
+                            max,
+                            undefined
+                          );
                         }}
                         key={`${c.name}-${i}`}
                         className={`px-2 py-1 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
@@ -179,7 +190,15 @@ export default function Main() {
                           setSelectedSubcategory(c.id);
                           setAllProducts([]);
                           setLastVisible(undefined);
-                          fetchProducts(c.id, "", keyword, "", "", undefined);
+                          fetchProducts(
+                            c.id,
+                            "",
+                            selectedLocationId,
+                            keyword,
+                            min,
+                            max,
+                            undefined
+                          );
                         }}
                         key={`${c.name}-${index}`}
                         className={`px-2 py-1 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
@@ -198,10 +217,16 @@ export default function Main() {
                     defaultItems={cities}
                     placeholder="Location.."
                     size="md"
+                    value={selectedLocationId}
+                    defaultSelectedKey={selectedLocationId}
                     className="px-4"
-                    onSelectionChange={(key) =>
-                      setSelectedLocationId(key.toString())
-                    }
+                    onSelectionChange={(key) => {
+                      if (key) {
+                        setSelectedLocationId(key.toString() || undefined);
+                      } else {
+                        setSelectedLocationId(undefined);
+                      }
+                    }}
                   >
                     {(city) => (
                       <AutocompleteItem key={city.id}>
@@ -284,6 +309,7 @@ export default function Main() {
                                 fetchProducts(
                                   selectedSubcategory,
                                   selectedCategory,
+                                  selectedLocationId,
                                   keyword,
                                   min,
                                   max,

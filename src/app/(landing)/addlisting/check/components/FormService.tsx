@@ -1,11 +1,20 @@
 "use client";
-import { Button, Divider, Input, Radio, RadioGroup } from "@nextui-org/react";
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Button,
+  Divider,
+  Input,
+  Radio,
+  RadioGroup,
+} from "@nextui-org/react";
 import GoogleMapsApiSection from "./GoogleMapsApiSection";
 import { Checkbox } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import IconArrowRight from "@/components/icons/RightArrow";
 import { useFormState } from "react-dom";
 import { submitProfileCheck } from "@/lib/actions/submitServiceCheck";
+import { cities } from "@/cities";
 
 const initialState = {
   response: {
@@ -25,6 +34,9 @@ export default function FormService() {
   const [selectedTiles, setSelectedTiles] = useState<string[]>([]);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [selectedService, setSelectedService] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState<
+    string | undefined
+  >();
 
   const [formState, formAction] = useFormState(
     submitServiceCheck,
@@ -55,6 +67,15 @@ export default function FormService() {
         response: {
           success: false,
           message: "select business type",
+          error: 1,
+        },
+      };
+    }
+    if (!selectedLocation) {
+      return {
+        response: {
+          success: false,
+          message: "select city",
           error: 1,
         },
       };
@@ -91,6 +112,7 @@ export default function FormService() {
 
     const data = {
       businessType,
+      selectedLocation,
       bPhone,
       bName,
       lat: lat,
@@ -172,6 +194,27 @@ export default function FormService() {
           </div>
           <Divider className="my-4" />
           <div className="flex flex-col gap-4 w-full px-6 py-4">
+            <Autocomplete
+              label={"City"}
+              labelPlacement="outside"
+              defaultItems={cities}
+              placeholder="City name.."
+              size="md"
+              className="px-4"
+              value={selectedLocation}
+              name="locationId"
+              onSelectionChange={(key) => {
+                if (key) {
+                  setSelectedLocation(key.toString() || undefined);
+                } else {
+                  setSelectedLocation(undefined);
+                }
+              }}
+            >
+              {(city) => (
+                <AutocompleteItem key={city.id}>{city.city}</AutocompleteItem>
+              )}
+            </Autocomplete>
             <Input
               name="bPhone"
               variant="underlined"

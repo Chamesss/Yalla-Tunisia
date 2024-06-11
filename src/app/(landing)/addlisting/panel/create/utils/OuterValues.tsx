@@ -2,7 +2,7 @@ type Props = {
   userId: string;
   categoryId: string | null;
   subCategoryId: string | null;
-  location: string | null;
+  location: string | undefined;
 };
 
 export default function OuterValues({

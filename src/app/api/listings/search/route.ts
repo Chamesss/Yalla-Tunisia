@@ -12,6 +12,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const Category = req.nextUrl.searchParams.get('cat') || "";
     const min = req.nextUrl.searchParams.get('min') || "";
     const max = req.nextUrl.searchParams.get('max') || "";
+    const locId = req.nextUrl.searchParams.get('locId') || "";
     const lastVisibleId = req.nextUrl.searchParams.get('lastVisible') as string
     const keywordsArray: string[] = keyword.split(' ').map(word => word.toLowerCase());
 
@@ -19,6 +20,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     let category: any = false;
     let categoryName: any = false;
     let data: any = [];
+    let limitItems = 12
 
     categories.forEach((c) => {
         if (subCategory) {
@@ -47,150 +49,319 @@ export async function GET(req: NextRequest, res: NextResponse) {
         if (subcategory) {
             if (keyword) {
                 if (min || max) {
-                    Query = lastDocRef ?
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("subCategoryId", "==", subcategory),
-                            where("keywords", "array-contains-any", keywordsArray),
-                            where("price", ">=", min),
-                            where("price", "<=", max),
-                            orderBy('created_at'),
-                            limit(3),
-                            startAfter(lastDocRef)
-                        ) :
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("subCategoryId", "==", subcategory),
-                            where("keywords", "array-contains-any", keywordsArray),
-                            where("price", ">=", min),
-                            where("price", "<=", max),
-                            orderBy('created_at'),
-                            limit(3)
-                        );
+                    if (locId) {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                where("location", "==", locId),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                where("location", "==", locId),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    } else {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    }
                 } else {
-                    Query = lastDocRef ?
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("subCategoryId", "==", subcategory),
-                            where("keywords", "array-contains-any", keywordsArray),
-                            orderBy('created_at'),
-                            limit(3),
-                            startAfter(lastDocRef)
-                        ) :
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("subCategoryId", "==", subcategory),
-                            where("keywords", "array-contains-any", keywordsArray),
-                            orderBy('created_at'),
-                            limit(3)
-                        );
+                    if (locId) {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("location", "==", locId),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("location", "==", locId),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    } else {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    }
                 }
             } else {
                 if (min || max) {
-                    Query = lastDocRef ?
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("subCategoryId", "==", subcategory),
-                            where("price", ">=", min),
-                            where("price", "<=", max),
-                            orderBy('created_at'),
-                            limit(3),
-                            startAfter(lastDocRef)
-                        ) :
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("subCategoryId", "==", subcategory),
-                            where("price", ">=", min),
-                            where("price", "<=", max),
-                            orderBy('created_at'),
-                            limit(3)
-                        );
+                    if (locId) {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("location", "==", locId),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("location", "==", locId),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    } else {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    }
                 } else {
-                    Query = lastDocRef ?
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("subCategoryId", "==", subcategory),
-                            orderBy('created_at'),
-                            limit(3),
-                            startAfter(lastDocRef)
-                        ) :
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("subCategoryId", "==", subcategory),
-                            orderBy('created_at'),
-                            limit(3)
-                        );
+                    if (locId) {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("location", "==", locId),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                where("location", "==", locId),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    } else {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("subCategoryId", "==", subcategory),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    }
                 }
             }
         } else if (category) {
             if (keyword) {
                 if (min || max) {
-                    Query = lastDocRef ?
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("keywords", "array-contains-any", keywordsArray),
-                            where("price", ">=", min),
-                            where("price", "<=", max),
-                            orderBy('created_at'),
-                            limit(3),
-                            startAfter(lastDocRef)
-                        ) :
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("keywords", "array-contains-any", keywordsArray),
-                            where("price", ">=", min),
-                            where("price", "<=", max),
-                            orderBy('created_at'),
-                            limit(3)
-                        );
-
+                    if (locId) {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("location", "==", locId),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("location", "==", locId),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    } else {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    }
                 } else {
-                    Query = lastDocRef ?
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("keywords", "array-contains-any", keywordsArray),
-                            orderBy('created_at'),
-                            limit(3),
-                            startAfter(lastDocRef)
-                        ) :
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("keywords", "array-contains-any", keywordsArray),
-                            orderBy('created_at'),
-                            limit(3)
-                        );
+                    if (locId) {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("location", "==", locId),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("location", "==", locId),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    } else {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("keywords", "array-contains-any", keywordsArray),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    }
                 }
             } else {
                 if (min || max) {
-                    Query = lastDocRef ?
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("price", ">=", min),
-                            where("price", "<=", max),
-                            orderBy('created_at'),
-                            limit(3),
-                            startAfter(lastDocRef)
-                        ) :
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            where("price", ">=", min),
-                            where("price", "<=", max),
-                            orderBy('created_at'),
-                            limit(3)
-                        );
+                    if (locId) {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("location", "==", locId),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("location", "==", locId),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    } else {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("price", ">=", min),
+                                where("price", "<=", max),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    }
                 } else {
-                    Query = lastDocRef ?
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            orderBy('created_at'),
-                            limit(3),
-                            startAfter(lastDocRef)
-                        ) :
-                        query(
-                            collection(db, categoryName || collections[0]),
-                            orderBy('created_at'),
-                            limit(3)
-                        );
+                    if (locId) {
+                        console.log('aasba')
+                        console.log(locId)
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("location", "==", locId),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                where("location", "==", locId),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    } else {
+                        Query = lastDocRef ?
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                orderBy('created_at'),
+                                limit(limitItems),
+                                startAfter(lastDocRef)
+                            ) :
+                            query(
+                                collection(db, categoryName || collections[0]),
+                                orderBy('created_at'),
+                                limit(limitItems)
+                            );
+                    }
                 }
             }
         }

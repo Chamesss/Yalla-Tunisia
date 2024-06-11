@@ -139,6 +139,7 @@ interface ProductGuides {
 type Product = ProductGuides | ProductHandMade | ProductSports
 
 interface Approvals {
+  id?: string,
   bName: string,
   bPhone: string,
   businessType: string,
@@ -147,7 +148,8 @@ interface Approvals {
   lng: number,
   tiles: string[],
   status: boolean,
-  userId: string
+  userId: string,
+  locationId: string,
 }
 
 interface FavoriteResponse {

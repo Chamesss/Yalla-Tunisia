@@ -8,8 +8,8 @@ import {
 import { Dispatch, SetStateAction, useEffect } from "react";
 
 type Props = {
-  location: string | null;
-  setLocation: Dispatch<SetStateAction<string | null>>;
+  location: string | undefined;
+  setLocation: Dispatch<SetStateAction<string | undefined>>;
   locationChecked: boolean;
   setLocationChecked: Dispatch<SetStateAction<boolean>>;
   locationError: boolean;
@@ -24,7 +24,7 @@ export default function LocationSection({
 }: Props) {
   useEffect(() => {
     locationChecked === true && setLocation("nan");
-    locationChecked === false && setLocation(null);
+    locationChecked === false && setLocation(undefined);
   }, [locationChecked]);
 
   return (
@@ -35,6 +35,13 @@ export default function LocationSection({
         size="sm"
         label="Pick a location"
         className="mt-4 relative"
+        onSelectionChange={(key) => {
+          if (key) {
+            setLocation(key.toString());
+          } else {
+            setLocation(undefined);
+          }
+        }}
         isDisabled={locationChecked}
         onInputChange={(e) => {
           setLocation(e);

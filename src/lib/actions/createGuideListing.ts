@@ -4,6 +4,7 @@ import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from "fire
 import { app, db } from "../../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { uploadImages } from "./uploadPictures";
+import getBusinessName from "../ListingActions/getBusinessName";
 
 //Error codes:{ title=1 / price=2 / description=4 / language=5 / timing=6 / days=7 / category=11 / subcategory=12 / location=13}
 export async function createGuideListing(prevState: any, formData: FormData) {
@@ -34,7 +35,16 @@ export async function createGuideListing(prevState: any, formData: FormData) {
     if (!categoryId) return { response: { success: false, error: 11, message: "invalid category" } }
 
     if (!locationValue) return { response: { success: false, error: 13, message: "invalid location" } }
-    const location = locationValue.toLocaleLowerCase()
+    let location = locationValue.toLocaleLowerCase()
+
+    if (location === "nan") {
+        try {
+            const business = await getBusinessName(userId) as Approvals
+            location = business.locationId
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     if (title) {
         if (title.toString().length < 3) {
