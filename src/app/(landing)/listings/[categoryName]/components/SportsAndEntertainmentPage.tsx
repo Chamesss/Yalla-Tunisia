@@ -16,8 +16,10 @@ import UserAndProducts from "./UserAndProducts";
 
 export default async function SportsAndEntertainmentPage({
   res,
+  categoryName,
 }: {
   res: ProductSports;
+  categoryName: string;
 }) {
   return (
     <div className="flex justify-center w-full">
@@ -108,7 +110,7 @@ export default async function SportsAndEntertainmentPage({
           </div>
 
           <div className="w-[100%] lg:max-w-[25rem] max-w-auto p-4">
-            <CheckOutBox productId={res.id} />
+            <CheckOutBox productId={res.id} categoryName={categoryName} />
           </div>
           {/* <p className="font-medium">Views: {data.views}</p> */}
         </div>

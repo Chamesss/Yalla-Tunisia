@@ -13,9 +13,15 @@ export default async function page({
   const res = await getSingleItem(categoryName, id);
   return (
     <div>
-      {categoryName === "Handmades" && <HandmadePage res={res} />}
-      {categoryName === "Sports" && <SportsAndEntertainmentPage res={res} />}
-      {categoryName === "Guides" && <GuidePage res={res} />}
+      {categoryName === "Handmades" && (
+        <HandmadePage res={res} categoryName={categoryName} />
+      )}
+      {categoryName === "Sports" && (
+        <SportsAndEntertainmentPage res={res} categoryName={categoryName} />
+      )}
+      {categoryName === "Guides" && (
+        <GuidePage res={res} categoryName={categoryName} />
+      )}
     </div>
   );
 }

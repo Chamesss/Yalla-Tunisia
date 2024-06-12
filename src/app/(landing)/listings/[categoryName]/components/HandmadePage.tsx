@@ -10,7 +10,13 @@ import CheckIcon from "@/components/icons/CheckBoxIcon";
 import IconCancel from "@/components/icons/IconCancel";
 import UserAndProducts from "./UserAndProducts";
 
-export default async function HandmadePage({ res }: { res: ProductHandMade }) {
+export default async function HandmadePage({
+  res,
+  categoryName,
+}: {
+  res: ProductHandMade;
+  categoryName: string;
+}) {
   return (
     <div className="flex justify-center">
       <div className="flex flex-col py-4 mb-20 px-2 xs:px-3 sm:px-8 w-auto max-w-[100rem]">
@@ -138,7 +144,7 @@ export default async function HandmadePage({ res }: { res: ProductHandMade }) {
             </div>
           </div>
           <div className="w-[100%] lg:max-w-[25rem] max-w-auto p-4">
-            <CheckOutBox productId={res.id} />
+            <CheckOutBox productId={res.id} categoryName={categoryName} />
           </div>
           {/* <p className="font-medium">Views: {data.views}</p> */}
         </div>

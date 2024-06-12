@@ -26,6 +26,7 @@ export default function AuthStateProvider({
         if (user.userId && user.user) {
           const response = await fetch(`/api/users/getuser/${user.userId}`);
           const userState = (await response.json()) as userType;
+          dispatch(addUserSession(user));
           await revalidateUserdata(userState, user.userId);
           const favoritesRes = await fetch(`/api/favorites`, {
             headers: {

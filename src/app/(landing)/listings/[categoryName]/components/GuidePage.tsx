@@ -11,7 +11,13 @@ import Success from "@/components/icons/Success";
 import IconCancel from "@/components/icons/IconCancel";
 import UserAndProducts from "./UserAndProducts";
 
-export default async function GuidePage({ res }: { res: ProductGuides }) {
+export default async function GuidePage({
+  res,
+  categoryName,
+}: {
+  res: ProductGuides;
+  categoryName: string;
+}) {
   return (
     <div className="flex justify-center">
       <div className="flex flex-col py-4 mb-20 px-8 max-w-[100rem]">
@@ -140,7 +146,7 @@ export default async function GuidePage({ res }: { res: ProductGuides }) {
           </div>
 
           <div className="w-[100%] lg:max-w-[25rem] max-w-auto p-4">
-            <CheckOutBox productId={res.id} />
+            <CheckOutBox productId={res.id} categoryName={categoryName} />
           </div>
           {/* <p className="font-medium">Views: {data.views}</p> */}
         </div>
