@@ -19,8 +19,6 @@ export default function CheckOutBox({ productId, categoryName }: Props) {
   const user = useSelector(userState);
   const cart = useSelector(cartState);
 
-  console.log("cart state === ", cart);
-
   useEffect(() => {
     const index = cart.products.findIndex((c) => c.productId === productId);
     if (index > -1) {
@@ -30,9 +28,7 @@ export default function CheckOutBox({ productId, categoryName }: Props) {
 
   const addToCart = async () => {
     if (!user.isLogged) {
-      console.log("not logged in");
       onOpen();
-      return;
     } else {
       dispatch(addProductToCart({ productId, categoryName }));
     }
@@ -40,20 +36,6 @@ export default function CheckOutBox({ productId, categoryName }: Props) {
 
   return (
     <div className="border border-solid w-full border-black border-opacity-10 rounded-lg p-4">
-      {/* <div className="flex flex-row items-center">
-        <p className="flex-1 text-tiny xs:text-medium">Deliver to</p>
-        <Autocomplete
-          defaultItems={cities}
-          placeholder="Location.."
-          size="sm"
-          className="w-[60%]"
-        >
-          {(city) => (
-            <AutocompleteItem key={city.value}>{city.label}</AutocompleteItem>
-          )}
-        </Autocomplete>
-      </div>
-      <Divider className="my-4" /> */}
       <small className="opacity-80">Estimated time between 24h/48h</small>
       <Divider className="my-4" />
       <div className="flex justify-center">
