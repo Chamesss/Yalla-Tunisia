@@ -13,6 +13,7 @@ import ProfileDropDown from "./utils/Header/ProfileDropDown";
 import { categories as CATEGORIES } from "@/constants/categories";
 import { useRouter } from "next/navigation";
 import SearchBar from "./utils/SearchBar";
+import Link from "next/link";
 
 export default function Header() {
   // const authenticatedNavigationItems = [
@@ -77,9 +78,12 @@ export default function Header() {
             isLogged={user.isLogged}
             categories={categories}
           />
-          <span className="text-3xl font-bold drop-shadow-md text-[#48b9ff] dark:text-[#3d9cd7]">
+          <Link
+            href="/"
+            className="text-3xl font-bold drop-shadow-md text-[#48b9ff] dark:text-[#3d9cd7]"
+          >
             Yalla Tunisia
-          </span>
+          </Link>
         </div>
         <div className="max-w-[40rem] w-full">
           <SearchBar mounted={mounted} setMounted={setMounted} />

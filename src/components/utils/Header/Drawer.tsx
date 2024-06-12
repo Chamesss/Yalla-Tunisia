@@ -110,7 +110,7 @@ export default function HeaderDrawer({
                   className="cursor-pointer hover:underline capitalize"
                   name={user.user.username}
                   avatarProps={{ src: user?.user.picture }}
-                  description="State"
+                  description={user.user.seller ? "Seller" : "Visitor"}
                 />
               </Link>
             </div>
