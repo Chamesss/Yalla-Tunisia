@@ -14,6 +14,18 @@ type subcategories = {
 export default function DropdownItem({ category }: DropdownItemProps) {
   const CategoryIcon = category.Icon;
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleNavigate = (id: string) => {
+    window.location.href = `/listings?${new URLSearchParams({
+      cat: id === "66207abd90b31d11aa680131" ? "66207ab5b27e1a42a69a6517" : "",
+      sub: id !== "66207abd90b31d11aa680131" ? id : "",
+      locId: "",
+      keyword: "",
+      min: "",
+      max: "",
+    }).toString()}`;
+  };
+
   return (
     <div className="flex flex-row h-full">
       <div
@@ -53,10 +65,10 @@ export default function DropdownItem({ category }: DropdownItemProps) {
             {category.subcategories.map((d: subcategories, i: number) => {
               const SubCategoryIcon = d.Icon;
               return (
-                <Link
-                  href={`/listings?sub=${d.id}`}
+                <div
                   key={i}
                   className="flex flex-row items-center justify-between p-1.5 dark:hover:bg-slate-950 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handleNavigate(d.id)}
                 >
                   <span className="flex items-center justify-center px-4 py-2 text-sm text-gray-700 dark:text-white gap-1">
                     <SubCategoryIcon className="mr-1" width={30} height={30} />
@@ -75,7 +87,7 @@ export default function DropdownItem({ category }: DropdownItemProps) {
                       clipRule="evenodd"
                     />
                   </svg>
-                </Link>
+                </div>
               );
             })}
           </div>

@@ -1,83 +1,60 @@
-// "use client";
-// import Slider from "react-slick";
-// import { ArrowNull } from "@/components/utils/Hero/Carousel";
-// import {
-//   ReactElement,
-//   JSXElementConstructor,
-//   ReactNode,
-//   ReactPortal,
-//   useState,
-//   SetStateAction,
-// } from "react";
-
-// export default function CarouselImages({ data }: any) {
-//   const [activeSlide, setActiveSlide] = useState(0);
-//   let settings = {
-//     dots: true,
-//     infinite: false,
-//     speed: 500,
-//     slidesToShow: 1,
-//     slidesToScroll: 1,
-//     nextArrow: <ArrowNull />,
-//     prevArrow: <ArrowNull />,
-//     beforeChange: (_: any, next: SetStateAction<number>) => {
-//       setActiveSlide(next);
-//     },
-//     appendDots: (
-//       dots:
-//         | string
-//         | number
-//         | boolean
-//         | ReactElement<any, string | JSXElementConstructor<any>>
-//         | Iterable<ReactNode>
-//         | ReactPortal
-//         | null
-//         | undefined
-//     ) => (
-//       <div className="w-full">
-//         <ul className="gap-12 justify-center flex"> {dots} </ul>
-//       </div>
-//     ),
-//     customPaging: (i: number) => (
-//       <div
-//         className={`w-[3.8rem] h-[3.8rem] shadow-lg overflow-hidden rounded-lg hover:outline-1 hover:outline focus:outline focus:outline-1 focus:scale-110 outline-black transition-all ease-in-out duration-100 -translate-x-5 hover:scale-110 bg-slate-500 ${
-//           activeSlide === i && "scale-110"
-//         }`}
-//       >
-//         <img src={data[i]} className="w-full h-full" alt="photo" />
-//       </div>
-//     ),
-//   };
-//   return (
-//     <div className="relative w-[30rem] h-[30rem]">
-//       <Slider {...settings}>
-//         {data.map((d: any, i: number) => (
-//           <div key={i}>
-//             <img
-//               src={d}
-//               alt="Listing picture"
-//               className="object-cover w-full h-full transition-all"
-//             />
-//           </div>
-//         ))}
-//       </Slider>
-//     </div>
-//   );
-// }
-
 "use client";
 
 import React from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
 export default function CarousselImages({ images }: { images: string[] }) {
+  const renderThumbs = (children: React.ReactChild[]): React.ReactChild[] => {
+    return children
+      .map((child, index) => {
+        if (React.isValidElement(child) && child.type === "div") {
+          //@ts-ignore
+          const { children: childElement } = child.props;
+          const imgElement = React.Children.toArray(childElement).find(
+            (element) => React.isValidElement(element) && element.type === "img"
+            //@ts-ignore
+          ) as ReactChild | undefined;
+          if (imgElement) {
+            const styledImgElement = React.cloneElement(imgElement, {
+              className: `${imgElement.props.className || ""} custom-thumb-img`,
+              style: {
+                ...(imgElement.props.style || {}),
+                objectFit: "cover",
+                width: "100%",
+                height: "100%",
+              },
+            });
+            return (
+              <div
+                key={index}
+                className="flex flex-row gap-4 h-[3.1rem] w-full object-fill items-stretch"
+              >
+                {styledImgElement}
+              </div>
+            );
+          }
+        }
+
+        return null;
+      })
+      .filter(Boolean) as React.ReactChild[];
+  };
+
   return (
-    <div className="lg:h-[300px] lg:w-[500px]">
-      <Carousel>
+    <div className="relative lg:h-[300px] lg:w-[500px]">
+      <Carousel
+        infiniteLoop={true}
+        showStatus={false}
+        renderThumbs={renderThumbs}
+      >
         {images.map((img: string, i: number) => (
-          <div key={i}>
-            <img alt={`product-handmade-${i}`} className="" src={img} />
+          <div key={i} className="flex items-center justify-center bg-black/10">
+            <img
+              alt={`product-handmade-${i}`}
+              className="object-contain h-full max-h-[14rem] lg:max-h-[18.75rem]"
+              src={img}
+            />
           </div>
         ))}
       </Carousel>

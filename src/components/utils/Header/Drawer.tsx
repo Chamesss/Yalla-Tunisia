@@ -78,6 +78,18 @@ export default function HeaderDrawer({
     onOpen();
   };
 
+  const handleNavigate = (id: string) => {
+    setIsOpen(false);
+    window.location.href = `/listings?${new URLSearchParams({
+      cat: id === "66207abd90b31d11aa680131" ? "66207ab5b27e1a42a69a6517" : "",
+      sub: id !== "66207abd90b31d11aa680131" ? id : "",
+      locId: "",
+      keyword: "",
+      min: "",
+      max: "",
+    }).toString()}`;
+  };
+
   return (
     <>
       <IconThreeBars16
@@ -150,51 +162,24 @@ export default function HeaderDrawer({
                 base: "w-full",
               }}
             >
-              <AccordionItem key="1" aria-label="Handmades" title="Handmades">
-                {categories[0].subcategories.map((d, i) => (
-                  <div key={i} className="my-1">
-                    <Link
-                      href={`/listings?sub=${d.id}`}
-                      className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {d.name}
-                    </Link>
-                  </div>
-                ))}
-              </AccordionItem>
-              <AccordionItem
-                key="2"
-                aria-label="Sports & Entertainments"
-                title="Sports & Entertainments"
-              >
-                <div className="flex flex-col flex-nowrap">
-                  {categories[1].subcategories.map((d, i) => (
-                    <div key={i} className="my-1">
-                      <Link
-                        href={`/listings?sub=${d.id}`}
+              {categories.map((category, index) => (
+                <AccordionItem
+                  key={index}
+                  aria-label={category.name}
+                  title={category.name}
+                >
+                  {category.subcategories.map((subcategory, subIndex) => (
+                    <div key={subIndex} className="my-1">
+                      <div
                         className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => handleNavigate(subcategory.id)}
                       >
-                        {d.name}
-                      </Link>
+                        {subcategory.name}
+                      </div>
                     </div>
                   ))}
-                </div>
-              </AccordionItem>
-              <AccordionItem key="3" aria-label="Guides" title="Guides">
-                {categories[2].subcategories.map((d, i) => (
-                  <div key={i} className="my-1">
-                    <Link
-                      href={`/listings?sub=${d.id}`}
-                      className="ml-2 text-sm py-1 italic cursor-pointer hover:underline"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {d.name}
-                    </Link>
-                  </div>
-                ))}
-              </AccordionItem>
+                </AccordionItem>
+              ))}
             </Accordion>
             <Divider />
             {values2.map((item, i) => (

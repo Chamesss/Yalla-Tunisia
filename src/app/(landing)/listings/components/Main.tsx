@@ -14,7 +14,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import { useSearchParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 type Result = {
   data: Product[];
@@ -89,48 +89,72 @@ export default function Main() {
     );
   }, []);
 
-  function fetchProducts(
-    selectedSubcategory: string | undefined,
-    selectedCategory: string | undefined,
-    selectedLocationId: string | undefined,
-    keyword: string,
-    min: string | undefined = "",
-    max: string | undefined = "",
-    lastVisible: string | undefined
-  ) {
-    if (!selectedCategory && !selectedSubcategory) return;
-    setLoading(true);
-    let query = "?";
-    if (selectedSubcategory) query += `&sub=${selectedSubcategory}`;
-    if (selectedCategory) query += `&cat=${selectedCategory}`;
-    if (selectedLocationId) query += `&locId=${selectedLocationId}`;
-    if (keyword.length > 0) query += `&keyword=${keyword}`;
-    if (min) query += `&min=${min}`;
-    if (max) query += `&max=${max}`;
-    (async () => {
-      const res = await fetch(
-        `/api/listings/search${query}&lastVisible=${lastVisible}`,
-        { cache: "no-cache" }
-      );
-      const response = (await res.json()) as Result | undefined;
-      if (response && response.data.length < 12) setEndResult(true);
-      setAllProducts((prev) => {
-        if (prev && response) {
-          return [...prev, ...response?.data];
-        } else {
-          return response?.data;
-        }
-      });
-      query = `?&cat=${selectedCategory || ""}&sub=${
-        selectedSubcategory || ""
-      }&locId=${selectedLocationId || ""}&keyword=${keyword || ""}&min=${
-        min || ""
-      }&max=${max || ""}`;
-      setLastVisible(response?.lastVisible);
-      router.push(`/listings${query}`);
-      setLoading(false);
-    })();
-  }
+  const searchParamsMemo = useMemo(
+    () => ({
+      selectedSubcategory,
+      selectedCategory,
+      selectedLocationId,
+      keyword,
+      min,
+      max,
+      lastVisible,
+    }),
+    [
+      selectedSubcategory,
+      selectedCategory,
+      selectedLocationId,
+      keyword,
+      min,
+      max,
+      lastVisible,
+    ]
+  );
+
+  const fetchProducts = useCallback(
+    async (
+      selectedSubcategory: string | undefined,
+      selectedCategory: string | undefined,
+      selectedLocationId: string | undefined,
+      keyword: string,
+      min: string | undefined = "",
+      max: string | undefined = "",
+      lastVisible: string | undefined
+    ) => {
+      if (!selectedCategory && !selectedSubcategory) return;
+      setLoading(true);
+      let query = "?";
+      if (selectedSubcategory) query += `&sub=${selectedSubcategory}`;
+      if (selectedCategory) query += `&cat=${selectedCategory}`;
+      if (selectedLocationId) query += `&locId=${selectedLocationId}`;
+      if (keyword.length > 0) query += `&keyword=${keyword}`;
+      if (min) query += `&min=${min}`;
+      if (max) query += `&max=${max}`;
+      (async () => {
+        const res = await fetch(
+          `/api/listings/search${query}&lastVisible=${lastVisible}`,
+          { cache: "no-cache" }
+        );
+        const response = (await res.json()) as Result | undefined;
+        if (response && response.data.length < 12) setEndResult(true);
+        setAllProducts((prev) => {
+          if (prev && response) {
+            return [...prev, ...response?.data];
+          } else {
+            return response?.data;
+          }
+        });
+        query = `?&cat=${selectedCategory || ""}&sub=${
+          selectedSubcategory || ""
+        }&locId=${selectedLocationId || ""}&keyword=${keyword || ""}&min=${
+          min || ""
+        }&max=${max || ""}`;
+        setLastVisible(response?.lastVisible);
+        router.push(`/listings${query}`);
+        setLoading(false);
+      })();
+    },
+    [searchParamsMemo]
+  );
 
   const handleSearch = () => {
     setEndResult(false);
@@ -165,7 +189,6 @@ export default function Main() {
                           setSelectedSubcategory("");
                           setAllProducts([]);
                           setLastVisible(undefined);
-                          setKeyword("");
                           fetchProducts(
                             "",
                             c.id,
@@ -253,6 +276,7 @@ export default function Main() {
                   <p className="text-medium font-bold opacity-80">Price</p>
                   <div className="flex flex-row items-center justify-center gap-4">
                     <Input
+                      placeholder="-"
                       value={min}
                       size="sm"
                       label="min"
@@ -263,6 +287,7 @@ export default function Main() {
                     />
                     <p className="mx-2">-</p>
                     <Input
+                      placeholder="-"
                       value={max}
                       size="sm"
                       label="max"
