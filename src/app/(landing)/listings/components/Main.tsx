@@ -11,6 +11,7 @@ import {
   Button,
   Card,
   CardBody,
+  Divider,
   Input,
 } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
@@ -39,7 +40,7 @@ export default function Main() {
     searchParams.get("min") || undefined
   );
   const [max, setMax] = useState<string | undefined>(
-    searchParams.get("min") || undefined
+    searchParams.get("max") || undefined
   );
   const [keyword, setKeyword] = useState<string>(
     searchParams.get("keyword") || ""
@@ -114,7 +115,7 @@ export default function Main() {
         { cache: "no-cache" }
       );
       const response = (await res.json()) as Result | undefined;
-      if (response && response.data.length < 3) setEndResult(true);
+      if (response && response.data.length < 12) setEndResult(true);
       setAllProducts((prev) => {
         if (prev && response) {
           return [...prev, ...response?.data];
@@ -147,11 +148,11 @@ export default function Main() {
       <div className="max-w-[100rem] flex justify-center flex-col flex-1 w-full px-2 xs:px-2 sm:px-3 py-4">
         <div className="flex flex-row items-stretch flex-1 justify-center gap-3">
           <div className="flex w-[20%]">
-            <Card className="flex flex-1 py-3">
-              <CardBody>
-                <div className="space-y-3 px-2">
-                  <p className="text-medium font-semibold">Category</p>
-                  <div className="flex flex-row flex-wrap gap-2 px-2">
+            <Card className="flex flex-1 h-fit py-3">
+              <CardBody className="space-y-4">
+                <div className="space-y-2 px-2">
+                  <p className="text-medium font-bold opacity-80">Categories</p>
+                  <div className="flex flex-row flex-wrap gap-1.5">
                     {CategoryWName.map((c, i) => (
                       <button
                         onClick={() => {
@@ -172,7 +173,7 @@ export default function Main() {
                           );
                         }}
                         key={`${c.name}-${i}`}
-                        className={`px-2 py-1 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
+                        className={`px-1.5 py-0.5 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
                           selectedCategory === c.id && "!text-white bg-sky-600"
                         }`}
                       >
@@ -181,46 +182,54 @@ export default function Main() {
                     ))}
                   </div>
                 </div>
-                <div className="space-y-3 mt-4 px-2">
-                  <p className="text-medium font-semibold">Subcategory</p>
-                  <div className="flex flex-row flex-wrap gap-2 px-2 min-h-[1rem]">
-                    {subcategoriesFiltered.map((c, index) => (
-                      <button
-                        onClick={() => {
-                          setEndResult(false);
-                          setSelectedSubcategory(c.id);
-                          setAllProducts([]);
-                          setLastVisible(undefined);
-                          fetchProducts(
-                            c.id,
-                            "",
-                            selectedLocationId,
-                            keyword,
-                            min,
-                            max,
-                            undefined
-                          );
-                        }}
-                        key={`${c.name}-${index}`}
-                        className={`px-2 py-1 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
-                          selectedSubcategory === c.id &&
-                          "!text-white bg-sky-600"
-                        }`}
-                      >
-                        <small>{c.name}</small>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div className="space-y-3 mt-4 px-2">
-                  <p className="text-medium font-semibold">Location</p>
+                {selectedCategory !== "66207ab5b27e1a42a69a6517" && (
+                  <React.Fragment>
+                    <div className="space-y-2 px-2">
+                      <p className="text-medium font-bold opacity-80">Tags</p>
+                      <div className="flex flex-row flex-wrap gap-1.5 min-h-[1rem]">
+                        {subcategoriesFiltered.map((c, index) => (
+                          <>
+                            {c.id !== "66207abd90b31d11aa680131" && (
+                              <button
+                                onClick={() => {
+                                  setEndResult(false);
+                                  setSelectedSubcategory(c.id);
+                                  setAllProducts([]);
+                                  setLastVisible(undefined);
+                                  fetchProducts(
+                                    c.id,
+                                    "",
+                                    selectedLocationId,
+                                    keyword,
+                                    min,
+                                    max,
+                                    undefined
+                                  );
+                                }}
+                                key={`${c.name}-${index}`}
+                                className={`px-1.5 py-0.5 transition-all border-2 text-bl border-sky-600 text-sky-600 rounded-lg ${
+                                  selectedSubcategory === c.id &&
+                                  "!text-white bg-sky-600"
+                                }`}
+                              >
+                                <small>{c.name}</small>
+                              </button>
+                            )}
+                          </>
+                        ))}
+                      </div>
+                    </div>
+                  </React.Fragment>
+                )}
+                <div className="space-y-2 px-2">
+                  <p className="text-medium font-bold opacity-80">Location</p>
                   <Autocomplete
                     defaultItems={cities}
                     placeholder="Location.."
                     size="md"
                     value={selectedLocationId}
                     defaultSelectedKey={selectedLocationId}
-                    className="px-4"
+                    className=""
                     onSelectionChange={(key) => {
                       if (key) {
                         setSelectedLocationId(key.toString() || undefined);
@@ -236,23 +245,25 @@ export default function Main() {
                     )}
                   </Autocomplete>
                 </div>
-                <div className="space-y-3 mt-4 px-2">
-                  <p className="text-medium font-semibold">Price</p>
-                  <div className="flex flex-row items-center justify-center gap-4 px-10">
+                <div className="space-y-2 px-2">
+                  <p className="text-medium font-bold opacity-80">Price</p>
+                  <div className="flex flex-row items-center justify-center gap-4">
                     <Input
+                      value={min}
                       size="sm"
                       label="min"
                       labelPlacement="outside-left"
-                      className="min-w-[5rem]"
+                      className="w-auto"
                       type="number"
                       onChange={(e) => setMin(e.target.value)}
                     />
                     <p className="mx-2">-</p>
                     <Input
+                      value={max}
                       size="sm"
                       label="max"
                       labelPlacement="outside-left"
-                      className="min-w-[5rem]"
+                      className="w-auto"
                       type="number"
                       onChange={(e) => setMax(e.target.value)}
                     />
@@ -282,23 +293,24 @@ export default function Main() {
                       </div>
                     }
                   />
-                  <h1 className="px-2">Results</h1>
+                  <h1 className="text-center">Results</h1>
                   <div className="flex flex-1 justify-center">
-                    <div className="flex flex-0 items-center flex-col space-y-4 justify-center">
+                    <div className="flex w-fit flex-col items-center justify-start">
                       {allProducts && (
-                        <>
-                          <div className="grid grid-cols-5 gap-8">
-                            {allProducts.map((product, i) => (
-                              <React.Fragment key={i}>
-                                <CardItem data={product} />
-                              </React.Fragment>
-                            ))}
-                          </div>
-                          {loading && (
-                            <div className="grid grid-cols-5 gap-8">
+                        <div className="flex w-fit h-fit flex-col items-start space-y-8">
+                          {loading ? (
+                            <div className="grid grid-cols-4 gap-8">
                               {Array.from({ length: 8 }).map((_, i) => (
                                 <React.Fragment key={i}>
                                   <CardSkeleton />
+                                </React.Fragment>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="grid grid-cols-4 gap-8">
+                              {allProducts.map((product, i) => (
+                                <React.Fragment key={i}>
+                                  <CardItem data={product} />
                                 </React.Fragment>
                               ))}
                             </div>
@@ -321,16 +333,22 @@ export default function Main() {
                               Load More
                             </Button>
                           )}
-                        </>
+                        </div>
                       )}
                       {allProducts && allProducts.length === 0 && endResult && (
-                        <p>No Offers Found.</p>
+                        <p className="my-4 italic opacity-80">
+                          No Offers Found.
+                        </p>
                       )}
                       {allProducts && allProducts.length > 0 && endResult && (
-                        <p>End Result.</p>
+                        <p className="my-4 italic opacity-80 flex self-stretch h-full text-center place-self-stretch items-end justify-center">
+                          End Result.
+                        </p>
                       )}
                       {!selectedCategory && !selectedSubcategory && (
-                        <p>Please select a category</p>
+                        <p className="my-4 italic opacity-80 flex self-stretch h-full items-center justify-self-center">
+                          Please select a category
+                        </p>
                       )}
                     </div>
                   </div>
