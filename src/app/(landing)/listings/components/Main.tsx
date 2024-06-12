@@ -45,7 +45,7 @@ export default function Main() {
     searchParams.get("keyword") || ""
   );
   const [allProducts, setAllProducts] = useState<Product[] | undefined>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [lastVisible, setLastVisible] = useState<string>();
   const [endResult, setEndResult] = useState<boolean>(false);
   const router = useRouter();
