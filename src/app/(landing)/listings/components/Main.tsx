@@ -11,10 +11,9 @@ import {
   Button,
   Card,
   CardBody,
-  Divider,
   Input,
 } from "@nextui-org/react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 type Result = {
@@ -45,16 +44,15 @@ export default function Main() {
   const [keyword, setKeyword] = useState<string>(
     searchParams.get("keyword") || ""
   );
-
   const [allProducts, setAllProducts] = useState<Product[] | undefined>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [lastVisible, setLastVisible] = useState<string>();
   const [endResult, setEndResult] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     let allSubs: any = [];
     if (!selectedCategory) {
-      setSelectedSubcategory(undefined);
       categories.forEach((c) => {
         c.subcategories.forEach((sub) =>
           allSubs.push({ id: sub.id, name: sub.name })
@@ -123,7 +121,13 @@ export default function Main() {
           return response?.data;
         }
       });
+      query = `?&cat=${selectedCategory || ""}&sub=${
+        selectedSubcategory || ""
+      }&locId=${selectedLocationId || ""}&keyword=${keyword || ""}&min=${
+        min || ""
+      }&max=${max || ""}`;
       setLastVisible(response?.lastVisible);
+      router.push(`/listings${query}`);
       setLoading(false);
     })();
   }
@@ -296,26 +300,31 @@ export default function Main() {
                   <h1 className="text-center">Results</h1>
                   <div className="flex flex-1 justify-center">
                     <div className="flex w-fit flex-col items-center justify-start">
-                      {allProducts && (
-                        <div className="flex w-fit h-fit flex-col items-start space-y-8">
-                          {loading ? (
-                            <div className="grid grid-cols-4 gap-8">
-                              {Array.from({ length: 8 }).map((_, i) => (
-                                <React.Fragment key={i}>
-                                  <CardSkeleton />
-                                </React.Fragment>
-                              ))}
-                            </div>
-                          ) : (
-                            <div className="grid grid-cols-4 gap-8">
-                              {allProducts.map((product, i) => (
-                                <React.Fragment key={i}>
-                                  <CardItem data={product} />
-                                </React.Fragment>
-                              ))}
-                            </div>
-                          )}
-                          {allProducts.length !== 0 && endResult === false && (
+                      <div className="flex w-fit h-fit flex-col items-start space-y-8">
+                        {loading ? (
+                          <div className="grid grid-cols-4 gap-8">
+                            {Array.from({ length: 8 }).map((_, i) => (
+                              <React.Fragment key={i}>
+                                <CardSkeleton />
+                              </React.Fragment>
+                            ))}
+                          </div>
+                        ) : (
+                          <>
+                            {allProducts && (
+                              <div className="grid grid-cols-4 gap-8">
+                                {allProducts.map((product, i) => (
+                                  <React.Fragment key={i}>
+                                    <CardItem data={product} />
+                                  </React.Fragment>
+                                ))}
+                              </div>
+                            )}
+                          </>
+                        )}
+                        {allProducts &&
+                          allProducts.length !== 0 &&
+                          endResult === false && (
                             <Button
                               onClick={() => {
                                 setEndResult(false);
@@ -333,8 +342,7 @@ export default function Main() {
                               Load More
                             </Button>
                           )}
-                        </div>
-                      )}
+                      </div>
                       {allProducts && allProducts.length === 0 && endResult && (
                         <p className="my-4 italic opacity-80">
                           No Offers Found.
