@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import {
   Card,
   CardBody,
+  Input,
   Spinner,
   Table,
   TableBody,
@@ -24,6 +25,8 @@ export default function Main() {
   const cart = useSelector(cartState);
   const [productsData, setProductsData] = useState<data | undefined>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const [qte, setQte] = useState<number>(1);
 
   useEffect(() => {
     const fetchProductsData = async () => {
@@ -99,7 +102,35 @@ export default function Main() {
                               </div>
                             </TableCell>
                             <TableCell>
-                              <p>{"specs"}</p>
+                              {item.ref.toLowerCase() === "handmades" && (
+                                <div className="flex flex-row items-center">
+                                  <p>Quantity</p>
+                                  {qte}
+                                  <button
+                                    onClick={() => {
+                                      setQte((prev) => prev - 1);
+                                    }}
+                                    className="mx-2 px-1 active:opacity-60 border text-medium h-fit w-fit"
+                                  >
+                                    -
+                                  </button>
+                                  {/* <Input
+                                    onChange={(e) =>
+                                      setQte(Number(e.target.value))
+                                    }
+                                    value={qte.toString()}
+                                    className="w-[4rem]"
+                                    type="number"
+                                  /> */}
+                                  <button
+                                    onClick={() => setQte((prev) => prev + 1)}
+                                    className="mx-2 px-1 active:opacity-60 border text-medium h-fit w-fit"
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              )}
+                              {/* <input type="date" /> */}
                             </TableCell>
                             <TableCell>
                               <p>{"item.data"}</p>
