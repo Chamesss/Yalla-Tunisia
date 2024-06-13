@@ -15,9 +15,10 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import Image from "next/image";
+import Quantity from "./Quantity";
 
 type data = {
-  data: ProductGuides | ProductHandMade | ProductSports;
+  data: Product;
   ref: string;
 }[];
 
@@ -25,8 +26,6 @@ export default function Main() {
   const cart = useSelector(cartState);
   const [productsData, setProductsData] = useState<data | undefined>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const [qte, setQte] = useState<number>(1);
 
   useEffect(() => {
     const fetchProductsData = async () => {
@@ -98,39 +97,12 @@ export default function Main() {
                                   height={640}
                                   alt={`picture-${item.data.title}`}
                                   className="w-28 h-28 rounded-sm object-contain"
+                                  priority={true}
                                 />
                               </div>
                             </TableCell>
                             <TableCell>
-                              {item.ref.toLowerCase() === "handmades" && (
-                                <div className="flex flex-row items-center">
-                                  <p>Quantity</p>
-                                  {qte}
-                                  <button
-                                    onClick={() => {
-                                      setQte((prev) => prev - 1);
-                                    }}
-                                    className="mx-2 px-1 active:opacity-60 border text-medium h-fit w-fit"
-                                  >
-                                    -
-                                  </button>
-                                  {/* <Input
-                                    onChange={(e) =>
-                                      setQte(Number(e.target.value))
-                                    }
-                                    value={qte.toString()}
-                                    className="w-[4rem]"
-                                    type="number"
-                                  /> */}
-                                  <button
-                                    onClick={() => setQte((prev) => prev + 1)}
-                                    className="mx-2 px-1 active:opacity-60 border text-medium h-fit w-fit"
-                                  >
-                                    +
-                                  </button>
-                                </div>
-                              )}
-                              {/* <input type="date" /> */}
+                              <Quantity item={item} />
                             </TableCell>
                             <TableCell>
                               <p>{"item.data"}</p>
