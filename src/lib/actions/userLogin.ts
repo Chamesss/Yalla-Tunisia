@@ -26,6 +26,10 @@ export async function loginUser(email: string, password: string) {
         return { success: true, user: userData, userId: userId }
     } catch (e) {
         console.log(e);
-        return { success: false }
+        if (e instanceof Error) {
+            return { success: false, error: e.message };
+        } else {
+            return { success: false, error: 'An unknown error occurred' };
+        }
     }
 }

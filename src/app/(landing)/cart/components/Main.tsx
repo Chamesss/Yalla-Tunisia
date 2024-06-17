@@ -2,20 +2,11 @@
 import { cartState } from "@/redux/slices/cartSlice";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-  Card,
-  CardBody,
-  Input,
-  Spinner,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-} from "@nextui-org/react";
-import Image from "next/image";
-import Quantity from "./Quantity";
+import { Card, CardBody, Spinner } from "@nextui-org/react";
+import HandmadesCart from "./HandmadesCart";
+import SportsCart from "./SportsCart";
+import GuideCart from "./GuideCart";
+import React from "react";
 
 type data = {
   data: Product;
@@ -79,41 +70,34 @@ export default function Main() {
               <Card className="w-full flex flex-1">
                 <CardBody className="w-full flex flex-1">
                   <div>
-                    <Table aria-label="Example static collection table">
-                      <TableHeader>
-                        <TableColumn>Offer</TableColumn>
-                        <TableColumn>Specs</TableColumn>
-                        <TableColumn>Qte</TableColumn>
-                        <TableColumn>Action</TableColumn>
-                      </TableHeader>
-                      <TableBody items={productsData}>
-                        {(item) => (
-                          <TableRow key={item.data.id}>
-                            <TableCell>
-                              <div>
-                                <Image
-                                  src={item.data.imageUrls[0]}
-                                  width={640}
-                                  height={640}
-                                  alt={`picture-${item.data.title}`}
-                                  className="w-28 h-28 rounded-sm object-contain"
-                                  priority={true}
-                                />
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <Quantity item={item} />
-                            </TableCell>
-                            <TableCell>
-                              <p>{"item.data"}</p>
-                            </TableCell>
-                            <TableCell>
-                              <p>Action</p>
-                            </TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
+                    <table className="w-full">
+                      <thead>
+                        <tr className="hidden sm:table-row">
+                          <th className="w-1/2">Offers</th>
+                          <th className="w-1/6">Specs</th>
+                          <th className="w-1/6">Price</th>
+                          <th className="w-1/6">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="space-y-4 w-full">
+                        {productsData.map((item) => (
+                          <React.Fragment key={item.data.id}>
+                            {item.ref.toLowerCase() === "handmades" && (
+                              //@ts-ignore
+                              <HandmadesCart item={item} />
+                            )}
+                            {item.ref.toLowerCase() === "sports" && (
+                              //@ts-ignore
+                              <SportsCart item={item} />
+                            )}
+                            {item.ref.toLowerCase() === "guides" && (
+                              //@ts-ignore
+                              <GuideCart item={item} />
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </CardBody>
               </Card>

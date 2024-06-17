@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Button, Input, Checkbox } from "@nextui-org/react";
+import { Button, Input, Checkbox, Spinner } from "@nextui-org/react";
 import IconEyeInvisible from "@/components/icons/EyeClosed";
 import IconEye from "@/components/icons/EyeOpened";
 import Link from "next/link";
@@ -15,14 +15,22 @@ export default function LoginModal() {
   const [password, setPassword] = useState("");
   const [formState, formAction] = useFormState(handleLogin, null);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean | undefined>();
+  const [error, setError] = useState<any>();
 
   async function handleLogin(prevState: any, formData: FormData) {
+    setLoading(true);
+    setError(undefined);
+    setSuccess(undefined);
     const address = formData.get("email") as string;
     const email = String(address).trim().toLowerCase();
     const password = formData.get("password") as string;
     try {
       const result = await loginUser(email, password);
-      result &&
+      if (result.success === true) {
+        setLoading(false);
+        setSuccess(true);
         dispatch(
           addUserSession({
             user: result.user,
@@ -30,8 +38,20 @@ export default function LoginModal() {
             userId: result.userId,
           })
         );
-      window.location.replace("/");
+        window.location.reload();
+      } else {
+        setLoading(false);
+        if (result.error === "Firebase: Error (auth/invalid-credential).") {
+          setError("Invalid credentials.");
+        } else if (result.error?.includes("(auth/too-many-requests)")) {
+          setError(
+            "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later."
+          );
+        }
+      }
     } catch (e) {
+      setLoading(false);
+      setError(e);
       console.log(e);
     }
   }
@@ -83,12 +103,18 @@ export default function LoginModal() {
           </Link>
         </div>
       </div>
+      {error && <small className="text-danger-500">{error}</small>}
       <Button
         className="mt-1 w-[95%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
         size="lg"
         type="submit"
+        isDisabled={success}
       >
-        Login
+        {loading ? (
+          <Spinner color="white" />
+        ) : (
+          <>{success ? "Redirecting..." : "Login"}</>
+        )}
       </Button>
       <p className="mt-2">
         Dont have an account?{" "}
