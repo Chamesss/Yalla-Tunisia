@@ -69,17 +69,17 @@ export default function Main() {
               </h1>
               <Card className="w-full flex flex-1">
                 <CardBody className="w-full flex flex-1">
-                  <div>
-                    <table className="w-full">
+                  <div className="px-2">
+                    <table className="w-full mt-2">
                       <thead>
                         <tr className="hidden sm:table-row">
-                          <th className="w-1/2">Offers</th>
-                          <th className="w-1/6">Specs</th>
-                          <th className="w-1/6">Price</th>
-                          <th className="w-1/6">Action</th>
+                          <th className="w-1/2 pb-4">Offers</th>
+                          <th className="w-1/6 pb-4">Specs</th>
+                          <th className="w-1/6 pb-4">Price</th>
+                          <th className="w-1/6 pb-4">Action</th>
                         </tr>
                       </thead>
-                      <tbody className="space-y-4 w-full">
+                      <tbody className="w-full">
                         {productsData.map((item) => (
                           <React.Fragment key={item.data.id}>
                             {item.ref.toLowerCase() === "handmades" && (

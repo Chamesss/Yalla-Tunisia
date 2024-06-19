@@ -4,7 +4,7 @@ import { Button, Input, Checkbox, Spinner } from "@nextui-org/react";
 import IconEyeInvisible from "@/components/icons/EyeClosed";
 import IconEye from "@/components/icons/EyeOpened";
 import Link from "next/link";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { loginUser } from "@/lib/actions/userLogin";
 import { useDispatch } from "@/redux/store";
 import { addUserSession } from "@/redux/slices/userSlice";
@@ -15,12 +15,28 @@ export default function LoginModal() {
   const [password, setPassword] = useState("");
   const [formState, formAction] = useFormState(handleLogin, null);
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean | undefined>();
   const [error, setError] = useState<any>();
 
+  function Submit() {
+    const status = useFormStatus();
+    return (
+      <Button
+        className="mt-1 w-[95%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
+        size="lg"
+        type="submit"
+        isDisabled={success}
+      >
+        {success ? (
+          "Redirecting..."
+        ) : (
+          <>{status.pending ? <Spinner color="white" /> : "Login"}</>
+        )}
+      </Button>
+    );
+  }
+
   async function handleLogin(prevState: any, formData: FormData) {
-    setLoading(true);
     setError(undefined);
     setSuccess(undefined);
     const address = formData.get("email") as string;
@@ -29,7 +45,6 @@ export default function LoginModal() {
     try {
       const result = await loginUser(email, password);
       if (result.success === true) {
-        setLoading(false);
         setSuccess(true);
         dispatch(
           addUserSession({
@@ -40,7 +55,6 @@ export default function LoginModal() {
         );
         window.location.reload();
       } else {
-        setLoading(false);
         if (result.error === "Firebase: Error (auth/invalid-credential).") {
           setError("Invalid credentials.");
         } else if (result.error?.includes("(auth/too-many-requests)")) {
@@ -50,7 +64,6 @@ export default function LoginModal() {
         }
       }
     } catch (e) {
-      setLoading(false);
       setError(e);
       console.log(e);
     }
@@ -104,18 +117,7 @@ export default function LoginModal() {
         </div>
       </div>
       {error && <small className="text-danger-500">{error}</small>}
-      <Button
-        className="mt-1 w-[95%] bg-[#41a6e5] text-white dark:hover:bg-[#3688bc]"
-        size="lg"
-        type="submit"
-        isDisabled={success}
-      >
-        {loading ? (
-          <Spinner color="white" />
-        ) : (
-          <>{success ? "Redirecting..." : "Login"}</>
-        )}
-      </Button>
+      <Submit />
       <p className="mt-2">
         Dont have an account?{" "}
         <Link
