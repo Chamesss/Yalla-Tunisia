@@ -6,14 +6,8 @@ import { Button, Input, DatePicker, DateValue } from "@nextui-org/react";
 import React, { useState } from "react";
 import Image from "next/image";
 import Location from "@/components/icons/Location";
-import { today, isWeekend, getLocalTimeZone } from "@internationalized/date";
-import { useLocale } from "@react-aria/i18n";
-import { ExtractDayMonthYear } from "@/helpers/ExtractDayMonthYear";
-import {
-  ExtractDate,
-  ExtractYearMonthDay,
-} from "@/helpers/ExtractDateTimestamp";
-import { Timestamp } from "firebase/firestore";
+import { today, getLocalTimeZone } from "@internationalized/date";
+import { calculateIsDateUnavailable } from "./helpers/calculate-is-date-unavailable";
 
 export default function SportsCart({
   item,
@@ -23,44 +17,11 @@ export default function SportsCart({
   const [totalDuration, setTotalDuration] = useState<number | undefined>();
   const [totalGroup, setTotalGroup] = useState<string | undefined>();
 
-  const itemEvent = item.data.eventType;
-  const itemTiming = item.data.timing;
-
-  let { locale } = useLocale();
-
-  let isDateUnavailable;
-
-  if (itemEvent.toLowerCase() === "ongoingevent") {
-    if (typeof itemTiming === "string") {
-      if (itemTiming.toLowerCase() === "available-all-time") {
-        isDateUnavailable = () => false;
-      } else if (
-        itemTiming.toLowerCase() ===
-        "available all time except weekend (sat, sun)"
-      ) {
-        isDateUnavailable = (date: DateValue) => isWeekend(date, locale);
-      } else if (
-        itemTiming.toLowerCase() === "available all weekends (sat, sun)"
-      ) {
-        isDateUnavailable = (date: DateValue) => !isWeekend(date, locale);
-      }
-    }
-  } else if (itemEvent.toLowerCase() === "scheduledevent") {
-    if (typeof itemTiming === "object") {
-      isDateUnavailable = (date: DateValue) => {
-        let result: boolean = true;
-        //@ts-ignore
-        for (let currentDate of itemTiming as Timestamp[]) {
-          const { day, month, year } = ExtractYearMonthDay(
-            currentDate as Timestamp
-          );
-          if (day === date.day && month === date.month && year === date.year)
-            result = false;
-        }
-        return result;
-      };
-    }
-  }
+  let isDateUnavailable = calculateIsDateUnavailable(
+    item.data.eventType,
+    //@ts-ignore
+    item.data.timing
+  );
 
   return (
     <tr className="hidden sm:table-row">
