@@ -1,19 +1,66 @@
+"use client";
 import Category from "@/components/icons/Category";
 import TrashBin from "@/components/icons/TrashBin";
-import { size } from "@/constants/constants";
 import { getLocationFromId } from "@/helpers/getLocationFromId";
-import { Select, SelectItem, Button } from "@nextui-org/react";
+import { Button, Input, DatePicker, DateValue } from "@nextui-org/react";
 import React, { useState } from "react";
 import Image from "next/image";
 import Location from "@/components/icons/Location";
+import { today, isWeekend, getLocalTimeZone } from "@internationalized/date";
+import { useLocale } from "@react-aria/i18n";
+import { ExtractDayMonthYear } from "@/helpers/ExtractDayMonthYear";
+import {
+  ExtractDate,
+  ExtractYearMonthDay,
+} from "@/helpers/ExtractDateTimestamp";
+import { Timestamp } from "firebase/firestore";
 
 export default function SportsCart({
   item,
 }: {
   item: { data: ProductSports; ref: string };
 }) {
-  const [totalHours, setTotalHours] = useState<string | undefined>();
+  const [totalDuration, setTotalDuration] = useState<number | undefined>();
   const [totalGroup, setTotalGroup] = useState<string | undefined>();
+
+  const itemEvent = item.data.eventType;
+  const itemTiming = item.data.timing;
+
+  let { locale } = useLocale();
+
+  let isDateUnavailable;
+
+  if (itemEvent.toLowerCase() === "ongoingevent") {
+    if (typeof itemTiming === "string") {
+      if (itemTiming.toLowerCase() === "available-all-time") {
+        isDateUnavailable = () => false;
+      } else if (
+        itemTiming.toLowerCase() ===
+        "available all time except weekend (sat, sun)"
+      ) {
+        isDateUnavailable = (date: DateValue) => isWeekend(date, locale);
+      } else if (
+        itemTiming.toLowerCase() === "available all weekends (sat, sun)"
+      ) {
+        isDateUnavailable = (date: DateValue) => !isWeekend(date, locale);
+      }
+    }
+  } else if (itemEvent.toLowerCase() === "scheduledevent") {
+    if (typeof itemTiming === "object") {
+      isDateUnavailable = (date: DateValue) => {
+        let result: boolean = true;
+        //@ts-ignore
+        for (let currentDate of itemTiming as Timestamp[]) {
+          const { day, month, year } = ExtractYearMonthDay(
+            currentDate as Timestamp
+          );
+          if (day === date.day && month === date.month && year === date.year)
+            result = false;
+        }
+        return result;
+      };
+    }
+  }
 
   return (
     <tr className="hidden sm:table-row">
@@ -55,13 +102,33 @@ export default function SportsCart({
       <td className="w-1/2">
         <div className="flex flex-row items-center">
           <div className="inline-block mx-1">
-            <Select label="Sizes" className="w-[5rem]" size="sm">
-              {size.map((s, i) => (
-                <SelectItem key={s} value={s}>
-                  {s}
-                </SelectItem>
-              ))}
-            </Select>
+            <Input
+              // onChange={(e) => {
+              //   if (Number(e.target.value) <= 0) {
+              //     setTotalDuration(1);
+              //   } else if (
+              //     Number(e.target.value) >= Number(item.data.duration)
+              //   ) {
+              //     setTotalDuration(Number(item.data.duration));
+              //   } else setTotalDuration(Number(e.target.value));
+              // }}
+              placeholder="1"
+              label="Duration"
+              value={item.data.duration}
+              labelPlacement="outside"
+              className="w-[4rem]"
+              type="number"
+              isDisabled
+            />
+          </div>
+          <div className="inline-block mx-1">
+            <DatePicker
+              label="Calendar"
+              aria-label="Calendar"
+              labelPlacement="outside"
+              isDateUnavailable={isDateUnavailable}
+              minValue={today(getLocalTimeZone())}
+            />
           </div>
         </div>
       </td>
