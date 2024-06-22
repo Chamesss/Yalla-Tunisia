@@ -2,16 +2,34 @@ import Category from "@/components/icons/Category";
 import TrashBin from "@/components/icons/TrashBin";
 import { size } from "@/constants/constants";
 import { getLocationFromId } from "@/helpers/getLocationFromId";
-import { Select, SelectItem, Button } from "@nextui-org/react";
+import {
+  Select,
+  SelectItem,
+  Button,
+  DatePicker,
+  Input,
+} from "@nextui-org/react";
 import React, { useState } from "react";
 import Image from "next/image";
 import Location from "@/components/icons/Location";
+import { today, getLocalTimeZone } from "@internationalized/date";
+import GrpSize from "./GrpSize";
+import { calculateIsDateUnavailable } from "./helpers/calculate-is-date-unavailable";
 
 export default function GuideCart({
   item,
 }: {
   item: { data: ProductGuides; ref: string };
 }) {
+  const [totalDuration, setTotalDuration] = useState<number>(1);
+  const [totalGroup, setTotalGroup] = useState<number>(1);
+
+  let isDateUnavailable = calculateIsDateUnavailable(
+    item.data.eventType,
+    //@ts-ignore
+    item.data.timing
+  );
+
   return (
     <tr className="hidden sm:table-row">
       <td className="w-1/6">
@@ -52,13 +70,53 @@ export default function GuideCart({
       <td className="w-1/2">
         <div className="flex flex-row items-center">
           <div className="inline-block mx-1">
-            <Select label="Sizes" className="w-[5rem]" size="sm">
-              {size.map((s, i) => (
-                <SelectItem key={s} value={s}>
-                  {s}
-                </SelectItem>
-              ))}
-            </Select>
+            {item.data.paymentMethodHourly ? (
+              <Input
+                onChange={(e) => {
+                  if (Number(e.target.value) <= 0) {
+                    setTotalDuration(1);
+                  } else if (Number(e.target.value) >= 8) {
+                    setTotalDuration(8);
+                  } else setTotalDuration(Number(e.target.value));
+                }}
+                placeholder="1"
+                label={
+                  <p className="text-nowrap">
+                    Duration <small>(hour)</small>
+                  </p>
+                }
+                value={totalDuration.toString()}
+                labelPlacement="outside"
+                className="w-[6rem]"
+                type="number"
+              />
+            ) : (
+              <Input
+                placeholder="1"
+                label={
+                  <p className="text-nowrap">
+                    Duration <small>(Tour)</small>
+                  </p>
+                }
+                value={totalDuration.toString()}
+                labelPlacement="outside"
+                className="w-[6rem]"
+                type="number"
+                isDisabled
+              />
+            )}
+          </div>
+          <div className="inline-block mx-1 mb-[0.15rem]">
+            <DatePicker
+              label="Calendar"
+              aria-label="Calendar"
+              labelPlacement="outside"
+              isDateUnavailable={isDateUnavailable}
+              minValue={today(getLocalTimeZone())}
+            />
+          </div>
+          <div className="inline-block mx-1">
+            <GrpSize setTotalGroup={setTotalGroup} totalGroup={totalGroup} />
           </div>
         </div>
       </td>

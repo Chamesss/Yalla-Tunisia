@@ -8,14 +8,14 @@ import Image from "next/image";
 import Location from "@/components/icons/Location";
 import { today, getLocalTimeZone } from "@internationalized/date";
 import { calculateIsDateUnavailable } from "./helpers/calculate-is-date-unavailable";
+import GrpSize from "./GrpSize";
 
 export default function SportsCart({
   item,
 }: {
   item: { data: ProductSports; ref: string };
 }) {
-  const [totalDuration, setTotalDuration] = useState<number | undefined>();
-  const [totalGroup, setTotalGroup] = useState<string | undefined>();
+  const [totalGroup, setTotalGroup] = useState<number>(1);
 
   let isDateUnavailable = calculateIsDateUnavailable(
     item.data.eventType,
@@ -82,7 +82,7 @@ export default function SportsCart({
               isDisabled
             />
           </div>
-          <div className="inline-block mx-1">
+          <div className="inline-block mx-1 mb-[0.15rem]">
             <DatePicker
               label="Calendar"
               aria-label="Calendar"
@@ -90,6 +90,9 @@ export default function SportsCart({
               isDateUnavailable={isDateUnavailable}
               minValue={today(getLocalTimeZone())}
             />
+          </div>
+          <div className="inline-block mx-1">
+            <GrpSize setTotalGroup={setTotalGroup} totalGroup={totalGroup} />
           </div>
         </div>
       </td>
