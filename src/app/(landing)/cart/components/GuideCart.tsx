@@ -1,20 +1,15 @@
 import Category from "@/components/icons/Category";
 import TrashBin from "@/components/icons/TrashBin";
-import { size } from "@/constants/constants";
 import { getLocationFromId } from "@/helpers/getLocationFromId";
-import {
-  Select,
-  SelectItem,
-  Button,
-  DatePicker,
-  Input,
-} from "@nextui-org/react";
+import { useDisclosure, Button, DatePicker, Input } from "@nextui-org/react";
 import React, { useState } from "react";
 import Image from "next/image";
 import Location from "@/components/icons/Location";
 import { today, getLocalTimeZone } from "@internationalized/date";
 import GrpSize from "./GrpSize";
 import { calculateIsDateUnavailable } from "./helpers/calculate-is-date-unavailable";
+import Link from "next/link";
+import CheckOutModal from "./CheckOutModal";
 
 export default function GuideCart({
   item,
@@ -23,6 +18,7 @@ export default function GuideCart({
 }) {
   const [totalDuration, setTotalDuration] = useState<number>(1);
   const [totalGroup, setTotalGroup] = useState<number>(1);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   let isDateUnavailable = calculateIsDateUnavailable(
     item.data.eventType,
@@ -31,9 +27,12 @@ export default function GuideCart({
   );
 
   return (
-    <tr className="hidden sm:table-row">
-      <td className="w-1/6">
-        <div className="flex flex-row gap-8 my-1">
+    <tr className="lg:table-row flex flex-col w-full items-center space-y-4 py-8 lg:space-y-0 lg:py-0">
+      <td className="lg:w-1/3 w-full max-w-[30rem] lg:max-w-auto px-4 lg:px-0">
+        <Link
+          href={`/listings/${item.ref}/${item.data.id}`}
+          className="flex flex-row gap-8 my-1"
+        >
           <div className="w-[8rem] h-[8rem] overflow-hidden relative flex items-center justify-center rounded-md">
             <Image
               src={item.data.imageUrls[0]}
@@ -65,73 +64,71 @@ export default function GuideCart({
               <span className="capitalize">{item.ref}</span>
             </small>
           </div>
-        </div>
+        </Link>
       </td>
-      <td className="w-1/2">
-        <div className="flex flex-row items-center">
-          <div className="inline-block mx-1">
-            {item.data.paymentMethodHourly ? (
-              <Input
-                onChange={(e) => {
-                  if (Number(e.target.value) <= 0) {
-                    setTotalDuration(1);
-                  } else if (Number(e.target.value) >= 8) {
-                    setTotalDuration(8);
-                  } else setTotalDuration(Number(e.target.value));
-                }}
-                placeholder="1"
-                label={
-                  <p className="text-nowrap">
-                    Duration <small>(hour)</small>
-                  </p>
-                }
-                value={totalDuration.toString()}
+      <td className="lg:w-1/2 w-full max-w-[30rem] lg:max-w-auto px-4 lg:px-0">
+        <div className="flex flex-col space-y-3 xs:flex-row items-center">
+          <div className="flex flex-row items-center">
+            <div className="inline-block mx-1">
+              {item.data.paymentMethodHourly ? (
+                <Input
+                  onChange={(e) => {
+                    if (Number(e.target.value) <= 0) {
+                      setTotalDuration(1);
+                    } else if (Number(e.target.value) >= 8) {
+                      setTotalDuration(8);
+                    } else setTotalDuration(Number(e.target.value));
+                  }}
+                  placeholder="1"
+                  label={
+                    <p className="text-nowrap">
+                      Duration <small>(hour)</small>
+                    </p>
+                  }
+                  value={totalDuration.toString()}
+                  labelPlacement="outside"
+                  className="w-[6rem]"
+                  type="number"
+                />
+              ) : (
+                <Input
+                  placeholder="1"
+                  label={
+                    <p className="text-nowrap">
+                      Duration <small>(Tour)</small>
+                    </p>
+                  }
+                  value={totalDuration.toString()}
+                  labelPlacement="outside"
+                  className="w-[6rem]"
+                  type="number"
+                  isDisabled
+                />
+              )}
+            </div>
+            <div className="inline-block mx-1 mb-[0.15rem]">
+              <DatePicker
+                label="Calendar"
+                aria-label="Calendar"
                 labelPlacement="outside"
-                className="w-[6rem]"
-                type="number"
+                isDateUnavailable={isDateUnavailable}
+                minValue={today(getLocalTimeZone())}
               />
-            ) : (
-              <Input
-                placeholder="1"
-                label={
-                  <p className="text-nowrap">
-                    Duration <small>(Tour)</small>
-                  </p>
-                }
-                value={totalDuration.toString()}
-                labelPlacement="outside"
-                className="w-[6rem]"
-                type="number"
-                isDisabled
-              />
-            )}
-          </div>
-          <div className="inline-block mx-1 mb-[0.15rem]">
-            <DatePicker
-              label="Calendar"
-              aria-label="Calendar"
-              labelPlacement="outside"
-              isDateUnavailable={isDateUnavailable}
-              minValue={today(getLocalTimeZone())}
-            />
+            </div>
           </div>
           <div className="inline-block mx-1">
             <GrpSize setTotalGroup={setTotalGroup} totalGroup={totalGroup} />
           </div>
         </div>
       </td>
-      <td className="w-1/6">
+      <td className="lg:w-1/6 w-full max-w-[30rem] lg:max-w-auto px-4 lg:px-0 text-center">
         <p className="font-semibold text-[#309980] text-lg px-3 text-nowrap">
           {Number(item.data.price)} Dt
         </p>
       </td>
-      <td className="w-1/6">
-        <div className="flex flex-row items-center gap-2">
-          <Button
-            color="primary"
-            className="!py-0"
-            onClick={() => console.log("open checkout modal")}
-          >
+      <td className="lg:w-1/6 w-full max-w-[30rem] lg:max-w-auto px-4 lg:px-0">
+        <div className="flex flex-row items-center justify-center gap-2">
+          <Button color="primary" className="!py-0" onClick={onOpen}>
             Check Out
           </Button>
           <Button
@@ -143,6 +140,11 @@ export default function GuideCart({
           </Button>
         </div>
       </td>
+      <CheckOutModal
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onOpenChange={onOpenChange}
+      />
     </tr>
   );
 }

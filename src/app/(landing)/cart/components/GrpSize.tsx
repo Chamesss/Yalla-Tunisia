@@ -9,9 +9,9 @@ export default function GrpSize({
 }) {
   return (
     <>
-      <div className="flex flex-col mb-3">
+      <div className="flex flex-col mb-5">
         <div className="w-fit flex flex-col items-center relative">
-          <small className="mb-3">Group Size</small>
+          <small className="mb-2">Group Size</small>
           <div className="flex flex-row items-center">
             <button
               disabled={totalGroup <= 1}
