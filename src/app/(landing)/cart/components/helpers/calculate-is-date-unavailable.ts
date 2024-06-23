@@ -1,6 +1,5 @@
 import { DateValue } from "@nextui-org/react";
 import { isWeekend } from "@internationalized/date";
-import { useLocale } from "@react-aria/i18n";
 import {
     ExtractYearMonthDay,
 } from "@/helpers/ExtractDateTimestamp";
@@ -9,9 +8,9 @@ import { Timestamp } from "firebase/firestore";
 
 export function calculateIsDateUnavailable(
     itemEvent: string,
-    itemTiming: string | Timestamp[]
+    itemTiming: string | Timestamp[],
+    locale: string
 ): (date: DateValue) => boolean {
-    let { locale } = useLocale();
     if (itemEvent.toLowerCase() === "ongoingevent") {
         if (typeof itemTiming === "string") {
             if (itemTiming.toLowerCase() === "available-all-time") {

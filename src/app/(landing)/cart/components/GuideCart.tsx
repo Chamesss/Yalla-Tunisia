@@ -10,6 +10,7 @@ import GrpSize from "./GrpSize";
 import { calculateIsDateUnavailable } from "./helpers/calculate-is-date-unavailable";
 import Link from "next/link";
 import CheckOutModal from "./CheckOutModal";
+import { useLocale } from "@react-aria/i18n";
 
 export default function GuideCart({
   item,
@@ -19,11 +20,13 @@ export default function GuideCart({
   const [totalDuration, setTotalDuration] = useState<number>(1);
   const [totalGroup, setTotalGroup] = useState<number>(1);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  let { locale } = useLocale();
 
   let isDateUnavailable = calculateIsDateUnavailable(
     item.data.eventType,
     //@ts-ignore
-    item.data.timing
+    item.data.timing,
+    locale
   );
 
   return (

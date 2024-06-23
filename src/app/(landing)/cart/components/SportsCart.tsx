@@ -11,6 +11,7 @@ import { calculateIsDateUnavailable } from "./helpers/calculate-is-date-unavaila
 import GrpSize from "./GrpSize";
 import Link from "next/link";
 import CheckOutModal from "./CheckOutModal";
+import { useLocale } from "@react-aria/i18n";
 
 export default function SportsCart({
   item,
@@ -19,11 +20,13 @@ export default function SportsCart({
 }) {
   const [totalGroup, setTotalGroup] = useState<number>(1);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  let { locale } = useLocale();
 
   let isDateUnavailable = calculateIsDateUnavailable(
     item.data.eventType,
     //@ts-ignore
-    item.data.timing
+    item.data.timing,
+    locale
   );
 
   return (
