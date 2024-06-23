@@ -4,6 +4,11 @@ import Slider from "react-slick";
 import CardItem from "./CardItem";
 import { Button } from "@nextui-org/react";
 import IconArrowRight from "../icons/RightArrow";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+// import "swiper/css/navigation";
+// import "swiper/css/navigation";
 
 function SampleNextArrow(props: any) {
   return (
@@ -70,13 +75,22 @@ export default function SimpleSlider({ data }: Props) {
   };
   return (
     <div className="relative">
-      <Slider {...settings} className="gap-4">
-        {data.map(
-          (d: ProductHandMade | ProductSports | ProductGuides, i: number) => (
-            <CardItem key={i} data={d} />
-          )
-        )}
-      </Slider>
+      <Swiper
+        modules={[Navigation, Pagination]}
+        navigation
+        autoHeight={true}
+        spaceBetween={50}
+        slidesPerView={5}
+        onSlideChange={() => console.log("slide change")}
+        onSwiper={(swiper) => console.log(swiper)}
+        className="overflow-visible w-full h-full"
+      >
+        {data.map((d: Product, i: number) => (
+          <SwiperSlide key={i}>
+            <CardItem data={d} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 }

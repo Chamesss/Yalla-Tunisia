@@ -10,6 +10,7 @@ interface Props {
     image: string;
     button: string;
     link: string;
+    color: string;
   }[];
 }
 
@@ -38,7 +39,7 @@ export default function SimpleSlider({ data }: Props) {
               alt={`${img.image}`}
               className="w-full max-h-[550px] object-cover rounded-3xl"
             />
-            <HeroButton name={img.button} link={img.link} />
+            <HeroButton name={img.button} link={img.link} color={img.color} />
           </div>
         ))}
       </Slider>

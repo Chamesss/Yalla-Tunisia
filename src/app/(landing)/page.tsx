@@ -17,17 +17,17 @@ export default function page() {
         <Hero />
       </div>
       <div className="lg:px-16 md:px-6 flex flex-col gap-8 px-4">
-        <div className="bg-gray-50 dark:bg-[#181e25] lg:py-0 py-8 px-4 md:px-6">
+        <div className=" dark:bg-[#181e25] lg:py-0 py-8 px-4 md:px-6">
           <HistoricalSection />
         </div>
         {/* <NatureSection /> */}
-        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
+        <div className="dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
           <HandMade />
         </div>
-        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
+        <div className="dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
           <SportsEntertainment />
         </div>
-        <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
+        <div className="dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
           <Guide />
         </div>
         <div className="bg-gray-50 dark:bg-[#181e25] pb-8 pt-4 px-2 md:px-4 lg:px-6">
