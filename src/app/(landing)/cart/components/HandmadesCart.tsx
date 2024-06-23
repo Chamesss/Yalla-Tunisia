@@ -176,6 +176,8 @@ export default function HandmadesCart({
         isOpen={isOpen}
         onOpen={onOpen}
         onOpenChange={onOpenChange}
+        itemId={item.data.id}
+        price={Number(item.data.price) * qte}
       />
     </tr>
   );

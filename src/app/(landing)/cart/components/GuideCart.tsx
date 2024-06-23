@@ -123,7 +123,7 @@ export default function GuideCart({
       </td>
       <td className="lg:w-1/6 w-full max-w-[30rem] lg:max-w-auto px-4 lg:px-0 text-center">
         <p className="font-semibold text-[#309980] text-lg px-3 text-nowrap">
-          {Number(item.data.price)} Dt
+          {Number(item.data.price) * totalDuration} Dt
         </p>
       </td>
       <td className="lg:w-1/6 w-full max-w-[30rem] lg:max-w-auto px-4 lg:px-0">
@@ -144,6 +144,8 @@ export default function GuideCart({
         isOpen={isOpen}
         onOpen={onOpen}
         onOpenChange={onOpenChange}
+        itemId={item.data.id}
+        price={Number(item.data.price) * totalDuration}
       />
     </tr>
   );

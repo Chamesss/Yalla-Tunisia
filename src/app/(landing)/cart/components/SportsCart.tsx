@@ -97,7 +97,7 @@ export default function SportsCart({
       </td>
       <td className="lg:w-1/6 max-w-[30rem] lg:max-w-auto w-full px-4 lg:px-0 text-center">
         <p className="font-semibold text-[#309980] text-lg px-3 text-nowrap">
-          {Number(item.data.price)} Dt
+          {Number(item.data.price) * totalGroup} Dt
         </p>
       </td>
       <td className="lg:w-1/6 max-w-[30rem] lg:max-w-auto w-full px-4 lg:px-0">
@@ -118,6 +118,8 @@ export default function SportsCart({
         isOpen={isOpen}
         onOpen={onOpen}
         onOpenChange={onOpenChange}
+        itemId={item.data.id}
+        price={Number(item.data.price) * totalGroup}
       />
     </tr>
   );

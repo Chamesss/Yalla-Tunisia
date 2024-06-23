@@ -24,10 +24,10 @@ export default function GrpSize({
             </button>
             <p className="text-medium font-semibold mx-2">{totalGroup}</p>
             <button
-              disabled={totalGroup >= 9}
+              disabled={totalGroup >= 4}
               onClick={() => setTotalGroup((prev) => prev + 1)}
               className={`mx-2 px-1 active:opacity-60 border text-medium h-fit w-fit ${
-                totalGroup === 9 && "opacity-60"
+                totalGroup === 4 && "opacity-60"
               }`}
             >
               +
