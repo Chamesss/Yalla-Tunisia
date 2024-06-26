@@ -47,6 +47,10 @@ export default function HeaderDrawer({
       name: "Favorites",
       link: "/favorites",
     },
+    {
+      name: "Offers in progress",
+      link: "/offers-in-progress",
+    },
   ];
 
   const values2 = [

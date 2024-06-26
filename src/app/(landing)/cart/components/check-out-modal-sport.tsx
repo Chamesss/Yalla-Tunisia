@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -17,6 +17,8 @@ import Success from "@/components/icons/Success";
 import getUserFromCookies from "@/lib/getUserFromCookies";
 import createTransactionSport from "@/lib/checkoutActions/create-transaction-sport";
 import IconCancelCircled from "@/components/icons/cancel-circle";
+import { removeProductFromCart } from "@/redux/slices/cartSlice";
+import { useDispatch } from "@/redux/store";
 
 type Props = {
   isOpen: boolean;
@@ -52,6 +54,7 @@ export default function CheckOutModalSport({
   const [success, setSuccess] = useState<boolean | undefined>();
   const [transactionId, setTransactionId] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const dispatch = useDispatch();
 
   const handleCheckOut = async () => {
     setLoading(true);
@@ -84,6 +87,10 @@ export default function CheckOutModalSport({
       setSuccess(false);
     }
   };
+
+  useEffect(() => {
+    success === true && dispatch(removeProductFromCart(item.data.id));
+  }, [isOpen]);
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
