@@ -50,39 +50,39 @@ export default function CheckOutModalHandmade({
   const [success, setSuccess] = useState<boolean | undefined>();
   const [transactionId, setTransactionId] = useState<string>("");
 
-  async function handleCheckOut() {
+  const handleCheckOut = async () => {
     setLoading(true);
     const user = await getUserFromCookies();
     if (user) {
-      if (item.ref === "handmades") {
-        // create trans hand
-      } else if (item.ref === "sports") {
-        //create trans sport
-      } else if (item.ref === "guides") {
-        //create trans sport
-      } else {
-        return;
-      }
-
-      const result: Result = await createTransactionHandmade(
-        item.data.id,
-        item.data.userId,
-        user.userId as string,
-        price,
-        color,
-        size,
-        qte
-      );
-      console.log(result);
-      if (result.success === true) {
-        setSuccess(true);
-        setTransactionId(result.id || "");
-      } else {
+      try {
+        const result: Result = await createTransactionHandmade(
+          item.data.id,
+          item.data.userId,
+          user.userId as string,
+          price,
+          color,
+          size,
+          qte
+        );
+        console.log(result);
+        if (result.success === true) {
+          setSuccess(true);
+          setTransactionId(result.id || "");
+        } else {
+          setSuccess(false);
+        }
+        setLoading(false);
+      } catch (e) {
+        console.log(e);
+        setLoading(false);
         setSuccess(false);
       }
+    } else {
+      console.log("no user");
       setLoading(false);
+      setSuccess(false);
     }
-  }
+  };
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -108,7 +108,23 @@ export default function CheckOutModalHandmade({
                       Transaction id: <b>{transactionId}</b>
                     </p>
                     <div>
-                      <p>Offer: {item.data.title}</p>
+                      <p>
+                        Offer: <b>{item.data.title}</b>
+                      </p>
+                      <p>
+                        Color:{" "}
+                        {(() => {
+                          if (color === "n/a") return color;
+                          return "";
+                        })()}{" "}
+                        <span
+                          className="w-8 h-8 rounded-full"
+                          style={{ backgroundColor: color }}
+                        />
+                      </p>
+                      <p>
+                        Size: <b>{size}</b>
+                      </p>
                     </div>
                   </ModalBody>
                 ) : (
@@ -186,7 +202,7 @@ export default function CheckOutModalHandmade({
                           >
                             Close
                           </Button>
-                          <Button color="primary" onPress={handleCheckOut}>
+                          <Button color="primary" onClick={handleCheckOut}>
                             Action
                           </Button>
                         </ModalFooter>

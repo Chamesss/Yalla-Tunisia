@@ -15,7 +15,7 @@ export default async function createTransactionHandmade(offerId: string, sellerI
             selectedSize,
             qte
         }
-        const TransactionsRef = doc(collection(db, "Transactions"));
+        const TransactionsRef = doc(collection(db, "TransactionsHandmade"));
         await setDoc(TransactionsRef, transaction);
 
         return JSON.parse(JSON.stringify({ success: true, id: TransactionsRef.id }));

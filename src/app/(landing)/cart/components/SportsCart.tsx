@@ -149,6 +149,9 @@ export default function SportsCart({
         onOpenChange={onOpenChange}
         price={Number(item.data.price) * totalGroup}
         item={item}
+        duration={item.data.duration}
+        totalGroup={totalGroup}
+        selectedDate={selectedDate?.toString() || ""}
       />
     </tr>
   );

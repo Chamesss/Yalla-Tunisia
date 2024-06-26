@@ -23,6 +23,9 @@ type Props = {
   onOpenChange: () => void;
   price: number;
   item: { data: Product; ref: string };
+  duration: string;
+  totalGroup: number;
+  selectedDate: string;
 };
 
 type Result = {
@@ -36,6 +39,9 @@ export default function CheckOutModalSport({
   onOpenChange,
   price,
   item,
+  duration,
+  totalGroup,
+  selectedDate,
 }: Props) {
   const [selectedLocation, setSelectedLocation] = useState<
     string | undefined
@@ -48,21 +54,14 @@ export default function CheckOutModalSport({
     setLoading(true);
     const user = await getUserFromCookies();
     if (user) {
-      if (item.ref === "handmades") {
-        // create trans hand
-      } else if (item.ref === "sports") {
-        //create trans sport
-      } else if (item.ref === "guides") {
-        //create trans sport
-      } else {
-        return;
-      }
-
       const result: Result = await createTransactionSport(
         item.data.id,
         item.data.userId,
         user.userId as string,
-        price
+        price,
+        duration,
+        totalGroup,
+        selectedDate
       );
       console.log(result);
       if (result.success === true) {

@@ -2,7 +2,7 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
-export default async function createTransactionGuide(offerId: string, sellerId: string, buyerId: string, amount: number) {
+export default async function createTransactionGuide(offerId: string, sellerId: string, buyerId: string, amount: number, duration: number, totalGroup: number, selectedDate: string, hourly: boolean) {
     try {
         const transaction = {
             offerId,
@@ -10,9 +10,13 @@ export default async function createTransactionGuide(offerId: string, sellerId: 
             sellerId,
             amount,
             buyerCompletion: null,
-            sellerCompletion: null
+            sellerCompletion: null,
+            duration,
+            totalGroup,
+            selectedDate,
+            hourly,
         }
-        const TransactionsRef = doc(collection(db, "Transactions"));
+        const TransactionsRef = doc(collection(db, "TransactionsGuide"));
         await setDoc(TransactionsRef, transaction);
 
         return JSON.parse(JSON.stringify({ success: true, id: TransactionsRef.id }));

@@ -175,6 +175,10 @@ export default function GuideCart({
         onOpenChange={onOpenChange}
         price={Number(item.data.price) * totalDuration}
         item={item}
+        duration={totalDuration}
+        totalGroup={totalGroup}
+        selectedDate={selectedDate?.toString() || ""}
+        hourly={item.data.paymentMethodHourly}
       />
     </tr>
   );

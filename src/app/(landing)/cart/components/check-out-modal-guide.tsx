@@ -23,6 +23,10 @@ type Props = {
   onOpenChange: () => void;
   price: number;
   item: { data: Product; ref: string };
+  duration: number;
+  totalGroup: number;
+  selectedDate: string;
+  hourly: boolean;
 };
 
 type Result = {
@@ -36,6 +40,10 @@ export default function CheckOutModalGuide({
   onOpenChange,
   price,
   item,
+  duration,
+  totalGroup,
+  selectedDate,
+  hourly,
 }: Props) {
   const [selectedLocation, setSelectedLocation] = useState<
     string | undefined
@@ -52,7 +60,11 @@ export default function CheckOutModalGuide({
         item.data.id,
         item.data.userId,
         user.userId as string,
-        price
+        price,
+        duration,
+        totalGroup,
+        selectedDate,
+        hourly
       );
       console.log(result);
       if (result.success === true) {
