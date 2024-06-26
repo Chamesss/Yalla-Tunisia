@@ -10,7 +10,7 @@ import TrashBin from "@/components/icons/TrashBin";
 import Link from "next/link";
 import { removeProductFromCart } from "@/redux/slices/cartSlice";
 import { useDispatch } from "@/redux/store";
-import CheckOutModalHandmade from "./check-out-modal-Handmade";
+import CheckOutModalHandmade from "./check-out-modal-handmade";
 
 const negative = "n/a";
 

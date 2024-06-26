@@ -50,6 +50,8 @@ export default function CheckOutModalHandmade({
   const [success, setSuccess] = useState<boolean | undefined>();
   const [transactionId, setTransactionId] = useState<string>("");
 
+  console.log(color);
+
   const handleCheckOut = async () => {
     setLoading(true);
     const user = await getUserFromCookies();
@@ -64,7 +66,6 @@ export default function CheckOutModalHandmade({
           size,
           qte
         );
-        console.log(result);
         if (result.success === true) {
           setSuccess(true);
           setTransactionId(result.id || "");
@@ -73,12 +74,10 @@ export default function CheckOutModalHandmade({
         }
         setLoading(false);
       } catch (e) {
-        console.log(e);
         setLoading(false);
         setSuccess(false);
       }
     } else {
-      console.log("no user");
       setLoading(false);
       setSuccess(false);
     }
@@ -113,12 +112,14 @@ export default function CheckOutModalHandmade({
                       </p>
                       <p>
                         Color:{" "}
-                        {(() => {
-                          if (color === "n/a") return color;
-                          return "";
-                        })()}{" "}
+                        <b>
+                          {(() => {
+                            if (color === "n/a") return color;
+                            return "";
+                          })()}
+                        </b>
                         <span
-                          className="w-8 h-8 rounded-full"
+                          className={`w-8 h-8 rounded-full bg-color-[${color}]`}
                           style={{ backgroundColor: color }}
                         />
                       </p>
