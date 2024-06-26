@@ -173,3 +173,31 @@ interface AllProductsResult {
   Sports: ProductSports[]
   Guides: ProductGuides[]
 }
+
+interface Transaction {
+  id: string,
+  offerId: string,
+  buyerId: string,
+  sellerId: string,
+  amount: number,
+  buyerCompletion: null | boolean,
+  sellerCompletion: null | boolean,
+}
+interface TransactionHandmade extends Transaction {
+  color: string,
+  size: string,
+  qte: number
+}
+
+interface TransactionSport extends Transaction {
+  duration: string,
+  calendar: string,
+  grpSize: number
+}
+
+interface TransactionGuide extends Transaction {
+  duration: string,
+  hourly: boolean,
+  calendar: string,
+  grpSize: number
+}

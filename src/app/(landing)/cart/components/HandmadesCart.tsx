@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Location from "@/components/icons/Location";
 import { getLocationFromId } from "@/helpers/getLocationFromId";
@@ -8,7 +8,9 @@ import { size } from "@/constants/constants";
 import Quantity from "./Quantity";
 import TrashBin from "@/components/icons/TrashBin";
 import Link from "next/link";
-import CheckOutModal from "./CheckOutModal";
+import { removeProductFromCart } from "@/redux/slices/cartSlice";
+import { useDispatch } from "@/redux/store";
+import CheckOutModalHandmade from "./check-out-modal-Handmade";
 
 const negative = "n/a";
 
@@ -28,16 +30,22 @@ export default function HandmadesCart({
     return undefined;
   });
   const [qte, setQte] = useState(1);
+  const [error, setError] = useState<boolean | undefined>();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setError(undefined);
+  }, [selectedSize, selectedColor, qte]);
 
   return (
-    <tr className="lg:table-row flex flex-col w-full items-center space-y-4 py-8 lg:space-y-0 lg:py-0">
-      <td className="lg:w-1/3 w-full max-w-[30rem] lg:max-w-auto px-4 lg:px-0">
+    <tr className="lg:table-row flex flex-col lg:w-full w-fit items-center justify-center self-center space-y-4 py-8 lg:space-y-0 lg:py-0">
+      <td className="lg:w-1/3 w-full max-w-[30rem] lg:max-w-auto px-4 lg:px-0 flex justify-center lg:table-cell">
         <Link
           href={`/listings/${item.ref}/${item.data.id}`}
-          className="flex flex-row gap-8 my-1"
+          className="flex lg:flex-row flex-col lg:gap-8 gap-4 my-1"
         >
-          <div className="w-[8rem] h-[8rem] overflow-hidden relative flex items-center justify-center rounded-md">
+          <div className="lg:w-[8rem] w-[15rem] h-[15rem] lg:h-[8rem] overflow-hidden relative flex items-center justify-center rounded-md">
             <Image
               src={item.data.imageUrls[0]}
               width={640}
@@ -55,7 +63,7 @@ export default function HandmadesCart({
               priority={true}
             />
           </div>
-          <div className="flex flex-col space-y-1 mt-2">
+          <div className="flex flex-col space-y-1 mt-2 lg:px-0 px-6">
             <p className="capitalize text-lg font-semibold -ml-3">
               {item.data.title}
             </p>
@@ -71,7 +79,7 @@ export default function HandmadesCart({
         </Link>
       </td>
       <td className="lg:w-1/2 max-w-[30rem] lg:max-w-auto w-full px-4 lg:px-0">
-        <div className="flex flex-col space-y-3 xs:flex-row items-center">
+        <div className="flex space-y-3 flex-row items-center flex-wrap justify-center lg:justify-start">
           <div className="flex flex-row items-center">
             <div className="inline-block mx-1">
               <Select
@@ -160,24 +168,42 @@ export default function HandmadesCart({
       </td>
       <td className="lg:w-1/6 max-w-[30rem] lg:max-w-auto w-full px-4 lg:px-0">
         <div className="flex flex-row items-center justify-center gap-2">
-          <Button color="primary" className="!py-0" onClick={onOpen}>
+          <Button
+            color="primary"
+            className="!py-0 relative overflow-visible"
+            onClick={() => {
+              if (selectedColor === undefined || selectedSize === undefined) {
+                setError(true);
+                return;
+              }
+              onOpen();
+            }}
+          >
             Check Out
+            {error && (
+              <small className="absolute text-danger -bottom-[50%] right-0 left-0 mx-auto">
+                Check info please
+              </small>
+            )}
           </Button>
           <Button
             isIconOnly
             color="danger"
-            onClick={() => console.log("delete from cart")}
+            onClick={() => dispatch(removeProductFromCart(item.data.id))}
           >
             <TrashBin />
           </Button>
         </div>
       </td>
-      <CheckOutModal
+      <CheckOutModalHandmade
         isOpen={isOpen}
         onOpen={onOpen}
         onOpenChange={onOpenChange}
-        itemId={item.data.id}
         price={Number(item.data.price) * qte}
+        item={item}
+        color={selectedColor as string}
+        size={selectedSize as string}
+        qte={qte}
       />
     </tr>
   );
