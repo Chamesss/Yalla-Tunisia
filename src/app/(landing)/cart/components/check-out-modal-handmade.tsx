@@ -16,6 +16,8 @@ import { cities } from "@/cities";
 import Success from "@/components/icons/Success";
 import getUserFromCookies from "@/lib/getUserFromCookies";
 import createTransactionHandmade from "@/lib/checkoutActions/create-transaction-handmade";
+import IconCancel from "@/components/icons/IconCancel";
+import IconCancelCircled from "@/components/icons/cancel-circle";
 
 type Props = {
   isOpen: boolean;
@@ -31,6 +33,7 @@ type Props = {
 type Result = {
   success: boolean;
   id?: string;
+  message?: string;
 };
 
 export default function CheckOutModalHandmade({
@@ -49,8 +52,7 @@ export default function CheckOutModalHandmade({
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<boolean | undefined>();
   const [transactionId, setTransactionId] = useState<string>("");
-
-  console.log(color);
+  const [message, setMessage] = useState<string>("");
 
   const handleCheckOut = async () => {
     setLoading(true);
@@ -70,6 +72,7 @@ export default function CheckOutModalHandmade({
           setSuccess(true);
           setTransactionId(result.id || "");
         } else {
+          setMessage(result.message || "");
           setSuccess(false);
         }
         setLoading(false);
@@ -106,11 +109,11 @@ export default function CheckOutModalHandmade({
                     <p>
                       Transaction id: <b>{transactionId}</b>
                     </p>
-                    <div>
+                    <div className="w-fit border border-default-300 rounded-lg p-4 space-y-1">
                       <p>
                         Offer: <b>{item.data.title}</b>
                       </p>
-                      <p>
+                      <p className="flex flex-row items-center gap-1">
                         Color:{" "}
                         <b>
                           {(() => {
@@ -118,9 +121,9 @@ export default function CheckOutModalHandmade({
                             return "";
                           })()}
                         </b>
-                        <span
-                          className={`w-8 h-8 rounded-full bg-color-[${color}]`}
+                        <div
                           style={{ backgroundColor: color }}
+                          className="w-5 h-5 rounded-full right-[50%] top-[55%]"
                         />
                       </p>
                       <p>
@@ -132,7 +135,11 @@ export default function CheckOutModalHandmade({
                   <>
                     {success === false ? (
                       <ModalBody className="min-h-[30rem] flex items-center justify-center">
-                        <p>Nope !!!</p>
+                        <IconCancelCircled className="text-danger-500 text-[6rem]" />
+                        <p className="text-danger-500 text-[1.5rem] font-semibold">
+                          Failed
+                        </p>
+                        <p>{message}</p>
                       </ModalBody>
                     ) : (
                       <>
