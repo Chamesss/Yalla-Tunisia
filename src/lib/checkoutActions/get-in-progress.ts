@@ -1,10 +1,10 @@
-"use server"
-import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
+"use server";
+import { collection, getDocs, query, where, doc as DOC, getDoc, DocumentSnapshot, DocumentData } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default async function getInProgress(userId: string) {
     try {
-        const transactionsHomemadeRef = collection(db, "TransactionsHomemade");
+        const transactionsHomemadeRef = collection(db, "TransactionsHandmade");
         const transactionsSportRef = collection(db, "TransactionsSport");
         const transactionsGuideRef = collection(db, "TransactionsGuide");
         const qHomemades = query(transactionsHomemadeRef, where("buyerId", "==", userId));
@@ -14,28 +14,68 @@ export default async function getInProgress(userId: string) {
         const querySnapshotSport = await getDocs(qSports);
         const querySnapshotGuide = await getDocs(qGuides);
 
-        let products = []
+        let HandmadesTransactions: any = [];
+        let SportsTransactions: any = [];
+        let GuidesTransactions: any = [];
 
-        if (!querySnapshotHomemade.empty) {
-            for (const i in querySnapshotHomemade) {
-                console.log(i)
+        let Handmades: any = [];
+        let Sports: any = [];
+        let Guides: any = [];
+
+        const homemadePromises = querySnapshotHomemade.docs.map(async (doc) => {
+            const data = doc.data();
+            HandmadesTransactions.push({
+                id: doc.id,
+                ...data,
+            });
+            const homemadeRef = DOC(db, 'Handmades', data.offerId);
+            const homemadeSnapshot = await getDoc(homemadeRef);
+            if (homemadeSnapshot.exists()) {
+                Handmades.push({
+                    id: homemadeSnapshot.id,
+                    ...homemadeSnapshot.data(),
+                });
             }
-        }
+        });
 
-        if (!querySnapshotSport.empty) {
-            for (const i in querySnapshotSport) {
-                console.log(i)
+        const sportPromises = querySnapshotSport.docs.map(async (doc) => {
+            const data = doc.data();
+            SportsTransactions.push({
+                id: doc.id,
+                ...data,
+            });
+            const sportRef = DOC(db, 'Sports', data.offerId);
+            const sportSnapshot = await getDoc(sportRef);
+            if (sportSnapshot.exists()) {
+                Sports.push({
+                    id: sportSnapshot.id,
+                    ...sportSnapshot.data(),
+                });
             }
-        }
+        });
 
-        if (!querySnapshotGuide.empty) {
-            for (const i in querySnapshotGuide) {
-                console.log(i)
+        const guidePromises = querySnapshotGuide.docs.map(async (doc) => {
+            const data = doc.data();
+            GuidesTransactions.push({
+                id: doc.id,
+                ...data,
+            });
+            const guideRef = DOC(db, 'Guides', data.offerId);
+            const guideSnapshot: DocumentSnapshot<DocumentData, DocumentData> = await getDoc(guideRef);
+            if (guideSnapshot.exists()) {
+                Guides.push({
+                    id: guideSnapshot.id,
+                    ...guideSnapshot.data(),
+                });
             }
-        }
+        });
 
-        return true
-        // return JSON.parse(JSON.stringify({ success: true, id: TransactionsRef.id }));
+        await Promise.all([...homemadePromises, ...sportPromises, ...guidePromises]);
+
+        const products = [...Handmades, ...Sports, ...Guides];
+        const transactions = [...HandmadesTransactions, ...SportsTransactions, ...GuidesTransactions];
+
+        return JSON.parse(JSON.stringify({ products, transactions }));
     } catch (error) {
         console.error("Error creating sport transaction:", error);
         if (error instanceof Error) {

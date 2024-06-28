@@ -184,8 +184,8 @@ interface Transaction {
   sellerCompletion: null | boolean,
 }
 interface TransactionHandmade extends Transaction {
-  color: string,
-  size: string,
+  selectedColor: string,
+  selectedSize: string,
   qte: number
 }
 

@@ -1,5 +1,5 @@
 "use server"
-import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default async function createTransactionGuide(offerId: string, sellerId: string, buyerId: string, amount: number, duration: number, totalGroup: number, selectedDate: string, hourly: boolean) {
@@ -26,6 +26,16 @@ export default async function createTransactionGuide(offerId: string, sellerId: 
         };
         const TransactionsRef = doc(transactionsRef);
         await setDoc(TransactionsRef, transaction);
+
+        const itemRef = doc(collection(db, "Guides"), offerId);
+        const itemSnap = await getDoc(itemRef);
+        if (itemSnap.exists()) {
+            const ItemData = itemSnap.data();
+            ItemData.sold = true;
+            await updateDoc(itemRef, ItemData);
+        } else {
+            console.warn("Item not found:", offerId);
+        }
 
         return JSON.parse(JSON.stringify({ success: true, id: TransactionsRef.id }));
     } catch (error) {

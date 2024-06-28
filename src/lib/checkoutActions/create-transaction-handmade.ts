@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, query, where, getDocs } from "firebase/firestore";
+import { collection, doc, setDoc, query, where, getDocs, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default async function createTransactionHandmade(offerId: string, sellerId: string, buyerId: string, amount: number, selectedColor: string, selectedSize: string, qte: number) {
@@ -24,6 +24,16 @@ export default async function createTransactionHandmade(offerId: string, sellerI
         };
         const TransactionsRef = doc(transactionsRef);
         await setDoc(TransactionsRef, transaction);
+
+        const itemRef = doc(collection(db, "Handmades"), offerId);
+        const itemSnap = await getDoc(itemRef);
+        if (itemSnap.exists()) {
+            const ItemData = itemSnap.data();
+            ItemData.sold = true;
+            await updateDoc(itemRef, ItemData);
+        } else {
+            console.warn("Item not found:", offerId);
+        }
 
         return JSON.parse(JSON.stringify({ success: true, id: TransactionsRef.id }));
     } catch (error) {
