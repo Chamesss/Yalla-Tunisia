@@ -3,7 +3,6 @@ import Image from "next/image";
 import Category from "@/components/icons/Category";
 import { getLocationFromId } from "@/helpers/getLocationFromId";
 import { Input } from "@nextui-org/react";
-import Link from "next/link";
 import Location from "@/components/icons/Location";
 
 type Props = {
@@ -15,14 +14,12 @@ export default function SportsColumn({ item, transaction }: Props) {
   const totalGroup = transaction.grpSize;
   const date = transaction.calendar;
   const duration = transaction.duration;
+  const price = transaction.amount;
 
   return (
     <tr className="lg:table-row flex flex-col lg:w-full w-fit items-center justify-center self-center space-y-4 py-8 lg:space-y-0 lg:py-0">
       <td className="lg:w-1/3 w-full max-w-[30rem] lg:max-w-auto px-4 lg:px-0 flex justify-center lg:table-cell">
-        <Link
-          href={`/listings/Sports/${item.id}`}
-          className="flex lg:flex-row flex-col lg:gap-8 gap-4 my-1"
-        >
+        <div className="flex lg:flex-row flex-col lg:gap-8 gap-4 my-1">
           <div className="lg:w-[8rem] w-[15rem] h-[15rem] lg:h-[8rem] overflow-hidden relative flex items-center justify-center rounded-md">
             <Image
               src={item.imageUrls[0]}
@@ -54,14 +51,13 @@ export default function SportsColumn({ item, transaction }: Props) {
               <span className="capitalize">Sports</span>
             </small>
           </div>
-        </Link>
+        </div>
       </td>
       <td className="lg:w-1/2 max-w-[30rem] lg:max-w-auto w-full px-4 lg:px-0">
         <div className="flex space-y-3 flex-row items-center flex-wrap justify-center lg:justify-start">
           <div className="flex flex-row items-center">
             <div className="inline-block mx-1">
               <Input
-                placeholder="1"
                 label="Duration"
                 value={duration}
                 labelPlacement="outside"
@@ -92,7 +88,7 @@ export default function SportsColumn({ item, transaction }: Props) {
       </td>
       <td className="lg:w-1/6 max-w-[30rem] lg:max-w-auto w-full px-4 lg:px-0 text-center">
         <p className="font-semibold text-[#309980] text-lg px-3 text-nowrap">
-          {Number(item.price) * totalGroup} Dt
+          {price} Dt
         </p>
       </td>
       <td className="lg:w-1/6 max-w-[30rem] lg:max-w-auto w-full px-4 lg:px-0">
