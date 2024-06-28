@@ -1,5 +1,10 @@
 import React from "react";
 
-export default function GuidesColumn() {
+type Props = {
+  item: ProductGuides;
+  transaction: TransactionGuide;
+};
+
+export default function GuidesColumn({ item, transaction }: Props) {
   return <div>guides-column</div>;
 }

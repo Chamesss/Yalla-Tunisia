@@ -7,6 +7,8 @@ import HandmadesCart from "../../cart/components/HandmadesCart";
 import SportsCart from "../../cart/components/SportsCart";
 import GuideCart from "../../cart/components/GuideCart";
 import HandmadesColumn from "./handmades-column";
+import SportsColumn from "./sports-column";
+import GuidesColumn from "./guides-column";
 
 type Result = {
   products: any;
@@ -55,34 +57,15 @@ export default function InProgress() {
 
   return (
     <div>
-      <thead>
-        <tr className="hidden lg:table-row">
-          <th className="w-1/3 pb-4">Offers</th>
-          <th className="w-1/2 pb-4">Specs</th>
-          <th className="w-1/6 pb-4">Price</th>
-          <th className="w-1/6 pb-4">Action</th>
-        </tr>
-      </thead>
       <tbody className="w-full flex flex-1 flex-col lg:table-row-group">
         {inProgress &&
           inProgress.map((item, i) => (
             <React.Fragment key={item.id}>
               {transactions &&
-                renderHandmadesColumn(
+                renderColumn(
                   item as ProductHandMade,
                   transactions as TransactionHandmade[]
                 )}
-              {/* {item.categoryId === "66207a58baeaaee2d5e6d417" && (
-                <SportsCart item={item} />
-              )}
-              {item.categoryId === "66207ab5b27e1a42a69a6517" && (
-                <GuideCart item={item} />
-              )} */}
-              {/* <Divider
-                className={`lg:hidden ${
-                  i === productsData.length - 1 && "hidden"
-                }`}
-              /> */}
             </React.Fragment>
           ))}
       </tbody>
@@ -90,21 +73,28 @@ export default function InProgress() {
   );
 }
 
-const renderHandmadesColumn = (
-  item: ProductHandMade,
-  transactions: TransactionHandmade[]
-) => {
-  if (item.categoryId.toLowerCase() === "66207a2aeaae61ad28ef0b19") {
-    if (transactions) {
-      const TransactionHandmade: any = transactions.find(
-        (trs) => trs.offerId === item.id
-      );
-      return (
-        <HandmadesColumn
-          item={item as ProductHandMade}
-          transaction={TransactionHandmade as TransactionHandmade}
-        />
-      );
-    } else return null;
-  } else return null;
+type Transaction = TransactionHandmade | TransactionGuide | TransactionSport;
+
+const renderColumn = (item: Product, transactions: Transaction[]) => {
+  const Transaction: any = transactions.find((trs) => trs.offerId === item.id);
+  if (item.categoryId === "66207a2aeaae61ad28ef0b19") {
+    return (
+      <HandmadesColumn
+        item={item as ProductHandMade}
+        transaction={Transaction as TransactionHandmade}
+      />
+    );
+  } else if (item.categoryId === "66207a58baeaaee2d5e6d417") {
+    return (
+      <SportsColumn
+        item={item as ProductSports}
+        transaction={Transaction as TransactionSport}
+      />
+    );
+  } else if (item.categoryId === "66207a58baeaaee2d5e6d417") {
+    <GuidesColumn
+      item={item as ProductGuides}
+      transaction={Transaction as TransactionGuide}
+    />;
+  }
 };
