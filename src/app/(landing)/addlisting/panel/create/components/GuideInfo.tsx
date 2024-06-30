@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { useState, useRef, useEffect, useLayoutEffect, Key } from "react";
 import {
   Textarea,
   Input,
@@ -204,14 +204,19 @@ function GuideInfoFrom({
                 defaultItems={iterableLanguages}
                 label="Select your spoken languages"
                 className="max-w-xs"
-                onInputChange={(e) => setLanguages((prev) => [...prev, e])}
+                onSelectionChange={(key: Key) => {
+                  if (key) {
+                    languages.includes(key.toString()) === false &&
+                      setLanguages((prev) => [...prev, key.toString()]);
+                  }
+                }}
                 disabledKeys={languages}
                 description={
                   formError === 5 && <FormStateError formState={formState} />
                 }
               >
                 {spokenLanguages.map((l, i) => (
-                  <AutocompleteItem key={i} value={l}>
+                  <AutocompleteItem key={l} value={l}>
                     {l}
                   </AutocompleteItem>
                 ))}

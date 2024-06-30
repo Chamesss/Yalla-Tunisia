@@ -43,7 +43,7 @@ export default function SideBar({ component, setComponent }: Props) {
       <p className="text-lg text-center text-white font-semibold">
         Business panel
       </p>
-      <div className="flex items-center justify-center">
+      {/* <div className="flex items-center justify-center">
         {loading ? (
           <Spinner />
         ) : (
@@ -54,7 +54,7 @@ export default function SideBar({ component, setComponent }: Props) {
             </small>
           </div>
         )}
-      </div>
+      </div> */}
       <div
         className={`flex flex-row items-center gap-2 hover:text-white cursor-pointer ${
           component === "dashboard" && "text-white"
