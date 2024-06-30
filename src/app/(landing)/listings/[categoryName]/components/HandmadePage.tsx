@@ -35,122 +35,124 @@ export default async function HandmadePage({
               <CarouselImages images={res.imageUrls} />
             </div>
           </div>
-          <div className="w-full">
-            <div className="p-2 w-full overflow-y-auto">
-              <div className="hidden lg:flex flex-col w-full">
-                <InfoSection data={res} />
+          <div className="flex w-full justify-center">
+            <div className="p-2 w-full  max-w-[40rem]">
+              <div className="p-2 w-full overflow-y-auto">
+                <div className="hidden lg:flex flex-col w-full">
+                  <InfoSection data={res} />
+                </div>
+                <Divider className="my-0 lg:opacity-100 lg:my-4 opacity-0" />
+                <div className="-mt-4 lg:mt-0">
+                  <p className="text-lg font-semibold">Description</p>
+                  <p className="mt-2 italic opacity-80">{res.description}</p>
+                </div>
+                <Divider className="my-4" />
               </div>
-              <Divider className="my-0 lg:opacity-100 lg:my-4 opacity-0" />
-              <div className="-mt-4 lg:mt-0">
-                <p className="text-lg font-semibold">Description</p>
-                <p className="mt-2 italic opacity-80">{res.description}</p>
-              </div>
-              <Divider className="my-4" />
-            </div>
-            <div
-              className="px-2 justify-between items-center flex-row flex w-full"
-              id="colorSection"
-            >
-              <div className="space-y-2 flex-auto">
-                <h1 className="text-lg font-semibold">Dimensions</h1>
-                <p className="text-nowrap">
-                  <Chip
-                    variant="flat"
-                    isDisabled={res.dimensions[0] ? true : false}
-                    className="text-lg"
-                    color="primary"
-                  >
-                    {res.dimensions[0] ? res.dimensions[0] : "n/a"}
-                  </Chip>{" "}
-                  *{" "}
-                  <Chip
-                    isDisabled={res.dimensions[1] ? true : false}
-                    variant="flat"
-                    className="text-lg"
-                    color="primary"
-                  >
-                    {res.dimensions[1] ? res.dimensions[1] : "n/a"}
-                  </Chip>{" "}
-                  (cm)
-                </p>
-              </div>
-              <Divider
-                orientation="vertical"
-                className="h-20 mx-4 w-[0.1rem] "
-              />
-              <div className="space-y-2 flex-1">
-                <h1 className="text-lg font-semibold">Quantity</h1>
-                <Chip
-                  variant="flat"
-                  color="primary"
-                  className="text-lg min-w-10"
-                >
-                  {res.qte}
-                </Chip>
-              </div>
-            </div>
-            <Divider className="my-4" />
-            <div className="px-2 space-y-2">
-              <h1 className="text-lg font-semibold">Sizes</h1>
-              <div className="flex flex-row gap-1 sm:gap-2 items-center">
-                {res.sizes.map((s, i) => {
-                  const styles = checkbox({
-                    isSelected: s !== null,
-                    isFocusVisible: false,
-                  });
-                  return (
+              <div
+                className="px-2 justify-between items-center flex-row flex w-full"
+                id="colorSection"
+              >
+                <div className="space-y-2 flex-auto">
+                  <h1 className="text-lg font-semibold">Dimensions</h1>
+                  <p className="text-nowrap">
                     <Chip
-                      key={i}
-                      classNames={{
-                        base: styles.base(),
-                        content: styles.content(),
-                      }}
+                      variant="flat"
+                      isDisabled={res.dimensions[0] ? true : false}
+                      className="text-lg"
                       color="primary"
-                      startContent={
-                        s !== null ? (
-                          <CheckIcon className="ml-1 text-white hidden xs:inline-block" />
-                        ) : (
-                          <IconCancel className="text-default-300 text-medium mt-[0.1rem] hidden xs:inline-block" />
-                        )
-                      }
-                      variant="faded"
-                      size={`${s !== null ? "lg" : "md"}`}
-                      className="pointer-events-none text-tiny px-[0.1rem] sm:px-1"
                     >
-                      {Sizes[i]}
-                    </Chip>
-                  );
-                })}
-              </div>
-            </div>
-            {res.colors.length > 0 && res.colors[0].length > 0 && (
-              <Divider className="my-4" />
-            )}
-            {res.colors.length > 0 && res.colors[0].length > 0 && (
-              <div className="px-2 space-y-2 flex-1">
-                <h1 className="text-lg font-semibold">Colors</h1>
-                <div className="flex flex-row gap-2 px-2">
-                  {res.colors.map((c: string, i) => (
-                    <div
-                      key={i}
-                      style={{ backgroundColor: c }}
-                      className="w-10 h-10 rounded-full relative"
-                    />
-                  ))}
+                      {res.dimensions[0] ? res.dimensions[0] : "n/a"}
+                    </Chip>{" "}
+                    *{" "}
+                    <Chip
+                      isDisabled={res.dimensions[1] ? true : false}
+                      variant="flat"
+                      className="text-lg"
+                      color="primary"
+                    >
+                      {res.dimensions[1] ? res.dimensions[1] : "n/a"}
+                    </Chip>{" "}
+                    (cm)
+                  </p>
+                </div>
+                <Divider
+                  orientation="vertical"
+                  className="h-20 mx-4 w-[0.1rem] "
+                />
+                <div className="space-y-2 flex-1">
+                  <h1 className="text-lg font-semibold">Quantity</h1>
+                  <Chip
+                    variant="flat"
+                    color="primary"
+                    className="text-lg min-w-10"
+                  >
+                    {res.qte}
+                  </Chip>
                 </div>
               </div>
-            )}
-            <Divider className="my-4" />
-            <div className="px-2 space-y-2">
-              <h1 className="text-lg font-semibold">Materials used</h1>
-              <Chip
-                variant="flat"
-                size="lg"
-                color="default"
-                className="capitalize"
-              >
-                {res.materialsUsed}
-              </Chip>
+              <Divider className="my-4" />
+              <div className="px-2 space-y-2">
+                <h1 className="text-lg font-semibold">Sizes</h1>
+                <div className="flex flex-row gap-1 sm:gap-2 items-center">
+                  {res.sizes.map((s, i) => {
+                    const styles = checkbox({
+                      isSelected: s !== null,
+                      isFocusVisible: false,
+                    });
+                    return (
+                      <Chip
+                        key={i}
+                        classNames={{
+                          base: styles.base(),
+                          content: styles.content(),
+                        }}
+                        color="primary"
+                        startContent={
+                          s !== null ? (
+                            <CheckIcon className="ml-1 text-white hidden xs:inline-block" />
+                          ) : (
+                            <IconCancel className="text-default-300 text-medium mt-[0.1rem] hidden xs:inline-block" />
+                          )
+                        }
+                        variant="faded"
+                        size={`${s !== null ? "lg" : "md"}`}
+                        className="pointer-events-none text-tiny px-[0.1rem] sm:px-1"
+                      >
+                        {Sizes[i]}
+                      </Chip>
+                    );
+                  })}
+                </div>
+              </div>
+              {res.colors.length > 0 && res.colors[0].length > 0 && (
+                <Divider className="my-4" />
+              )}
+              {res.colors.length > 0 && res.colors[0].length > 0 && (
+                <div className="px-2 space-y-2 flex-1">
+                  <h1 className="text-lg font-semibold">Colors</h1>
+                  <div className="flex flex-row gap-2 px-2">
+                    {res.colors.map((c: string, i) => (
+                      <div
+                        key={i}
+                        style={{ backgroundColor: c }}
+                        className="w-10 h-10 rounded-full relative"
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+              <Divider className="my-4" />
+              <div className="px-2 space-y-2">
+                <h1 className="text-lg font-semibold">Materials used</h1>
+                <Chip
+                  variant="flat"
+                  size="lg"
+                  color="default"
+                  className="capitalize"
+                >
+                  {res.materialsUsed}
+                </Chip>
+              </div>
             </div>
           </div>
           {showCheckBox && (

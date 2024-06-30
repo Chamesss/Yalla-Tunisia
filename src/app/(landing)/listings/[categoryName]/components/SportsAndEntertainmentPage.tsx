@@ -39,84 +39,86 @@ export default async function SportsAndEntertainmentPage({
               <CarouselImages images={res.imageUrls} />
             </div>
           </div>
-          <div className="p-2 w-full">
-            <div className="hidden lg:flex flex-col w-full">
-              <InfoSection data={res} />
-            </div>
-            <Divider className="my-4" />
-            <div>
-              <p className="text-lg font-semibold">Description</p>
-              <p className="mt-2">{res.description}</p>
-            </div>
-            <Divider className="my-4" />
+          <div className="flex w-full justify-center">
+            <div className="p-2 w-full  max-w-[40rem]">
+              <div className="hidden lg:flex flex-col w-full">
+                <InfoSection data={res} />
+              </div>
+              <Divider className="my-4" />
+              <div>
+                <p className="text-lg font-semibold">Description</p>
+                <p className="mt-2">{res.description}</p>
+              </div>
+              <Divider className="my-4" />
 
-            <div
-              className="justify-between items-center flex-row flex w-full"
-              id="colorSection"
-            >
-              <div className="space-y-2 flex-auto">
-                <h1 className="text-lg font-semibold">Max Groupe size</h1>
-                <p className="text-nowrap">
-                  <Chip variant="flat" className="text-lg" color="primary">
-                    {res.grpSize} Person(s)
-                  </Chip>
-                </p>
-              </div>
-              <Divider
-                orientation="vertical"
-                className="h-20 mx-4 w-[0.1rem] "
-              />
-              <div className="space-y-2 flex-1">
-                <h1 className="text-lg font-semibold">Duration</h1>
-                <Chip
-                  variant="flat"
-                  color="primary"
-                  className="text-lg min-w-10"
-                >
-                  {res.duration} Hours
-                </Chip>
-              </div>
-            </div>
-            <Divider className="my-4" />
-            <div className="items-start justify-start text-start flex-col flex overflow-x-hidden">
-              <h1 className="text-lg font-semibold text-start">Calendar</h1>
-              {res.eventType === "ScheduledEvent" ? (
-                <div className="flex w-full justify-center overflow-x-hidden">
-                  <div className="xs:scale-100 scale-90">
-                    <CalendarRange listing={res} />
-                  </div>
+              <div
+                className="justify-between items-center flex-row flex w-full"
+                id="colorSection"
+              >
+                <div className="space-y-2 flex-auto">
+                  <h1 className="text-lg font-semibold">Max Groupe size</h1>
+                  <p className="text-nowrap">
+                    <Chip variant="flat" className="text-lg" color="primary">
+                      {res.grpSize} Person(s)
+                    </Chip>
+                  </p>
                 </div>
-              ) : (
-                <div className="mt-2">
+                <Divider
+                  orientation="vertical"
+                  className="h-20 mx-4 w-[0.1rem] "
+                />
+                <div className="space-y-2 flex-1">
+                  <h1 className="text-lg font-semibold">Duration</h1>
                   <Chip
                     variant="flat"
-                    className="md:text-lg p-4"
                     color="primary"
+                    className="text-lg min-w-10"
                   >
-                    {res.timing as string}
+                    {res.duration} Hours
                   </Chip>
                 </div>
-              )}
-            </div>
-            {res.restrictions.length > 0 && res.restrictions[0].length > 0 && (
-              <Divider className="my-4" />
-            )}
-            {res.restrictions.length > 0 && res.restrictions[0].length > 0 && (
-              <div>
-                <h1 className="text-lg font-semibold text-start mb-2">
-                  Restrictions
-                </h1>
-                {res.restrictions.map((r, i) => (
-                  <React.Fragment key={i}>
-                    <p className="py-2 px-4 bg-default-300 rounded-xl mt-2">
-                      {r}
-                    </p>
-                  </React.Fragment>
-                ))}
               </div>
-            )}
+              <Divider className="my-4" />
+              <div className="items-start justify-start text-start flex-col flex overflow-x-hidden">
+                <h1 className="text-lg font-semibold text-start">Calendar</h1>
+                {res.eventType === "ScheduledEvent" ? (
+                  <div className="flex w-full justify-center overflow-x-hidden">
+                    <div className="xs:scale-100 scale-90">
+                      <CalendarRange listing={res} />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-2">
+                    <Chip
+                      variant="flat"
+                      className="md:text-lg p-4"
+                      color="primary"
+                    >
+                      {res.timing as string}
+                    </Chip>
+                  </div>
+                )}
+              </div>
+              {res.restrictions.length > 0 &&
+                res.restrictions[0].length > 0 && <Divider className="my-4" />}
+              {res.restrictions.length > 0 &&
+                res.restrictions[0].length > 0 && (
+                  <div>
+                    <h1 className="text-lg font-semibold text-start mb-2">
+                      Restrictions
+                    </h1>
+                    {res.restrictions.map((r, i) => (
+                      <React.Fragment key={i}>
+                        <p className="py-2 px-4 bg-default-300 rounded-xl mt-2">
+                          {r}
+                        </p>
+                      </React.Fragment>
+                    ))}
+                  </div>
+                )}
 
-            {/* <MapScrollable /> */}
+              {/* <MapScrollable /> */}
+            </div>
           </div>
 
           {showCheckBox && (
