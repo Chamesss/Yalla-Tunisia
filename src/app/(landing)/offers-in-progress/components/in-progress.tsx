@@ -62,10 +62,7 @@ export default function InProgress() {
           inProgress.map((item, i) => (
             <React.Fragment key={item.id}>
               {transactions &&
-                renderColumn(
-                  item as ProductHandMade,
-                  transactions as TransactionHandmade[]
-                )}
+                renderColumn(item as Product, transactions as Transaction[])}
             </React.Fragment>
           ))}
       </tbody>
@@ -91,10 +88,12 @@ const renderColumn = (item: Product, transactions: Transaction[]) => {
         transaction={Transaction as TransactionSport}
       />
     );
-  } else if (item.categoryId === "66207a58baeaaee2d5e6d417") {
-    <GuidesColumn
-      item={item as ProductGuides}
-      transaction={Transaction as TransactionGuide}
-    />;
+  } else if (item.categoryId === "66207ab5b27e1a42a69a6517") {
+    return (
+      <GuidesColumn
+        item={item as ProductGuides}
+        transaction={Transaction as TransactionGuide}
+      />
+    );
   }
 };

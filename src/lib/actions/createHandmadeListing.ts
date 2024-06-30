@@ -24,7 +24,6 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
     const height = formData.get('height')
     const colorsString = formData.getAll('colors')[0] as string
     const colors = colorsString.split(',');
-    console.log(colors)
     const productImages = formData.getAll('productImages')
     const userId = formData.get('userId') as string
     const categoryId = formData.get('categoryId') as string

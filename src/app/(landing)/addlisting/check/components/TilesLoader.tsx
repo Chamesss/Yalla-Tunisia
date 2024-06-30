@@ -55,7 +55,6 @@ export default function TilesLoader({
           radius: 5000,
         },
         (data, status) => {
-          console.log(status);
           if (status === "OK") {
             setShow(true);
             let coords: string[] = [];

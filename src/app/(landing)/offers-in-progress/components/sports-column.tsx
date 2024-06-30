@@ -11,7 +11,7 @@ type Props = {
 };
 
 export default function SportsColumn({ item, transaction }: Props) {
-  const totalGroup = transaction.grpSize;
+  const totalGroup = transaction.totalGroup;
   const date = transaction.calendar;
   const duration = transaction.duration;
   const price = transaction.amount;

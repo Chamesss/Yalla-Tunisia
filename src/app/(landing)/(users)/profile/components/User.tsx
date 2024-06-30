@@ -10,7 +10,6 @@ type Props = {
 
 export default function User({ user, username }: Props) {
   const location = cities.find((c) => c.id === user!.activeAreaId);
-  console.log(user);
   return (
     <div className="flex flex-row items-center gap-4">
       <div className="relative">

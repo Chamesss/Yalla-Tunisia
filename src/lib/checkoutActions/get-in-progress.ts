@@ -75,6 +75,8 @@ export default async function getInProgress(userId: string) {
         const products = [...Handmades, ...Sports, ...Guides];
         const transactions = [...HandmadesTransactions, ...SportsTransactions, ...GuidesTransactions];
 
+        console.log(products)
+
         return JSON.parse(JSON.stringify({ products, transactions }));
     } catch (error) {
         console.error("Error creating sport transaction:", error);

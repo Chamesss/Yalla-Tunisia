@@ -192,12 +192,12 @@ interface TransactionHandmade extends Transaction {
 interface TransactionSport extends Transaction {
   duration: string,
   calendar: string,
-  grpSize: number
+  totalGroup: number
 }
 
 interface TransactionGuide extends Transaction {
   duration: string,
   hourly: boolean,
   calendar: string,
-  grpSize: number
+  totalGroup: number
 }

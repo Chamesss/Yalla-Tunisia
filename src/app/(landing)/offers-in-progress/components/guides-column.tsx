@@ -13,7 +13,7 @@ type Props = {
 export default function GuidesColumn({ item, transaction }: Props) {
   const duration = transaction.duration;
   const hourly = transaction.hourly;
-  const grpSize = transaction.grpSize;
+  const grpSize = transaction.totalGroup;
   const date = transaction.calendar;
   const price = transaction.amount;
 

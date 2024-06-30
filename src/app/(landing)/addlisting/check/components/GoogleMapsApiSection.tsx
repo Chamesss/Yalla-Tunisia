@@ -59,7 +59,6 @@ export default function GoogleMapsApiSection({
     setLoadingTiles(true);
     if (searchResult) {
       const place = searchResult.getPlace();
-      console.log(place);
       setLat(place.geometry?.location?.lat());
       setLng(place.geometry?.location?.lng());
       setImages(place.photos);

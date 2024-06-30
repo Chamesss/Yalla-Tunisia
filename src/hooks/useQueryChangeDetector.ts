@@ -19,7 +19,6 @@ const useQueryChangeDetector = (setLastVisible: React.Dispatch<any>) => {
             const currentQuery = window.location.search;
             if (currentQuery !== previousQuery.current) {
                 previousQuery.current = currentQuery;
-                console.log('url query changed');
                 setLastVisible(null)
                 setQuery(parseQueryParams());
             }

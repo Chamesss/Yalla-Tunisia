@@ -14,7 +14,6 @@ export default function Redirect() {
       if (user) {
         const response = await fetch(`/api/getapproval/${user.userId}`);
         const approval = await response.json();
-        console.log("approvals === ", approvals);
         setApprovals(approval.length);
         setLoading(false);
       }

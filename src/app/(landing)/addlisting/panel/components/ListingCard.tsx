@@ -15,7 +15,6 @@ export default function ListingCard({
   const [Open, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  console.log(listing);
 
   const categoryId = listing.categoryId;
   const categoryData = categories.find(

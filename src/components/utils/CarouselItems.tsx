@@ -81,8 +81,6 @@ export default function SimpleSlider({ data }: Props) {
         autoHeight={true}
         spaceBetween={50}
         slidesPerView={5}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
         className="overflow-visible w-full h-full"
       >
         {data.map((d: Product, i: number) => (

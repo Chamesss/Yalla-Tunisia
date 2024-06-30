@@ -53,7 +53,6 @@ export default function EditProfileModal({
       if (imageFile) {
         const result = await updateUserPicture(id, imageFile);
         if (result) {
-          console.log("ok !");
           onOpen();
         } else {
           setError(true);

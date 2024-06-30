@@ -1,59 +1,127 @@
 "use client";
 import { useSelector } from "react-redux";
 import { userState } from "@/redux/slices/userSlice";
-import React, { useEffect, useState } from "react";
-import { Button, Skeleton, Divider } from "@nextui-org/react";
-import { getListingsByUserId } from "@/lib/ListingActions/getListingsByUserId";
+import React, { useEffect, useState, useRef } from "react";
+import { Button, Skeleton } from "@nextui-org/react";
+import {
+  getCountItems,
+  getListingsByUserId,
+} from "@/lib/ListingActions/getListingsByUserId";
 import ListingCard from "./ListingCard";
-import CreatePlus from "@/components/icons/CreatePlus";
 import EmptyFolder from "@/components/icons/EmptyFolder";
 import Link from "next/link";
 import { Chip } from "@nextui-org/chip";
-import IconArrowRight from "@/components/icons/RightArrow";
-import CarouselRightArrow from "@/components/icons/CarouselRightArrow";
-import IconHome from "@/components/icons/Home";
-import Bell from "@/components/icons/Bell";
-import Help from "@/components/icons/Help";
 import SideBar from "./SideBar";
+
+type Result = {
+  active: number;
+  pending: number;
+  disabled: number;
+  inProgress: number;
+};
+
+type lastDocs = {
+  lastDoc1: string | null | number;
+  lastDoc2: string | null | number;
+  lastDoc3: string | null | number;
+};
 
 export default function Main() {
   const user: userSlice = useSelector(userState);
   const userId = user.userId!;
   const [Loading, setLoading] = useState(true);
-  const [handmades, setHandmades] = useState<ProductHandMade[] | null>(null);
-  const [sports, setSports] = useState<ProductSports[] | null>(null);
-  const [guides, setGuides] = useState<ProductGuides[] | null>(null);
+  const [handmades, setHandmades] = useState<ProductHandMade[]>();
+  const [sports, setSports] = useState<ProductSports[]>();
+  const [guides, setGuides] = useState<ProductGuides[]>();
   const [total, setTotal] = useState<number>();
   const [active, setActive] = useState<number>();
   const [pending, setPending] = useState<number>();
   const [disabled, setDisabled] = useState<number>();
+  const [inProgress, setInProgress] = useState<number>();
   const [component, setComponent] = useState<string>("dashboard");
+  const [page, setPage] = useState(0);
+  const scrollDivRef = useRef<HTMLDivElement>(null);
+  const pageSize = 8;
+
+  const [lastDocsList, setLastDocsList] = useState<lastDocs[]>([
+    {
+      lastDoc1: null,
+      lastDoc2: null,
+      lastDoc3: null,
+    },
+  ]);
 
   useEffect(() => {
     (async () => {
-      const result = await getListingsByUserId(userId);
-      const {
-        Handmades,
-        Sports,
-        Guides,
-      }: {
-        Handmades: ProductHandMade[];
-        Sports: ProductSports[];
-        Guides: ProductGuides[];
-      } = result;
-      const count = countPendingAndActive(Handmades, Sports, Guides);
-      console.log(count);
-      setActive(count.active);
-      setPending(count.pending);
-      setDisabled(count.disabled);
-      Handmades.length > 0 && setHandmades(Handmades);
-      Sports.length > 0 && setSports(Sports);
-      Guides.length > 0 && setGuides(Guides);
-      const total = Handmades.length + Sports.length + Guides.length;
-      setTotal(total);
-      setLoading(false);
+      try {
+        const result: Result = await getCountItems(userId);
+        setActive(result.active);
+        setPending(result.pending);
+        setDisabled(result.disabled);
+        setInProgress(result.inProgress);
+      } catch (e) {
+        console.log(e);
+      }
     })();
   }, []);
+
+  useEffect(() => {
+    getListingsNext();
+  }, []);
+
+  const getListingsNext = async () => {
+    setLoading(true);
+    const result = await getListingsByUserId(
+      userId,
+      pageSize,
+      lastDocsList[lastDocsList.length - 1]
+    );
+    const { Handmades, Sports, Guides, lastDoc1, lastDoc2, lastDoc3 } = result;
+    setHandmades(Handmades);
+    setSports(Sports);
+    setGuides(Guides);
+    const length = Handmades.length + Sports.length + Guides.length;
+    setTotal(length);
+    setLastDocsList((prev) => [...prev, { lastDoc1, lastDoc2, lastDoc3 }]);
+    setPage((prev) => prev + 1);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    console.log(page);
+  }, [page]);
+
+  const getListingsPrev = async () => {
+    setLoading(true);
+    console.log(lastDocsList[lastDocsList.length - 2]);
+    const result = await getListingsByUserId(
+      userId,
+      pageSize,
+      lastDocsList[lastDocsList.length - 3]
+    );
+    const { Handmades, Sports, Guides, lastDoc1, lastDoc2, lastDoc3 } = result;
+    setHandmades(Handmades);
+    setSports(Sports);
+    setGuides(Guides);
+    const length = Handmades.length + Sports.length + Guides.length;
+    setTotal(length);
+    setLastDocsList((prev) => {
+      const newArray = prev.slice(0, -1);
+      return newArray;
+    });
+    setPage((prev) => prev - 1);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    (() => {
+      const scrollDiv = scrollDivRef.current;
+      setTimeout(() => {
+        scrollDiv &&
+          scrollDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 200);
+    })();
+  }, [Loading]);
 
   return (
     <div className="flex flex-row flex-1 overflow-hidden p-4 gap-4">
@@ -61,7 +129,10 @@ export default function Main() {
         <SideBar component={component} setComponent={setComponent} />
       </div>
       <div className="flex flex-col flex-auto gap-4">
-        <div className="border border-opacity-50 rounded-xl py-4 px-12">
+        <div
+          ref={scrollDivRef}
+          className="border border-opacity-50 rounded-xl py-4 px-12"
+        >
           <h1 className="text-xl mb-1 mt-1 font-semibold">Summary </h1>
           <div className="w-full flex flex-row justify-between items-center">
             {typeof active === "number" &&
@@ -70,6 +141,9 @@ export default function Main() {
               <>
                 <Chip variant="shadow" className="text-white" color="success">
                   Active: {active}
+                </Chip>
+                <Chip variant="shadow" className="text-white" color="primary">
+                  In Progress: {inProgress}
                 </Chip>
                 <Chip variant="shadow" className="text-white" color="warning">
                   Pending: {pending}
@@ -83,12 +157,13 @@ export default function Main() {
                 <SkeletonPLoader />
                 <SkeletonPLoader />
                 <SkeletonPLoader />
+                <SkeletonPLoader />
               </>
             )}
           </div>
         </div>
         <div className="border border-opacity-75 p-4 h-full flex-auto flex flex-col items-center justify-center rounded-xl">
-          <div className="flex justify-between w-full items-center px-8">
+          <div className="flex justify-between w-full items-center px-8 mb-4">
             <h1 className="text-xl mb-1 mt-1 font-semibold">Services</h1>
             <Link href={"/addlisting/panel/create"}>
               <Button className="shadow-sm" color="primary">
@@ -132,6 +207,22 @@ export default function Main() {
               )}
             </div>
           )}
+          <div className="flex justify-between w-full px-8 mt-4">
+            <Button
+              disabled={page <= 1}
+              onClick={getListingsPrev}
+              color="primary"
+            >
+              Previous
+            </Button>
+            <Button
+              isDisabled={typeof total === "number" && total < pageSize}
+              onClick={getListingsNext}
+              color="primary"
+            >
+              Next
+            </Button>
+          </div>
         </div>
       </div>
     </div>
@@ -148,19 +239,20 @@ export function SkeletonLoader() {
 
 export function SkeletonPLoader() {
   return (
-    <Skeleton className="rounded-lg w-[2rem] opacity-50">
+    <Skeleton className="rounded-lg w-[5rem] h-[1rem] opacity-50">
       <Chip className="h-5 !w-[2rem] rounded-lg bg-default-300 opacity-50"></Chip>
     </Skeleton>
   );
 }
 
-function countPendingAndActive(
+function countOfferStatus(
   Handmades: ProductHandMade[],
   Sports: ProductSports[],
   Guides: ProductGuides[]
 ) {
   let active = 0;
   let pending = 0;
+  let inProgress = 0;
   let disabled = 0;
   for (const i in Handmades) {
     if (Handmades[i].status === true) {
@@ -173,6 +265,9 @@ function countPendingAndActive(
     } else if (Handmades[i].disabled === true) {
       disabled++;
     }
+    if (Handmades[i].sold === true && Handmades[i].disabled === false) {
+      inProgress++;
+    }
   }
   for (const i in Sports) {
     if (Sports[i].status === true) {
@@ -181,6 +276,9 @@ function countPendingAndActive(
       pending++;
     } else if (Sports[i].disabled === true) {
       disabled++;
+    }
+    if (Sports[i].sold === true && Sports[i].disabled === false) {
+      inProgress++;
     }
   }
   for (const i in Guides) {
@@ -191,6 +289,9 @@ function countPendingAndActive(
     } else if (Guides[i].disabled === true) {
       disabled++;
     }
+    if (Guides[i].sold === true && Guides[i].disabled === false) {
+      inProgress++;
+    }
   }
-  return { active, pending, disabled };
+  return { active, pending, disabled, inProgress };
 }

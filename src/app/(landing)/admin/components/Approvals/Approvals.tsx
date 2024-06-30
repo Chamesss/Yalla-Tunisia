@@ -20,7 +20,6 @@ export default function Approvals() {
         next: { revalidate: 30 },
       });
       const data = (await res.json()) as Approvals[];
-      console.log(data);
       setApprovals(data);
     })();
   }, [reload]);

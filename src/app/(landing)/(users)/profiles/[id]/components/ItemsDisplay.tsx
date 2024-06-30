@@ -31,7 +31,6 @@ export default function ItemsDisplay({ id }: { id: string }) {
         ...products.Guides,
       ];
 
-      console.log("all products === ", allProducts);
       setProducts(allProducts);
       setProductsGlobal(products);
       setLength(
