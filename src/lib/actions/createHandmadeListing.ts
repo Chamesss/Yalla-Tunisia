@@ -113,7 +113,10 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
     const dimensions = [width, height]
     const imageUrls = await uploadImages(productImages, userId, getStorage, uploadBytes, getDownloadURL, app, storageRef)
 
+    const handmadeRef = doc(collection(db, "Handmades"));
+
     const data = {
+        id: handmadeRef.id,
         userId,
         title,
         price,
@@ -133,7 +136,6 @@ export async function createHandmadeListing(prevState: any, formData: FormData) 
         created_at: new Date()
     }
 
-    const handmadeRef = doc(collection(db, "Handmades"));
     await setDoc(handmadeRef, data);
 
     return {

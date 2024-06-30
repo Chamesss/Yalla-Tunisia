@@ -35,18 +35,18 @@ export default function DisplayStore({ id }: { id: string }) {
   return (
     <React.Fragment>
       <div className="pb-6">
-        <div className="space-y-4">
+        <div className="space-y-0">
           <div className="p-6 overflow-hidden">
             <div className="flex flex-row overflow-hidden gap-4 items-center">
               <h1 className="text-nowrap">Store View</h1>
               <Divider />
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 justify-center sm:justify-around">
+          <div className="flex sm:flex-col-reverse flex-col-reverse items-center sm:items-start gap-4 justify-center sm:justify-around">
             <div className="flex flex-row overflow-auto overflow-x-auto gap-3 px-2 py-1 scrollbar-container scale-90 xs:scale-100">
               <GoogleTilesContainer business={business} />
             </div>
-            <div className="flex flex-col md:flex-col gap-3 mt-4 px-4 py-4 rounded-xl">
+            <div className="flex flex-col md:flex-row gap-3 mt-0 px-4 rounded-xl">
               <p className="text-opacity-90 text-sm">
                 <Chip
                   variant="flat"

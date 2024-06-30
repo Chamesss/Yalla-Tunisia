@@ -9,6 +9,7 @@ import { CustomCheckbox } from "@/app/(landing)/addlisting/panel/create/utils/Cu
 import CheckIcon from "@/components/icons/CheckBoxIcon";
 import IconCancel from "@/components/icons/IconCancel";
 import UserAndProducts from "./UserAndProducts";
+import getUserFromCookies from "@/lib/getUserFromCookies";
 
 export default async function HandmadePage({
   res,
@@ -17,10 +18,15 @@ export default async function HandmadePage({
   res: ProductHandMade;
   categoryName: string;
 }) {
+  let showCheckBox = true;
+  const user = await getUserFromCookies();
+  if (user && user.userId && user.userId === res.userId) {
+    showCheckBox = false;
+  }
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col py-4 mb-20 px-2 xs:px-3 sm:px-8 w-auto max-w-[100rem]">
-        <div className="flex flex-col lg:flex-row  gap-6 relative">
+      <div className="flex flex-col w-full py-4 mb-20 px-2 xs:px-3 sm:px-8 max-w-[100rem]">
+        <div className="flex flex-col w-full lg:flex-row  gap-6 relative">
           <div className="flex lg:hidden flex-col w-full">
             <InfoSection data={res} />
           </div>
@@ -29,7 +35,7 @@ export default async function HandmadePage({
               <CarouselImages images={res.imageUrls} />
             </div>
           </div>
-          <div>
+          <div className="w-full">
             <div className="p-2 w-full overflow-y-auto">
               <div className="hidden lg:flex flex-col w-full">
                 <InfoSection data={res} />
@@ -117,19 +123,23 @@ export default async function HandmadePage({
                 })}
               </div>
             </div>
-            <Divider className="my-4" />
-            <div className="px-2 space-y-2 flex-1">
-              <h1 className="text-lg font-semibold">Colors</h1>
-              <div className="flex flex-row gap-2 px-2">
-                {res.colors.map((c: string, i) => (
-                  <div
-                    key={i}
-                    style={{ backgroundColor: c }}
-                    className="w-10 h-10 rounded-full relative"
-                  />
-                ))}
+            {res.colors.length > 0 && res.colors[0].length > 0 && (
+              <Divider className="my-4" />
+            )}
+            {res.colors.length > 0 && res.colors[0].length > 0 && (
+              <div className="px-2 space-y-2 flex-1">
+                <h1 className="text-lg font-semibold">Colors</h1>
+                <div className="flex flex-row gap-2 px-2">
+                  {res.colors.map((c: string, i) => (
+                    <div
+                      key={i}
+                      style={{ backgroundColor: c }}
+                      className="w-10 h-10 rounded-full relative"
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
             <Divider className="my-4" />
             <div className="px-2 space-y-2">
               <h1 className="text-lg font-semibold">Materials used</h1>
@@ -143,9 +153,11 @@ export default async function HandmadePage({
               </Chip>
             </div>
           </div>
-          <div className="w-[100%] lg:max-w-[25rem] max-w-auto p-4">
-            <CheckOutBox productId={res.id} categoryName={categoryName} />
-          </div>
+          {showCheckBox && (
+            <div className="w-[100%] lg:max-w-[25rem] max-w-auto p-4">
+              <CheckOutBox productId={res.id} categoryName={categoryName} />
+            </div>
+          )}
           {/* <p className="font-medium">Views: {data.views}</p> */}
         </div>
 

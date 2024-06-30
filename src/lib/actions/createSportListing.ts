@@ -124,7 +124,10 @@ export async function createSportListing(prevState: any, formData: FormData) {
 
     const keywordsArray: string[] = title.split(' ').map(word => word.toLowerCase());
 
+    const SportRef = doc(collection(db, "Sports"));
+
     const data = {
+        id: SportRef.id,
         userId,
         categoryId,
         subCategoryId,
@@ -144,7 +147,6 @@ export async function createSportListing(prevState: any, formData: FormData) {
         created_at: new Date()
     };
 
-    const SportRef = doc(collection(db, "Sports"));
     await setDoc(SportRef, data);
 
 

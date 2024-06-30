@@ -37,7 +37,7 @@ function GuideInfoFrom({
   setLocationError,
   setCategoryError,
 }: PropsForm) {
-  const [selectedPaymentMethod, setSelectedPayementMethod] = useState("tour");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("tour");
   const [languages, setLanguages] = useState<string[]>([]);
   const [scheduled, setScheduled] = useState(true);
   const [days, setDays] = useState<Date[] | undefined>();
@@ -141,7 +141,7 @@ function GuideInfoFrom({
               <h1 className="font-semibold">Payment:</h1>
               <RadioGroup
                 className="ml-4"
-                onValueChange={(value) => setSelectedPayementMethod(value)}
+                onValueChange={(value) => setSelectedPaymentMethod(value)}
                 orientation="horizontal"
                 defaultValue="tour"
                 name="paymentMethod"
@@ -204,6 +204,7 @@ function GuideInfoFrom({
                 defaultItems={iterableLanguages}
                 label="Select your spoken languages"
                 className="max-w-xs"
+                isClearable={false}
                 onSelectionChange={(key: Key) => {
                   if (key) {
                     languages.includes(key.toString()) === false &&

@@ -12,8 +12,12 @@ import TabsSection from "./components/TabsSection";
 import Phone from "@/components/icons/Phone";
 import AccordionProfile from "./components/Accordion";
 import AccordionMap from "./components/AccordionMap";
+import getUserFromCookies from "@/lib/getUserFromCookies";
 
 export default async function Profiles({ params }: { params: { id: string } }) {
+  const userCookies = await getUserFromCookies();
+  userCookies && userCookies.userId === params.id && redirect("/profile");
+
   const user = (await getUserById(params.id)) as userType;
   if (!user) {
     redirect("/forbidden");

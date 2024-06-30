@@ -19,7 +19,6 @@ type lastDocs = {
 };
 
 export async function getListingsByUserId(userId: string, pageSize: number, lastDocs: lastDocs) {
-  console.log(lastDocs)
   let table1Docs: any = [];
   let table2Docs: any = [];
   let table3Docs: any = [];
@@ -36,7 +35,6 @@ export async function getListingsByUserId(userId: string, pageSize: number, last
 
 
       if (typeof lastDoc1 !== 'number' && ((table1Count + table2Count + table3Count) < pageSize)) {
-        console.log('here !!! ')
         const table1Query = query(
           collection(db, "Handmades"),
           where("userId", "==", userId),
@@ -77,6 +75,8 @@ export async function getListingsByUserId(userId: string, pageSize: number, last
       }
 
       if (typeof lastDoc3 !== 'number' && ((table1Count + table2Count + table3Count) < pageSize)) {
+        console.log('here !!! ')
+
         const table3Query = query(
           collection(db, "Guides"),
           where("userId", "==", userId),
@@ -86,6 +86,7 @@ export async function getListingsByUserId(userId: string, pageSize: number, last
         );
         const table3Snapshot = await getDocs(table3Query);
         if (!table3Snapshot.empty) {
+          console.log('not empty')
           table3Snapshot.forEach((doc) => {
             table3Docs.push({ ...doc.data(), id: doc.id });
             lastDoc3 = doc.id;

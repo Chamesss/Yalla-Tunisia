@@ -10,6 +10,7 @@ import { checkbox } from "./HandmadePage";
 import Success from "@/components/icons/Success";
 import IconCancel from "@/components/icons/IconCancel";
 import UserAndProducts from "./UserAndProducts";
+import getUserFromCookies from "@/lib/getUserFromCookies";
 
 export default async function GuidePage({
   res,
@@ -18,10 +19,15 @@ export default async function GuidePage({
   res: ProductGuides;
   categoryName: string;
 }) {
+  let showCheckBox = true;
+  const user = await getUserFromCookies();
+  if (user && user.userId && user.userId === res.userId) {
+    showCheckBox = false;
+  }
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col py-4 mb-20 px-8 max-w-[100rem]">
-        <div className="flex flex-col lg:flex-row  gap-6 relative">
+      <div className="flex flex-col w-full py-4 mb-20 px-8 max-w-[100rem]">
+        <div className="flex flex-col w-full lg:flex-row gap-6 relative">
           <div className="flex lg:hidden flex-col w-full">
             <InfoSection data={res} />
           </div>
@@ -130,24 +136,30 @@ export default async function GuidePage({
                 })}
               </div>
             </div>
-            <Divider className="my-4" />
-            <div>
-              <h1 className="text-lg font-semibold text-start mb-2">
-                Restrictions
-              </h1>
-              {res.restrictions.map((r, i) => (
-                <React.Fragment key={i}>
-                  <p className="py-2 px-4 bg-default-300 rounded-xl mt-2">
-                    {r}
-                  </p>
-                </React.Fragment>
-              ))}
-            </div>
+            {res.restrictions.length > 0 && res.restrictions[0].length > 0 && (
+              <Divider className="my-4" />
+            )}
+            {res.restrictions.length > 0 && res.restrictions[0].length > 0 && (
+              <div>
+                <h1 className="text-lg font-semibold text-start mb-2">
+                  Restrictions
+                </h1>
+                {res.restrictions.map((r, i) => (
+                  <React.Fragment key={i}>
+                    <p className="py-2 px-4 bg-default-300 rounded-xl mt-2">
+                      {r}
+                    </p>
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="w-[100%] lg:max-w-[25rem] max-w-auto p-4">
-            <CheckOutBox productId={res.id} categoryName={categoryName} />
-          </div>
+          {showCheckBox && (
+            <div className="w-[100%] lg:max-w-[25rem] max-w-auto p-4">
+              <CheckOutBox productId={res.id} categoryName={categoryName} />
+            </div>
+          )}
           {/* <p className="font-medium">Views: {data.views}</p> */}
         </div>
         <div className="mt-8">

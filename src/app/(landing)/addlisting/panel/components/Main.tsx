@@ -110,6 +110,10 @@ export default function Main() {
   };
 
   useEffect(() => {
+    console.log(page);
+  }, [page]);
+
+  useEffect(() => {
     (() => {
       const scrollDiv = scrollDivRef.current;
       setTimeout(() => {
@@ -178,7 +182,7 @@ export default function Main() {
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {Loading ? (
-                Array(10).fill(<SkeletonLoader />)
+                Array(4).fill(<SkeletonLoader />)
               ) : (
                 <>
                   {handmades &&
@@ -205,7 +209,7 @@ export default function Main() {
           )}
           <div className="flex justify-between w-full px-8 mt-4">
             <Button
-              disabled={page <= 1}
+              isDisabled={page <= 1}
               onClick={getListingsPrev}
               color="primary"
             >
@@ -228,7 +232,7 @@ export default function Main() {
 export function SkeletonLoader() {
   return (
     <Skeleton className="rounded-lg opacity-50">
-      <div className="h-24 w-[20rem] rounded-lg bg-default-300 opacity-50"></div>
+      <div className="h-[18rem] w-[20rem] rounded-lg bg-default-300 opacity-50"></div>
     </Skeleton>
   );
 }
@@ -239,55 +243,4 @@ export function SkeletonPLoader() {
       <Chip className="h-5 !w-[2rem] rounded-lg bg-default-300 opacity-50"></Chip>
     </Skeleton>
   );
-}
-
-function countOfferStatus(
-  Handmades: ProductHandMade[],
-  Sports: ProductSports[],
-  Guides: ProductGuides[]
-) {
-  let active = 0;
-  let pending = 0;
-  let inProgress = 0;
-  let disabled = 0;
-  for (const i in Handmades) {
-    if (Handmades[i].status === true) {
-      active++;
-    } else if (
-      Handmades[i].status === false &&
-      Handmades[i].disabled === false
-    ) {
-      pending++;
-    } else if (Handmades[i].disabled === true) {
-      disabled++;
-    }
-    if (Handmades[i].sold === true && Handmades[i].disabled === false) {
-      inProgress++;
-    }
-  }
-  for (const i in Sports) {
-    if (Sports[i].status === true) {
-      active++;
-    } else if (Sports[i].status === false && Sports[i].disabled === false) {
-      pending++;
-    } else if (Sports[i].disabled === true) {
-      disabled++;
-    }
-    if (Sports[i].sold === true && Sports[i].disabled === false) {
-      inProgress++;
-    }
-  }
-  for (const i in Guides) {
-    if (Guides[i].status === true) {
-      active++;
-    } else if (Guides[i].status === false && Guides[i].disabled === false) {
-      pending++;
-    } else if (Guides[i].disabled === true) {
-      disabled++;
-    }
-    if (Guides[i].sold === true && Guides[i].disabled === false) {
-      inProgress++;
-    }
-  }
-  return { active, pending, disabled, inProgress };
 }

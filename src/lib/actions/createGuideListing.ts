@@ -115,7 +115,9 @@ export async function createGuideListing(prevState: any, formData: FormData) {
 
     const imageUrls = await uploadImages(productImages, userId, getStorage, uploadBytes, getDownloadURL, app, storageRef)
 
+    const GuideRef = doc(collection(db, "Guides"));
     const data = {
+        id: GuideRef.id,
         userId,
         categoryId,
         title,
@@ -134,8 +136,6 @@ export async function createGuideListing(prevState: any, formData: FormData) {
         disabled: false,
         created_at: new Date()
     };
-
-    const GuideRef = doc(collection(db, "Guides"));
     await setDoc(GuideRef, data);
 
     return {
