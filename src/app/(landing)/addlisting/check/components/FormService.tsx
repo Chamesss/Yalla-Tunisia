@@ -7,6 +7,7 @@ import {
   Input,
   Radio,
   RadioGroup,
+  Spinner,
 } from "@nextui-org/react";
 import GoogleMapsApiSection from "./GoogleMapsApiSection";
 import { Checkbox } from "@nextui-org/react";
@@ -15,6 +16,7 @@ import IconArrowRight from "@/components/icons/RightArrow";
 import { useFormState } from "react-dom";
 import { submitProfileCheck } from "@/lib/actions/submitServiceCheck";
 import { cities } from "@/cities";
+import { Turret_Road } from "next/font/google";
 
 const initialState = {
   response: {
@@ -37,6 +39,7 @@ export default function FormService() {
   const [selectedLocation, setSelectedLocation] = useState<
     string | undefined
   >();
+  const [loading, setLoading] = useState(false);
 
   const [formState, formAction] = useFormState(
     submitServiceCheck,
@@ -57,9 +60,12 @@ export default function FormService() {
     setSelectedImages([]);
   }, [addLocation]);
 
+  useEffect(() => {
+    console.log("loading", loading);
+  }, [loading]);
+
   async function submitServiceCheck(prevState: any, formData: FormData) {
     const businessType = formData.get("businessType");
-
     const bPhone = formData.get("bPhone");
     const bName = formData.get("bName");
     if (!businessType) {
@@ -141,6 +147,16 @@ export default function FormService() {
       };
     }
   }
+
+  useEffect(() => {
+    if (
+      formState.response &&
+      formState.response.error === 0 &&
+      formState.response.success
+    ) {
+      window.location.reload();
+    }
+  }, [formState.response]);
 
   return (
     <div className="p-4 flex items-center justify-center">
@@ -275,12 +291,6 @@ export default function FormService() {
                 {formState.response.message}
               </small>
             )}
-          {formState.response.error === 0 &&
-            formState.response.success === true && (
-              <small className="italic text-success-500 px-6">
-                {formState.response.message}
-              </small>
-            )}
           <div className="w-full flex flex-row justify-between p-2 mt-10">
             <Button className="bg-danger-500 text-white">Cancel</Button>
             <Button
@@ -288,7 +298,10 @@ export default function FormService() {
               type="submit"
               className="bg-primary-500 text-white"
             >
-              Submit
+              {formState.response.error === 0 &&
+              formState.response.success === true
+                ? "Success"
+                : "Submit"}
             </Button>
           </div>
         </form>
