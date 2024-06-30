@@ -1,6 +1,5 @@
 "use server";
 import {
-  DocumentData,
   collection,
   getDocs,
   query,

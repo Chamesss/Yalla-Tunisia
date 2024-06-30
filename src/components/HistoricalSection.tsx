@@ -1,6 +1,5 @@
 "use client";
 import { motion, Variants } from "framer-motion";
-import HeroButton from "./utils/Hero/HeroButton";
 import IconArrowRight from "./icons/RightArrow";
 import Link from "next/link";
 
@@ -78,13 +77,6 @@ export default function HistoricalSection() {
           expedita voluptates blanditiis architecto laudantium rerum nisi minima
           ut placeat assumenda! Placeat.
         </p>
-        <Link
-          href={"#"}
-          className="flex w-fit mt-10 items-center gap-4 rounded-lg bottom-[40%] bg-black/50 text-sm text-white md:text-lg p-2 md:p-4 left-[10%] transition-all duration-500 ease-in-out cursor-pointer hover:scale-110"
-        >
-          {"Click here"}
-          <IconArrowRight height={20} width={20} />
-        </Link>
       </div>
       <div className="relative flex flex-row w-[100%] lg:w-[750px] justify-center items-center transform translate-y-16 xl:translate-y-8">
         <div className="transition-all duration-200 z-[39] hover:z-40 hover:scale-110 relative h-full">

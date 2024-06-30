@@ -87,10 +87,6 @@ export default function Main() {
     setLoading(false);
   };
 
-  useEffect(() => {
-    console.log(page);
-  }, [page]);
-
   const getListingsPrev = async () => {
     setLoading(true);
     console.log(lastDocsList[lastDocsList.length - 2]);

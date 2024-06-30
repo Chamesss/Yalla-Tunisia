@@ -7,14 +7,14 @@ import PendingForm from "./components/PendingForm";
 
 export default function Redirect() {
   const [loading, setLoading] = useState(true);
-  const [approvals, setApprovals] = useState<number>();
+  const [approvals, setApprovals] = useState<any>();
   useEffect(() => {
     (async () => {
       const user = await getUserFromCookies();
       if (user) {
         const response = await fetch(`/api/getapproval/${user.userId}`);
         const approval = await response.json();
-        setApprovals(approval.length);
+        setApprovals(approval);
         setLoading(false);
       }
     })();
