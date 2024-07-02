@@ -32,16 +32,16 @@ export default function HandmadeCard({
           <Divider className="my-2" />
           <div className="flex flex-col gap-2">
             <p className="italic">
-              Materials used:{" "}
+              Matériaux utilisés{" "}
               <small>
                 {listing.materialsUsed
                   ? listing.materialsUsed
                   : "No materials specified"}
               </small>
             </p>
-            <p className="italic">Qte: {listing.qte}</p>
+            <p className="italic">Quantité {listing.qte}</p>
             <div className="flex flex-row gap-3 items-center">
-              <h1 className="italic">Colors: </h1>
+              <h1 className="italic">Couleurs </h1>
               {listing.colors.map((c, i) => (
                 <div
                   key={i}
@@ -51,7 +51,7 @@ export default function HandmadeCard({
               ))}
             </div>
             <div className="flex flex-row gap-3 items-center">
-              <h1 className="italic">Sizes: </h1>
+              <h1 className="italic">Tailles </h1>
               {listing.sizes.map((s, i) => (
                 <React.Fragment key={i}>
                   {s && (
@@ -69,7 +69,7 @@ export default function HandmadeCard({
                   {listing.dimensions[0]} * {listing.dimensions[1]}
                 </small>
               ) : (
-                <small>No dimensions available</small>
+                <small>Aucune dimension disponible</small>
               )}
             </div>
           </div>

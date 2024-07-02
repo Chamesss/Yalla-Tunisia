@@ -14,7 +14,7 @@ export default async function page() {
 
   const user = (await getUserById(userData.userId as string)) as userType;
   if (user === undefined || !user) {
-    return <p>Something went wrong</p>;
+    return <p>Quelque chose s&apos;est mal passé.</p>;
   }
 
   return <Main user={user} />;

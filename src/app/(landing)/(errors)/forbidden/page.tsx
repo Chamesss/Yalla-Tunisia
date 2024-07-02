@@ -9,12 +9,12 @@ export default function page() {
           Forbidden 403
         </h1>
         <p className="text-gray-700 text-lg mt-4 text-center">
-          You don&apos;t have permission to access this page.
+          Vous n&apos;avez pas la permission d&apos;accéder à cette page.
         </p>
         <div className="flex justify-center mt-8">
           <Link href={"/"}>
             <Button className="bg-blue-500 text-white text-md font-medium">
-              Go Back Home
+              Retourner à la page d'accueil
             </Button>
           </Link>
         </div>

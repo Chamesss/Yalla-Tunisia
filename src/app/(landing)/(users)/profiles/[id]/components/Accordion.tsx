@@ -29,7 +29,7 @@ export default function AccordionProfile({
                 </span>
               </p>
               <p className="font-semibold ml-[0.075rem] text-sm text-default-500">
-                Joined {date}
+                Rejoint à {date}
               </p>
             </div>
           </AccordionItem>

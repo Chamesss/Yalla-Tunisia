@@ -9,7 +9,7 @@ export default function StatusCell({ status }: { status: boolean }) {
       size="sm"
       variant="flat"
     >
-      {status === true ? "Active" : "Inactive"}
+      {status === true ? "Activé" : "Désactivé"}
     </Chip>
   );
 }

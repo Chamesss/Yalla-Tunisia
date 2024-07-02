@@ -72,7 +72,7 @@ export default function FormService() {
       return {
         response: {
           success: false,
-          message: "select business type",
+          message: "Sélectionnez le type de business",
           error: 1,
         },
       };
@@ -81,7 +81,7 @@ export default function FormService() {
       return {
         response: {
           success: false,
-          message: "select city",
+          message: "Sélectionnez la ville",
           error: 1,
         },
       };
@@ -90,7 +90,7 @@ export default function FormService() {
       return {
         response: {
           success: false,
-          message: "enter your business phone number",
+          message: "Veuillez entrer votre numéro de téléphone professionnel.",
           error: 2,
         },
       };
@@ -99,7 +99,7 @@ export default function FormService() {
       return {
         response: {
           success: false,
-          message: "enter your business name",
+          message: "Veuillez entrer votre nom de business ou magasin",
           error: 3,
         },
       };
@@ -109,7 +109,7 @@ export default function FormService() {
         return {
           response: {
             success: false,
-            message: "please select a location",
+            message: "Veuillez sélectionner un emplacement.",
             error: 4,
           },
         };
@@ -163,7 +163,8 @@ export default function FormService() {
       <div className="rounded-xl w-fit flex items-center justify-center flex-col max-w-[45rem]">
         <div className="px-4 py-6 w-full bg-blue-500 rounded-tl-xl rounded-tr-xl">
           <h1 className="text-lg font-semibold text-white text-center">
-            Become a Local Artisan: Share Your Craft with the World!
+            Devenez un artisan local : Partagez votre savoir-faire avec le
+            monde!
           </h1>
         </div>
         <form
@@ -171,50 +172,50 @@ export default function FormService() {
           className="w-full p-4 border border-opacity-50 border-t-0 rounded-bl-xl rounded-br-xl"
         >
           <small className="italic opacity-75">
-            Welcome to our community of local artisans! We&apos;re thrilled
-            you&apos;re interested in showcasing your unique creations with
-            tourists and fellow travelers. To get started, please fill out the
-            form below with the required details.
+            Bienvenue dans notre communauté d&apos;artisans locaux ! Nous sommes
+            ravis que vous souhaitiez présenter vos créations uniques aux
+            touristes et aux autres voyageurs. Pour commencer, veuillez remplir
+            le formulaire ci-dessous avec les détails requis.
           </small>
           <Divider className="my-4" />
           <small className="italic opacity-75">
             <IconArrowRight className="inline-block text-blue-500 mr-2" />
-            If your store is already listed on Google Maps, simply check the
-            checkbox below this dialogue, then search and select it from the
-            dropdown menu.
+            Si votre magasin est déjà répertorié sur Google Maps, cochez
+            simplement la case ci-dessous, puis recherchez et sélectionnez-le
+            dans le menu déroulant.
           </small>
           <br />
           <small className="italic opacity-75">
             <IconArrowRight className="inline-block text-blue-500 mr-2" />
-            If your store isn&apos;t listed on Google Maps, then simply enter
-            your store&apos;s name.
+            Si votre magasin n&apos;est pas répertorié sur Google Maps, entrez
+            simplement le nom de votre magasin.
           </small>
           <Divider className="my-4" />
           <div className="px-6">
             <RadioGroup
               onChange={(e) => setSelectedService(e.target.value)}
               className="text-sm"
-              label="Select your business type*"
+              label="Sélectionnez le type de votre business*"
               name="businessType"
             >
               <Radio size="sm" className="text-sm" value="Handmade">
-                Handmade Business
+                Fait à main
               </Radio>
               <Radio size="sm" className="text-sm" value="Sports">
-                Sports & Entertainment Business
+                Sports et Loisir
               </Radio>
               <Radio size="sm" className="text-sm" value="Guide">
-                Guide Service
+                Guide
               </Radio>
             </RadioGroup>
           </div>
           <Divider className="my-4" />
           <div className="flex flex-col gap-4 w-full px-6 py-4">
             <Autocomplete
-              label={"City"}
+              label={"Ville"}
               labelPlacement="outside"
               defaultItems={cities}
-              placeholder="City name.."
+              placeholder="Nom de la ville..."
               size="md"
               className="px-4"
               value={selectedLocation}
@@ -235,7 +236,7 @@ export default function FormService() {
               name="bPhone"
               variant="underlined"
               labelPlacement="inside"
-              label={"Business phone number"}
+              label={"Numéro de téléphone professionnel"}
               type="number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -248,8 +249,8 @@ export default function FormService() {
             <Input
               variant="underlined"
               labelPlacement="inside"
-              label={"Business name"}
-              placeholder="enter business name"
+              label={"Nom de business"}
+              placeholder="Entrer votre nom de business ou magasin"
               name="bName"
             />
             <Checkbox
@@ -259,7 +260,7 @@ export default function FormService() {
               name="addlocation"
               isSelected={addLocation}
             >
-              <small>Locate my store on Google Maps</small>
+              <small>Localiser mon magasin sur Google Maps</small>
             </Checkbox>
             {addLocation && (
               <GoogleMapsApiSection
@@ -282,7 +283,7 @@ export default function FormService() {
               onChange={(e) => setAgreed(e.target.checked)}
               className="mt-2"
             >
-              <small>I agree to the terms of usage.</small>
+              <small>J'accepte les conditions d'utilisation.</small>
             </Checkbox>
           </div>
           {formState.response.error !== 0 &&
@@ -292,7 +293,7 @@ export default function FormService() {
               </small>
             )}
           <div className="w-full flex flex-row justify-between p-2 mt-10">
-            <Button className="bg-danger-500 text-white">Cancel</Button>
+            <Button className="bg-danger-500 text-white">Annuler</Button>
             <Button
               isDisabled={!agreed}
               type="submit"
@@ -301,7 +302,7 @@ export default function FormService() {
               {formState.response.error === 0 &&
               formState.response.success === true
                 ? "Success"
-                : "Submit"}
+                : "Soumettre"}
             </Button>
           </div>
         </form>

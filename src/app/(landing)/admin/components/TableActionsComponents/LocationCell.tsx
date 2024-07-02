@@ -1,4 +1,4 @@
-import { handleCity } from "@/helpers/getLocationNan";
+import { getLocationFromId } from "@/helpers/getLocationFromId";
 import { Skeleton } from "@nextui-org/react";
 import React, { Suspense } from "react";
 
@@ -17,7 +17,7 @@ export default function LocationCell({ listing }: Props) {
             </Skeleton>
           }
         >
-          {handleCity(listing)}
+          {getLocationFromId(listing.location)}
         </Suspense>
       </p>
     </div>

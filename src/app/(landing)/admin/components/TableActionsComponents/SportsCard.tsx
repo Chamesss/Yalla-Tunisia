@@ -31,17 +31,17 @@ export default function SportsCard({ listing }: { listing: ProductSports }) {
           <small className="italic">{listing.description}</small>
           <Divider className="my-2" />
           <div className="flex flex-row items-center gap-3">
-            <h1>Max group</h1>
+            <h1>Groupe maximal</h1>
             <small className="italic">{listing.grpSize}</small>
           </div>
           <Divider className="my-2" />
           <div className="flex flex-row items-center gap-3">
-            <h1>Duration</h1>
-            <small className="italic">{listing.duration} hour(s)</small>
+            <h1>Durée</h1>
+            <small className="italic">{listing.duration} heure(s)</small>
           </div>
           <Divider className="my-2" />
           <h1>
-            Schedule <small className="italic">({listing.eventType})</small>
+            Horaire <small className="italic">({listing.eventType})</small>
           </h1>
           <div className="flex flex-row flex-wrap gap-2">
             {listing.eventType === "OngoingEvent" ? (
@@ -52,7 +52,7 @@ export default function SportsCard({ listing }: { listing: ProductSports }) {
                   listing.timing.map((item: Date, i: number) => {
                     const result = ExtractDayMonthYear(item);
                     if (result === false)
-                      return <p key={i}>Date unavailable</p>;
+                      return <p key={i}>Date non disponible</p>;
                     return (
                       <React.Fragment key={i}>
                         <DateBox date={result} />
@@ -64,25 +64,25 @@ export default function SportsCard({ listing }: { listing: ProductSports }) {
           </div>
           <Divider className="my-2" />
           <div className="flex flex-row items-center gap-3">
-            <h1>Created at</h1>
+            <h1>Créé à</h1>
             {listing.created_at ? (
               <React.Fragment>
                 {(() => {
                   const result = ExtractDayMonthYear(listing.created_at);
                   if (result === false) {
-                    return <p>Date unavailable</p>;
+                    return <p>Date non disponible</p>;
                   } else {
                     return <DateBox date={result} />;
                   }
                 })()}
               </React.Fragment>
             ) : (
-              <small>Date unavailable</small>
+              <small>Date non disponible</small>
             )}
           </div>
           <Divider className="my-2" />
           <div className="flex flex-row items-center gap-3">
-            <h1>Location</h1>
+            <h1>Emplacement</h1>
             <Suspense
               fallback={
                 <Skeleton className="rounded-xl opacity-75">

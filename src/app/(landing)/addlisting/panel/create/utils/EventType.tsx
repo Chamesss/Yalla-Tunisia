@@ -9,7 +9,7 @@ type Props = {
 export default function EventType({ setScheduled, scheduled }: Props) {
   return (
     <div className="flex flex-row">
-      <h1 className="font-semibold">Event type:</h1>
+      <h1 className="font-semibold">Type d'événement :</h1>
       <RadioGroup
         name="eventType"
         value={scheduled ? "ScheduledEvent" : "OngoingEvent"}
@@ -23,7 +23,7 @@ export default function EventType({ setScheduled, scheduled }: Props) {
           }}
           value="OngoingEvent"
         >
-          Ongoing Event.
+          Événement en cours.
         </Radio>
         <Radio
           onChange={() => {
@@ -33,7 +33,7 @@ export default function EventType({ setScheduled, scheduled }: Props) {
           checked={scheduled}
           value="ScheduledEvent"
         >
-          Scheduled Event.
+          Événement programmé.
         </Radio>
       </RadioGroup>
     </div>

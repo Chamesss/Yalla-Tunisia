@@ -95,16 +95,16 @@ export default function DeleteUserModal({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                {action === "delete" && "Delete"}
-                {action === "ban" && "Ban"}
-                {action === "unban" && "Unban"}
+                {action === "delete" && "Supprimer"}
+                {action === "ban" && "Bannir"}
+                {action === "unban" && "Débannir"}
                 confirmation
               </ModalHeader>
               <ModalBody>
                 <p>
-                  Are you sure you want to {action === "delete" && "delete"}
-                  {action === "ban" && "ban"}
-                  {action === "unban" && "unban"} this profile?
+                  Êtes-vous sûr de vouloir {action === "delete" && "supprimer"}
+                  {action === "ban" && "banir"}
+                  {action === "unban" && "débannir"} ce profile?
                 </p>
                 <Divider className="my-2" />
                 {user && (
@@ -139,7 +139,7 @@ export default function DeleteUserModal({
                   {loading && <Spinner color="warning" />}
                   {success && "Success"}
                   {error && "Error"}
-                  {!loading && !success && !error && "Submit"}
+                  {!loading && !success && !error && "Soumettre"}
                 </Button>
               </ModalFooter>
             </>

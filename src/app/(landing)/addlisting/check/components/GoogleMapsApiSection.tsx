@@ -95,7 +95,7 @@ export default function GoogleMapsApiSection({
             }}
             type="text"
             className="relative w-full focus:outline-none text-sm bg-gray-100"
-            placeholder="Enter your store's name"
+            placeholder="Veuillez entrer le nom de votre magasin"
           />
         </Autocomplete>
       </div>
@@ -112,7 +112,7 @@ export default function GoogleMapsApiSection({
       )}
       {images && (
         <small className="italic opacity-75">
-          *These are the presented images of your store.
+          *Voici les images présentées de votre magasin.
         </small>
       )}
 

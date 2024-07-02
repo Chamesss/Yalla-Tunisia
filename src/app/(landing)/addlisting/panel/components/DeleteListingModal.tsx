@@ -26,17 +26,17 @@ export default function DeleteListingModal({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Delete confirmation
+                Confirmation de suppression
               </ModalHeader>
               <ModalBody>
-                <p>Are you sure you want to delete this item?</p>
+                <p>Êtes-vous sûr de vouloir supprimer cet offer ?</p>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onClick={onClose}>
-                  Cancel
+                  Annuler
                 </Button>
                 <Button color="primary" onClick={onClose}>
-                  Proceed
+                  Confirmer
                 </Button>
               </ModalFooter>
             </>

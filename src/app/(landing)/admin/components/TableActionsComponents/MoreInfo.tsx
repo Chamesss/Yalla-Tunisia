@@ -37,7 +37,7 @@ export default function MoreInfo({ CategoryName, listing }: Props) {
   function displayItem() {
     switch (CategoryName) {
       case undefined: {
-        return <p>Something went wrong</p>;
+        return <p>Quelque chose s'est mal passé</p>;
       }
       case "Handmades": {
         return <HandmadeCard listing={listing as ProductHandMade} />;

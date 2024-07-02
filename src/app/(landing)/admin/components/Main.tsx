@@ -10,10 +10,10 @@ import Guides from "./Guides/Guides";
 
 const config = {
   Users: Users,
-  Handmades: Handmades,
-  "Sports & Entertainment": Sports,
+  "Fait à main": Handmades,
+  "Sports & Loisir": Sports,
   Guides: Guides,
-  Approvals: Approvals,
+  "Demandes de Fournissuer": Approvals,
   Reclamations: Reclamations,
   Withdrawal: Withdrawal,
 };

@@ -83,7 +83,7 @@ function HandmadeForm({
             size="sm"
             label={
               <span className="text-sm">
-                Title<small className="text-danger-500">*</small>
+                Titre<small className="text-danger-500">*</small>
               </span>
             }
             description={
@@ -99,7 +99,7 @@ function HandmadeForm({
               type="number"
               label={
                 <span className="text-sm">
-                  Price<small className="text-danger-500">*</small>
+                  Prix<small className="text-danger-500">*</small>
                 </span>
               }
               id="price"
@@ -125,7 +125,7 @@ function HandmadeForm({
               type="number"
               label={
                 <span className="text-sm">
-                  Qte<small className="text-danger-500">*</small>
+                  Quantité<small className="text-danger-500">*</small>
                 </span>
               }
               size="sm"
@@ -164,7 +164,7 @@ function HandmadeForm({
             size="sm"
             label={
               <span className="text-sm">
-                Materials used<small className="text-danger-500">*</small>
+                Matériaux utilisés<small className="text-danger-500">*</small>
               </span>
             }
             onChange={(e) => setMaterialsUser(e.target.value)}
@@ -179,7 +179,7 @@ function HandmadeForm({
         </div>
         <Divider className="my-4" />
         <h1 className="text-xl font-semibold">
-          Pictures<small className="text-danger-500">*</small>
+          Photos<small className="text-danger-500">*</small>
         </h1>
         <div className="px-2">
           <AddImages
@@ -191,10 +191,10 @@ function HandmadeForm({
         </div>
         <Divider className="my-4" />
         <h1 className="text-xl font-semibold">
-          Size selection
+          Sélection de la taille
           <small className="italic text-sm font-medium opacity-50">
             {" "}
-            (optional)
+            (Optionnel)
           </small>
         </h1>
         <div className="px-2">
@@ -225,7 +225,7 @@ function HandmadeForm({
             </CheckboxGroup>
           </div>
           <small className="text-xs italic">
-            Sizes are practical for clothes.
+            Les tailles sont pratiques pour les vêtements.
           </small>
           <div className="flex flex-row gap-2 items-center mt-4">
             <Input
@@ -233,7 +233,7 @@ function HandmadeForm({
               id="height"
               name="height"
               className="w-[10%]"
-              label="height"
+              label="Hauteur"
               size="sm"
             />
             <Input
@@ -241,7 +241,7 @@ function HandmadeForm({
               id="Width"
               name="Width"
               className="w-[10%]"
-              label="Width"
+              label="Largeur"
               size="sm"
             />
             <span className="text-xs">(cm)</span>
@@ -249,10 +249,10 @@ function HandmadeForm({
         </div>
         <Divider className="my-4" />
         <h1 className="text-xl font-semibold">
-          Colors selection
+          Sélection des couleurs
           <small className="italic text-sm font-medium opacity-50">
             {" "}
-            (optional)
+            (Optionnel)
           </small>
         </h1>
         <div className="flex flex-row gap-4 w-fit m-auto">
@@ -267,12 +267,17 @@ function HandmadeForm({
             <Button
               onClick={() =>
                 setColors((prev) => {
-                  if (prev.includes(color) || prev.length > 5) return prev;
+                  if (
+                    prev.includes(color) ||
+                    prev.length > 5 ||
+                    color.length < 1
+                  )
+                    return [...prev];
                   return [...prev, color];
                 })
               }
             >
-              Add Color
+              Ajouter une couleur
             </Button>
           </div>
           <div className="grid grid-cols-2 grid-rows-3 flex-wrap w-auto h-fit gap-2">

@@ -74,7 +74,7 @@ export default function ChangePictureModal({
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              Change Profile Picture
+              Changer la photo de profil
             </ModalHeader>
             <ModalBody>
               <div className="flex flex-col items-center gap-4">
@@ -86,7 +86,7 @@ export default function ChangePictureModal({
                   />
                 ) : (
                   <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
-                    <span>No Image Selected</span>
+                    <span>Aucune image sélectionnée</span>
                   </div>
                 )}
                 <input
@@ -97,19 +97,21 @@ export default function ChangePictureModal({
                 />
               </div>
               {error && (
-                <small className="text-danger-500">Something went wrong.</small>
+                <small className="text-danger-500">
+                  Quelque chose s'est mal passé.
+                </small>
               )}
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>
-                Close
+                Fermer
               </Button>
               <Button
                 isDisabled={selectedImage === current || selectedImage === null}
                 color="primary"
                 onPress={handleSave}
               >
-                {loading ? <Spinner color="warning" /> : "Save"}
+                {loading ? <Spinner color="warning" /> : "Enregistrer"}
               </Button>
             </ModalFooter>
           </>

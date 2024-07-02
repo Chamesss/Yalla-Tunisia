@@ -1,3 +1,3 @@
 export default function Reclamations() {
-  return <div>Reclamations</div>;
+  return <div>Pas de données</div>;
 }

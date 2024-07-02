@@ -72,7 +72,7 @@ export default function EditProfileModal({
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              Edit Profile
+              Modifier le profil
             </ModalHeader>
             <ModalBody>
               <div>
@@ -85,7 +85,7 @@ export default function EditProfileModal({
                     />
                   ) : (
                     <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
-                      <span>No Image Selected</span>
+                      <span>Aucune image sélectionnée</span>
                     </div>
                   )}
                   <input
@@ -97,17 +97,17 @@ export default function EditProfileModal({
                 </div>
                 {error && (
                   <small className="text-danger-500">
-                    Something went wrong.
+                    Quelque chose s'est mal passé.
                   </small>
                 )}
               </div>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>
-                Close
+                Fermer
               </Button>
               <Button color="primary" onClick={handleSave}>
-                Action
+                Enregistrer
               </Button>
             </ModalFooter>
           </>

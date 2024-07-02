@@ -33,10 +33,10 @@ export default function SuccessLoading({ formState }: Props) {
       <div className="flex w-full h-full px-8 py-8 items-center justify-center">
         <div className="w-[50%] flex items-center justify-center flex-row h-[20%] z-20 bg-white shadow-lg rounded-lg px-4 py-2 gap-4">
           {formState.response.success ? (
-            <p className="text-lg font-semibold">Success ✔️</p>
+            <p className="text-lg font-semibold">Succès ✔️</p>
           ) : (
             <>
-              <p className="text-lg font-semibold">Processing...</p>
+              <p className="text-lg font-semibold">Traitement En Cours...</p>
               <Spinner size="lg" />
             </>
           )}

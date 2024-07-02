@@ -40,9 +40,9 @@ export default function ActionCell({ item, setReload }: Props) {
           {loading ? (
             <Spinner color="warning" />
           ) : item.status ? (
-            "Approved"
+            "Approuvé"
           ) : (
-            "Approve"
+            "Approuver"
           )}
         </Button>
       </span>

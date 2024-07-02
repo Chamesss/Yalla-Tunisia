@@ -47,13 +47,13 @@ export default function ImagesDisplay({ business }: { business: Approvals }) {
           {loading ? (
             <small className="italic flex flex-row items-center justify-center p-4 gap-4">
               <Spinner />
-              Retrieving images...
+              Récupération des images en cours...
             </small>
           ) : (
             <React.Fragment>
               {error ? (
                 <small className="italic flex flex-row items-center justify-center p-4 gap-4">
-                  Something went wrong, try reloading the page.
+                  Quelque chose s'est mal passé, essayez de recharger la page.
                 </small>
               ) : (
                 <React.Fragment>

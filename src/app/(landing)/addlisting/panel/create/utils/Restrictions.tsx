@@ -78,7 +78,7 @@ export default function Restrictions({
         onClick={handleAddInput}
         className=" bg-primary-500 text-white w-fit m-auto"
       >
-        + Add Restriction
+        + Ajouter une restriction
       </Button>
     </div>
   );

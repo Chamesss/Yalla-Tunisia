@@ -88,7 +88,7 @@ function SportsInfoFrom({
             subCategoryId={subCategoryId}
             location={location}
           />
-          <h1 className="text-xl font-semibold">General info</h1>
+          <h1 className="text-xl font-semibold">Informations générales</h1>
           <div id="GeneralSection" className="px-2 gap-4 flex flex-col">
             <Input
               id="title"
@@ -97,7 +97,7 @@ function SportsInfoFrom({
               size="sm"
               label={
                 <span className="text-sm">
-                  Title<small className="text-danger-500">*</small>
+                  Titre<small className="text-danger-500">*</small>
                 </span>
               }
               description={
@@ -110,7 +110,7 @@ function SportsInfoFrom({
                 className="relative"
                 label={
                   <span className="text-sm">
-                    Price (per person)
+                    Prix (par personne)
                     <small className="text-danger-500">*</small>
                   </span>
                 }
@@ -129,7 +129,7 @@ function SportsInfoFrom({
               />
               <Input
                 type="number"
-                label="Max group size"
+                label="Taille maximale du groupe"
                 size="sm"
                 className="w-[50%] relative"
                 defaultValue="1"
@@ -161,7 +161,8 @@ function SportsInfoFrom({
               type="number"
               label={
                 <span className="text-sm">
-                  Duration (hours)<small className="text-danger-500">*</small>
+                  Durée (heures)
+                  <small className="text-danger-500">*</small>
                 </span>
               }
               defaultValue="1"

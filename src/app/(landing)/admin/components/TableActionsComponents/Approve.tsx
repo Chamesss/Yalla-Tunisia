@@ -34,7 +34,7 @@ export default function Approve({ setSuccess, listing, CategoryName }: Props) {
           {loading ? (
             <Spinner color="warning" />
           ) : (
-            <>{listing.status ? "Approved" : "Approve"}</>
+            <>{listing.status ? "Approuvé" : "Approuver"}</>
           )}
         </Button>
       </span>

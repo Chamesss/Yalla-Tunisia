@@ -41,7 +41,7 @@ export default function SideBar({ component, setComponent }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-lg text-center text-white font-semibold">
-        Business panel
+        Panneau de Business
       </p>
       {/* <div className="flex items-center justify-center">
         {loading ? (
@@ -80,7 +80,7 @@ export default function SideBar({ component, setComponent }: Props) {
         }`}
       >
         <Help />
-        <p>Help center</p>
+        <p>Centre d'aide</p>
       </div>
     </div>
   );

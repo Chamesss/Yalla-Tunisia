@@ -123,13 +123,13 @@ export default function ListingCard({
               onClick={navigateEdit}
               className="cursor-pointer p-2 focus:bg-blue-500 hover:bg-blue-500 rounded-xl hover:text-white focus:text-white transition-all duration-150"
             >
-              <p className="cursor-pointer text-nowrap">Edit</p>
+              <p className="cursor-pointer text-nowrap">Modifier</p>
             </div>
             <div
               onClick={onOpen}
               className="cursor-pointer p-2 focus:bg-danger-500 focus:text-white hover:bg-danger-500 rounded-xl hover:text-white transition-all duration-150"
             >
-              <p className="cursor-pointer text-nowrap">Delete</p>
+              <p className="cursor-pointer text-nowrap">Supprimer</p>
             </div>
           </div>
         </div>

@@ -13,9 +13,9 @@ export default function SubmitSection({ data, formState }: Props) {
     <>
       <Divider className="my-4" />
       <div className="px-10 mt-4 py-2 gap-4 flex w-full justify-between">
-        <Button color="danger">Cancel</Button>
+        <Button color="danger">Annuler</Button>
         <Button disabled={data.pending} type="submit" color="primary">
-          {data.pending ? <Spinner color="white" /> : "Submit"}
+          {data.pending ? <Spinner color="white" /> : "Soumettre"}
         </Button>
       </div>
       <SuccessLoading formState={formState} />

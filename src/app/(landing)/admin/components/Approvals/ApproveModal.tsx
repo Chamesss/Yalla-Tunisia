@@ -45,26 +45,26 @@ export default function ApproveModal({ item, isOpen, onOpenChange }: Props) {
                 <Title>Info</Title>
                 <div className="flex flex-row gap-3 items-center">
                   <Input
-                    label="Business Name"
+                    label="Nom de business"
                     isDisabled={true}
                     value={item.bName}
                     size="sm"
                   />
                   <Input
-                    label="Business Phone"
+                    label="Télephone de business"
                     isDisabled={true}
                     value={item.bPhone}
                     size="sm"
                   />
                 </div>
                 <Input
-                  label="Business Type"
+                  label="Type de business"
                   isDisabled={true}
                   value={item.businessType}
                   size="sm"
                   className="my-3"
                 />
-                <Title>Business Images</Title>
+                <Title>Photos de business</Title>
                 <div className="flex flex-row overflow-x-auto gap-2 overflow-auto scrollbar-container w-full">
                   {item.imagesUrl.map((image, i) => (
                     <Image
@@ -77,7 +77,7 @@ export default function ApproveModal({ item, isOpen, onOpenChange }: Props) {
                     />
                   ))}
                 </div>
-                <Title>Maps Tiles</Title>
+                <Title>Map Tiles</Title>
                 {!isLoaded ? (
                   <div className="w-full flex items-center justify-center">
                     <Spinner />

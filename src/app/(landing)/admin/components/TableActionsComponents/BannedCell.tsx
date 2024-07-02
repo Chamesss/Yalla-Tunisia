@@ -9,7 +9,7 @@ export default function BannedCell({ disabled }: { disabled: boolean }) {
       size="sm"
       variant="flat"
     >
-      {disabled === true ? "Banned" : "No"}
+      {disabled === true ? "banni" : "Non"}
     </Chip>
   );
 }

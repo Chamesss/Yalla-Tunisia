@@ -46,7 +46,7 @@ export default function LocationSection({
         description={
           locationError && (
             <small className="absolute -bottom-2 left-3 text-danger-500">
-              enter a valid location
+              Entrez une localisation valide
             </small>
           )
         }
@@ -57,13 +57,13 @@ export default function LocationSection({
           </AutocompleteItem>
         ))}
       </Autocomplete>
-      <p className="my-4 text-center">Or</p>
+      <p className="my-4 text-center">Ou</p>
       <Checkbox
         checked={locationChecked}
         onChange={() => setLocationChecked((prev) => !prev)}
         name="locationInherit"
       >
-        Pick your current location.
+        Sélectionnez votre emplacement actuel
       </Checkbox>
     </div>
   );

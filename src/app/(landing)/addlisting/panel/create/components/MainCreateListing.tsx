@@ -82,7 +82,7 @@ export default function MainCreateListing() {
         </div>
         <div className="flex-1 items-center justify-center flex flex-col gap-4">
           {categoryIdSelected === null ? (
-            <p>Select a category</p>
+            <p>Sélectionnez une catégorie</p>
           ) : (
             <>
               {isLoading ? (

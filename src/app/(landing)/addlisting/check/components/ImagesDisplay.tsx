@@ -57,7 +57,7 @@ export default function ImagesDisplay({
     return (
       <small className="italic flex flex-row items-center justify-center p-4 gap-4">
         <Spinner />
-        Retrieving images...
+        Récupération des images en cours...
       </small>
     );
   }

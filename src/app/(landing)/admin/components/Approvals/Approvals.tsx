@@ -28,10 +28,10 @@ export default function Approvals() {
       {approvals ? (
         <Table aria-label="Example static collection table">
           <TableHeader>
-            <TableColumn>Business Name</TableColumn>
-            <TableColumn>Business phone</TableColumn>
-            <TableColumn>Business type</TableColumn>
-            <TableColumn>Status</TableColumn>
+            <TableColumn>Nom de business</TableColumn>
+            <TableColumn>Télephone de business</TableColumn>
+            <TableColumn>Type de business</TableColumn>
+            <TableColumn>Statut</TableColumn>
             <TableColumn>Action</TableColumn>
           </TableHeader>
           <TableBody>
@@ -58,16 +58,16 @@ export default function Approvals() {
             ) : (
               <TableRow key="1">
                 <TableCell className="text-bold text-sm capitalize text-default-400">
-                  No data
+                  Pas de données
                 </TableCell>
                 <TableCell className="text-bold text-sm capitalize text-default-400">
-                  No data
+                  Pas de données
                 </TableCell>
                 <TableCell className="text-bold text-sm capitalize text-default-400">
-                  No data
+                  Pas de données
                 </TableCell>
                 <TableCell className="text-bold text-sm capitalize text-default-400">
-                  No data
+                  Pas de données
                 </TableCell>
               </TableRow>
             )}

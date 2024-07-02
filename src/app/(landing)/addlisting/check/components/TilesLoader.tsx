@@ -134,7 +134,7 @@ export default function TilesLoader({
                   >
                     {selectedTiles.includes(p)
                       ? "Selected"
-                      : "Select this tile"}
+                      : "Sélectionner cette tuile"}
                   </Button>
                 </div>
               </GoogleMap>
@@ -147,7 +147,7 @@ export default function TilesLoader({
           ))}
       </div>
       {coords && coords.length === 0 && (
-        <small className="italic opacity-75">No tiles found.</small>
+        <small className="italic opacity-75">Aucune tuile trouvée.</small>
       )}
     </>
   );

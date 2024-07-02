@@ -74,7 +74,7 @@ export default function SecurityModal({ user }: { user: userType }) {
         className="w-full justify-between flex flex-row items-center"
         onClick={onOpen}
       >
-        <h1 className="text-xl font-bold tracking-wide">Security</h1>
+        <h1 className="text-xl font-bold tracking-wide">Sécurité</h1>
         <Tooltip content="Edit" color="primary">
           <div>
             <EditButton />
@@ -86,7 +86,7 @@ export default function SecurityModal({ user }: { user: userType }) {
           {(onClose) => (
             <form action={(formData) => validateData(formData)}>
               <ModalHeader className="flex flex-col gap-1">
-                Security
+                Sécurité
               </ModalHeader>
               <ModalBody>
                 <div className="flex flex-col items-center gap-4">
@@ -103,13 +103,13 @@ export default function SecurityModal({ user }: { user: userType }) {
                     required
                     type="password"
                     name="new-password"
-                    label={"New password"}
+                    label={"Nouveau mot de passe"}
                   />
                   <Input
                     required
                     type="password"
                     name="confirm-new-password"
-                    label={"Confirm new password"}
+                    label={"Confirmer le nouveau mot de passe"}
                   />
                 </div>
                 {error.length > 0 && (
@@ -121,7 +121,7 @@ export default function SecurityModal({ user }: { user: userType }) {
                   Close
                 </Button>
                 <Button type="submit" color="primary">
-                  {loading ? <Spinner color="warning" /> : "Save"}
+                  {loading ? <Spinner color="warning" /> : "Enregistrer"}
                 </Button>
               </ModalFooter>
             </form>

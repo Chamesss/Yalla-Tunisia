@@ -11,11 +11,11 @@ export default function MainHandMade({ data }: { data: ProductHandMade }) {
   const [colors, setColors] = useState<string[]>([]);
   return (
     <div className="flex flex-col gap-2 border border-opacity-50 rounded-xl px-4 py-6">
-      <h1 className="my-2 text-lg font-semibold">General Info</h1>
-      <Input label="Title" value={data.title} placeholder="title" />
+      <h1 className="my-2 text-lg font-semibold">Informations générales</h1>
+      <Input label="Titre" value={data.title} placeholder="Titre" />
       <div className="flex flex-row items-center justify-center gap-3">
-        <Input label="Price" value={data.price} placeholder="price" />
-        <Input label="Qte" value={data.qte} placeholder="Qte" />
+        <Input label="Prix" value={data.price} placeholder="price" />
+        <Input label="Quantité" value={data.qte} placeholder="Quantité" />
       </div>
       <Textarea
         label="Description"
@@ -23,23 +23,23 @@ export default function MainHandMade({ data }: { data: ProductHandMade }) {
         placeholder="Description"
       />
       <Input
-        label="Materials Used"
+        label="Matériaux utilisés"
         value={data.materialsUsed}
-        placeholder="materials used"
+        placeholder="Matériaux utilisés"
       />
       <Divider className="my-2" />
-      <h1 className="my-2 text-lg font-semibold">Pictures</h1>
+      <h1 className="my-2 text-lg font-semibold">Photos</h1>
       <HandleImages
         previewImages={previewImages}
         setPreviewImages={setPreviewImages}
       />
       <Divider className="my-2" />
-      <h1 className="my-2 text-lg font-semibold">Sizes</h1>
+      <h1 className="my-2 text-lg font-semibold">Tailles</h1>
       <div className="px-2">
         <div className="flex flex-row gap-8">
           <CheckboxGroup
             className="gap-1"
-            label="Select sizes"
+            label="Sélectionnez les tailles"
             orientation="horizontal"
             defaultValue={data.sizes}
           >
@@ -64,12 +64,12 @@ export default function MainHandMade({ data }: { data: ProductHandMade }) {
           </CheckboxGroup>
         </div>
         <div className="flex flex-row gap-2 mt-4">
-          <Input value={data.dimensions[0]} placeholder="height" />
-          <Input value={data.dimensions[1]} placeholder="width" />
+          <Input value={data.dimensions[0]} placeholder="hauteur" />
+          <Input value={data.dimensions[1]} placeholder="largeur" />
           <small>(cm)</small>
         </div>
         <Divider className="my-2" />
-        <h1 className="my-2 text-lg font-semibold">Colors section</h1>
+        <h1 className="my-2 text-lg font-semibold">Section des couleurs</h1>
         <div className="flex flex-row items-center justify-center gap-2">
           <HexColorPicker color={color} onChange={setColor} />
           <div className="grid grid-cols-2 grid-rows-3 flex-wrap w-auto h-fit gap-2">

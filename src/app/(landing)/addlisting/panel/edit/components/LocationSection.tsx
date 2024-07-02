@@ -35,11 +35,11 @@ export default function LocationSection({
 
   return (
     <div>
-      <h1 className="text-xl font-semibold">Location</h1>
+      <h1 className="text-xl font-semibold">Emplacement </h1>
       <Autocomplete
         isRequired
         size="sm"
-        label="Current location"
+        label="Emplacement actuel"
         className="mt-4 relative"
         isDisabled={locationChecked}
         onInputChange={(e) => {
@@ -49,7 +49,7 @@ export default function LocationSection({
         description={
           locationError && (
             <small className="absolute -bottom-2 left-3 text-danger-500">
-              enter a valid location
+              Veuillez entrer une localisation valide
             </small>
           )
         }
@@ -60,12 +60,12 @@ export default function LocationSection({
           </AutocompleteItem>
         ))}
       </Autocomplete>
-      <p className="my-4 text-center">Or</p>
+      <p className="my-4 text-center">Ou</p>
       <Checkbox
         checked={locationChecked}
         onChange={() => setLocationChecked((prev) => !prev)}
       >
-        Pick your current location.
+        Sélectionnez votre emplacement actuel.
       </Checkbox>
     </div>
   );

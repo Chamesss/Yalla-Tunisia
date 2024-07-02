@@ -94,8 +94,8 @@ export default function AddImages({
       </div>
       {previewImages.length > 0 && (
         <span>
-          ({previewImages.length}) selected (you can add{" "}
-          {6 - previewImages.length} more)
+          ({previewImages.length}) sélectionné (vous pouvez en ajouter{" "}
+          {6 - previewImages.length} de plus)
         </span>
       )}
       {formError === 22 && (

@@ -80,20 +80,20 @@ export default function DisableItem({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Warning.
+                Avertissement.
               </ModalHeader>
               <ModalBody>
                 <p>
-                  Are you sure you want to {action === "ban" ? "ban" : "unban"}{" "}
-                  this offer?
+                  Êtes-vous sûr de vouloir{" "}
+                  {action === "ban" ? "bannir" : "débannir"} cet offre ?
                 </p>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onClick={onClose}>
-                  Close
+                  Annuler
                 </Button>
                 <Button color="primary" onClick={handlePress}>
-                  {loading ? <Spinner color="warning" /> : "Submit"}
+                  {loading ? <Spinner color="warning" /> : "Soumettre"}
                 </Button>
               </ModalFooter>
             </>

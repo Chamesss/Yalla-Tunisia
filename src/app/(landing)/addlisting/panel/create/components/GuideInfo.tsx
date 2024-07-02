@@ -101,7 +101,7 @@ function GuideInfoFrom({
   return (
     <div className="w-full flex items-center justify-center">
       <div className="flex flex-col w-full items-stretch gap-4">
-        <h1 className="text-xl font-semibold">General info</h1>
+        <h1 className="text-xl font-semibold">Informations générales</h1>
         <OuterValues
           userId={userId}
           categoryId={categoryId}
@@ -116,7 +116,7 @@ function GuideInfoFrom({
               size="sm"
               label={
                 <span className="text-sm">
-                  Title<small className="text-danger-500">*</small>
+                  Titre<small className="text-danger-500">*</small>
                 </span>
               }
               description={
@@ -138,7 +138,7 @@ function GuideInfoFrom({
               }
             />
             <div className="flex flex-row">
-              <h1 className="font-semibold">Payment:</h1>
+              <h1 className="font-semibold">Paiement:</h1>
               <RadioGroup
                 className="ml-4"
                 onValueChange={(value) => setSelectedPaymentMethod(value)}
@@ -147,14 +147,16 @@ function GuideInfoFrom({
                 name="paymentMethod"
                 value={selectedPaymentMethod}
               >
-                <Radio value="hourly">Payment per hour</Radio>
-                <Radio value="tour">Payment per entire tour</Radio>
+                <Radio value="hourly">Paiement par heure</Radio>
+                <Radio value="tour">
+                  Paiement pour la totalité de la tournée
+                </Radio>
               </RadioGroup>
             </div>
             <Input
               type="number"
-              label={`Price per ${
-                selectedPaymentMethod === "hourly" ? "hour" : "tour"
+              label={`Prix par ${
+                selectedPaymentMethod === "hourly" ? "heure" : "tour"
               }`}
               size="sm"
               onChange={(e) => setPrice(e.target.value)}
@@ -173,7 +175,7 @@ function GuideInfoFrom({
           <Divider className="my-4" />
           <div className="flex flex-col gap-4">
             <h1 className="font-semibold flex flex-row gap-1 items-center">
-              Languages:
+              Langues:
               <CheckboxGroup className="gap-1" orientation="horizontal">
                 {languages.length > 0 ? (
                   <>
@@ -193,7 +195,7 @@ function GuideInfoFrom({
                   </>
                 ) : (
                   <small className="italic font-normal">
-                    No languages selected
+                    Aucune langue sélectionnée
                   </small>
                 )}
               </CheckboxGroup>
@@ -202,7 +204,7 @@ function GuideInfoFrom({
               <Autocomplete
                 id="LanguageSelector"
                 defaultItems={iterableLanguages}
-                label="Select your spoken languages"
+                label="Sélectionnez vos langues parlées"
                 className="max-w-xs"
                 isClearable={false}
                 onSelectionChange={(key: Key) => {
@@ -226,7 +228,7 @@ function GuideInfoFrom({
           </div>
           <Divider className="my-4" />
           <div className="flex flex-row">
-            <h1 className="font-semibold">Transportation:</h1>
+            <h1 className="font-semibold">Transport:</h1>
             <RadioGroup
               className="ml-4"
               orientation="horizontal"
@@ -240,7 +242,7 @@ function GuideInfoFrom({
                 }}
                 value="Transportation"
               >
-                Included.
+                Inclus.
               </Radio>
               <Radio
                 onChange={() => {
@@ -249,7 +251,7 @@ function GuideInfoFrom({
                 checked={!transportation}
                 value="NoTransportation"
               >
-                Not included.
+                Non inclus.
               </Radio>
             </RadioGroup>
           </div>

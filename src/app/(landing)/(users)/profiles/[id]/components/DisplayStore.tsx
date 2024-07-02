@@ -27,7 +27,7 @@ export default function DisplayStore({ id }: { id: string }) {
   if (typeof business === "boolean") {
     return (
       <div>
-        <p>No store to display.</p>
+        <p>Aucun magasin à afficher.</p>
       </div>
     );
   }
@@ -38,7 +38,7 @@ export default function DisplayStore({ id }: { id: string }) {
         <div className="space-y-0">
           <div className="p-6 overflow-hidden">
             <div className="flex flex-row overflow-hidden gap-4 items-center">
-              <h1 className="text-nowrap">Store View</h1>
+              <h1 className="text-nowrap">Vue du magasin</h1>
               <Divider />
             </div>
           </div>
@@ -73,7 +73,7 @@ export default function DisplayStore({ id }: { id: string }) {
           </div>
           <div className="p-6 overflow-hidden">
             <div className="flex flex-row overflow-hidden gap-4 items-center">
-              <h1 className="text-nowrap">Store Images</h1>
+              <h1 className="text-nowrap">Images du magasin</h1>
               <Divider />
             </div>
           </div>

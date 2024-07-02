@@ -36,7 +36,7 @@ export default async function Profiles({ params }: { params: { id: string } }) {
                   <h1 className="text-xl lg:text-3xl tracking-wide capitalize opacity-95 flex flex-col w-fit gap-1 lg:gap-2 items-start">
                     <span>{user.username}.</span>
                     <Chip variant="flat" color="primary" className="text-tiny">
-                      {user.seller ? "Seller" : "Visitor"}
+                      {user.seller ? "Seller" : "Visiteur"}
                     </Chip>
                   </h1>
                 </div>
@@ -73,7 +73,7 @@ export default async function Profiles({ params }: { params: { id: string } }) {
               </div>
               <div className="hidden lg:flex flex-col w-full px-4 pb-4 space-y-4">
                 <div className="flex flex-row items-center w-full justify-start gap-4 overflow-hidden">
-                  <h1 className="text-medium">Intro</h1>
+                  <h1 className="text-medium">Info</h1>
                   <Divider />
                 </div>
                 <div className="px-4 w-full space-y-2 flex flex-col items-start">
@@ -88,7 +88,7 @@ export default async function Profiles({ params }: { params: { id: string } }) {
                     </span>
                   </p>
                   <p className="font-semibold ml-[0.075rem] text-sm text-default-500">
-                    Joined {date}
+                    Rejoint à {date}
                   </p>
                 </div>
               </div>

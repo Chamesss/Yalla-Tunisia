@@ -85,7 +85,7 @@ export default function ItemsDisplay({ id }: { id: string }) {
   if (length === 0) {
     return (
       <div className="w-full px-2 py-2">
-        <p className="my-4">No offers to display.</p>
+        <p className="my-4">Aucune offre à afficher.</p>
       </div>
     );
   }
@@ -99,12 +99,10 @@ export default function ItemsDisplay({ id }: { id: string }) {
         onChange={(e) => handleFilter(e)}
       >
         <CustomCheckbox value="Handmades">
-          <p className="text-tiny sm:text-sm md:text-medium">Handmades</p>
+          <p className="text-tiny sm:text-sm md:text-medium">Fait à main</p>
         </CustomCheckbox>
         <CustomCheckbox value="Sports">
-          <p className="text-tiny sm:text-sm md:text-medium">
-            Sports & Entertainment
-          </p>
+          <p className="text-tiny sm:text-sm md:text-medium">Sport et Loisir</p>
         </CustomCheckbox>
         <CustomCheckbox value="Guides">
           <p className="text-tiny sm:text-sm md:text-medium">Guides</p>
@@ -138,7 +136,7 @@ function ProductCategory({
     <div className="space-y-4 px-4 py-6">
       <h1 className="text-lg font-semibold opacity-75">{title}</h1>
       {products.length === 0 ? (
-        <p className="my-4">No offers to display.</p>
+        <p className="my-4">Aucune offre à afficher.</p>
       ) : (
         <div className="grid grid-cols-3 gap-10 w-fit">
           {products.map((p, i) => (

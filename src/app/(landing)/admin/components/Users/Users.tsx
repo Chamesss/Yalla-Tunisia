@@ -18,6 +18,10 @@ import { Timestamp } from "firebase/firestore";
 import DeleteUserModal from "../TableActionsComponents/DeleteUserModal";
 import Ban from "@/components/icons/Ban";
 import UnBan from "@/components/icons/UnBan";
+import {
+  ExtractDate,
+  ExtractYearMonthDay,
+} from "@/helpers/ExtractDateTimestamp";
 
 const columns = [
   { name: "Info", uid: "Info" },
@@ -67,11 +71,7 @@ export default function Users() {
           );
         case "Creation Date":
           let formattedDate;
-          if (user.created_at instanceof Timestamp) {
-            formattedDate = user.created_at.toDate().toLocaleString();
-          } else {
-            formattedDate = "Date unavailable";
-          }
+          formattedDate = ExtractDate(user.created_at);
           return (
             <div className="flex flex-col">
               <p className="text-bold text-sm capitalize text-default-400">

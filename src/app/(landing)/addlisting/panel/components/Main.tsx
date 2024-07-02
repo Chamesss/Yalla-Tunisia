@@ -143,13 +143,13 @@ export default function Main() {
                   Active: {active}
                 </Chip>
                 <Chip variant="shadow" className="text-white" color="primary">
-                  In Progress: {inProgress}
+                  En cours : {inProgress}
                 </Chip>
                 <Chip variant="shadow" className="text-white" color="warning">
-                  Pending: {pending}
+                  En attente : {pending}
                 </Chip>
                 <Chip variant="shadow" color="default">
-                  Disabled: {disabled}
+                  Désactivé: {disabled}
                 </Chip>
               </>
             ) : (
@@ -164,19 +164,19 @@ export default function Main() {
         </div>
         <div className="border border-opacity-75 p-4 h-full flex-auto flex flex-col items-center justify-center rounded-xl">
           <div className="flex justify-between w-full items-center px-8 mb-4">
-            <h1 className="text-xl mb-1 mt-1 font-semibold">Services</h1>
+            <h1 className="text-xl mb-1 mt-1 font-semibold">Offres</h1>
             <Link href={"/addlisting/panel/create"}>
               <Button className="shadow-sm" color="primary">
-                Create new service
+                Créer un nouveau offre
               </Button>
             </Link>
           </div>
           {total === 0 ? (
             <div className="w-full flex-auto flex flex-col gap-4 items-center justify-center">
               <EmptyFolder className="opacity-75" width={100} height={100} />
-              <p className="font-semibold">No items to display</p>
+              <p className="font-semibold">Aucune offre à afficher</p>
               <small className="italic opacity-75">
-                Create a service in the right side panel
+                Créez une offre en cliquant sur le bouton de création
               </small>
             </div>
           ) : (
@@ -213,14 +213,14 @@ export default function Main() {
               onClick={getListingsPrev}
               color="primary"
             >
-              Previous
+              Précédent
             </Button>
             <Button
               isDisabled={typeof total === "number" && total < pageSize}
               onClick={getListingsNext}
               color="primary"
             >
-              Next
+              Suivant
             </Button>
           </div>
         </div>

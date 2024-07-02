@@ -19,7 +19,7 @@ export default function CategorySection({
 
   return (
     <div className="flex flex-col gap-4  transition-all">
-      <h1 className="text-xl font-semibold">Category</h1>
+      <h1 className="text-xl font-semibold">Catégorie</h1>
       <div>
         <Input value={category?.name} isDisabled />
       </div>

@@ -44,7 +44,7 @@ export const CustomCheckbox = (props: any) => {
         startContent={<IconCancel className="ml-1 text-white" />}
         variant="faded"
       >
-        {children ? children : isSelected ? "Enabled" : "Disabled"}
+        {children ? children : isSelected ? "Activé" : "Désactivé"}
       </Chip>
     </label>
   );

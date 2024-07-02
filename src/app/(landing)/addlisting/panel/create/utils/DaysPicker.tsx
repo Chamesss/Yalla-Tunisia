@@ -9,10 +9,9 @@ type Props = {
 };
 
 export default function DaysPicker({ clockRef, days, setDays }: Props) {
-  useEffect(() => {}, [days]);
   return (
     <div ref={clockRef} className="flex flex-col items-center h-fit w-full ">
-      <p>Select your event days</p>
+      <p>Sélectionnez vos jours d'événement</p>
       {days && (
         <input
           name="days"
@@ -30,7 +29,7 @@ export default function DaysPicker({ clockRef, days, setDays }: Props) {
       />
       {days && days.length > 0 && (
         <p className="h-auto">
-          {days.length} {days.length === 1 ? "day" : "days"} selected
+          {days.length} {days.length === 1 ? "day" : "days"} sélectionné(s)
         </p>
       )}
     </div>

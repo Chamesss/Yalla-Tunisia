@@ -45,16 +45,16 @@ export default function CategorySection({
 
   return (
     <div ref={subCategoryRef} className="flex flex-col gap-4  transition-all">
-      <h1 className="text-xl font-semibold">Choose a category</h1>
+      <h1 className="text-xl font-semibold">Choisissez une catégorie</h1>
       <div>
         <Select
           size="sm"
           isRequired
-          label="Select Categories"
+          label="Choisissez une catégorie"
           onChange={(e) => handleCategorySelection(e)}
           description={
             categoryError && (
-              <p className="text-danger-500">Enter valid category</p>
+              <p className="text-danger-500">Entrez une catégorie valide</p>
             )
           }
         >
@@ -73,7 +73,7 @@ export default function CategorySection({
             : "overflow-visible"
         }`}
       >
-        <ErrorBoundary fallback={<p>something went wrong</p>}>
+        <ErrorBoundary fallback={<p>Quelque chose s'est mal passé</p>}>
           <Select
             selectionMode="single"
             className="relative"
@@ -85,7 +85,7 @@ export default function CategorySection({
                 e.target.value.length === 0 ? null : e.target.value
               )
             }
-            label="Select Subcategory"
+            label="Choisissez une étiquette"
             isDisabled={selectedOption === 2 || selectedOption === -1}
             description={
               subCategoryError && (
@@ -94,7 +94,7 @@ export default function CategorySection({
                   id="categoryErrorDescription"
                   className="absolute -bottom-[0.6rem] left-3 text-danger-500"
                 >
-                  Enter valid subcategory
+                  Entrez une étiquette valide
                 </p>
               )
             }

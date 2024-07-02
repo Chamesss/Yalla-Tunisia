@@ -31,7 +31,7 @@ export default function GuideCard({ listing }: { listing: ProductGuides }) {
           <small className="italic">{listing.description}</small>
           <Divider className="my-2" />
           <h1>
-            Duration <small className="italic">({listing.eventType})</small>
+            Durée <small className="italic">({listing.eventType})</small>
           </h1>
           <div className="flex flex-row flex-wrap gap-2">
             {listing.eventType === "OngoingEvent" ? (
@@ -42,7 +42,7 @@ export default function GuideCard({ listing }: { listing: ProductGuides }) {
                   listing.timing.map((item: Date, i: number) => {
                     const result = ExtractDayMonthYear(item);
                     if (result === false)
-                      return <p key={i}>Date unavailable</p>;
+                      return <p key={i}>Date non disponible</p>;
                     return (
                       <React.Fragment key={i}>
                         <DateBox date={result} />
@@ -53,7 +53,7 @@ export default function GuideCard({ listing }: { listing: ProductGuides }) {
             )}
             <Divider className="my-2" />
             <div className="flex flex-row items-center flex-wrap gap-2">
-              <h1>Languages</h1>
+              <h1>Langues</h1>
               {listing.languages.map((lang, i) => (
                 <React.Fragment key={i}>
                   <Chip color="primary" className="italic text-tiny ">
@@ -64,16 +64,16 @@ export default function GuideCard({ listing }: { listing: ProductGuides }) {
             </div>
             <Divider className="my-2" />
             <div className="flex flex-row items-center gap-3">
-              <h1>Transportation</h1>
+              <h1>Transport</h1>
               <small className="italic">
-                {listing.transportation ? "Yes" : "No"}
+                {listing.transportation ? "Oui" : "Non"}
               </small>
             </div>
             <Divider className="my-2" />
             <div className="flex flex-row items-center gap-3">
-              <h1>Payment method</h1>
+              <h1>Méthode de paiement</h1>
               <small className="italic">
-                {listing.paymentMethodHourly ? "Hourly" : "Per entire tour"}
+                {listing.paymentMethodHourly ? "heure" : "Pour toute la visite"}
               </small>
             </div>
             <Divider className="my-2" />
@@ -84,19 +84,19 @@ export default function GuideCard({ listing }: { listing: ProductGuides }) {
                   {(() => {
                     const result = ExtractDayMonthYear(listing.created_at);
                     if (result === false) {
-                      return <p>Date unavailable</p>;
+                      return <p>Date non disponible</p>;
                     } else {
                       return <DateBox date={result} />;
                     }
                   })()}
                 </React.Fragment>
               ) : (
-                <small>Date unavailable</small>
+                <small>Date non disponible</small>
               )}
             </div>
             <Divider className="my-2" />
             <div className="flex flex-row items-center gap-3">
-              <h1>Location</h1>
+              <h1>Emplacement</h1>
               <Suspense
                 fallback={
                   <Skeleton className="rounded-xl opacity-75">

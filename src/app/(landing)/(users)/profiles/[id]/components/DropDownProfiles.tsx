@@ -17,7 +17,7 @@ export default function DropDownProfiles() {
         </div>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
-        <DropdownItem key="new">Report</DropdownItem>
+        <DropdownItem key="new">Rapport</DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );
